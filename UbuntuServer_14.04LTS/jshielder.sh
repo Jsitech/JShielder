@@ -552,8 +552,25 @@ fi
   echo ""
   apt-get install acct
   touch /var/log/wtmp
+  echo "OK"
 
-
+  #Install PHP Suhosin Extension
+  clear
+  f_banner
+  echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+  echo -e "\e[93m[+]\e[00m Installing PHP Suhosin Extension"
+  echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+  echo ""
+  echo 'deb http://repo.suhosin.org/ ubuntu-trusty main' >> /etc/apt/sources.list
+  #Suhosin Key
+  wget https://sektioneins.de/files/repository.asc
+  apt-key add repository.asc
+  apt-get update
+  apt-get install -y php5-suhosin-extension
+  php5enmod suhosin
+  service apache2 restart
+  echo "OK"
+  say_done
 
 # 32. Reboot Server
     clear
