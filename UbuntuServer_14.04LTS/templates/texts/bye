@@ -1,6 +1,8 @@
 
     MESSAGE:
 
+    Congratulations, We Finished Deploying and Hardening the Server
+
     This Server must be Rebooted.
     Before proceeding, open up a Terminal and connect to this Server Via SSH
     ssh -p 372 USERNAME@SERVERIP

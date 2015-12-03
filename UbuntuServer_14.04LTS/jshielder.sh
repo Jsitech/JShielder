@@ -34,11 +34,13 @@ echo
 
 ##############################################################################################################
 
-#Check if running with root User
+# Check if running with root User
 
 clear
 f_banner
 
+
+check_root() {
 if [ "$USER" != "root" ]; then
       echo "Permission Denied"
       echo "Can only be run by root"
@@ -48,8 +50,13 @@ else
       f_banner
       cat templates/texts/welcome
 fi
+}
 
-# 1. Configure Hostname
+##############################################################################################################
+
+
+# Configure Hostname
+config_host() {
 echo -e "\e[93m[?]\e[00m ¿Do you Wish to Set a HostName? (y/n): "; read config_host
 if [ "$config_host" == "y" ]; then
     serverip=$(__get_ip)
@@ -62,10 +69,12 @@ if [ "$config_host" == "y" ]; then
     echo "$serverip    $host_name.$domain_name    $host_name" >> /etc/hosts
 fi
     say_done
+}
 
+##############################################################################################################
 
-
-# 2. Configure TimeZone
+# Configure TimeZone
+config_timezone(){
    clear
    f_banner
    echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
@@ -75,8 +84,12 @@ fi
    sleep 10
    dpkg-reconfigure tzdata
    say_done
+}
 
-#  3. Update System
+##############################################################################################################
+
+# Update System
+update_system(){
    clear
    f_banner
    echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
@@ -86,8 +99,12 @@ fi
    apt-get update
    apt-get upgrade -y
    say_done
+}
 
-#  4. Create Privileged User
+##############################################################################################################
+
+# Create Privileged User
+admin_user(){
     clear
     f_banner
     echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
@@ -98,9 +115,12 @@ fi
     adduser $username
     usermod -a -G sudo $username
     say_done
+}
 
+##############################################################################################################
 
-#  5. Instruction to Generate RSA Keys
+# Instruction to Generate RSA Keys
+rsa_keygen(){
     clear
     f_banner
     echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
@@ -116,17 +136,20 @@ fi
     echo -n "     a) ssh-keygen -t rsa -b 4096 "; read foo1
     echo -n "     b) cat /home/$username/.ssh/id_rsa.pub >> /home/$username/.ssh/authorized_keys: "; read foo2
     say_done
+}
+##############################################################################################################
 
-
-#  6. Move the Generated Public Key
+# Move the Generated Public Key
+rsa_keycopy(){
     echo " Run the Following Command to copy the Key"
     echo " Press ENTER when done "
     echo " ssh-copy-id -i $HOME/.ssh/id_rsa.pub $username@$serverip "
     say_done
+}
+##############################################################################################################
 
-
-
-#  7.Secure SSH
+# Secure SSH
+secure_ssh(){
     clear
     f_banner
     echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
@@ -139,9 +162,12 @@ fi
     chattr -i /home/$username/.ssh/authorized_keys
     service ssh restart
     say_done
+}
 
+##############################################################################################################
 
-#  8. Set IPTABLES Rules
+# Set IPTABLES Rules
+set_iptables(){
     clear
     f_banner
     echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
@@ -154,11 +180,14 @@ fi
     cp templates/iptables.sh /etc/init.d/
     ln -s /etc/init.d/iptables.sh /etc/rc2.d/S99iptables.sh
     say_done
+}
 
+##############################################################################################################
 
-# 9. Install fail2ban
+# Install fail2ban
     # To Remove a Fail2Ban rule use:
     # iptables -D fail2ban-ssh -s IP -j DROP
+install_fail2ban(){
     clear
     f_banner
     echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
@@ -168,10 +197,12 @@ fi
     apt-get install sendmail
     apt-get install fail2ban
     say_done
+}
 
+##############################################################################################################
 
-
-# 10. Install, Configure and Optimize MySQL
+# Install, Configure and Optimize MySQL
+install_secure_mysql(){
     clear
     f_banner
     echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
@@ -184,16 +215,32 @@ fi
     mysql_secure_installation
     service mysql restart
     say_done
+}
 
+##############################################################################################################
 
-# 11. Install, Configure and Optimize PHP
+# Install Apache
+install_apache(){
+  clear
+  f_banner
+  echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+  echo -e "\e[93m[+]\e[00m Installing Apache Web Server"
+  echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+  echo ""
+  apt-get install apache2
+  say_done
+}
+
+##############################################################################################################
+
+# Install, Configure and Optimize PHP
+install_secure_php(){
     clear
     f_banner
     echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
     echo -e "\e[93m[+]\e[00m Installing, Configuring and Optimizing PHP"
     echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
     echo ""
-    apt-get install apache2
     apt-get install php5 php5-cli php-pear
     apt-get install php5-mysql python-mysqldb
     echo -n " Replacing php.ini..."
@@ -201,10 +248,12 @@ fi
     cp templates/php /etc/php5/cli/php.ini; echo " OK"
     service apache2 restart
     say_done
+}
 
+##############################################################################################################
 
-
-# 12. Install ModSecurity
+# Install ModSecurity
+install_modsecurity(){
     clear
     f_banner
     echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
@@ -216,10 +265,12 @@ fi
     apt-get install libapache2-mod-security2
     service apache2 restart
     say_done
+}
 
+##############################################################################################################
 
-
-# 13. Configure OWASP for ModSecuity
+# Configure OWASP for ModSecurity
+set_owasp_rules(){
     clear
     f_banner
     echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
@@ -247,10 +298,12 @@ fi
     a2enmod headers
     service apache2 restart
     say_done
+}
 
+##############################################################################################################
 
-
-# 14. Configure and optimize Apache
+# Configure and optimize Apache
+secure_optimize_apache(){
     clear
     f_banner
     echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
@@ -263,10 +316,12 @@ fi
     a2enmod rewrite
     service apache2 restart
     say_done
+}
 
+##############################################################################################################
 
-
-# 15. Install ModEvasive
+# Install ModEvasive
+install_modevasive(){
     clear
     f_banner
     echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
@@ -280,9 +335,12 @@ fi
     sed s/MAILTO/$inbox/g templates/mod-evasive > /etc/apache2/mods-available/mod-evasive.conf
     service apache2 restart
     say_done
+}
 
+##############################################################################################################
 
-# 16. Install Mod_qos/spamhaus
+# Install Mod_qos/spamhaus
+install_qos_spamhaus(){
     clear
     f_banner
     echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
@@ -295,9 +353,12 @@ fi
     cp templates/spamhaus /etc/apache2/mods-available/spamhaus.conf
     service apache2 restart
     say_done
+}
 
+##############################################################################################################
 
-# 17. Configure fail2ban
+# Configure fail2ban
+config_fail2ban(){
     clear
     f_banner
     echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
@@ -310,9 +371,12 @@ fi
     cp /etc/fail2ban/jail.local /etc/fail2ban/jail.conf
     /etc/init.d/fail2ban restart
     say_done
+}
 
+##############################################################################################################
 
-# 18. Install Additional Packages
+# Install Additional Packages
+additional_packages(){
     clear
     f_banner
     echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
@@ -333,13 +397,16 @@ fi
     echo include_path = ".:/usr/share/phpunit:/usr/share/phpunit/PHPUnit" >> /etc/php5/cli/php.ini
     service apache2 restart
     say_done
+}
 
+##############################################################################################################
 
-# 19. Tune and Secure Kernel
+# Tune and Secure Kernel
+tune_secure_kernel(){
     clear
     f_banner
     echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
-    echo -e "\e[93m[+]\e[00m Tunning and Securing the Linux Kernel"
+    echo -e "\e[93m[+]\e[00m Tuning and Securing the Linux Kernel"
     echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
     echo ""
     echo "Securing Linux Kernel"
@@ -348,9 +415,12 @@ fi
     cp templates/ufw /etc/default/ufw
     sysctl -e -p
     say_done
+}
 
+##############################################################################################################
 
-# 20. Install RootKit Hunter
+# Install RootKit Hunter
+install_rootkit_hunter(){
     clear
     f_banner
     echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
@@ -366,8 +436,12 @@ fi
     echo "     rkhunter -c --enable all --disable none"
     echo "     Puede ver el reporte detallado en /var/log/rkhunter.log"
     say_done
+}
 
+##############################################################################################################
 
+# Tuning
+tune_nano_vim_bashrc(){
     clear
     f_banner
     echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
@@ -375,7 +449,7 @@ fi
     echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
     echo ""
 
-# 21. Tune .bashrc
+# Tune .bashrc
     echo "Tunning .bashrc......"
     spinner
     cp templates/bashrc-root /root/.bashrc
@@ -385,22 +459,24 @@ fi
     say_done
 
 
-
-# 22. Tune Vim
+# Tune Vim
     echo "Tunning Vim......"
     spinner
     tunning vimrc
     echo "OK"
 
 
-# 23. Tune Nano
-    echo "Tunning Vim......"
+# Tune Nano
+    echo "Tunning Nano......"
     spinner
     tunning nanorc
     echo "OK"
+}
 
+##############################################################################################################
 
-# 24. Add Daily Update Cron Job
+# Add Daily Update Cron Job
+daily_update_cronjob(){
     clear
     f_banner
     echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
@@ -415,9 +491,12 @@ fi
     crontab job
     rm job
     say_done
+}
 
+##############################################################################################################
 
-# 25. Install PortSentry
+# Install PortSentry
+install_portsentry(){
     clear
     f_banner
     echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
@@ -431,9 +510,12 @@ fi
     mv salida.tmp /etc/default/portsentry
     /etc/init.d/portsentry restart
     say_done
+}
 
+##############################################################################################################
 
-# 26. Additional Hardening Steps
+# Additional Hardening Steps
+additional_hardening(){
     clear
     f_banner
     echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
@@ -445,9 +527,9 @@ fi
     echo tty1 > /etc/securetty
     chmod 700 /root
     chmod 600 /boot/grub/grub.cfg
-    #Proteger contra IP Spoofing
+    #Protect Against IP Spoofing
     echo nospoof on >> /etc/host.conf
-    #Desinstalar AT y Restringiendo Cron a Root
+    #Remove AT and Restrict Cron
     apt-get purge at
     echo " Securing Cron "
     touch /etc/cron.allow
@@ -455,9 +537,12 @@ fi
     awk -F: '{print $1}' /etc/passwd | grep -v root > /etc/cron.deny
     echo "OK"
     say_done
+}
 
+##############################################################################################################
 
-# 27. Install Unhide
+# Install Unhide
+install_unhide(){
     clear
     f_banner
     echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
@@ -469,10 +554,13 @@ fi
     echo " For more info about the Tool use the manpages "
     echo " man unhide "
     say_done
+}
 
+##############################################################################################################
 
-# 28. Install Tiger
+# Install Tiger
 #Tiger is and Auditing and Intrusion Detection System
+install_tiger(){
     clear
     f_banner
     echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
@@ -483,10 +571,12 @@ fi
     echo " For More info about the Tool use the ManPages "
     echo " man tiger "
     say_done
+}
 
+##############################################################################################################
 
-
-#29. Disable Compilers
+# Disable Compilers
+disable_compilers(){
     clear
     f_banner
     echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
@@ -504,13 +594,17 @@ fi
     chmod 000 /usr/bin/*c++ >/dev/null 2>&1
     chmod 000 /usr/bin/*g++ >/dev/null 2>&1
     spinner
+    echo ""
     echo " If you wish to use them, just change the Permissions"
     echo " Example: chmod 755 /usr/bin/gcc "
     echo "OK"
     say_done
+}
 
+##############################################################################################################
 
-#30. Restrict Access to Apache Config Files
+# Restrict Access to Apache Config Files
+apache_conf_restrictions(){
     clear
     f_banner
     echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
@@ -527,9 +621,13 @@ fi
      chmod 640 /etc/apache2/apache2.conf
      echo "OK"
      say_done
+}
 
-#31. Additional Security Configurations
+##############################################################################################################
+
+# Additional Security Configurations
   #Enable Unattended Security Updates
+  unattended_upgrades(){
   clear
   f_banner
   echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
@@ -542,8 +640,12 @@ fi
   else
       clear
   fi
+}
 
-  # Enable Process Accounting
+##############################################################################################################
+
+# Enable Process Accounting
+enable_proc_acct(){
   clear
   f_banner
   echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
@@ -553,8 +655,12 @@ fi
   apt-get install acct
   touch /var/log/wtmp
   echo "OK"
+}
 
-  #Install PHP Suhosin Extension
+##############################################################################################################
+
+#Install PHP Suhosin Extension
+install_phpsuhosin(){
   clear
   f_banner
   echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
@@ -566,13 +672,17 @@ fi
   wget https://sektioneins.de/files/repository.asc
   apt-key add repository.asc
   apt-get update
-  apt-get install -y php5-suhosin-extension
+  apt-get install php5-suhosin-extension
   php5enmod suhosin
   service apache2 restart
   echo "OK"
   say_done
+}
 
-# 32. Reboot Server
+##############################################################################################################
+
+# Reboot Server
+reboot_server(){
     clear
     f_banner
     echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
@@ -588,3 +698,133 @@ fi
         echo "Server will not Reboot"
         echo "Bye."
     fi
+}
+
+##################################################################################################################
+
+clear
+f_banner
+echo
+echo "1. LAMP Deployment"
+echo "2. Reverse Proxy Deployment With Apache"
+echo "3. Running With SecureWPDeployer Script"
+echo "4. Exit"
+echo
+
+read choice
+
+case $choice in
+
+1)
+check_root
+config_host
+config_timezone
+update_system
+admin_user
+rsa_keygen
+rsa_keycopy
+secure_ssh
+set_iptables
+install_fail2ban
+install_secure_mysql
+install_apache
+install_secure_php
+install_modsecurity
+set_owasp_rules
+secure_optimize_apache
+install_modevasive
+install_qos_spamhaus
+config_fail2ban
+additional_packages
+tune_secure_kernel
+install_rootkit_hunter
+tune_nano_vim_bashrc
+daily_update_cronjob
+install_portsentry
+additional_hardening
+install_unhide
+install_tiger
+disable_compilers
+apache_conf_restrictions
+unattended_upgrades
+enable_proc_acct
+install_phpsuhosin
+reboot_server
+;;
+
+2)
+check_root
+config_host
+config_timezone
+update_system
+admin_user
+rsa_keygen
+rsa_keycopy
+secure_ssh
+set_iptables
+install_fail2ban
+install_apache
+install_modsecurity
+set_owasp_rules
+secure_optimize_apache
+install_modevasive
+install_qos_spamhaus
+config_fail2ban
+additional_packages
+tune_secure_kernel
+install_rootkit_hunter
+tune_nano_vim_bashrc
+daily_update_cronjob
+install_portsentry
+additional_hardening
+install_unhide
+install_tiger
+disable_compilers
+apache_conf_restrictions
+unattended_upgrades
+enable_proc_acct
+reboot_server
+;;
+
+3)
+check_root
+config_host
+config_timezone
+update_system
+admin_user
+rsa_keygen
+rsa_keycopy
+secure_ssh
+set_iptables
+install_fail2ban
+install_secure_mysql
+install_apache
+install_secure_php
+install_modsecurity
+set_owasp_rules
+secure_optimize_apache
+install_modevasive
+install_qos_spamhaus
+config_fail2ban
+additional_packages
+tune_secure_kernel
+install_rootkit_hunter
+tune_nano_vim_bashrc
+daily_update_cronjob
+install_portsentry
+additional_hardening
+install_unhide
+install_tiger
+disable_compilers
+apache_conf_restrictions
+unattended_upgrades
+enable_proc_acct
+install_phpsuhosin
+;;
+
+4)
+exit 0
+;;
+
+esac
+##############################################################################################################

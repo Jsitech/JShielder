@@ -37,4 +37,6 @@ As the Root user
 
 # ChangeLog
 ==============================
+v2.0 More Deployment Options, Selection Menu, PHP Suhosin installation, Cleaner Code, 
+
 v1.0 - New Code
