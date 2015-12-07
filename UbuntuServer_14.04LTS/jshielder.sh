@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# JShielder v1.0
+# JShielder v2.0
 # Deployer for Ubuntu Server 14.04 LTS
 #
 # Jason Soto
@@ -67,6 +67,15 @@ if [ "$config_host" == "y" ]; then
     hostname -F /etc/hostname
     echo "127.0.0.1    localhost.localdomain      localhost" >> /etc/hosts
     echo "$serverip    $host_name.$domain_name    $host_name" >> /etc/hosts
+    #Creating Legal Banner for unauthorized Access
+    echo ""
+    echo "Creating legal Banners for unauthorized access"
+    spinner
+    cat templates/motd > /etc/motd
+    cat templates/motd > /etc/issue
+    cat templates/motd > /etc/issue.net
+    sed -i s/server.com/$host_name.$domain_name/g /etc/motd /etc/issue /etc/issue.net
+    echo "OK "
 fi
     say_done
 }
@@ -834,7 +843,8 @@ echo "2. Reverse Proxy Deployment With Apache"
 echo "3. LEMP Deployment (Under Development, Testing)"
 echo "4. Reverse Proxy Deployment with Nginx (ModSecurity)"
 echo "5. Running With SecureWPDeployer Script"
-echo "6. Exit"
+echo "6. Customized Run (Only run desired Options)"
+echo "7. Exit"
 echo
 
 read choice
@@ -1012,6 +1022,190 @@ install_phpsuhosin
 ;;
 
 6)
+
+menu=""
+until [ "$menu" = "29" ]; do
+
+clear
+f_banner
+echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+echo -e "\e[93m[+]\e[00m Select the Desired Option"
+echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+echo ""
+echo "1. Configure Host Name, Create Legal Banners, Update Hosts Files"
+echo "2. Configure Timezone"
+echo "3. Update System"
+echo "4. Create Admin User"
+echo "5. Instructions to Generate and move Private/Public key Pair"
+echo "6. Secure SSH Configuration"
+echo "7. Set Restrictive IPTable Rules"
+echo "8. Install and Configure Fail2Ban"
+echo "9. Install, Optimize and Secure Apache"
+echo "10. Install Nginx with ModSecurity Module and Set OwaspRules"
+echo "11. Set Nginx Vhost with PHP"
+echo "12. Set Nginx Vhost"
+echo "13. Install and Secure PHP for Apache Server"
+echo "14. Install and Secure PHP for Nginx Server"
+echo "15. Install ModSecurity (Apache)and Set Owasp Rules"
+echo "16. Install ModEvasive"
+echo "17. Install ModQos and SpamHaus"
+echo "18. Tune and Secure Linux Kernel"
+echo "19. Install RootKit Hunter"
+echo "20. Tune Vim, Nano, Bashrc"
+echo "21. Install PortSentry"
+echo "22. Secure tty, root home, grub configs, cron"
+echo "23. Install Unhide"
+echo "24. Install Tiger"
+echo "25. Disable Compilers"
+echo "26. Enable Unnatended Upgrades"
+echo "27. Enable Process Accounting"
+echo "28. Install PHP Suhosin"
+echo "29. Install and Secure MySQL"
+echo "30. Exit"
+echo " "
+
+read menu
+case $menu in
+
+1)
+config_host
+;;
+
+2)
+config_timezone
+;;
+
+3)
+update_system
+;;
+
+4)
+admin_user
+;;
+
+5)
+rsa_keygen
+rsa_keycopy
+;;
+
+6)
+echo "key Pair must be created "
+echo "What user will have access via SSH? " ; read username
+rsa_keygen
+rsa_keycopy
+secure_ssh
+;;
+
+7)
+set_iptables
+;;
+
+8)
+echo "Type Email to receive Alerts: " ; read inbox
+install_fail2ban
+config_fail2ban
+;;
+
+9)
+install_apache
+secure_optimize_apache
+apache_conf_restrictions
+;;
+
+10)
+install_nginx_modsecurity
+set_nginx_modsec_OwaspRules
+;;
+
+11)
+set_nginx_vhost
+;;
+
+
+12)
+set_nginx_vhost_nophp
+;;
+
+13)
+install_secure_php
+;;
+
+14)
+install_php_nginx
+;;
+
+15)
+install_modsecurity
+set_owasp_rules
+;;
+
+16)
+echo "Type Email to Receive Alerts: " ; read inbox
+install_modevasive
+;;
+
+17)
+install_qos_spamhaus
+;;
+
+18)
+tune_secure_kernel
+;;
+
+19)
+install_rootkit_hunter
+;;
+
+20)
+tune_nano_vim_bashrc
+;;
+
+21)
+install_portsentry
+;;
+
+22)
+additional_hardening
+;;
+
+23)
+install_unhide
+;;
+
+24)
+install_tiger
+;;
+
+25)
+disable_compilers;
+;;
+
+26)
+unattended_upgrades
+;;
+
+27)
+enable_proc_acct
+;;
+
+28)
+install_phpsuhosin
+;;
+
+29)
+install_secure_mysql
+;;
+
+30)
+break ;;
+
+*) ;;
+
+esac
+done
+;;
+
+7)
 exit 0
 ;;
 

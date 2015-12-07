@@ -1,0 +1,31 @@
+Version:2010111401
+#
+# Syntax: <port>:<description>:protocol
+#
+# Note: The port number must be between 1 and 65535 inclusive.
+#       Descriptions cannot contain any colon (:) characters.
+#       The protocol must be UDP or TCP.
+#
+
+1524:Possible FreeBSD (FBRK) Rootkit backdoor:TCP:
+1984:Fuckit Rootkit:TCP:
+2001:Scalper:UDP:
+2006:CB Rootkit or w00tkit Rootkit SSH server:TCP:
+2128:MRK:TCP:
+6666:Possible rogue IRC bot:TCP:
+6667:Possible rogue IRC bot:TCP:
+6668:Possible rogue IRC bot:TCP:
+6669:Possible rogue IRC bot:TCP:
+7000:Possible rogue IRC bot:TCP:
+13000:Possible Universal Rootkit (URK) SSH server:TCP:
+14856:Optic Kit (Tux):TCP:
+25000:Possible Universal Rootkit (URK) component:TCP:
+29812:FreeBSD (FBRK) Rootkit default backdoor port:TCP:
+31337:Historical backdoor port:TCP:
+32982:Solaris Wanuk:TCP:
+33369:Volc Rootkit SSH server (divine):TCP:
+47107:T0rn:TCP:
+47018:Possible Universal Rootkit (URK) component:TCP:
+60922:zaRwT.KiT:TCP:
+62883:Possible FreeBSD (FBRK) Rootkit default backdoor port:TCP:
+65535:FreeBSD Rootkit (FBRK) telnet port:TCP:

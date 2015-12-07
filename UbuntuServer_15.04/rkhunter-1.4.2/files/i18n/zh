@@ -1,0 +1,539 @@
+Version:2009091601
+#
+# We start with the definitions of the message types and results. There
+# are very few of these, so including these and all the parts of each
+# message in one file makes sense and for easier translation.
+#
+# The message type MSG_TYPE_PLAIN is used for ordinary messages. It has
+# no specific value, and is intercepted in the display function. It is
+# included here for completeness. The index names of MSG_TYPE_ and
+# MSG_RESULT_ are reserved - no messages can use this as part of its index.
+#
+MSG_TYPE_PLAIN:
+MSG_TYPE_INFO:訊息
+MSG_TYPE_WARNING:警告
+
+
+#
+# This is the list of message results.
+#
+MSG_RESULT_OK:正常
+MSG_RESULT_BAD:損壞
+MSG_RESULT_SKIPPED:跳過
+MSG_RESULT_WARNING:!注意!
+MSG_RESULT_FOUND:發現
+MSG_RESULT_NOT_FOUND:沒發現
+MSG_RESULT_NONE_FOUND:沒發現
+MSG_RESULT_ALLOWED:可以
+MSG_RESULT_NOT_ALLOWED:不可以
+
+MSG_RESULT_UPD: 更新的	
+MSG_RESULT_NO_UPD: 沒更新
+MSG_RESULT_UPD_FAILED: 更新失敗
+MSG_RESULT_VCHK_FAILED: 版本檢查失敗
+
+
+#
+# The messages.
+#
+VERSIONLINE:[ $1 版本 $2 ]
+VERSIONLINE2:在主機 $3 執行 $1 版本 $2
+VERSIONLINE3:執行 $1 版本 $2
+
+RKH_STARTDATE:開始時間是 $1
+RKH_ENDDATE:結束時間是 $1
+
+OPSYS:偵測到的系統是 '$1'
+UNAME:Uname 輸出是 '$1'
+
+CONFIG_CHECK_START:檢查設定檔及命令列選項...
+CONFIG_CMDLINE:命令列是 $1
+CONFIG_ENVSHELL:SHELL程式是 $1; rkhunter 正在使用 $2
+CONFIG_CONFIGFILE:rkhunter設定檔是 '$1'
+CONFIG_INSTALLDIR:安裝目錄是'$1'
+CONFIG_LANGUAGE:使用的語言是 '$1'
+CONFIG_DBDIR:資料庫目錄 '$1'
+CONFIG_SCRIPTDIR:script目錄 '$1'
+CONFIG_BINDIR:執行檔目錄 '$1'
+CONFIG_ROOTDIR:根目錄 '$1'
+CONFIG_TMPDIR:暫存檔目錄 '$1'
+CONFIG_NO_MAIL_ON_WARN:沒有設置警告信的郵件位址
+CONFIG_MOW_DISABLED:根據使用者設定，不使用警告信
+CONFIG_MAIL_ON_WARN:使用命令'$2'給 '$1' 發警告信
+CONFIG_SSH_ROOT:Rkhunter 的選項 ALLOW_SSH_ROOT_USER被設置成 '$1'.
+CONFIG_SSH_PROTV1:Rkhunter 選項被設置成可以使用版本1的SSH協定
+CONFIG_X_AUTO:自動檢查X
+CONFIG_CLRSET2:使用第二個配色方法
+CONFIG_NO_SHOW_SUMMARY:根據使用者設定，不顯示系統總結報告
+CONFIG_SCAN_MODE_DEV:SCAN_MODE_DEV被設置為'$1'
+CONFIG_NO_VL:根據使用者設定，不詳細記錄
+CONFIG_XINETD_PATH:使用 $1 設定檔 '$2'
+CONFIG_SOL10_INETD:使用Solaris 10 及以後的inetd機制
+CONFIG_LOCAL_RC_DIR:使用系統的啟動目錄: $1
+CONFIG_LOCAL_RC_FILE:使用本地的啟動目錄檔案: $1
+CONFIG_ROTATE_MIRRORS:備援檔案將予以轉置
+ONFIG_NO_ROTATE_MIRRORS:備援檔案將不被轉置
+CONFIG_UPDATE_MIRRORS:備援檔案將被更新
+CONFIG_NO_UPDATE_MIRRORS:備援檔案將不被更新
+CONFIG_MIRRORS_MODE0:本地和遠端備援檔案將都被使用
+CONFIG_MIRRORS_MODE1:只使用本地備援檔案
+CONFIG_MIRRORS_MODE2:只使用遠端備援檔案
+
+FOUND_CMD:找到 '$1' 命令: $2
+NOT_FOUND_CMD:無法找到'$1' 命令
+
+SYS_PRELINK:系統正在使用prelinking
+SYS_NO_PRELINK:系統不使用prelinking
+
+HASH_FUNC_PRELINK:為了檔案的 hash 檢查而使用 prelink 命令 (帶 $1) 
+HASH_FUNC_PERL:使用 perl $1 模組來檢查檔案hash
+HASH_FUNC:checksum程式 '$1'
+HASH_FUNC_NONE:無法檢查檔案hash : 沒有指定
+HASH_FUNC_NONE_PKGMGR:沒有指定檔案hash函數: 只能使用套件管理程式
+HASH_FUNC_DISABLED:Hash函數設置為'NONE': 自動使檔案hash檢查無效
+HASH_FUNC_OLD:使用hash函數 '$1'儲存hash值
+HASH_FUNC_OLD_DISABLED:舊的的hash函數無效: 沒有hash值被儲存
+HASH_PKGMGR_OLD::使用套件管理程式'$1'儲存hash值 
+HASH_PKGMGR_OLD_NONMD5:使用套件管理程式'$1'(md5 function)儲存hash值 
+HASH_PKGMGR_OLD_UNSET:不使用套件管理程式而儲存hash值
+
+HASH_PKGMGR:使用套件管理程式 '$1' 檢查檔案屬性
+HASH_PKGMGR_MD5:使用 MD5 hash 函數命令 '$1' 幫助套件管理程式進行驗證
+HASH_PKGMGR_NOT_SPEC:沒有指定套件管理程式: 使用 hash 函數 '$1'
+HASH_PKGMGR_NOT_SPEC_PRELINKED:沒有指定套件管理程式: 使用帶 '$1' 的 prelink 命令
+HASH_PKGMGR_USE_VRFY:套件管理程式驗證將用於檔案屬性的檢查結果
+HASH_PKGMGR_NO_USE_VRFY:套件管理程式驗證將不用於檔案屬性的檢查結果
+
+HASH_FIELD_INDEX:hash 函數的欄位索引被設置為 $1
+
+HASHUPD_DISABLED:Hash 檢查失效: 目前的檔案hash值將不會儲存
+HASHUPD_PKGMGR:使用套件管理程式 '$1' 來更新檔案hash值
+HASHUPD_PKGMGR_NONE:沒有指定套件管理程式: 使用hash函數 '$1'
+HASHUPD_PKGMGR_NONE_PRELINKED:沒有指定套件管理程式: 使用帶'$1'的prelink命令
+HASHUPD_PKGMGR_NOT_SPEC:沒有指定檔案 hash 更新套件管理程式: 使用 hash 函數 '$1'
+HASHUPD_PKGMGR_NOT_SPEC_PRELINKED:沒有指定檔案 hash 更新套件管理程式: 使用帶 '$1'的 prelink 命令
+HASHUPD_PKGMGR_MD5:使用MD5 hash函數命令'$1'作為套件管理程式
+HASHUPD_PKGMGR_MD5_PRELINK:使用prelink命令 (帶 $1)作為套件管理程式
+
+ATTRUPD_DISABLED:檔案屬性檢查失效: 目前的檔案屬性將不會儲存
+ATTRUPD_NOSTAT:檔案屬性檢查失效: 沒有發現'stat'命令:目前的檔案屬性將不會儲存
+ATTRUPD_OK:目前的檔案屬性將被儲存
+ATTRUPD_OLD_DISABLED:舊的檔案屬性無效: 沒有檔案屬性儲存
+ATTRUPD_OLD_NOSTAT:舊的檔案屬性無效: 沒有發現'stat'命令: 沒有檔案屬性被儲存
+ATTRUPD_OLD_OK:儲存舊的檔案屬性
+
+GRSECINSTALLED:發現有安裝GRSEC
+
+SYSLOG_ENABLED:啟用 syslog - facility/priority 等級是 '$1'.
+SYSLOG_DISABLED:根據使用者設定，不使用 syslog .
+SYSLOG_NO_LOGGER:無法使用 syslog - 無法找到 'logger' 命令.
+
+NAME:$1
+PRESSENTER:[按 <ENTER> 鍵繼續]
+TEST_SKIPPED_OS:因為 OS: $2，跳過檢查 '$1' 
+
+SUMMARY_TITLE1:系統檢查結果
+SUMMARY_TITLE2:=====================
+SUMMARY_PROP_SCAN:檢查檔案屬性...
+SUMMARY_PROP_REQCMDS:要求的檢查命令失敗
+SUMMARY_PROP_COUNT:檢查檔案: $1
+SUMMARY_PROP_FAILED:可疑檔案: $1
+SUMMARY_CHKS_SKIPPED:跳過所有檢查
+SUMMARY_RKT_SCAN:檢查Rootkit...
+SUMMARY_RKT_COUNT:檢查Rootkits : $1
+SUMMARY_RKT_FAILED:可能存在 rootkits: $1
+SUMMARY_RKT_NAMES:Rootkit 名稱    : $1
+SUMMARY_APPS_SCAN:應用程式檢查...
+SUMMARY_APPS_COUNT:應用程式檢查: $1
+SUMMARY_APPS_FAILED:可疑的應用程式: $1
+SUMMARY_SCAN_TIME:檢查系統時間: $1
+SUMMARY_NO_SCAN_TIME:檢查系統時間: 無法計算系統時間
+SUMMARY_LOGFILE:所有結果已被寫入到系統記錄檔($1)
+SUMMARY_NO_LOGFILE:沒有建立系統記錄檔.
+
+CREATED_TEMP_FILE:建立暫存檔目錄 '$1'
+
+MIRRORS_NO_FILE:備援檔案'$1'不存在
+MIRRORS_NO_MIRRORS:備援檔案 '$1' 中沒有需要的備援.
+MIRRORS_NO_VERSION:備援檔案 '$1'中沒有版本編號 - 重新設置為0.
+MIRRORS_ROTATED:備援檔案 '$1' 已被更新.
+MIRRORS_SF_DEFAULT:使用 SourceForge 備援: $1
+
+DOWNLOAD_CMD:執行下載命令 '$1'
+DOWNLOAD_FAIL:下載失敗 - $1 備援檔案無效.
+
+VERSIONCHECK_START:正在檢查 rkhunter 版本...
+VERSIONCHECK_FAIL_ALL:下載失敗: 無法確定最新的程式版本.
+VERSIONCHECK_CURRENT:目前的版本  : $1
+VERSIONCHECK_LATEST:最新的版本: $1
+VERSIONCHECK_LATEST_FAIL:最新版本: 下載失敗
+VERSIONCHECK_UPDT_AVAIL:更新有效
+VERSIONCHECK_CONV_FAIL:無法比較版本編號: 程式: '$1'    Latest: '$2'
+
+UPDATE_START:正在檢查rkhunter 的資料檔案...
+UPDATE_CHECKING_FILE:正在檢查檔案$1
+UPDATE_FILE_NO_VERS:檔案 '$1' 沒有有效的版本編號. 正下載一個新的副本.
+UPDATE_FILE_MISSING:檔案 '$1' 遺失或為空檔. 正下載一個新的副本.
+UPDATE_DOWNLOAD_FAIL:'$1'下載失敗: 無法確定最新的版本編號.
+UPDATE_I18N_NO_VERS:無法發現i18n語言檔案版本編號.
+
+OSINFO_START:檢查自上次檢查後系統是否有被變更...
+OSINFO_END:沒有發現任何變更
+OSINFO_HOST_CHANGE1:自從上次檢查後，主機名稱已改變
+OSINFO_HOST_CHANGE2:舊的主機名稱: $1    新的主機名稱: $2
+OSINFO_OSVER_CHANGE1:自上次檢查後，系統名稱或版本已改變
+OSINFO_OSVER_CHANGE2:舊的作業系統: $1    新的作業系統: $2
+OSINFO_PRELINK_CHANGE:自上次檢查後，使用prelinking系統可能已改變為${1}
+OSINFO_ARCH_CHANGE1:系統的CPU類型可能已改變
+OSINFO_ARCH_CHANGE2:舊的CPU: $1    新的CPU: $2
+OSINFO_MSG1:因為這些改變，檔案屬性檢查可能有錯誤的結果.
+OSINFO_MSG2:你可能需要用'--propupd' 選項重新執行rkhunter
+
+SET_FILE_PROP_START: file properties正在取得檔案屬性...
+SET_FILE_PROP_DIR_FILE_COUNT:在$2發現$1 個檔案
+SET_FILE_PROP_FILE_COUNT:檔案 $1: 搜尋了 $2 個檔案, 發現 $3
+SET_FILE_PROP_FILE_COUNT_NOHASH:F檔案 $1: 搜尋了 $2 個檔案, 發現 $3, 遺失 hashes $4
+
+PROPUPD_START:開始更新檔案屬性資料...
+PROPUPD_OSINFO_START:正在收集作業系統的訊息...
+PROPUPD_ARCH_FOUND:發現系統架構: $1
+PROPUPD_REL_FILE:發現 release 檔案: $1
+PROPUPD_NO_REL_FILE:不能找到release 檔案: LS 輸出顯示:
+PROPUPD_OSNAME_FOUND:發現作業系統名稱: $1
+PROPUPD_ERROR:安裝新的 rkhunter.dat 檔案發生錯誤. 代碼 $1
+PROPUPD_NEW_DAT_FILE:新的 rkhunter.dat 檔案已安裝在 '$1'
+PROPUPD_WARN:警告! 當使用 '--propupd' 選項時，使用者必須自行確定
+PROPUPD_WARN:系統中所有的檔案是真實的、安裝的檔案來源是可靠的.
+PROPUPD_WARN:rkhunter '--check' 選項將目前的檔案屬性與先前
+PROPUPD_WARN:儲存的值進行對比,並且報告任何的變動. 然而, rkhunter
+PROPUPD_WARN:無法確定是什麼原因造成了這些變動，需待使用者去確認.
+
+ENABLED_TESTS:啟用的測試是: $1
+DISABLED_TESTS:不啟用的測試是: $1
+
+KSYMS_FOUND:發現 ksym 檔案 '$1'
+KSYMS_MISSING:所有的 ksyms 和 kallsyms 檢查已被取消 - 這兩種檔案在系統中都不存在.
+
+STARTING_TEST:開始 '$1' 檢查
+USER_DISABLED_TEST:使用者已取消 '$1' 檢查.
+
+CHECK_START:開始檢查系統...
+CHECK_WARNINGS_NOT_FOUND:在檢查系統過程中沒有警告產生.
+CHECK_WARNINGS_FOUND:檢查系統過程中發現一個或多個警告.
+CHECK_WARNINGS_FOUND_RERUN:請重新執行rkhunter，確認系統記錄檔已建立.
+CHECK_WARNINGS_FOUND_CHK_LOG:請檢查系統記錄檔 ($1)
+
+CHECK_SYS_COMMANDS:檢查系統命令...
+STRINGS_CHECK_START:執行 '字串' 命令檢查
+STRINGS_SCANNING_OK:掃瞄字串 $1
+STRINGS_SCANNING_BAD:掃瞄字串 $1
+STRINGS_SCANNING_BAD:'字串' 命令中無法發現字串
+STRINGS_CHECK:檢查 '字串' 命令
+STRINGS_CHECK:跳過檢查 - 沒有發現 '字串' 命令.
+
+FILE_PROP_START:執行檔案屬性檢查
+FILE_PROP_CMDS:檢查重要的基本程式
+FILE_PROP_IMMUT_OS:跳過所有的 immutable-bit 檢查. 該檢查僅在 Linux 系統下有效.
+FILE_PROP_SKIP_ATTR:無法找到 'stat' 命令 - 所有的檔案屬性檢查將被跳過.
+FILE_PROP_SKIP_HASH:所有的檔案 hash 檢查將被跳過，因為 :
+FILE_PROP_SKIP_HASH_FUNC:目前的的 hash 函數 ($1) 或者套件管理程式 ($2) 與 hash 函數 ($3)不相容或套件管理程式 ($4) 被用於儲存這些值.
+FILE_PROP_SKIP_HASH_PRELINK:無法找到 'prelink' 命令.
+FILE_PROP_SKIP_HASH_SHA1:這個系統使用 prelinking, 但是 hash 函數命令 不像是 SHA1 or MD5.
+FILE_PROP_SKIP_HASH_LIBSAFE:沒發現 Libsafe , 這可能導致錯誤. 如果可能, 關閉 libsafe 並執行 prelink 命令. 最後, 使用 'rkhunter --propupd'重新建立 hash 值.
+FILE_PROP_SKIP_IMMUT:無法找到 'lsattr' 命令 - 所有的檔案 immutable-bit 檢查將被跳過.
+FILE_PROP_SKIP_SCRIPT:無法找到 'file' 命令 - 所有script代替檢查將被跳過.
+FILE_PROP_DAT_MISSING:儲存檔案屬性的檔案 (rkhunter.dat) 不存在, 所以必須建立它. 輸入命令 'rkhunter --propupd'建立.
+FILE_PROP_DAT_EMPTY:儲存檔案屬性的檔案 (rkhunter.dat) 是空的, 所以必須建立它. 輸入命令 'rkhunter --propupd'建立.
+FILE_PROP_SKIP_ALL:目前忽略所有檔案屬性的檢查.
+
+FILE_PROP_FILE_NOT_EXIST:系統中不存在 '$1' 檔案, 但是它存在於 rkhunter.dat 檔案.
+FILE_PROP_WL:發現檔案 '$1': 它存在於白名單中，用於 '$2' 檢查.
+FILE_PROP_NO_RKH_REC:系統中存在檔案 '$1' , 但是它不存在於 the rkhunter.dat 檔案.
+FILE_PROP_HASH_WL_INVALID:發現檔案 '$1': 白名單的 hash 值 ($2) 與目前的的 hash 值不相符.
+FILE_PROP_CHANGED:檔案屬性已改變:
+FILE_PROP_CHANGED2:檔案: $1
+FILE_PROP_NO_PKGMGR_FILE:跳過檔案 '$1' hash 值: 檔案不屬於該套件
+FILE_PROP_NO_SYSHASH:沒發現檔案 '$1'的hash值
+FILE_PROP_NO_SYSHASH_CMD:Hash 命令輸出: $1
+FILE_PROP_NO_SYSHASH_DEPENDENCY:嘗試使用命令 'prelink $1' 修復相依性錯誤.
+FILE_PROP_SYSHASH_UNAVAIL:目前的 hash: 無法取得
+FILE_PROP_SYSHASH:目前的 hash: $1
+FILE_PROP_RKHHASH:儲存 hash : $1
+FILE_PROP_NO_RKHHASH:不能找到rkhunter.dat中檔案'$1' 的hash值.
+FILE_PROP_NO_RKHPERM:不能找到rkhunter.dat中檔案'$1' 的權限值.
+FILE_PROP_PERM_UNAVAIL:目前的權限: 無法取得   cvs -d:pserver:anonymous@rkhunter.cvs.sourceforge.net:/cvsroot/rkhunter   儲存的權限: $1
+FILE_PROP_PERM:目前的權限: $1    儲存的權限: $2
+FILE_PROP_UID_UNAVAIL:目前的 uid: 無法取得    儲存的 uid: $1
+FILE_PROP_UID:目前的 uid: $1    儲存的 uid: $2
+FILE_PROP_NO_RKHUID:在檔案rkhunter.dat中沒有找到檔案 '$1' 的user-id值.
+FILE_PROP_GID_UNAVAIL:目前的的 gid: 無法取得    儲存的 gid: $1
+FILE_PROP_GID:目前的的 gid: $1    儲存的 gid: $2
+FILE_PROP_NO_RKHGID:在檔案rkhunter.dat中沒有找到檔案 '$1' 的group-id值.
+FILE_PROP_INODE_UNAVAIL:目前的的 inode: 無法取得    儲存的 inode: $1
+FILE_PROP_INODE:目前的的 inode: $1    儲存的 inode: $2
+FILE_PROP_NO_RKHINODE:在檔案rkhunter.dat中沒有找到檔案 '$1' 的inode值.
+FILE_PROP_SYSDTM_UNAVAIL:目前的的檔案修改時間: 無法取得
+FILE_PROP_SYSDTM:目前的檔案修改時間: $1
+FILE_PROP_RKHDTM:儲存的檔案修改時間 : $1
+FILE_PROP_NO_RKHDTM:在檔案rkhunter.dat中沒有找到檔案 '$1' 的修改時間值.
+FILE_PROP_NO_SYSATTR:無法取得 '$1' 的目前的屬性
+FILE_PROP_WRITE:檔案 '$1'被設置為對所有使用者可寫.
+FILE_PROP_SYSPERM_UNAVAIL:無法取得檔案 '$1' 的目前的寫權限
+FILE_PROP_IMMUT:檔案 '$1' 被設置了 immutable-bit .
+FILE_PROP_SCRIPT:命令 '$1' 已經被script: $2 代替
+
+FILE_PROP_VRFY:套件管理程式驗證已失效:
+FILE_PROP_VRFY_HASH:檔案hash值已改變
+FILE_PROP_VRFY_PERM:檔案權限已改變
+FILE_PROP_VRFY_UID:檔案的擁有者屬性已改變
+FILE_PROP_VRFY_GID:檔案組屬性已改變
+FILE_PROP_VRFY_DTM:檔案的修改時間已改變
+
+CHECK_ROOTKITS:正在檢查rootkit...
+ROOTKIT_FILES_DIRS_START:開始檢查目前已知的rootkit種類和相關目錄
+ROOTKIT_FILES_DIRS_NAME_LOG:檢查 ${1}...
+ROOTKIT_FILES_DIRS_FILE:檢查檔案 '$1'
+ROOTKIT_FILES_DIRS_DIR:檢查目錄 '$1'
+ROOTKIT_FILES_DIRS_KSYM:檢查核心符號 '$1'
+ROOTKIT_FILES_DIRS_FILE_FOUND:發現檔案 '$1'
+ROOTKIT_FILES_DIRS_DIR_FOUND:發現目錄 '$1' 
+ROOTKIT_FILES_DIRS_KSYM_FOUND:發現核心符號 '$1' 
+ROOTKIT_FILES_DIRS_STR:檢查字串 '$1'
+ROOTKIT_FILES_DIRS_STR_FOUND:在檔案 '$2'中發現字串'$1'
+ROOTKIT_FILES_DIRS_NOFILE:檔案 '$1' 不存在!
+ROOTKIT_FILES_DIRS_SINAR_DIR:檢查 '$1'
+ROOTKIT_FILES_DIRS_SINAR:在: $1中發現SInAR
+
+ROOTKIT_ADD_START:執行其它的rootkit檢查
+ROOTKIT_ADD_SUCKIT:Suckit Rookit 額外的檢查
+ROOTKIT_ADD_SUCKIT_LOG:執行Suckit Rookit 額外的檢查
+ROOTKIT_ADD_SUCKIT_LINK:檢查/sbin/init 連結數量
+ROOTKIT_ADD_SUCKIT_LINK_NOCMD:檢查 /sbin/init 連結數量: 沒發現 'stat' 命令
+ROOTKIT_ADD_SUCKIT_LINK_ERR:檢查 /sbin/init 連結數量:  'stat' 命令錯誤
+ROOTKIT_ADD_SUCKIT_LINK_FOUND:檢查 /sbin/init 連結數量: 數量是  $1, 它應當是 1
+ROOTKIT_ADD_SUCKIT_EXT:檢查隱藏檔案
+ROOTKIT_ADD_SUCKIT_EXT_FOUND:檢查隱藏檔案: 發現: $1
+ROOTKIT_ADD_SUCKIT_SKDET:執行 skdet 命令
+ROOTKIT_ADD_SUCKIT_SKDET_FOUND:執行 skdet 命令: 發現: $1
+ROOTKIT_ADD_SUCKIT_SKDET_VER:執行 skdet 命令: 未知版本: $1
+
+ROOTKIT_POSS_FILES_DIRS:檢查可能存在的rootkit及其目錄
+ROOTKIT_POSS_FILES_DIRS_LOG:執行檢查可能存在的rootkit檔案及其目錄
+ROOTKIT_POSS_FILES_FILE_FOUND:發現檔案 '$1'. 可能存在rootkit: $2
+ROOTKIT_POSS_FILES_DIR_FOUND:發現目錄 '$1'. 可能存在rootkit: $2
+
+ROOTKIT_POSS_STRINGS:檢查判定rootkit可能存在的字串
+ROOTKIT_POSS_STRINGS_LOG:執行檢查判定rootkit可能存在的字串
+ROOTKIT_POSS_STRINGS_FOUND:在檔案 '$2'中發現字串'$1' . 可能還在rootkit: $3
+
+ROOTKIT_MALWARE_START:執行惡意軟體檢查
+ROOTKIT_MALWARE_SUSP_FILES:檢查執行中的行程是否為可疑的檔案
+ROOTKIT_MALWARE_SUSP_FILES_FOUND:發現一個或多個這樣的檔案: $1
+ROOTKIT_MALWARE_SUSP_FILES_FOUND:檢查 lsof 命令 'lsof -F n -w -n' 的輸出
+ROOTKIT_MALWARE_HIDDEN_PROCS:檢查隱藏行程
+ROOTKIT_MALWARE_HIDDEN_PROCS_FOUND:發現隱藏的行程: $1
+ROOTKIT_MALWARE_DELETED_FILES:在正執行行程中檢查 deleted 檔案
+ROOTKIT_MALWARE_DELETED_FILES_FOUND:以下行程正在使用 deleted 檔案:
+ROOTKIT_MALWARE_DELETED_FILES_FOUND_DATA:行程: $1    PID: $2    檔案: $3
+ROOTKIT_MALWARE_LOGIN_BDOOR:檢查 login 後門
+ROOTKIT_MALWARE_LOGIN_BDOOR_LOG:執行檢查 login 後門
+ROOTKIT_MALWARE_LOGIN_BDOOR_CHK:檢查 '$1'
+ROOTKIT_MALWARE_LOGIN_BDOOR_FOUND:發現 login 後門檔案: $1
+ROOTKIT_MALWARE_SUSP_DIR:檢查可疑目錄
+ROOTKIT_MALWARE_SUSP_DIR_LOG:執行可疑目錄的檢查
+ROOTKIT_MALWARE_SUSP_DIR_FOUND:發現可疑的目錄: $1
+ROOTKIT_MALWARE_SFW_INTRUSION:檢查軟體入侵
+ROOTKIT_MALWARE_SFW_INTRUSION_FOUND:檔案 '$1' 中套件含有字串 '$2'. 可能存在rootkit: SHV5
+ROOTKIT_MALWARE_SFW_INTRUSION_SKIP:跳過檢查 - tripwire 沒有安裝
+ROOTKIT_MALWARE_SNIFFER:檢查 sniffer 系統記錄檔
+ROOTKIT_MALWARE_SNIFFER_LOG:執行 sniffer 系統記錄檔的檢查
+ROOTKIT_MALWARE_SNIFFER_FOUND:發現可疑的sniffer 系統記錄檔: $1
+
+ROOTKIT_TROJAN_START:執行木馬程式的檢查
+ROOTKIT_TROJAN_INETD:檢查啟動的 inetd 服務
+ROOTKIT_TROJAN_INETD_SKIP:跳過檢查 - 檔案 '$1' 不存在.
+ROOTKIT_TROJAN_INETD_FOUND:發現已啟動的 inetd 服務: $1
+ROOTKIT_TROJAN_XINETD:檢查啟動的 xinetd 服務
+ROOTKIT_TROJAN_XINETD_LOG:執行已啟動的 xinetd 服務的檢查
+ROOTKIT_TROJAN_XINETD_ENABLED:在 '$1' 中檢查已啟動的服務
+ROOTKIT_TROJAN_XINETD_INCLUDE:發現 'include $1' 指令
+ROOTKIT_TROJAN_XINETD_INCLUDEDIR:發現 'includedir $1' 指令
+ROOTKIT_TROJAN_XINETD_ENABLED_FOUND:發現啟動的 xinetd 服務: $1
+ROOTKIT_TROJAN_XINETD_WHITELIST:發現服務 '$1': 它位於 $2 白名單.
+ROOTKIT_TROJAN_APACHE:檢查 Apache 的後門
+ROOTKIT_TROJAN_APACHE_SKIPPED:跳過Apache 後門的檢查: 沒發現Apache 模組和設置目錄.
+ROOTKIT_TROJAN_APACHE_FOUND:發現Apache 後門模組 'mod_rootme' : $1
+
+ROOTKIT_OS_START:執行 $1 深入的檢查
+ROOTKIT_OS_SKIPPED:沒有可用的深入檢查
+ROOTKIT_OS_BSD_SOCKNET:檢查 sockstat 和 netstat 命令
+ROOTKIT_OS_BSD_SOCKNET_FOUND: sockstat 和 netstat 的輸出發現不同:
+ROOTKIT_OS_BSD_SOCKNET_OUTPUT:$1 輸出: $2
+ROOTKIT_OS_FREEBSD_KLD:檢查 KLD 後門
+ROOTKIT_OS_FREEBSD_KLD_FOUND:發現可疑的 FreeBSD KLD 後門. 'kldstat -v' 命令顯示字串 '$1'
+ROOTKIT_OS_FREEBSD_PKGDB:檢查套件資料庫
+ROOTKIT_OS_FREEBSD_PKGDB_NOTOK:套件資料庫似乎有問題.
+ROOTKIT_OS_FREEBSD_PKGDB_NOTOK:這可能不是安全問題, 但是執行 'pkgdb -F' 可能有助於診斷問題.
+ROOTKIT_OS_LINUX_LKM:檢查核心模組命令
+ROOTKIT_OS_LINUX_LKM_FOUND: lsmod 命令 和 /proc/modules 檔案之間發現不同的地方:
+ROOTKIT_OS_LINUX_LKM_OUTPUT:$1 輸出: $2
+ROOTKIT_OS_LINUX_LKM_EMPTY: 沒有發現 lsmod 命令 和或 /proc/modules 檔案的輸出:
+ROOTKIT_OS_LINUX_LKM_MOD_MISSING:模組檔案 '$1' 已遺失.
+ROOTKIT_OS_LINUX_LKMNAMES:檢查核心模組名稱
+ROOTKIT_OS_LINUX_LKMNAMES_PATH:使用模組路徑名 '$1'
+ROOTKIT_OS_LINUX_LKMNAMES_FOUND:在 '$1'中發現已知的惡意核心模組: $2
+ROOTKIT_OS_LINUX_LKMNAMES_PATH_MISSING:核心模組目錄 '$1' 遺失
+
+CHECK_LOCALHOST:檢查本地主機...
+STARTUP_FILES_START:執行系統開機檢查
+STARTUP_HOSTNAME:檢查本地主機名稱
+STARTUP_NO_HOSTNAME:沒發現主機名稱.
+STARTUP_LOCAL_RC_FILE:檢查本地啟動檔案
+STARTUP_FOUND_LOCAL_RC_FILE:發現本地啟動檔案: $1
+STARTUP_NO_LOCAL_RC_FILE:沒發現本地啟動檔案.
+STARTUP_CHECK_LOCAL_RC:檢查本地啟動檔案是否涉及有害程式
+STARTUP_CHECK_SYSTEM_RC:檢查系統啟動檔案是否涉及有害程式
+STARTUP_CHECK_SYSTEM_RC_FOUND:發現系統啟動目錄: $1
+STARTUP_CHECK_SYSTEM_RC_NONE:沒發現系統啟動檔案.
+
+ACCOUNTS_START:執行使用者群組和帳號檢查
+ACCOUNTS_PWD_FILE_CHECK:檢查密碼檔案
+ACCOUNTS_FOUND_PWD_FILE:發現密碼檔案: $1
+ACCOUNTS_NO_PWD_FILE:密碼檔案 $1 不存在.
+ACCOUNTS_UID0:檢查等同於root (UID 0) 帳號
+ACCOUNTS_UID0_WL:發現等同於root 帳號 '$1': 它位於白名單中.
+ACCOUNTS_UID0_FOUND:帳號 '$1' 是等同於root (UID = 0)
+ACCOUNTS_SHADOW_FILE:發現 shadow 檔案: $1
+ACCOUNTS_PWDLESS:檢查空密碼的帳號
+ACCOUNTS_PWDLESS_FOUND:發現空密碼帳號: $1
+ACCOUNTS_NO_SHADOW_FILE:沒發現 shadow/password 檔案.
+
+PASSWD_CHANGES:檢查密碼檔案的變化
+PASSWD_CHANGES_NO_TMP:無法檢查密碼檔案的異常: 密碼檔案的副本不存在.
+PASSWD_CHANGES_ADDED:有使用者被加到密碼檔案中:
+PASSWD_CHANGES_REMOVED:有使用者從密碼檔案中移除:
+
+GROUP_CHANGES:檢查使用者群組檔案的變化
+GROUP_CHANGES_NO_FILE:使用者群組檔案 $1 不存在.
+GROUP_CHANGES_NO_TMP:無法檢查使用者群組檔案的變化: 使用者群組檔案的副本不存在.
+GROUP_CHANGES_ADDED:有使用者被加進用使用者群組檔案:
+GROUP_CHANGES_REMOVED:組已被從使用者群組檔案中刪除:
+
+HISTORY_CHECK:檢查root帳號的shell歷史記錄
+HISTORY_CHECK_FOUND:Root 帳號 $1 shell 歷史記錄是一個符號連結: $2
+
+SYSTEM_CONFIGS_START:執行系統設定檔檢查
+SYSTEM_CONFIGS_FILE:檢查 $1 設定檔
+SYSTEM_CONFIGS_FILE_FOUND:發現 $1 設定檔: $2
+SYSTEM_CONFIGS_SSH_ROOT:檢查SSH是否可用root登入
+SYSTEM_CONFIGS_SSH_ROOT_FOUND: SSH 和 rkhunter 的設定選頂應當相同:
+SYSTEM_CONFIGS_SSH_ROOT_FOUND1:SSH 設定選項 'PermitRootLogin': $1
+SYSTEM_CONFIGS_SSH_ROOT_FOUND2:Rkhunter 設定選項 'ALLOW_SSH_ROOT_USER': $1
+SYSTEM_CONFIGS_SSH_ROOT_NOTFOUND: 還沒設置SSH 設定選項 'PermitRootLogin' .
+SYSTEM_CONFIGS_SSH_ROOT_NOTFOUND:預設值可能是 'yes', 可用root登入.
+SYSTEM_CONFIGS_SSH_PROTO:檢查是否使用 SSH  v1版協定 
+SYSTEM_CONFIGS_SSH_PROTO_FOUND:SSH的設定檔SSH ($1)已使用SSH v1協定生效.
+SYSTEM_CONFIGS_SSH_PROTO_NOTFOUND: SSH 設定選項 'Protocol' 還沒設置.
+SYSTEM_CONFIGS_SSH_PROTO_NOTFOUND:預設值可能是 '2,1', 可以使用 v1協定.
+SYSTEM_CONFIGS_SYSLOG:檢查是否執行syslog daemon
+SYSTEM_CONFIGS_SYSLOG_NOT_RUNNING:syslog daemon 沒有執行.
+SYSTEM_CONFIGS_SYSLOG_METALOG_RUNNING:The syslog daemon 沒有執行, 但是已經發現一個metalog daemon.
+SYSTEM_CONFIGS_SYSLOG_NO_FILE:syslog daemon 正在執行, 但是無法發現設定檔.
+SYSTEM_CONFIGS_SYSLOG_REMOTE:檢查是否可以使用 syslog 遠端記錄 
+SYSTEM_CONFIGS_SYSLOG_REMOTE_FOUND:Syslog 設定檔可以遠端登入: $1
+SYSTEM_CONFIGS_SYSLOG_REMOTE_ALLOWED:Rkhunter 設定選項 'ALLOW_SYSLOG_REMOTE_LOGGING' 已經生效.
+
+FILESYSTEM_START:執行檔案系統檢查中....請稍待....
+FILESYSTEM_DEV_CHECK:/dev 可疑檔案類型檢查
+FILESYSTEM_DEV_CHECK_NO_DEV:/dev 不存在.
+FILESYSTEM_DEV_FILE_WL:發現檔案 '$1': 它存在於白名單中.
+FILESYSTEM_DEV_FILE_FOUND:在 ${1}中發現可疑檔案:
+FILESYSTEM_HIDDEN_DIR_WL:發現隱藏的目錄'$1': 它存在於白名單中.名單中.
+FILESYSTEM_HIDDEN_FILE_WL:Found hidden file '$1': it is whitelisted.
+FILESYSTEM_HIDDEN_CHECK:檢查隱藏的檔案和目錄
+FILESYSTEM_HIDDEN_DIR_FOUND:發現隱藏的目錄: $1
+FILESYSTEM_HIDDEN_FILE_FOUND:發現隱藏的檔案: $1
+
+CHECK_APPS:檢查應用程式的版本...
+APPS_NONE_FOUND:發現未知的應用程式 - 跳過所有的檢查.
+APPS_DAT_MISSING:跳過所有的應用程式版本檢查.
+APPS_DAT_MISSING:不安全應用程式版本 (programs_bad.dat) 遺失或為空.
+APPS_DAT_MISSING:如果它已經被刪除, 你得執行 'rkhunter --update'.
+APPS_NOT_FOUND:沒發現應用程式 '$1' .
+APPS_CHECK:檢查 $1 的版本
+APPS_CHECK_VERSION_UNKNOWN:無法取得 '$1'的版本編號.
+APPS_CHECK_VERSION_FOUND:發現應用程式 '$1' 版本編號 '$2' .
+APPS_CHECK_VERSION_WL:發現應用程式 '$1' 版本 '$2': 這個版本位於白名單.
+APPS_CHECK_WHOLE_VERSION_USED:無法取得 '$1'的版本編號: 版本選項顯示: $2
+APPS_CHECK_FOUND:應用程式 '$1', 版本編號 '$2', 已過時, 有潛在的安全風險.
+APPS_TOTAL_COUNT:應用程式檢查: 在 $2 個應用程式中, 有 $1 個要注意
+
+CHECK_NETWORK:檢查網路...
+NETWORK_PORTS_START:執行後門通訊埠的檢查
+NETWORK_PORTS_FILE_MISSING:跳過所有後門通訊埠的檢查.
+NETWORK_PORTS_FILE_MISSING:已知後門通訊埠檔案 (backdoorports.dat) 遺失或為空白.
+NETWORK_PORTS_FILE_MISSING:如果它已被刪除，你必須執行命令 'rkhunter --update'.
+NETWORK_PORTS_FILE_NO_NETSTAT:跳過所有後門通訊埠的檢查.
+NETWORK_PORTS_FILE_NO_NETSTAT:無法找到 'netstat' 命令
+NETWORK_PORTS:檢查 $1 通訊埠 ${2}
+NETWORK_PORTS_FOUND:網路 $1 通訊埠 $2 已被使用. 可能的rootkit: $3
+NETWORK_PORTS_FOUND:執行 'netstat -an' 命令去檢查它.
+NETWORK_INTERFACE_START:執行網路介面的檢查
+NETWORK_PROMISC_CHECK:檢查 promiscuous 介面
+NETWORK_PROMISC_NO_IFCONFIG:Promiscuous 網路介面被跳過 - 無法找到 'ifconfig' 命令.
+NETWORK_PROMISC_NO_IP:使用'ip' 命令檢查Promiscuous 網路介面 - 無法找到 'ip' 命令.
+NETWORK_PROMISC_IF:可能的promiscuous 介面:
+NETWORK_PROMISC_IF_1:'ifconfig' 命令輸出: $1
+NETWORK_PROMISC_IF_2:'ip' 命令輸出: $1
+NETWORK_PACKET_CAP_CHECK:檢查封包攔截程式
+NETWORK_PACKET_CAP_CHECK_NO_FILE:封包攔截程式的檢查被跳過 - 檔案 '$1' 遺失.
+NETWORK_PACKET_CAP_FOUND:行程 '$1' (PID $2) 正在網路上監聽.
+NETWORK_PACKET_CAP_WL:發現行程 '$1': 它存在於白名單中.
+
+SHARED_LIBS_START:執行 '函式庫' 的檢查
+SHARED_LIBS_PRELOAD_VAR:檢查預先載入的變數
+SHARED_LIBS_PRELOAD_VAR_FOUND:發現預先載入的變數: $1
+SHARED_LIBS_PRELOAD_FILE:檢查預先載入的檔案
+SHARED_LIBS_PRELOAD_FILE_FOUND:發現library preload 檔案: $1
+SHARED_LIBS_PATH:檢查 LD_LIBRARY_PATH 變數
+SHARED_LIBS_PATH_BAD: LD_LIBRARY_PATH 環境變數被設置，它會影響二進位程式: 被設置為: $1
+
+SUSPSCAN_CHECK:檢查具有可疑內容的檔案
+SUSPSCAN_DIR_NOT_EXIST:目錄 '$1' 不存在.
+SUSPSCAN_INSPECT:檔案 '$1' (score: $2) 套件含有可疑的內容，它將被檢查.
+SUSPSCAN_START:執行帶有可疑內容檔案的檢查
+SUSPSCAN_DIRS:待檢查的目錄是: $1
+SUSPSCAN_NO_DIRS:沒有指定目錄: 使用用預設 ($1)
+SUSPSCAN_TEMP:使用暫存檔目錄: $1
+SUSPSCAN_NO_TEMP:沒指定暫存檔案目錄: 使用用預設的 ($1)
+SUSPSCAN_TEMP_NOT_EXIST:The suspscan 暫存檔目錄不存在: $1
+SUSPSCAN_TEMP_NO_WRITE:The suspscan 暫存目錄無寫入權: $1
+SUSPSCAN_SIZE:可檢查的最大檔案大小 (以位元組為單位): '$1'
+SUSPSCAN_NO_SIZE:沒指定最大的檔案大小: 使用預設值($1)
+SUSPSCAN_SIZE_INVALID:此Suspscan 最大的檔案大小無效: $1
+SUSPSCAN_THRESH:積分上限設置為: $1
+SUSPSCAN_NO_THRESH:沒有指定積分上限: 使用預設值 ($1)
+SUSPSCAN_THRESH_INVALID:此 Suspscan 積分上限是無效的: $1
+SUSPSCAN_DIR_CHECK:檢查目錄: '$1'
+SUSPSCAN_DIR_CHECK_NO_FILES:沒有適當的檔案檢查.
+SUSPSCAN_FILE_CHECK:檔案檢查: Name: '$1' Score: $2
+SUSPSCAN_FILE_CHECK_DEBUG:檔案檢查: Name: '$1' Score: $2 Hitcount: $3 Hits: ($4)
+SUSPSCAN_FILE_SKIPPED_EMPTY:忽略檔案: 空白: '$1'
+SUSPSCAN_FILE_SKIPPED_LINK:忽略檔案: 符號連接檔: '$1'
+SUSPSCAN_FILE_SKIPPED_TYPE:忽略檔案: 錯誤類型: '$1': '$2'
+SUSPSCAN_FILE_SKIPPED_SIZE:忽略檔案: 太大: '$1'
+SUSPSCAN_FILE_LINK_CHANGE:發現符號連接檔: '$1' -> '$2'
+
+LIST_TESTS:有效的測試名稱:
+LIST_GROUPED_TESTS:分組檢查名稱:
+LIST_LANGS:可用的語言:
+LIST_RTKTS:檢查rootkit
+
+#
+#If any problem related with this zh version message,please mail to 
+#ols3@lxer.idv.tw. I will fix them as soon as possible.
+#如果有任何關於繁體中文版本翻譯的問題，請聯繫 ols3@lxer.idv.tw
+#我將會盡快予以修正.
+#
+#本翻譯檔參考自linux_fqh@yahoo.com.cn所譯的簡體版本,特此感謝他.
+#

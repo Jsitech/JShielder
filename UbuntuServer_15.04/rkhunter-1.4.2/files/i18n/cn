@@ -1,0 +1,547 @@
+Version:2009091601
+#
+# We start with the definitions of the message types and results. There
+# are very few of these, so including these and all the parts of each
+# message in one file makes sense and for easier translation.
+#
+# The message type MSG_TYPE_PLAIN is used for ordinary messages. It has
+# no specific value, and is intercepted in the display function. It is
+# included here for completeness. The index names of MSG_TYPE_ and
+# MSG_RESULT_ are reserved - no messages can use this as part of its index.
+#
+MSG_TYPE_PLAIN:
+MSG_TYPE_INFO:信息
+MSG_TYPE_WARNING:警告
+
+
+#
+# This is the list of message results.
+#
+MSG_RESULT_OK:正常
+MSG_RESULT_SKIPPED:跳过
+MSG_RESULT_WARNING:警告
+MSG_RESULT_FOUND:发现
+MSG_RESULT_NOT_FOUND:没发现
+MSG_RESULT_NONE_FOUND:没发现
+MSG_RESULT_ALLOWED:允许
+MSG_RESULT_NOT_ALLOWED:不允许
+MSG_RESULT_UNSET:没设置
+
+MSG_RESULT_UPD: 更新的	
+MSG_RESULT_NO_UPD: 没更新
+MSG_RESULT_UPD_FAILED: 更新失败
+MSG_RESULT_VCHK_FAILED: 版本检查失败
+
+
+#
+# The messages.
+#
+VERSIONLINE:[ $1 版本 $2 ]
+VERSIONLINE2:运行 $1 版本 $2 在 $3
+VERSIONLINE3:运行 $1 版本 $2
+
+RKH_STARTDATE:开始时间是 $1
+RKH_ENDDATE:结束时间是 $1
+
+OPSYS:探测到的系统是 '$1'
+UNAME:Uname 输出是 '$1'
+
+CONFIG_CHECK_START:检查配置文件及命令行选项...
+CONFIG_CMDLINE:命令行是 $1
+CONFIG_ENVSHELL:环境 shell 是 $1; rkhunter 正在使用 $2
+CONFIG_CONFIGFILE:正在使用配置文件 '$1'
+CONFIG_INSTALLDIR:安装目录是'$1'
+CONFIG_LANGUAGE:使用语言是 '$1'
+CONFIG_DBDIR:使用 '$1' 作为数据库目录
+CONFIG_SCRIPTDIR:使用 '$1' 支持脚本目录
+CONFIG_BINDIR:使用 '$1' 作为命令目录
+CONFIG_ROOTDIR:使用 '$1' 作为root 目录
+CONFIG_TMPDIR:使用 '$1' 作为临时文件夹
+CONFIG_NO_MAIL_ON_WARN:没有配置警告信的地址
+CONFIG_MOW_DISABLED:根据用户要求，不使用警告信
+CONFIG_MAIL_ON_WARN:使用命令'$2'给 '$1' 发警告信
+CONFIG_SSH_ROOT:Rkhunter 的选项 ALLOW_SSH_ROOT_USER被设置成 '$1'.
+CONFIG_SSH_PROTV1:Rkhunter 选项 ALLOW_SSH_PROT_V1 设置为 '$1'.
+CONFIG_X_AUTO:自动检测X
+CONFIG_CLRSET2:使用第二配色方案
+CONFIG_NO_SHOW_SUMMARY:根据用户要求不检测系统总况
+CONFIG_SCAN_MODE_DEV:SCAN_MODE_DEV被设置为'$1'
+CONFIG_NO_VL:根据用户要求不记录详细的日志
+CONFIG_XINETD_PATH:使用 $1 配置文件 '$2'
+CONFIG_SOL10_INETD:使用Solaris 10 及以后的inetd机制
+CONFIG_LOCAL_RC_DIR:使用系统的启动目录: $1
+CONFIG_LOCAL_RC_FILE:使用本地的启动目录文件: $1
+CONFIG_ROTATE_MIRRORS:镜像文件将被 rotated
+ONFIG_NO_ROTATE_MIRRORS:镜像文件将不被rotated
+CONFIG_UPDATE_MIRRORS:镜像文件将被更新
+CONFIG_NO_UPDATE_MIRRORS:镜像文件将不被更新
+CONFIG_MIRRORS_MODE0:本地和远程镜像文件将都被使用
+CONFIG_MIRRORS_MODE1:只使用本地镜像文件
+CONFIG_MIRRORS_MODE2:只使用远程镜像文件
+
+FOUND_CMD:找到 '$1' 命令: $2
+NOT_FOUND_CMD:无法找到'$1' 命令
+CMD_ERROR:命令 '$1' 遇到错误码 $2.
+
+SYS_PRELINK:系统正在使用prelinking
+SYS_NO_PRELINK:系统没用prelinking
+SYS_SELINUX:SELinux 已启用 
+SYS_NO_SELINUX:SELinux 没启用
+
+HASH_FUNC_PRELINK:为了文件的 hash 检测而使用 prelink 命令 (带 $1) 
+HASH_FUNC_PERL:使用 perl $1 模块来检查文件hash
+HASH_FUNC:使用 '$1'命令检查文件hash
+HASH_FUNC_NONE:无法检查文件hash : 没指定
+HASH_FUNC_NONE_PKGMGR:没有指定文件hash函数: 只能使用包管理器
+HASH_FUNC_DISABLED:Hash函数设置为'NONE': 自动使文件hash检查无效
+HASH_FUNC_OLD:使用hash函数 '$1'储存hash值
+HASH_FUNC_OLD_DISABLED:原先的hash函数无效: 没有hash值值被保存
+HASH_PKGMGR_OLD:使用包管理器'$1'(md5 function)存储hash值
+HASH_PKGMGR_OLD_UNSET:没使用包管理器存储hash值
+
+HASH_PKGMGR:使用包管理器 '$1' 检查文件属性
+HASH_PKGMGR_MD5:使用 MD5 hash 函数命令 '$1' 辅助包管理器的验证
+HASH_PKGMGR_NOT_SPEC:没有指定包管理器: 使用 hash 函数 '$1'
+HASH_PKGMGR_NOT_SPEC_PRELINKED:没有指定包管理器: 使用带 '$1' 的 prelink 命令
+
+HASH_FIELD_INDEX:hash 函数的域索引被设置为 $1
+
+HASHUPD_DISABLED:Hash 检测失效: 当前文件hash值将不会保存
+HASHUPD_PKGMGR:使用包管理器 '$1' 来更新文件hash值
+HASHUPD_PKGMGR_NOT_SPEC:没有指定文件 hash 更新包管理器: 使用 hash 函数 '$1'
+HASHUPD_PKGMGR_NOT_SPEC_PRELINKED:没有指定文件 hash 更新包管理器: 使用带 '$1'的 prelink 命令
+
+ATTRUPD_DISABLED:文件属性检测失效: 当前文件属性将不会保存
+ATTRUPD_NOSTATCMD:文件属性检测失效: 没有发现'stat'命令:当前文件属性将不会保存
+ATTRUPD_OK:当前文件属性将被保存
+ATTRUPD_OLD_DISABLED:原先文件属性无效: 没有文件属性保存
+ATTRUPD_OLD_NOSTATCMD:原先文件属性无效: 没有发现'stat'命令: 没有文件属性被保存
+ATTRUPD_OLD_OK:原先文件属性被保存
+
+GRSECINSTALLED:发现安装有grsecurity
+
+SYSLOG_ENABLED:因为一些logging使用 syslog - facility/priority 级别是 '$1'.
+SYSLOG_DISABLED:根据用户要求不使用 syslog .
+SYSLOG_NO_LOGGER:无法使用 syslog - 无法找到 'logger' 命令.
+
+NAME:$1
+PRESSENTER:[敲 <ENTER> 键继续]
+TEST_SKIPPED_OS:因为 O/S: $2，检测 '$1' 被跳过
+
+SUMMARY_TITLE1:系统检测概要
+SUMMARY_TITLE2:=====================
+SUMMARY_PROP_SCAN:检测文件属性...
+SUMMARY_PROP_REQCMDS:请求的检测命令失败
+SUMMARY_PROP_COUNT:检测文件: $1
+SUMMARY_PROP_FAILED:可疑文件: $1
+SUMMARY_CHKS_SKIPPED:跳过所有检测
+SUMMARY_RKT_SCAN:检测Rootkit...
+SUMMARY_RKT_COUNT:检测Rootkits : $1
+SUMMARY_RKT_FAILED:可能存在 rootkits: $1
+SUMMARY_RKT_NAMES:Rootkit 名称    : $1
+SUMMARY_APPS_SCAN:应用程序检测...
+SUMMARY_APPS_COUNT:应用程序检测: $1
+SUMMARY_APPS_FAILED:可疑的应用程序: $1
+SUMMARY_SCAN_TIME:检查系统用时: $1
+SUMMARY_NO_SCAN_TIME:检查系统用时: 无法计算时钟时间
+SUMMARY_LOGFILE:所有结果已被写入到日志文件($1)
+SUMMARY_NO_LOGFILE:没有创建日志文件.
+
+CREATED_TEMP_FILE:创建临时文件夹 '$1'
+
+MIRRORS_NO_FILE:镜象文件'$1'不存在
+MIRRORS_NO_MIRRORS:镜像文件 '$1' 中没有需要的镜像.
+MIRRORS_NO_VERSION:镜象文件 '$1'中没有版本号 - 重新设置为0.
+MIRRORS_ROTATED:镜象文件 '$1' 已被更新.
+MIRRORS_SF_DEFAULT:使用 SourceForge 镜像: $1
+
+DOWNLOAD_CMD:执行下载命令 '$1'
+DOWNLOAD_FAIL:下载失败 - $1 镜象文件无效.
+
+VERSIONCHECK_START:正在检查 rkhunter 版本...
+VERSIONCHECK_FAIL_ALL:下载失败: 无法确定最新的程序版本.
+VERSIONCHECK_CURRENT:本版本  : $1
+VERSIONCHECK_LATEST:最新的版本: $1
+VERSIONCHECK_LATEST_FAIL:最新版本: 下载失败
+VERSIONCHECK_UPDT_AVAIL:更新有效
+VERSIONCHECK_CONV_FAIL:无法比较版本号: 程序: '$1'    Latest: '$2'
+
+UPDATE_START:正在检查rkhunter 的数据文件...
+UPDATE_CHECKING_FILE:正在检查文件$1
+UPDATE_FILE_NO_VERS:文件 '$1' 没有有效的版本号. 正下载一个新的副本.
+UPDATE_FILE_MISSING:文件 '$1' 丢失或为空. 正下载一个新的副本.
+UPDATE_DOWNLOAD_FAIL:'$1'下载失败: 无法确定最新的版本号.
+UPDATE_I18N_NO_VERS:无法发现i18n语言文件版本号.
+
+OSINFO_START:检查自上次检测后系统是否已改变...
+OSINFO_END:没发现任何东西已变化
+OSINFO_HOST_CHANGE1:自上检测后，host名称已改变:
+OSINFO_HOST_CHANGE2:旧的host值: $1    新的值: $2
+OSINFO_OSVER_CHANGE1:自上次检测后，系统名称或版本已改变:
+OSINFO_OSVER_CHANGE2:旧的O/S值: $1    新的值: $2
+OSINFO_PRELINK_CHANGE:自上次检测后，使用prelinking系统可能已改变为${1}:
+OSINFO_ARCH_CHANGE1:系统的CPU类型可能已变化:
+OSINFO_ARCH_CHANGE2:旧的CPU值: $1    新的值: $2
+OSINFO_MSG1:因为这些改变，文件属性检测可能得出错误的结果.
+OSINFO_MSG2:你可能需要用'--propupd' 选项重新运行rkhunter
+
+SET_FILE_PROP_START: file properties正在获取文件属性...
+SET_FILE_PROP_DIR_FILE_COUNT:在$2发现$1 个文件
+SET_FILE_PROP_FILE_COUNT:文件 $1: 搜索了 $2 个文件, 发现 $3
+SET_FILE_PROP_FILE_COUNT_NOHASH:F文件 $1: 搜索了 $2 个文件, 发现 $3, 丢失 hashes $4
+
+PROPUPD_START:开始更新文件属性数据...
+PROPUPD_OSINFO_START:正在收集 O/S 信息...
+PROPUPD_ARCH_FOUND:发现系统体系: $1
+PROPUPD_REL_FILE:发现 release 文件: $1
+PROPUPD_NO_REL_FILE:不能找到release 文件: LS output shows:
+PROPUPD_OSNAME_FOUND:发现 O/S 名称: $1
+PROPUPD_ERROR:安装新的 rkhunter.dat 文件发生错误. 代码 $1
+PROPUPD_NEW_DAT_FILE:新的 rkhunter.dat 文件已安装在 '$1'
+PROPUPD_WARN:警告! 当使用 '--propupd' 选项时用户必须负责确保
+PROPUPD_WARN:系统中所有的文件已知是真实的, 并且是安装于可靠的
+PROPUPD_WARN:源文件. rkhunter '--check' 选项将当前文件属性与先前
+PROPUPD_WARN:保存的值进行对比,并且报告任何变化的值. 然而, rkhunter
+PROPUPD_WARN:无法确定是什么导致了这个变化，它有待用户去确认.
+
+ENABLED_TESTS:生效的测试是: $1
+DISABLED_TESTS:失效的测试是: $1
+
+KSYMS_FOUND:发现 ksym 文件 '$1'
+KSYMS_MISSING:所有的 ksyms 和 kallsyms 检测已被取消 - 这两种文件在系统中都不存在.
+
+STARTING_TEST:开始 '$1' 检测
+USER_DISABLED_TEST:用户已取消 '$1' 检测t.
+
+CHECK_START:开始检测系统...
+CHECK_WARNINGS_NOT_FOUND:在检测系统过程中没有报警产生.
+CHECK_WARNINGS_FOUND:检测系统过程中发现一个或多个报警.
+CHECK_WARNINGS_FOUND_RERUN:请重新运行rkhunter，确认日志文件已创建.
+CHECK_WARNINGS_FOUND_CHK_LOG:请检查日志文件 ($1)
+
+CHECK_SYS_COMMANDS:检查系统命令...
+STRINGS_CHECK_START:执行 '字符串' 命令检测
+STRINGS_SCANNING_OK:扫描字符串 $1
+STRINGS_SCANNING_BAD:扫描字符串 $1
+STRINGS_SCANNING_BAD:'字符串' 命令中无法发现字符串
+STRINGS_CHECK:检测 '字符串' 命令
+STRINGS_CHECK:跳过检测 - 没有发现 '字符串' 命令.
+
+FILE_PROP_START:执行文件属性检测
+FILE_PROP_CMDS:检测先决条件
+FILE_PROP_IMMUT_OS:跳过所有的 immutable-bit 检测. 该检测仅仅在 Linux 系统下有效.
+FILE_PROP_SKIP_ATTR:无法找到 'stat' 命令 - 所有的文件属性检测将被跳过.
+FILE_PROP_SKIP_HASH:所有的文件 hash 检测将被跳过，因为 :
+FILE_PROP_SKIP_HASH_FUNC:当前的 hash 函数 ($1) 或者包管理器 ($2) 与 hash 函数 ($3)不兼容或包管理器 ($4) 被用于保存这些值.
+FILE_PROP_SKIP_HASH_PRELINK:无法找到 'prelink' 命令.
+FILE_PROP_SKIP_HASH_SHA1:这个系统使用 prelinking, 但是 hash 函数命令 不像是 SHA1 or MD5.
+FILE_PROP_SKIP_HASH_LIBSAFE:没发现 Libsafe , 这可能导致错误. 如果可能, 让 libsafe 失效并运行 prelink 命令. 最后, 使用 'rkhunter --propupd'重新创建 hash 值.
+FILE_PROP_SKIP_IMMUT:无法找到 'lsattr' 命令 - 所有的文件 immutable-bit 检测将被跳过.
+FILE_PROP_SKIP_SCRIPT:无法找到 'file' 命令 - 所有脚本代替检测将被跳过.
+FILE_PROP_OS_CHANGED:本地host配置或操作系统已经改变.
+FILE_PROP_DAT_MISSING:保存文件属性的文件 (rkhunter.dat) 不存在, 所以必须创建它. 输入命令 'rkhunter --propupd'创建.
+FILE_PROP_DAT_EMPTY:保存文件属性的文件 (rkhunter.dat) 是空的, 所以必须创建它. 输入命令 'rkhunter --propupd'创建.
+FILE_PROP_SKIP_ALL:现忽略所有文件属性的检测.
+
+FILE_PROP_FILE_NOT_EXIST:系统中不存在 '$1' 文件, 但是它列于 rkhunter.dat 文件.
+FILE_PROP_WL:发现文件 '$1': 它列于白名单中用于 '$2' 检测.
+FILE_PROP_WL_DIR:发现目录 '$1': 针对于 '$2' 检测,它列于白名单.
+FILE_PROP_NO_RKH_REC:系统中存在文件 '$1' , 但是它不列于 the rkhunter.dat 文件.
+FILE_PROP_CHANGED:文件属性已改变:
+FILE_PROP_CHANGED2:文件: $1
+FILE_PROP_NO_PKGMGR_FILE:跳过文件 '$1' hash 值: 文件不属于该包
+FILE_PROP_NO_SYSHASH:没发现文件 '$1'的hash值
+FILE_PROP_NO_SYSHASH_CMD:Hash 命令输出: $1
+FILE_PROP_NO_SYSHASH_DEPENDENCY:尝试使用命令 'prelink $1' 修复依赖错误.
+FILE_PROP_SYSHASH_UNAVAIL:当前 hash: 无法获取
+FILE_PROP_SYSHASH:当前 hash: $1
+FILE_PROP_RKHHASH:保存 hash : $1
+FILE_PROP_NO_RKHHASH:不能找到rkhunter.dat中文件'$1' 的hash值.
+FILE_PROP_NO_RKHPERM:不能找到rkhunter.dat中文件'$1' 的权限值.
+FILE_PROP_PERM_UNAVAIL:当前权限: 无法获取  储存的权限: $1
+FILE_PROP_PERM:当前权限: $1    储存的权限: $2
+FILE_PROP_UID_UNAVAIL:当前 uid: 无法获取    储存的 uid: $1
+FILE_PROP_UID:当前 uid: $1    储存的 uid: $2
+FILE_PROP_NO_RKHUID:在文件rkhunter.dat中没有找到文件 '$1' 的user-id值.
+FILE_PROP_GID_UNAVAIL:当前的 gid: 无法获取    保存的 gid: $1
+FILE_PROP_GID:当前的 gid: $1    保存的 gid: $2
+FILE_PROP_NO_RKHGID:在文件rkhunter.dat中没有找到文件 '$1' 的group-id值.
+FILE_PROP_INODE_UNAVAIL:当前的 inode: 无法获取    保存的 inode: $1
+FILE_PROP_INODE:当前的 inode: $1    保存的 inode: $2
+FILE_PROP_NO_RKHINODE:在文件rkhunter.dat中没有找到文件 '$1' 的inode值.
+FILE_PROP_SIZE_UNAVAIL:当前大小: 无法获取    存储的大小: $1
+FILE_PROP_SIZE:当前大小: $1    存储的大小: $2
+FILE_PROP_NO_RKHSIZE:在 rkhunter.dat 文件中没发现文件 '$1' 的大小值.
+FILE_PROP_SYSDTM_UNAVAIL:当前的文件修改时间: 无法获取
+FILE_PROP_SYSDTM:当前文件修改时间: $1
+FILE_PROP_RKHDTM:保存的文件修改时间 : $1
+FILE_PROP_NO_RKHDTM:在文件rkhunter.dat中没有找到文件 '$1' 的修改时间值.
+FILE_PROP_NO_SYSATTR:无法获取 '$1' 的当前属性
+FILE_PROP_WRITE:文件 '$1'被设置为对所有用户可写.
+FILE_PROP_SYSPERM_UNAVAIL:无法获取文件 '$1' 的当前写权限
+FILE_PROP_IMMUT:文件 '$1' 被设置了 immutable-bit .
+FILE_PROP_SCRIPT:命令 '$1' 已经被脚本: $2 代替
+FILE_PROP_SCRIPT_RKH:命令 '$1' 已被替换, 不是脚本: $2
+
+FILE_PROP_VRFY:包管理器验证已失效:
+FILE_PROP_VRFY_HASH:文件hash值已改变
+FILE_PROP_VRFY_PERM:文件权限已改变
+FILE_PROP_VRFY_UID:文件的拥有者属性已改变
+FILE_PROP_VRFY_GID:文件组属性已改变
+FILE_PROP_VRFY_DTM:文件的修改时间已改变
+FILE_PROP_VRFY_SIZE:文件大小已经改变
+
+CHECK_ROOTKITS:正在检查rootkit...
+ROOTKIT_FILES_DIRS_START:执行已知rootkit和目录的检查
+ROOTKIT_FILES_DIRS_NAME_LOG:检查 ${1}...
+ROOTKIT_FILES_DIRS_FILE:检查文件 '$1'
+ROOTKIT_FILES_DIRS_DIR:检查目录 '$1'
+ROOTKIT_FILES_DIRS_KSYM:检查内核符号 '$1'
+ROOTKIT_FILES_DIRS_FILE_FOUND:发现文件 '$1'
+ROOTKIT_FILES_DIRS_DIR_FOUND:发现目录 '$1' 
+ROOTKIT_FILES_DIRS_KSYM_FOUND:发现内核符号 '$1' 
+ROOTKIT_FILES_DIRS_STR:检查字符串 '$1'
+ROOTKIT_FILES_DIRS_STR_FOUND:在文件 '$2'中发现字符串'$1'
+ROOTKIT_FILES_DIRS_NOFILE:文件 '$1' 不存在!
+ROOTKIT_FILES_DIRS_SINAR_DIR:检查 '$1'
+ROOTKIT_FILES_DIRS_SINAR:在: $1中发现SInAR
+
+ROOTKIT_ADD_START:执行辅助的rootkit检测
+ROOTKIT_ADD_SUCKIT:Suckit Rookit 辅助检测
+ROOTKIT_ADD_SUCKIT_LOG:执行Suckit Rookit 辅助检测
+ROOTKIT_ADD_SUCKIT_LINK:检测/sbin/init 链接数量
+ROOTKIT_ADD_SUCKIT_LINK_NOCMD:检测 /sbin/init 链接数量: 没发现 'stat' 命令
+ROOTKIT_ADD_SUCKIT_LINK_ERR:检测 /sbin/init 链接数量:  'stat' 命令错误
+ROOTKIT_ADD_SUCKIT_LINK_FOUND:检测 /sbin/init 链接数量: 数量是  $1, 它应当是 1
+ROOTKIT_ADD_SUCKIT_EXT:检测隐藏文件扩展
+ROOTKIT_ADD_SUCKIT_EXT_FOUND:检测隐藏文件扩展: 发现: $1
+ROOTKIT_ADD_SUCKIT_SKDET:运行 skdet 命令
+ROOTKIT_ADD_SUCKIT_SKDET_FOUND:运行 skdet 命令: 发现: $1
+ROOTKIT_ADD_SUCKIT_SKDET_VER:运行 skdet 命令: 未知版本: $1
+
+ROOTKIT_POSS_FILES_DIRS:检查可能存在的rootkit及其目录
+ROOTKIT_POSS_FILES_DIRS_LOG:执行检查可能存在的rootkit文件及其目录
+ROOTKIT_POSS_FILES_FILE_FOUND:发现文件 '$1'. 可能存在rootkit: $2
+ROOTKIT_POSS_FILES_DIR_FOUND:发现目录 '$1'. 可能存在rootkit: $2
+
+ROOTKIT_POSS_STRINGS:检测判定rootkit可能存在的字符串
+ROOTKIT_POSS_STRINGS_LOG:执行检测判定rootkit可能存在的字符串
+ROOTKIT_POSS_STRINGS_FOUND:在文件 '$2'中发现字符串'$1' . 可能还在rootkit: $3
+
+ROOTKIT_MALWARE_START:执行恶意软件检测
+ROOTKIT_MALWARE_SUSP_FILES:检测正在运行进程的可疑文件
+ROOTKIT_MALWARE_SUSP_FILES_FOUND:发现一个或多个这样的文件: $1
+ROOTKIT_MALWARE_SUSP_FILES_FOUND:检测 lsof 命令 'lsof -F n -w -n' 的输出
+ROOTKIT_MALWARE_HIDDEN_PROCS:检测隐藏进程
+ROOTKIT_MALWARE_HIDDEN_PROCS_FOUND:发现隐藏的进程: $1
+ROOTKIT_MALWARE_DELETED_FILES:在正运行进程中检测 deleted 文件
+ROOTKIT_MALWARE_DELETED_FILES_FOUND:以下进程正在使用 deleted 文件:
+ROOTKIT_MALWARE_DELETED_FILES_FOUND_DATA:进程: $1    PID: $2    文件: $3
+ROOTKIT_MALWARE_LOGIN_BDOOR:检测 login 后门
+ROOTKIT_MALWARE_LOGIN_BDOOR_LOG:执行检测 login 后门
+ROOTKIT_MALWARE_LOGIN_BDOOR_CHK:检测 '$1'
+ROOTKIT_MALWARE_LOGIN_BDOOR_FOUND:发现 login 后门文件: $1
+ROOTKIT_MALWARE_SUSP_DIR:检测可疑目录
+ROOTKIT_MALWARE_SUSP_DIR_LOG:执行可疑目录的检测
+ROOTKIT_MALWARE_SUSP_DIR_FOUND:发现可疑的目录: $1
+ROOTKIT_MALWARE_SFW_INTRUSION:检测软件入侵
+ROOTKIT_MALWARE_SFW_INTRUSION_FOUND:文件 '$1' 中包含有字符串 '$2'. 可能存在rootkit: SHV5
+ROOTKIT_MALWARE_SFW_INTRUSION_SKIP:跳过检测 - tripwire 没有安装
+ROOTKIT_MALWARE_SNIFFER:检测 sniffer 日志文件
+ROOTKIT_MALWARE_SNIFFER_LOG:执行 sniffer 日志文件的检测
+ROOTKIT_MALWARE_SNIFFER_FOUND:发现可疑的sniffer 日志文件: $1
+
+ROOTKIT_TROJAN_START:执行木马详细检测
+ROOTKIT_TROJAN_INETD:检测启动的 inetd 服务
+ROOTKIT_TROJAN_INETD_SKIP:跳过检测 - 文件 '$1' 不存在.
+ROOTKIT_TROJAN_INETD_FOUND:发现已启动的 inetd 服务: $1
+ROOTKIT_TROJAN_XINETD:检测启动的 xinetd 服务
+ROOTKIT_TROJAN_XINETD_LOG:执行已启动的 xinetd 服务的检测
+ROOTKIT_TROJAN_XINETD_ENABLED:在 '$1' 中检测已启动的服务
+ROOTKIT_TROJAN_XINETD_INCLUDE:发现 'include $1' 指令
+ROOTKIT_TROJAN_XINETD_INCLUDEDIR:发现 'includedir $1' 指令
+ROOTKIT_TROJAN_XINETD_ENABLED_FOUND:发现启动的 xinetd 服务: $1
+ROOTKIT_TROJAN_XINETD_WHITELIST:发现服务 '$1': 它位于 $2 白名单.
+ROOTKIT_TROJAN_APACHE:检测 Apache 的后门
+ROOTKIT_TROJAN_APACHE_SKIPPED:跳过Apache 后门的检测: 没发现Apache 模块和配置目录.
+ROOTKIT_TROJAN_APACHE_FOUND:发现Apache 后门模块 'mod_rootme' : $1
+
+ROOTKIT_OS_START:执行 $1 详细的检测
+ROOTKIT_OS_SKIPPED:没有可用的详细检测
+ROOTKIT_OS_BSD_SOCKNET:检测 sockstat 和 netstat 命令
+ROOTKIT_OS_BSD_SOCKNET_FOUND: sockstat 和 netstat 的输出发现不同:
+ROOTKIT_OS_BSD_SOCKNET_OUTPUT:$1 输出: $2
+ROOTKIT_OS_FREEBSD_KLD:检测 KLD 后门
+ROOTKIT_OS_FREEBSD_KLD_FOUND:发现可疑的 FreeBSD KLD 后门. 'kldstat -v' 命令显示字符串 '$1'
+ROOTKIT_OS_FREEBSD_PKGDB:检测包数据库
+ROOTKIT_OS_FREEBSD_PKGDB_NOTOK:包数据库似乎有矛盾.
+ROOTKIT_OS_FREEBSD_PKGDB_NOTOK:这可能不是安全问题, 但是运行 'pkgdb -F' 可能有助于诊断问题.
+ROOTKIT_OS_LINUX_LKM:检测内核模块命令
+ROOTKIT_OS_LINUX_LKM_FOUND: lsmod 命令 和 /proc/modules 文件之间发现不同的地方:
+ROOTKIT_OS_LINUX_LKM_OUTPUT:$1 输出: $2
+ROOTKIT_OS_LINUX_LKM_EMPTY: 没有发现 lsmod 命令 和或 /proc/modules 文件的输出:
+ROOTKIT_OS_LINUX_LKM_MOD_MISSING:模块文件 '$1' 已丢失.
+ROOTKIT_OS_LINUX_LKMNAMES:检测内核模块名称
+ROOTKIT_OS_LINUX_LKMNAMES_PATH:使用模块路径名 '$1'
+ROOTKIT_OS_LINUX_LKMNAMES_FOUND:在 '$1'中发现已知的恶意内核模块: $2
+ROOTKIT_OS_LINUX_LKMNAMES_PATH_MISSING:内核模块目录 '$1' 丢失
+
+CHECK_LOCALHOST:检测本地host...
+STARTUP_FILES_START:执行系统boot检测
+STARTUP_HOSTNAME:检测本地host名称
+STARTUP_NO_HOSTNAME:没发现host名.
+STARTUP_LOCAL_RC_FILE:检测本地启动文件
+STARTUP_FOUND_LOCAL_RC_FILE:发现本地启动文件: $1
+STARTUP_NO_LOCAL_RC_FILE:没发现本地启动文件.
+STARTUP_CHECK_LOCAL_RC:检测本地启动文件是否涉及有害程序
+STARTUP_CHECK_SYSTEM_RC:检测系统启动文件是否涉及有害程序
+STARTUP_CHECK_SYSTEM_RC_FOUND:发现系统启动目录: $1
+STARTUP_CHECK_SYSTEM_RC_NONE:没发现系统启动文件.
+
+ACCOUNTS_START:执行用户组和帐户检测
+ACCOUNTS_PWD_FILE_CHECK:检测密码文件
+ACCOUNTS_FOUND_PWD_FILE:发现密码文件: $1
+ACCOUNTS_NO_PWD_FILE:密码文件 $1 不存在.
+ACCOUNTS_UID0:检测等效root (UID 0) 帐户
+ACCOUNTS_UID0_WL:发现等效root 帐户 '$1': 它位于白名单中.
+ACCOUNTS_UID0_FOUND:帐户 '$1' 是等效root (UID = 0)
+ACCOUNTS_SHADOW_FILE:发现 shadow 文件: $1
+ACCOUNTS_PWDLESS:检测空密码的帐户
+ACCOUNTS_PWDLESS_WL:发现空密码帐户 '$1': 它列于白名单.
+ACCOUNTS_PWDLESS_FOUND:发现空密码帐户: $1
+ACCOUNTS_NO_SHADOW_FILE:没发现 shadow/password 文件.
+
+PASSWD_CHANGES:检测密码文件的变化
+PASSWD_CHANGES_NO_TMP:无法检测密码文件的异常: 密码文件的副本不存在.
+PASSWD_CHANGES_ADDED:有用户被加到密码文件中:
+PASSWD_CHANGES_REMOVED:有用户从密码文件中移除:
+
+GROUP_CHANGES:检测用户组文件的变化
+GROUP_CHANGES_NO_FILE:用户组文件 $1 不存在.
+GROUP_CHANGES_NO_TMP:无法检测用户组文件的变化: 用户组文件的副本不存在.
+GROUP_CHANGES_ADDED:有用户被加进用用户组文件:
+GROUP_CHANGES_REMOVED:组已被从用户组文件中删除:
+
+HISTORY_CHECK:检测root帐户的shell历史文件
+HISTORY_CHECK_FOUND:Root 帐户 $1 shell 历史文件是一个符号链接: $2
+
+SYSTEM_CONFIGS_START:执行系统配置文件检测
+SYSTEM_CONFIGS_FILE:检测配置文件 $1 
+SYSTEM_CONFIGS_FILE_FOUND:发现 $1 配置文件: $2
+SYSTEM_CONFIGS_SSH_ROOT:检测SSH是否允许root访问
+SYSTEM_CONFIGS_SSH_ROOT_FOUND: SSH 和 rkhunter 的配置选顶应当相同:
+SYSTEM_CONFIGS_SSH_ROOT_FOUND1:SSH 配置选项 'PermitRootLogin': $1
+SYSTEM_CONFIGS_SSH_ROOT_FOUND2:Rkhunter 配置选项 'ALLOW_SSH_ROOT_USER': $1
+SYSTEM_CONFIGS_SSH_ROOT_NOTFOUND: 还没设置SSH 配置选项 'PermitRootLogin' .
+SYSTEM_CONFIGS_SSH_ROOT_NOTFOUND:默认值可能是 'yes', 允许root访问.
+SYSTEM_CONFIGS_SSH_PROTO:检测是否允许 SSH  v1版协议 
+SYSTEM_CONFIGS_SSH_PROTO_FOUND:SSH的配置文件SSH ($1)已让SSH 版本1协议生效.
+SYSTEM_CONFIGS_SSH_PROTO_NOTFOUND: SSH 配置选项 'Protocol' 还没设置.
+SYSTEM_CONFIGS_SSH_PROTO_NOTFOUND:默认值可能是 '2,1', 允许使用 版本11协议.
+SYSTEM_CONFIGS_SYSLOG:检测是否运行syslog daemon
+SYSTEM_CONFIGS_SYSLOG_NOT_RUNNING:syslog daemon 没有运行.
+SYSTEM_CONFIGS_SYSLOG_METALOG_RUNNING:syslog daemon 没有运行, 但是已经发现一个metalog daemon.
+SYSTEM_CONFIGS_SYSLOG_SOCKLOG_RUNNING:syslog daemon 没有运行, 但是已经发现一个socklog daemon.
+SYSTEM_CONFIGS_SYSLOG_NO_FILE:syslog daemon 正在运行, 但是无法发现配置文件.
+SYSTEM_CONFIGS_SYSLOG_REMOTE:检测是否允许 syslog remote logging 
+SYSTEM_CONFIGS_SYSLOG_REMOTE_FOUND:Syslog 配置文件允许远程登陆: $1
+SYSTEM_CONFIGS_SYSLOG_REMOTE_ALLOWED:Rkhunter 配置选项 'ALLOW_SYSLOG_REMOTE_LOGGING' 已经生效.
+
+FILESYSTEM_START:执行文件系统检测
+FILESYSTEM_DEV_CHECK:/dev 作为可疑文件类型检测
+FILESYSTEM_DEV_CHECK_NO_DEV:/dev 不存在.
+FILESYSTEM_DEV_FILE_WL:发现文件 '$1': 它列于白名单中.
+FILESYSTEM_DEV_FILE_FOUND:在 ${1}中发现可疑文件类型:
+FILESYSTEM_HIDDEN_DIR_WL:发现隐藏的目录'$1': 它列于白名单中.
+FILESYSTEM_HIDDEN_FILE_WL:发现隐藏文件 '$1': 它列于白名单中.
+FILESYSTEM_HIDDEN_CHECK:检测隐藏的文件和目录
+FILESYSTEM_HIDDEN_DIR_FOUND:发现隐藏的目录: $1
+FILESYSTEM_HIDDEN_FILE_FOUND:发现隐藏的文件: $1
+
+CHECK_APPS:检测应用程序的版本...
+APPS_NONE_FOUND:发现末知应用程序 - 跳过所有的检测.
+APPS_DAT_MISSING:跳过所有的应用程序版本检测.
+APPS_DAT_MISSING:不安全应用程序版本 (programs_bad.dat) 丢失或为空.
+APPS_DAT_MISSING:如果它已经被删除, 你得运行 'rkhunter --update'.
+APPS_NOT_FOUND:没发现应用程序 '$1' .
+APPS_CHECK:检测版本 $1
+APPS_CHECK_WL:发现应用程序 '$1': 它列于白名单中.
+APPS_CHECK_VERSION_UNKNOWN:无法获取 '$1'的版本号.
+APPS_CHECK_VERSION_FOUND:发现应用程序 '$1' 版本号 '$2' .
+APPS_CHECK_VERSION_WL:发现应用程序 '$1' 版本 '$2': 这个版本位于白名单.
+APPS_CHECK_WHOLE_VERSION_USED:无法获取 '$1'的版本号: 版本选项赋予: $2
+APPS_CHECK_FOUND:应用程序 '$1', 版本号 '$2', 已过时, 有潜在的安全风险.
+APPS_TOTAL_COUNT:应用程序检测: $1 out of $2
+
+CHECK_NETWORK:检测网络...
+NETWORK_PORTS_START:执行后门端口的检测
+NETWORK_PORTS_FILE_MISSING:跳过所有后门端口的检测.
+NETWORK_PORTS_FILE_MISSING:已知后门端口文件 (backdoorports.dat) 丢失或为空白.
+NETWORK_PORTS_FILE_MISSING:如果它已被删除，你必须运行命令 'rkhunter --update'.
+NETWORK_PORTS_UNKNOWN_NETSTAT:跳过所有后门端口的检测.
+NETWORK_PORTS_UNKNOWN_NETSTAT:此操作系统中无法识别该netstat命令格式.
+NETWORK_PORTS_DISABLE_PATHS:在PORT_WHITELIST 设置中'*' 和路径名无效: 'lsof' 命令不存在.
+NETWORK_PORTS_ENABLE_TRUSTED:可信任的路径名已在端口白名单中启用.
+NETWORK_PORTS:为 $1 检测端口 $2
+NETWORK_PORTS_PATH_WHITELIST:网络 $1 端口 $2 正在被 $3 使用: 路径名列于白名单.
+NETWORK_PORTS_TRUSTED_WHITELIST:网络 $1 端口 $2 正在被 $3 使用: 路径名是可信任的.
+NETWORK_PORTS_PORT_WHITELIST:网络 $1 端口 $2 正在被使用: 端口列于白名单中.
+NETWORK_PORTS_FOUND:网络 $1 端口 $2 正在被使用${3}. 可能是rootkit: $4
+NETWORK_PORTS_FOUND:使用 'lsof -i' 或 'netstat -an' 命令检测它.
+NETWORK_INTERFACE_START:执行网络接口的检测
+NETWORK_PROMISC_CHECK:检测 promiscuous 接口
+NETWORK_PROMISC_NO_IFCONFIG:Promiscuous 网络接口被跳过 - 无法找到 'ifconfig' 命令.
+NETWORK_PROMISC_NO_IP:使用'ip' 命令检测Promiscuous 网络接口 - 无法找到 'ip' 命令.
+NETWORK_PROMISC_IF:可能promiscuous 接口:
+NETWORK_PROMISC_IF_1:'ifconfig' 命令输出: $1
+NETWORK_PROMISC_IF_2:'ip' 命令输出: $1
+NETWORK_PACKET_CAP_CHECK:检测 数据报捕捉程序
+NETWORK_PACKET_CAP_CHECK_NO_FILE:数据包检测程序检测被跳过 - 文件 '$1' 丢失.
+NETWORK_PACKET_CAP_FOUND:进程 '$1' (PID $2) 正在网络上监听.
+NETWORK_PACKET_CAP_WL:发现进程 '$1': 它列于白名单中.
+
+SHARED_LIBS_START:执行 '共享库' 的检测
+SHARED_LIBS_PRELOAD_VAR:检测预装载变量
+SHARED_LIBS_PRELOAD_VAR_FOUND:发现预装载变量: $1
+SHARED_LIBS_PRELOAD_FILE:检测预装文件
+SHARED_LIBS_PRELOAD_FILE_FOUND:发现library preload 文件: $1
+SHARED_LIBS_PATH:检测 LD_LIBRARY_PATH 变量
+SHARED_LIBS_PATH_BAD: LD_LIBRARY_PATH 环境变量被设置，它会影响二进制程序: 被设置为: $1
+
+SUSPSCAN_CHECK:检测具有可疑 contents 的文件
+SUSPSCAN_DIR_NOT_EXIST:目录 '$1' 不存在.
+SUSPSCAN_INSPECT:文件 '$1' (score: $2) 包含一些可疑的内容，它将被检测.
+SUSPSCAN_START:执行带有可疑contents文件的检测
+SUSPSCAN_DIRS:待检测目录是: $1
+SUSPSCAN_NO_DIRS:没有指定目录: 使用用默认 ($1)
+SUSPSCAN_TEMP:使用临时文件夹: $1
+SUSPSCAN_NO_TEMP:没指定临刊文件夹: 使用用默认的 ($1)
+SUSPSCAN_TEMP_NOT_EXIST:suspscan 临时目录不存在: $1
+SUSPSCAN_TEMP_NO_WRITE:suspscan 临时目录不可写: $1
+SUSPSCAN_SIZE:检测的最大文件大小(byte为单位): '$1'
+SUSPSCAN_NO_SIZE:没指定最大的文件大小: 使用默认值($1)
+SUSPSCAN_SIZE_INVALID:The suspscan 最大文件大小无效: $1
+SUSPSCAN_THRESH:Score 上限被设置为: $1
+SUSPSCAN_NO_THRESH:没有指定 score 上限: 使用默认值 ($1)
+SUSPSCAN_THRESH_INVALID:The suspscan score 上限是无效的: $1
+SUSPSCAN_DIR_CHECK:检查目录: '$1'
+SUSPSCAN_DIR_CHECK_NO_FILES:没有合适的文件检查.
+SUSPSCAN_FILE_CHECK:文件检测: Name: '$1' Score: $2
+SUSPSCAN_FILE_CHECK_DEBUG:文件检测: Name: '$1' Score: $2 Hitcount: $3 Hits: ($4)
+SUSPSCAN_FILE_SKIPPED_EMPTY:忽略文件: 空白: '$1'
+SUSPSCAN_FILE_SKIPPED_LINK:忽略文件: 符号连接: '$1'
+SUSPSCAN_FILE_SKIPPED_TYPE:忽略文件: 错误类型: '$1': '$2'
+SUSPSCAN_FILE_SKIPPED_SIZE:忽略文件: 太大: '$1'
+SUSPSCAN_FILE_LINK_CHANGE:发现符号连接: '$1' -> '$2'
+
+LIST_TESTS:有效的测试名:
+LIST_GROUPED_TESTS:分组检测名称:
+LIST_LANGS:可用的语言:
+LIST_RTKTS:检测rootkit
+
+#
+#If any problem related with this cn version message,please mail to 
+#linux_fqh@yahoo.com.cn.I will fix them as soon as possible.
+#如果有任何关于本中文版信息的问题，请联系linux_fqh@yahoo.com.cn
+＃我将尽快修正它们
+#
