@@ -1140,7 +1140,6 @@ set_owasp_rules
 ;;
 
 16)
-echo "Type Email to Receive Alerts: " ; read inbox
 install_modevasive
 ;;
 
