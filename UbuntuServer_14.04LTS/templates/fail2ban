@@ -20,7 +20,7 @@ action = %(action_mw)s
 
 [ssh]
 enabled = true
-port = ssh
+port = 372
 filter = sshd
 logpath = /var/log/auth.log
 maxretry = 3
@@ -52,7 +52,7 @@ maxretry  = 2
 
 [ssh-ddos]
 enabled  = false
-port     = ssh
+port     = 372
 filter   = sshd-ddos
 logpath  = /var/log/auth.log
 maxretry = 6
@@ -165,4 +165,3 @@ port     = domain,953
 protocol = tcp
 filter   = named-refused
 logpath  = /var/log/named/security.log
-

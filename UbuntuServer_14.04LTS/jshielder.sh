@@ -112,6 +112,24 @@ update_system(){
 
 ##############################################################################################################
 
+# Setting a more restrictive UMASK
+restrictive_umask(){
+   clear
+   f_banner
+   echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+   echo -e "\e[93m[+]\e[00m Setting UMASK to a more Restrictive Value (027)"
+   echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+   echo ""
+   spinner
+   cp templates/login.defs /etc/login.defs
+   sed -i s/umask\ 022/umask\ 027/g /etc/init.d/rc
+   echo ""
+   echo "OK"
+   say_done
+}
+
+##############################################################################################################
+
 # Create Privileged User
 admin_user(){
     clear
@@ -155,6 +173,40 @@ rsa_keycopy(){
     echo " ssh-copy-id -i $HOME/.ssh/id_rsa.pub $username@$serverip "
     say_done
 }
+##############################################################################################################
+
+#Securing /tmp Folder
+secure_tmp(){
+  clear
+  f_banner
+  echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+  echo -e "\e[93m[+]\e[00m Securing /tmp Folder"
+  echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+  echo ""
+  echo -e "\e[93m[?]\e[00m ¿Did you Create a Separate /tmp partition during the Initial Installation? (y/n): "; read tmp_answer
+  if [ "$tmp_answer" == "n" ]; then
+      echo "We will create a FileSystem for the /tmp Directory and set Proper Permissions "
+      dd if=/dev/zero of=/usr/tmpDISK bs=1024 count=2048000
+      cp -Rpf /tmp /tmpbackup
+      mount -t tmpfs -o loop,noexec,nosuid,rw /usr/tmpDISK /tmp
+      chmod 1777 /tmp
+      cp -Rpf /tmpbackup/* /tmp/
+      rm -rf /tmpbackup
+      echo "/usr/tmpDISK  /tmp    tmpfs   loop,nosuid,noexec,rw  0 0" >> /etc/fstab
+      sudo mount -o remount /tmp
+      rm -rf /var/tmp
+      ln -s /tmp /var/tmp
+      say_done
+  else
+      echo "Nice Going, Remember to set proper permissions in /etc/fstab"
+      echo ""
+      echo "Example:"
+      echo ""
+      echo "/dev/sda4   /tmp   tmpfs  loop,nosuid,noexec,rw  0 0 "
+      say_done
+  fi
+}
+
 ##############################################################################################################
 
 # Secure SSH
@@ -658,6 +710,7 @@ additional_hardening(){
     echo "Running Additional Hardening Steps...."
     spinner
     echo tty1 > /etc/securetty
+    chmod 0600 /etc/securetty
     chmod 700 /root
     chmod 600 /boot/grub/grub.cfg
     #Protect Against IP Spoofing
@@ -668,8 +721,16 @@ additional_hardening(){
     touch /etc/cron.allow
     chmod 600 /etc/cron.allow
     awk -F: '{print $1}' /etc/passwd | grep -v root > /etc/cron.deny
-    echo "OK"
-    say_done
+    echo "Do you want to Disable USB Support for this Server?" ; read usb_answer
+    if [ "$usb_answer" == "y" ]; then
+       echo "blacklist usb-storage" | sudo tee -a /etc/modprobe.d/blacklist.conf
+       update-initramfs -u
+       echo "OK"
+       say_done
+    else
+       echo "OK"
+       say_done
+    fi
 }
 
 ##############################################################################################################
@@ -718,6 +779,7 @@ disable_compilers(){
     echo ""
     echo "Disabling Compilers....."
     spinner
+    chmod 000 /usr/bin/as >/dev/null 2>&1
     chmod 000 /usr/bin/byacc >/dev/null 2>&1
     chmod 000 /usr/bin/yacc >/dev/null 2>&1
     chmod 000 /usr/bin/bcc >/dev/null 2>&1
@@ -746,12 +808,12 @@ apache_conf_restrictions(){
     echo ""
     echo "Restricting Access to Apache Config Files......"
     spinner
-     chmod 750 /etc/apache2/conf*
-     chmod 511 /usr/sbin/apache2
-     chmod 750 /var/log/apache2/
-     chmod 640 /etc/apache2/conf-available/*
-     chmod 640 /etc/apache2/conf-enabled/*
-     chmod 640 /etc/apache2/apache2.conf
+     chmod 750 /etc/apache2/conf* >/dev/null 2>&1
+     chmod 511 /usr/sbin/apache2 >/dev/null 2>&1
+     chmod 750 /var/log/apache2/ >/dev/null 2>&1
+     chmod 640 /etc/apache2/conf-available/* >/dev/null 2>&1
+     chmod 640 /etc/apache2/conf-enabled/* >/dev/null 2>&1
+     chmod 640 /etc/apache2/apache2.conf >/dev/null 2>&1
      echo "OK"
      say_done
 }
@@ -837,7 +899,10 @@ reboot_server(){
 
 clear
 f_banner
-echo
+echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+echo -e "\e[93m[+]\e[00m SELECT THE DESIRED OPTION"
+echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+echo ""
 echo "1. LAMP Deployment"
 echo "2. Reverse Proxy Deployment With Apache"
 echo "3. LEMP Deployment (Under Development, Testing)"
@@ -856,9 +921,11 @@ check_root
 config_host
 config_timezone
 update_system
+restrictive_umask
 admin_user
 rsa_keygen
 rsa_keycopy
+secure_tmp
 secure_ssh
 set_iptables
 install_fail2ban
@@ -893,9 +960,11 @@ check_root
 config_host
 config_timezone
 update_system
+restrictive_umask
 admin_user
 rsa_keygen
 rsa_keycopy
+secure_tmp
 secure_ssh
 set_iptables
 install_fail2ban
@@ -927,9 +996,11 @@ check_root
 config_host
 config_timezone
 update_system
+restrictive_umask
 admin_user
 rsa_keygen
 rsa_keycopy
+secure_tmp
 secure_ssh
 set_iptables
 install_fail2ban
@@ -960,9 +1031,11 @@ check_root
 config_host
 config_timezone
 update_system
+restrictive_umask
 admin_user
 rsa_keygen
 rsa_keycopy
+secure_tmp
 secure_ssh
 set_iptables
 install_fail2ban
@@ -990,9 +1063,11 @@ check_root
 config_host
 config_timezone
 update_system
+restrictive_umask
 admin_user
 rsa_keygen
 rsa_keycopy
+secure_tmp
 secure_ssh
 set_iptables
 install_fail2ban
@@ -1024,12 +1099,12 @@ install_phpsuhosin
 6)
 
 menu=""
-until [ "$menu" = "29" ]; do
+until [ "$menu" = "32" ]; do
 
 clear
 f_banner
 echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
-echo -e "\e[93m[+]\e[00m Select the Desired Option"
+echo -e "\e[93m[+]\e[00m SELECT THE DESIRED OPTION"
 echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
 echo ""
 echo "1. Configure Host Name, Create Legal Banners, Update Hosts Files"
@@ -1061,7 +1136,9 @@ echo "26. Enable Unnatended Upgrades"
 echo "27. Enable Process Accounting"
 echo "28. Install PHP Suhosin"
 echo "29. Install and Secure MySQL"
-echo "30. Exit"
+echo "30. Set More Restrictive UMASK Value (027)"
+echo "31. Secure /tmp Directory"
+echo "32. Exit"
 echo " "
 
 read menu
@@ -1196,6 +1273,14 @@ install_secure_mysql
 ;;
 
 30)
+restrictive_umask
+;;
+
+31)
+secure_tmp
+;;
+
+32)
 break ;;
 
 *) ;;
