@@ -1,4 +1,4 @@
-JShielder
+# JShielder
 =========================
 
 JShielder Secure LAMP Deployer for Linux Servers
@@ -29,7 +29,27 @@ This tool is a Bash Script with a little python script that hardens the Linux Se
 * Creates Daily Cron job for System Updates
 * Kernel Hardening via sysctl configuration File
 
-To Run the tool
+# Recently Added Hardening Steps
+==========================================================
+
+* Added PHP Suhosin Installation to protect PHP Code and Core for Known and Unknown flaws
+* Use of Function for code execution customization
+* Distro Selection Menu
+* Function Selection Menu
+* Deployment Selection Menu (LAMP, LEMP, Reverse Proxy)
+* Added LEMP Deployment with ModSecurity
+* Added /tmp folder Hardening
+* Added PSAD IDS installation
+* Added Process Accounting
+* Added Unattended Upgrades
+* Added MOTD and Banners for Unauthorized access
+* Disable USB Support for Improved Security (Optional)
+* Restrictive Default UMASK
+* Added Additional Hardening Steps
+
+
+# To Run the tool
+==================================================
 
 ./jshielder.sh
 
@@ -37,6 +57,6 @@ As the Root user
 
 # ChangeLog
 ==============================
-v2.0 More Deployment Options, Selection Menu, PHP Suhosin installation, Cleaner Code, 
+v2.0 More Deployment Options, Selection Menu, PHP Suhosin installation, Cleaner Code,
 
 v1.0 - New Code

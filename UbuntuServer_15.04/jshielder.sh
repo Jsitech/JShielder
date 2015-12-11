@@ -552,6 +552,8 @@ additional_packages(){
     echo "Install Vim.............."; apt-get install vim
     echo "Install Nano............."; apt-get install nano
     echo "Install pear............."; apt-get install php-pear
+    echo "Install DebSums.........."; apt-get install debsums
+    echo "Install apt-show-versions"; apt-get install apt-show-versions
     echo "Install PHPUnit..........";
     pear config-set auto_discover 1
     mv phpunit-patched /usr/share/phpunit
@@ -744,6 +746,45 @@ install_tiger(){
 
 ##############################################################################################################
 
+#Install PSAD
+#PSAD actively monitors firewall logs to determine if a scan or attack is taking place
+install_psad(){
+clear
+f_banner
+echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+echo -e "\e[93m[+]\e[00m Install PSAD"
+echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+echo " PSAD is a piece of Software that actively monitors you Firewall Logs to Determine if a scan
+       or attack event is in Progress. It can alert and Take action to deter the Threat
+
+       NOTE:
+       IF YOU ARE ONLY RUNNING THIS FUNCTION, YOU MUST ENABLE LOGGING FOR iptables
+
+       iptables -A INPUT -j LOG
+       iptables -A FORWARD -j LOG
+
+       "
+echo ""
+echo "Do you want to install PSAD (Recommended)? y/n " ; read psad_answer
+if [ "$psad_answer"] == "y" ]; then
+     echo "Type an Email Address to Receive PSAD Alerts: " ; read inbox1
+     apt-get install psad
+     sed s/INBOX/$inbox1/g templates/psad.conf
+     sed s/hostname/$host_name.$domain_name/g templates/psad.conf > /etc/psad/psad.conf
+     psad --sig-update
+     service psad restart
+     echo "Installation and Configuration Complete"
+     echo "Run service psad status, for detected events"
+     echo ""
+     say_done
+else
+     echo "OK"
+     say_done
+fi
+}
+
+##############################################################################################################
+
 # Disable Compilers
 disable_compilers(){
     clear
@@ -920,6 +961,7 @@ install_portsentry
 additional_hardening
 install_unhide
 install_tiger
+install_psad
 disable_compilers
 apache_conf_restrictions
 unattended_upgrades
@@ -956,6 +998,7 @@ install_portsentry
 additional_hardening
 install_unhide
 install_tiger
+install_psad
 disable_compilers
 apache_conf_restrictions
 unattended_upgrades
@@ -990,6 +1033,7 @@ install_portsentry
 additional_hardening
 install_unhide
 install_tiger
+install_psad
 disable_compilers
 unattended_upgrades
 enable_proc_acct
@@ -1022,6 +1066,7 @@ install_portsentry
 additional_hardening
 install_unhide
 install_tiger
+install_psad
 disable_compilers
 unattended_upgrades
 enable_proc_acct
@@ -1058,6 +1103,7 @@ install_portsentry
 additional_hardening
 install_unhide
 install_tiger
+install_psad
 disable_compilers
 apache_conf_restrictions
 unattended_upgrades
@@ -1068,7 +1114,7 @@ install_phpsuhosin
 6)
 
 menu=""
-until [ "$menu" = "32" ]; do
+until [ "$menu" = "33" ]; do
 
 clear
 f_banner
@@ -1107,7 +1153,8 @@ echo "28. Install PHP Suhosin"
 echo "29. Install and Secure MySQL"
 echo "30. Set More Restrictive UMASK Value (027)"
 echo "31. Secure /tmp Directory"
-echo "32. Exit"
+echo "32. Install PSAD IDS"
+echo "33. Exit"
 echo " "
 
 read menu
@@ -1248,6 +1295,10 @@ secure_tmp
 ;;
 
 32)
+install_psad
+;;
+
+33)
 break ;;
 
 *) ;;
