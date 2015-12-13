@@ -6,6 +6,11 @@ iptables -P INPUT DROP
 iptables -P FORWARD DROP
 iptables -P OUTPUT ACCEPT
 
+#Rules for PSAD  
+
+iptables -A INPUT -j LOG
+iptables -A FORWARD -j LOG
+
 # INPUT
 
 # Aceptar loopback input

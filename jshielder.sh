@@ -9,9 +9,14 @@
 # Twitter = @JsiTech
 
 # Tool URL = www.jsitech.com/jshielder
+# us.jsitech.com/jshielder
 
 # Based from JackTheStripper Project
 # Credits to Eugenia Bahit
+
+# A lot of Suggestion Taken from The Lynis Project 
+# www.cisofy.com/lynis
+# Credits to Michael Boelen @mboelen
 
 ##############################################################################################################
 

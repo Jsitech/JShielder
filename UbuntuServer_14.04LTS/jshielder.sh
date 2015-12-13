@@ -10,6 +10,10 @@
 # Based from JackTheStripper Project
 # Credits to Eugenia Bahit
 
+# A lot of Suggestion Taken from The Lynis Project
+# www.cisofy.com/lynis
+# Credits to Michael Boelen @mboelen
+
 
 source helpers.sh
 
