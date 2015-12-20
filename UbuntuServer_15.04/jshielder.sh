@@ -139,12 +139,11 @@ admin_user(){
     clear
     f_banner
     echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
-    echo -e "\e[93m[+]\e[00m We will now Create a New Privileged User"
+    echo -e "\e[93m[+]\e[00m We will now Create a New User"
     echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
     echo ""
     echo -e "\e[93m[?]\e[00m Type the new username: "; read username
     adduser $username
-    usermod -a -G sudo $username
     say_done
 }
 
@@ -594,6 +593,15 @@ install_rootkit_hunter(){
     echo -e "\e[93m[+]\e[00m Installing RootKit Hunter"
     echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
     echo ""
+    echo "Rootkit Hunter is a scanning tool to ensure you are you're clean of nasty tools. This tool scans for rootkits, backdoors and local exploits by running tests like:
+
+          - MD5 hash compare
+          - Look for default files used by rootkits
+          - Wrong file permissions for binaries
+          - Look for suspected strings in LKM and KLD modules
+          - Look for hidden files
+          - Optional scan within plaintext and binary files "
+    sleep 1
     cd rkhunter-1.4.2/
     sh installer.sh --layout /usr --install
     cd ..
@@ -724,6 +732,7 @@ install_unhide(){
     echo -e "\e[93m[+]\e[00m Installing UnHide"
     echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
     echo ""
+    echo "Unhide is a forensic tool to find hidden processes and TCP/UDP ports by rootkits / LKMs or by another hidden technique."
     apt-get -y install unhide
     echo " Unhide is a tool for Detecting Hidden Processes "
     echo " For more info about the Tool use the manpages "
@@ -742,6 +751,7 @@ install_tiger(){
     echo -e "\e[93m[+]\e[00m Installing Tiger"
     echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
     echo ""
+    echo "Tiger is a security tool that can be use both as a security audit and intrusion detection system"
     apt-get -y install tiger
     echo " For More info about the Tool use the ManPages "
     echo " man tiger "
