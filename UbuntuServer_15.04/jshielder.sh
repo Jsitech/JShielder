@@ -189,6 +189,7 @@ secure_tmp(){
   if [ "$tmp_answer" == "n" ]; then
       echo "We will create a FileSystem for the /tmp Directory and set Proper Permissions "
       dd if=/dev/zero of=/usr/tmpDISK bs=1024 count=2048000
+      mkdir /tmpbackup
       cp -Rpf /tmp /tmpbackup
       mount -t tmpfs -o loop,noexec,nosuid,rw /usr/tmpDISK /tmp
       chmod 1777 /tmp
@@ -601,7 +602,7 @@ install_rootkit_hunter(){
           - Look for suspected strings in LKM and KLD modules
           - Look for hidden files
           - Optional scan within plaintext and binary files "
-    sleep 1
+    sleep 2
     cd rkhunter-1.4.2/
     sh installer.sh --layout /usr --install
     cd ..
@@ -710,7 +711,7 @@ additional_hardening(){
     touch /etc/cron.allow
     chmod 600 /etc/cron.allow
     awk -F: '{print $1}' /etc/passwd | grep -v root > /etc/cron.deny
-    echo "Do you want to Disable USB Support for this Server?" ; read usb_answer
+    echo "Do you want to Disable USB Support for this Server? y/n" ; read usb_answer
     if [ "$usb_answer" == "y" ]; then
        echo "blacklist usb-storage" | sudo tee -a /etc/modprobe.d/blacklist.conf
        update-initramfs -u
@@ -780,7 +781,7 @@ echo " PSAD is a piece of Software that actively monitors you Firewall Logs to D
        "
 echo ""
 echo "Do you want to install PSAD (Recommended)? y/n " ; read psad_answer
-if [ "$psad_answer"] == "y" ]; then
+if [ "$psad_answer" == "y" ]; then
      echo "Type an Email Address to Receive PSAD Alerts: " ; read inbox1
      apt-get install psad
      sed s/INBOX/$inbox1/g templates/psad.conf
@@ -936,7 +937,7 @@ echo ""echo "1. LAMP Deployment"
 echo "2. Reverse Proxy Deployment With Apache"
 echo "3. LEMP Deployment (Under Development, Testing)"
 echo "4. Reverse Proxy Deployment with Nginx (ModSecurity)"
-echo "5. Running With SecureWPDeployer Script"
+echo "5. Running With SecureWPDeployer or JSDeployer Script"
 echo "6. Customized Run (Only run desired Options)"
 echo "7. Exit"
 echo

@@ -76,7 +76,7 @@ IncludeOptional conf-enabled/*.conf
 IncludeOptional sites-enabled/*.conf
 
 ServerSignature Off
-ServerTokens Full
+ServerTokens Prod
 
 ErrorDocument 404 "Archivo no encontrado"
 ErrorDocument 500 "Tareas de mantenimiento en curso. Disculpe las molestias"

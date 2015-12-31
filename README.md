@@ -40,7 +40,8 @@ This tool is a Bash Script with a little python script that hardens the Linux Se
 * Added LEMP Deployment with ModSecurity
 * Added /tmp folder Hardening
 * Added PSAD IDS installation
-* Added Process Accounting
+* Added Process Accountingcd ..
+
 * Added Unattended Upgrades
 * Added MOTD and Banners for Unauthorized access
 * Disable USB Support for Improved Security (Optional)
