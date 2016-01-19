@@ -1,18 +1,6 @@
 # JShielder
 =========================
 
-Developed by ***Jason Soto***, jason_soto[AT]jsitech[DOT]com
-
-***Sites*** 
-
-[**JsiTech**](http://www.jsitech.com)
-
-[**JsiTech_US**](http://us.jsitech.com)
-
-https://github.com/jsitech
-
-Twitter = [**@JsiTech**](http://www.twitter.com/JsiTech)
-
 
 ###JShielder Secure LAMP Deployer for Linux Servers
 
@@ -74,3 +62,15 @@ As the Root user
 v2.0 More Deployment Options, Selection Menu, PHP Suhosin installation, Cleaner Code,
 
 v1.0 - New Code
+
+
+Developed by ***Jason Soto***, jason_soto***[AT]***jsitech***[DOT]***com
+
+[**JsiTech**](http://www.jsitech.com)
+
+[**JsiTech_US**](http://us.jsitech.com)
+
+https://github.com/jsitech
+
+Twitter = [**@JsiTech**](http://www.twitter.com/JsiTech)
+
