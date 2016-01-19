@@ -1,7 +1,20 @@
 # JShielder
 =========================
 
-JShielder Secure LAMP Deployer for Linux Servers
+Developed by ***Jason Soto***, jason_soto[AT]jsitech[DOT]com
+
+***Sites*** 
+
+[**JsiTech**](http://www.jsitech.com)
+
+[**JsiTech_US**](http://us.jsitech.com)
+
+https://github.com/jsitech
+
+Twitter = [**@JsiTech**](http://www.twitter.com/JsiTech)
+
+
+###JShielder Secure LAMP Deployer for Linux Servers
 
 JSHielder is an Open Source tool developed to help SysAdmin and developers secure there Linux Servers in which they will be deploying any web application. This tool automates the process of installing all the necessary packages to host a web application and Hardening a Linux server with little interaction from the user.
 
@@ -40,7 +53,7 @@ This tool is a Bash Script with a little python script that hardens the Linux Se
 * Added LEMP Deployment with ModSecurity
 * Added /tmp folder Hardening
 * Added PSAD IDS installation
-* Added Process Accountingcd ..
+* Added Process Accounting
 
 * Added Unattended Upgrades
 * Added MOTD and Banners for Unauthorized access
