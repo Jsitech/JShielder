@@ -60,7 +60,7 @@ fi
 
 # Configure Hostname
 config_host() {
-echo -e "\e[93m[?]\e[00m ¿Do you Wish to Set a HostName? (y/n): "; read config_host
+echo -n " ¿Do you Wish to Set a HostName? (y/n): "; read config_host
 if [ "$config_host" == "y" ]; then
     serverip=$(__get_ip)
     echo " Type a Name to Identify this server"
@@ -94,7 +94,7 @@ config_timezone(){
    echo -e "\e[93m[+]\e[00m We will now Configure the TimeZone"
    echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
    echo ""
-   sleep 10
+   sleep 2
    dpkg-reconfigure tzdata
    say_done
 }
@@ -142,7 +142,7 @@ admin_user(){
     echo -e "\e[93m[+]\e[00m We will now Create a New User"
     echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
     echo ""
-    echo -e "\e[93m[?]\e[00m Type the new username: "; read username
+    echo -n " Type the new username: "; read username
     adduser $username
     say_done
 }
@@ -185,7 +185,7 @@ secure_tmp(){
   echo -e "\e[93m[+]\e[00m Securing /tmp Folder"
   echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
   echo ""
-  echo -e "\e[93m[?]\e[00m ¿Did you Create a Separate /tmp partition during the Initial Installation? (y/n): "; read tmp_answer
+  echo -n " ¿Did you Create a Separate /tmp partition during the Initial Installation? (y/n): "; read tmp_answer
   if [ "$tmp_answer" == "n" ]; then
       echo "We will create a FileSystem for the /tmp Directory and set Proper Permissions "
       dd if=/dev/zero of=/usr/tmpDISK bs=1024 count=2048000
@@ -238,7 +238,7 @@ set_iptables(){
     echo -e "\e[93m[+]\e[00m Setting IPTABLE RULES"
     echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
     echo ""
-    echo -n " Setting Iptables Rules..."
+    echo " Setting Iptables Rules..."
     spinner
     sh templates/iptables.sh
     cp templates/iptables.sh /etc/init.d/
@@ -274,7 +274,7 @@ install_secure_mysql(){
     echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
     echo ""
     apt-get install mysql-server
-    echo -n " configuring MySQL............ "
+    echo " configuring MySQL............ "
     cp templates/mysql /etc/mysql/my.cnf; echo " OK"
     mysql_secure_installation
     service mysql restart
@@ -341,7 +341,7 @@ f_banner
 echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
 echo -e "\e[93m[+]\e[00m Setup Virtual Host for Nginx"
 echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
-echo -e "\e[93m[+]\e[00m Configure a Virtual Host"
+echo " Configure a Virtual Host"
 echo " Type a Name to Identify the Virtual Host"
 echo -n " (For Example: myserver.com) "; read vhost
 touch /usr/local/nginx/conf/sites-available/$vhost
@@ -361,7 +361,7 @@ f_banner
 echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
 echo -e "\e[93m[+]\e[00m Setup Virtual Host for Nginx"
 echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
-echo -e "\e[93m[+]\e[00m Configure a Virtual Host"
+echo " Configure a Virtual Host"
 echo " Type a Name to Identify the Virtual Host"
 echo -n " (For Example: myserver.com) "; read vhost
 touch /usr/local/nginx/conf/sites-available/$vhost
@@ -711,7 +711,7 @@ additional_hardening(){
     touch /etc/cron.allow
     chmod 600 /etc/cron.allow
     awk -F: '{print $1}' /etc/passwd | grep -v root > /etc/cron.deny
-    echo "Do you want to Disable USB Support for this Server? y/n" ; read usb_answer
+    echo -n "Do you want to Disable USB Support for this Server? (y/n): " ; read usb_answer
     if [ "$usb_answer" == "y" ]; then
        echo "blacklist usb-storage" | sudo tee -a /etc/modprobe.d/blacklist.conf
        update-initramfs -u
@@ -780,9 +780,9 @@ echo " PSAD is a piece of Software that actively monitors you Firewall Logs to D
 
        "
 echo ""
-echo "Do you want to install PSAD (Recommended)? y/n " ; read psad_answer
+echo -n "Do you want to install PSAD (Recommended)? (y/n): " ; read psad_answer
 if [ "$psad_answer" == "y" ]; then
-     echo "Type an Email Address to Receive PSAD Alerts: " ; read inbox1
+     echo -n "Type an Email Address to Receive PSAD Alerts: " ; read inbox1
      apt-get install psad
      sed s/INBOX/$inbox1/g templates/psad.conf
      sed s/hostname/$host_name.$domain_name/g templates/psad.conf > /etc/psad/psad.conf
@@ -860,7 +860,7 @@ apache_conf_restrictions(){
   echo -e "\e[93m[+]\e[00m Enable Unattended Security Updates"
   echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
   echo ""
-  echo -e "\e[93m[?]\e[00m ¿Do you Wish to Enable Unattended Security Updates? (y/n): "; read unattended
+  echo -n " ¿Do you Wish to Enable Unattended Security Updates? (y/n): "; read unattended
   if [ "$unattended" == "y" ]; then
       dpkg-reconfigure -plow unattended-upgrades
   else
@@ -916,8 +916,7 @@ reboot_server(){
     echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
     echo ""
     replace USERNAME $username SERVERIP $serverip < templates/texts/bye
-    echo -n " ¿Were you able to connect via SSH to the Server using $username? (y/n) "
-    read answer
+    echo -n " ¿Were you able to connect via SSH to the Server using $username? (y/n): "; read answer
     if [ "$answer" == "y" ]; then
         reboot
     else
@@ -933,7 +932,7 @@ f_banner
 echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
 echo -e "\e[93m[+]\e[00m SELECT THE DESIRED OPTION"
 echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
-echo ""echo "1. LAMP Deployment"
+echo "1. LAMP Deployment"
 echo "2. Reverse Proxy Deployment With Apache"
 echo "3. LEMP Deployment (Under Development, Testing)"
 echo "4. Reverse Proxy Deployment with Nginx (ModSecurity)"
@@ -955,7 +954,6 @@ restrictive_umask
 admin_user
 rsa_keygen
 rsa_keycopy
-secure_tmp
 secure_ssh
 set_iptables
 install_sendmail
@@ -978,6 +976,7 @@ install_unhide
 install_tiger
 install_psad
 disable_compilers
+secure_tmp
 apache_conf_restrictions
 unattended_upgrades
 enable_proc_acct
@@ -994,7 +993,6 @@ restrictive_umask
 admin_user
 rsa_keygen
 rsa_keycopy
-secure_tmp
 secure_ssh
 set_iptables
 install_sendmail
@@ -1015,6 +1013,7 @@ install_unhide
 install_tiger
 install_psad
 disable_compilers
+secure_tmp
 apache_conf_restrictions
 unattended_upgrades
 enable_proc_acct
@@ -1030,7 +1029,6 @@ restrictive_umask
 admin_user
 rsa_keygen
 rsa_keycopy
-secure_tmp
 secure_ssh
 set_iptables
 install_sendmail
@@ -1050,6 +1048,7 @@ install_unhide
 install_tiger
 install_psad
 disable_compilers
+secure_tmp
 unattended_upgrades
 enable_proc_acct
 install_phpsuhosin
@@ -1065,7 +1064,6 @@ restrictive_umask
 admin_user
 rsa_keygen
 rsa_keycopy
-secure_tmp
 secure_ssh
 set_iptables
 install_sendmail
@@ -1083,6 +1081,7 @@ install_unhide
 install_tiger
 install_psad
 disable_compilers
+secure_tmp
 unattended_upgrades
 enable_proc_acct
 reboot_server
@@ -1097,7 +1096,6 @@ restrictive_umask
 admin_user
 rsa_keygen
 rsa_keycopy
-secure_tmp
 secure_ssh
 set_iptables
 install_sendmail
@@ -1120,6 +1118,7 @@ install_unhide
 install_tiger
 install_psad
 disable_compilers
+secure_tmp
 apache_conf_restrictions
 unattended_upgrades
 enable_proc_acct
