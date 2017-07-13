@@ -57,18 +57,22 @@ This tool is a Bash Script with a little python script that hardens the Linux Se
 
 As the Root user
 
+
+# Issues
+==================================================
+
+Having Problems, please open a New Issue for JShielder on Github.
+
 # ChangeLog
 ==============================
+v2.1 Hardened SSH Configuration, Tweaked Kernel Security Config, Fixed iptables rules not loading on Boot.
+
 v2.0 More Deployment Options, Selection Menu, PHP Suhosin installation, Cleaner Code,
 
 v1.0 - New Code
 
 
-Developed by ***Jason Soto***, jason_soto***[AT]***jsitech***[DOT]***com
-
-[**JsiTech**](http://www.jsitech.com)
-
-[**JsiTech_US**](http://us.jsitech.com)
+Developed by ***Jason Soto***
 
 https://github.com/jsitech
 

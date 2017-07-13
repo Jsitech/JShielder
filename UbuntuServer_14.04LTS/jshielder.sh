@@ -243,6 +243,7 @@ set_iptables(){
     spinner
     sh templates/iptables.sh
     cp templates/iptables.sh /etc/init.d/
+    chmod +x /etc/init.d/iptables.sh
     ln -s /etc/init.d/iptables.sh /etc/rc2.d/S99iptables.sh
     say_done
 }
