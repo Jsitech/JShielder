@@ -1,5 +1,5 @@
 # JShielder
-=========================
+
 
 
 ###JShielder Secure LAMP Deployer for Linux Servers
@@ -28,10 +28,10 @@ This tool is a Bash Script with a little python script that hardens the Linux Se
 * Restrict Access to Apache Config Files
 * Disable Compilers
 * Creates Daily Cron job for System Updates
-* Kernel Hardening via sysctl configuration File
+* Kernel Hardening via sysctl configuration File (Tweaked)
 
 # Recently Added Hardening Steps
-==========================================================
+
 
 * Added PHP Suhosin Installation to protect PHP Code and Core for Known and Unknown flaws
 * Use of Function for code execution customization
@@ -49,9 +49,14 @@ This tool is a Bash Script with a little python script that hardens the Linux Se
 * Restrictive Default UMASK
 * Added Additional Hardening Steps
 
+* Auditd install (New) **
+* Sysstat install (New) **
+* ArpWatch install (New) **
+
+** For Ubuntu 14.04LTS only, Working on the Newer versions for Ubuntu
 
 # To Run the tool
-==================================================
+
 
 ./jshielder.sh
 
@@ -59,13 +64,13 @@ As the Root user
 
 
 # Issues
-==================================================
+
 
 Having Problems, please open a New Issue for JShielder on Github.
 
 # ChangeLog
-==============================
-v2.1 Hardened SSH Configuration, Tweaked Kernel Security Config, Fixed iptables rules not loading on Boot.
+
+v2.1 Hardened SSH Configuration, Tweaked Kernel Security Config, Fixed iptables rules not loading on Boot. Added auditd, sysstat, arpwatch install.
 
 v2.0 More Deployment Options, Selection Menu, PHP Suhosin installation, Cleaner Code,
 
@@ -77,4 +82,3 @@ Developed by ***Jason Soto***
 https://github.com/jsitech
 
 Twitter = [**@JsiTech**](http://www.twitter.com/JsiTech)
-

@@ -101,7 +101,7 @@ config_timezone(){
 
 ##############################################################################################################
 
-# Update System
+# Update System, Install sysv-rc-conf tool
 update_system(){
    clear
    f_banner
@@ -111,6 +111,7 @@ update_system(){
    echo ""
    apt-get update
    apt-get upgrade -y
+   apt-get install -y sysv-rc-conf
    say_done
 }
 
@@ -733,6 +734,7 @@ additional_hardening(){
     echo nospoof on >> /etc/host.conf
     #Remove AT and Restrict Cron
     apt-get purge at
+    apt-get install -y libpam-cracklib
     echo " Securing Cron "
     touch /etc/cron.allow
     chmod 600 /etc/cron.allow
@@ -936,6 +938,70 @@ install_phpsuhosin(){
 
 ##############################################################################################################
 
+#Install and enable auditd
+
+install_auditd(){
+  clear
+  f_banner
+  echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+  echo -e "\e[93m[+]\e[00m Installing auditd"
+  echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+  echo ""
+  apt-get install auditd
+  cp templates/audit.rules /etc/audit/audit.rules
+  sysv-rc-conf auditd on
+  service auditd restart
+  echo "OK"
+  say_done
+}
+##############################################################################################################
+
+#Install and Enable sysstat
+
+install_sysstat(){
+  clear
+  f_banner
+  echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+  echo -e "\e[93m[+]\e[00m Installing and enabling sysstat"
+  echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+  echo ""
+  apt-get install sysstat
+  sed -i 's/ENABLED="false"/ENABLED="true"/g' /etc/default/sysstat
+  service sysstat start
+  echo "OK"
+  say_done
+}
+
+##############################################################################################################
+
+#Install ArpWatch
+
+install_arpwatch(){
+  clear
+  f_banner
+  echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+  echo -e "\e[93m[+]\e[00m ArpWatch Install"
+  echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+  echo ""
+  echo "ArpWatch is a tool for monitoring ARP traffic on System. It generates log of observed pairing of IP and MAC."
+  echo ""
+  echo -n " Do you want to Install ArpWatch on this Server? (y/n): " ; read arp_answer
+  if [ "$arp_answer" == "y" ]; then
+     echo "Installing ArpWatch"
+     spinner
+     apt-get install -y arpwatch
+     sysv-rc-conf arpwatch on
+     service arpwatch start
+     echo "OK"
+     say_done
+  else
+     echo "OK"
+     say_done
+  fi
+}
+
+##############################################################################################################
+
 # Reboot Server
 reboot_server(){
     clear
@@ -1011,6 +1077,9 @@ secure_tmp
 apache_conf_restrictions
 unattended_upgrades
 enable_proc_acct
+install_auditd
+install_sysstat
+install_arpwatch
 install_phpsuhosin
 reboot_server
 ;;
@@ -1049,6 +1118,9 @@ secure_tmp
 apache_conf_restrictions
 unattended_upgrades
 enable_proc_acct
+install_auditd
+install_sysstat
+install_arpwatch
 reboot_server
 ;;
 
@@ -1084,6 +1156,9 @@ disable_compilers
 secure_tmp
 unattended_upgrades
 enable_proc_acct
+install_auditd
+install_sysstat
+install_arpwatch
 install_phpsuhosin
 reboot_server
 ;;
@@ -1118,6 +1193,9 @@ disable_compilers
 secure_tmp
 unattended_upgrades
 enable_proc_acct
+install_auditd
+install_sysstat
+install_arpwatch
 reboot_server
 ;;
 
@@ -1157,6 +1235,9 @@ secure_tmp
 apache_conf_restrictions
 unattended_upgrades
 enable_proc_acct
+install_auditd
+install_sysstat
+install_arpwatch
 install_phpsuhosin
 ;;
 
