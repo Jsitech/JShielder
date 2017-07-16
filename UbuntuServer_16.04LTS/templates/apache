@@ -83,4 +83,5 @@ ErrorDocument 500 "Tareas de mantenimiento en curso. Disculpe las molestias"
 
 
 FileETag None
+Header unset ETag
 TraceEnable off

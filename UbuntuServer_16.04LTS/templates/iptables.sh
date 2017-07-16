@@ -6,11 +6,12 @@ iptables -P INPUT DROP
 iptables -P FORWARD DROP
 iptables -P OUTPUT ACCEPT
 
-
-#Rules for PSAD
+#Rules for PSAD  
 
 iptables -A INPUT -j LOG
 iptables -A FORWARD -j LOG
+
+# INPUT
 
 # Aceptar loopback input
 
@@ -18,13 +19,13 @@ iptables -A INPUT -i lo -p all -j ACCEPT
 
 
 
-# Permitir Handshake de tres vias
+# Allow three-way Handshake
 
 iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
 
 
 
-# Detener Ataques Enmascarados
+# Stop Masked Attackes
 
 iptables -A INPUT -p icmp --icmp-type 13 -j DROP
 iptables -A INPUT -p icmp --icmp-type 17 -j DROP
@@ -32,7 +33,7 @@ iptables -A INPUT -p icmp --icmp-type 14 -j DROP
 iptables -A INPUT -p icmp -m limit --limit 1/second -j ACCEPT
 
 
-# Descartar Paquetes Inválidos
+# Discard invalid Packets
 
 iptables -A INPUT -m state --state INVALID -j DROP
 
@@ -41,7 +42,7 @@ iptables -A FORWARD -m state --state INVALID -j DROP
 iptables -A OUTPUT -m state --state INVALID -j DROP
 
 
-### Descartar Ataques de Spoofing
+### Drop Spoofing attacks
 iptables -A INPUT -s 10.0.0.0/8 -j DROP
 iptables -A INPUT -s 169.254.0.0/16 -j DROP
 iptables -A INPUT -s 172.16.0.0/12 -j DROP
@@ -57,13 +58,13 @@ iptables -A INPUT -d 0.0.0.0/8 -j DROP
 iptables -A INPUT -d 239.255.255.0/24 -j DROP
 iptables -A INPUT -d 255.255.255.255 -j DROP
 
-# Descartar paquetes RST Excesivos para Evitar Ataques Enmascarados
+# Drop packets with excessive RST to avoid Masked attacks
 
 iptables -A INPUT -p tcp -m tcp --tcp-flags RST RST -m limit --limit 2/second --limit-burst 2 -j ACCEPT
 
 
 
-# Cualquier IP que intente un Escaneo de Puertos sera Bloqueada por 24 Horas.
+# Any IP that performs a PortScan will be blocked for 24 hours
 
 iptables -A INPUT   -m recent --name portscan --rcheck --seconds 86400 -j DROP
 
@@ -71,7 +72,7 @@ iptables -A FORWARD -m recent --name portscan --rcheck --seconds 86400 -j DROP
 
 
 
-# Pasadas las 24 Horas, remover la IP Bloqueada por Escaneo de Puertos
+# After 24 hours remove IP from block list
 
 iptables -A INPUT   -m recent --name portscan --remove
 
@@ -79,7 +80,7 @@ iptables -A FORWARD -m recent --name portscan --remove
 
 
 
-# Esta Regla agrega el Escaner de Puertos a la Lista de PortScan y Registra el Evento.
+# This rule logs the port scan attempt
 
 iptables -A INPUT   -p tcp -m tcp --dport 139 -m recent --name portscan --set -j LOG --log-prefix "Portscan:"
 
@@ -93,7 +94,7 @@ iptables -A FORWARD -p tcp -m tcp --dport 139 -m recent --name portscan --set -j
 
 
 
-# Permitir estos puertos desde Fuera
+# Inbound Rules
 
 # smtp
 
@@ -113,7 +114,7 @@ iptables -A INPUT -p tcp -m tcp --dport 372 -j ACCEPT
 
 
 
-# Permitir el Ping
+# Allow Ping
 
 iptables -A INPUT -p icmp --icmp-type 0 -j ACCEPT
 
@@ -126,7 +127,7 @@ iptables -A OUTPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
 
 
 
-# Permitir estos puertos desde Fuera
+# Outbound Rules
 
 # smtp
 
@@ -144,12 +145,16 @@ iptables -A OUTPUT -p tcp -m tcp --dport 443 -j ACCEPT
 
 iptables -A OUTPUT -p tcp -m tcp --dport 372 -j ACCEPT
 
+# Limit SSH connection from a single IP
+
+iptables -A INPUT -p tcp --syn --dport 372 -m connlimit --connlimit-above 2 -j REJECT
 
 
-# Permitir Pings
+
+# Allow Pings
 
 iptables -A OUTPUT -p icmp --icmp-type 0 -j ACCEPT
 
-# No Permitir Forward
+# Reject Forwarding
 
 iptables -A FORWARD -j REJECT

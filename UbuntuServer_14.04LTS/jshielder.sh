@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# JShielder v2.0
+# JShielder v2.1
 # Deployer for Ubuntu Server 14.04 LTS
 #
 # Jason Soto
@@ -197,7 +197,7 @@ secure_tmp(){
       chmod 1777 /tmp
       cp -Rpf /tmpbackup/* /tmp/
       rm -rf /tmpbackup
-      echo "/usr/tmpDISK  /tmp    tmpfs   loop,nosuid,noexec,rw  0 0" >> /etc/fstab
+      echo "/usr/tmpDISK  /tmp    tmpfs   loop,nosuid,nodev,noexec,rw  0 0" >> /etc/fstab
       sudo mount -o remount /tmp
       rm -rf /var/tmp
       ln -s /tmp /var/tmp

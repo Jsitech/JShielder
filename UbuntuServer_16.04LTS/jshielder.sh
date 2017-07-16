@@ -1,8 +1,7 @@
 #!/bin/bash
 
-
-# JShielder v2.0
-# Deployer for Ubuntu Server 15.04 LTS
+# JShielder v2.1
+# Deployer for Ubuntu Server 16.04 LTS
 #
 # Jason Soto
 # www.jsitech.com
@@ -17,6 +16,7 @@
 
 
 source helpers.sh
+
 ##############################################################################################################
 
 f_banner(){
@@ -29,7 +29,7 @@ echo "
  \___/|____/|_| |_|_|\___|_|\__,_|\___|_|
 
 
-For Ubuntu Server 15.04
+For Ubuntu Server 16.04 LTS
 By Jason Soto "
 echo
 echo
@@ -58,14 +58,15 @@ fi
 
 ##############################################################################################################
 
+
 # Configure Hostname
 config_host() {
 echo -n " ¿Do you Wish to Set a HostName? (y/n): "; read config_host
 if [ "$config_host" == "y" ]; then
     serverip=$(__get_ip)
-    echo " Type a Name to Identify this server"
-    echo -n " (For Example: myserver) "; read host_name
-    echo -n " ¿Type Domain Name? "; read domain_name
+    echo " Type a Name to Identify this server :"
+    echo -n " (For Example: myserver): "; read host_name
+    echo -n " ¿Type Domain Name?: "; read domain_name
     echo $host_name > /etc/hostname
     hostname -F /etc/hostname
     echo "127.0.0.1    localhost.localdomain      localhost" >> /etc/hosts
@@ -85,7 +86,6 @@ fi
 
 ##############################################################################################################
 
-
 # Configure TimeZone
 config_timezone(){
    clear
@@ -94,14 +94,14 @@ config_timezone(){
    echo -e "\e[93m[+]\e[00m We will now Configure the TimeZone"
    echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
    echo ""
-   sleep 2
+   sleep 10
    dpkg-reconfigure tzdata
    say_done
 }
 
 ##############################################################################################################
 
-# Update System
+# Update System, Install sysv-rc-conf tool
 update_system(){
    clear
    f_banner
@@ -111,6 +111,7 @@ update_system(){
    echo ""
    apt-get update
    apt-get upgrade -y
+   apt-get install -y sysv-rc-conf
    say_done
 }
 
@@ -148,6 +149,7 @@ admin_user(){
 }
 
 ##############################################################################################################
+
 # Instruction to Generate RSA Keys
 rsa_keygen(){
     clear
@@ -195,7 +197,7 @@ secure_tmp(){
       chmod 1777 /tmp
       cp -Rpf /tmpbackup/* /tmp/
       rm -rf /tmpbackup
-      echo "/usr/tmpDISK  /tmp    tmpfs   loop,nosuid,noexec,rw  0 0" >> /etc/fstab
+      echo "/usr/tmpDISK  /tmp    tmpfs   loop,nosuid,nodev,noexec,rw  0 0" >> /etc/fstab
       sudo mount -o remount /tmp
       rm -rf /var/tmp
       ln -s /tmp /var/tmp
@@ -238,29 +240,30 @@ set_iptables(){
     echo -e "\e[93m[+]\e[00m Setting IPTABLE RULES"
     echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
     echo ""
-    echo " Setting Iptables Rules..."
+    echo -n " Setting Iptables Rules..."
     spinner
     sh templates/iptables.sh
     cp templates/iptables.sh /etc/init.d/
+    chmod +x /etc/init.d/iptables.sh
     ln -s /etc/init.d/iptables.sh /etc/rc2.d/S99iptables.sh
     say_done
 }
 
 ##############################################################################################################
 
-
 # Install fail2ban
-# To Remove a Fail2Ban rule use:
-# iptables -D fail2ban-ssh -s IP -j DROP
-install_sendmail(){
-      clear
-      f_banner
-      echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
-      echo -e "\e[93m[+]\e[00m Installing SendMail"
-      echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
-      echo ""
-      apt-get install sendmail
-      say_done
+    # To Remove a Fail2Ban rule use:
+    # iptables -D fail2ban-ssh -s IP -j DROP
+install_fail2ban(){
+    clear
+    f_banner
+    echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+    echo -e "\e[93m[+]\e[00m Installing Fail2Ban"
+    echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+    echo ""
+    apt-get install sendmail
+    apt-get install fail2ban
+    say_done
 }
 
 ##############################################################################################################
@@ -274,7 +277,7 @@ install_secure_mysql(){
     echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
     echo ""
     apt-get install mysql-server
-    echo " configuring MySQL............ "
+    echo -n " configuring MySQL............ "
     cp templates/mysql /etc/mysql/my.cnf; echo " OK"
     mysql_secure_installation
     service mysql restart
@@ -331,26 +334,26 @@ install_nginx_modsecurity(){
   mkdir /usr/local/nginx/conf/sites-enabled
   say_done
 }
+  ##############################################################################################################
 
-##############################################################################################################
-
-#Setting UP Virtual Host
-set_nginx_vhost(){
-clear
-f_banner
-echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
-echo -e "\e[93m[+]\e[00m Setup Virtual Host for Nginx"
-echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
-echo " Configure a Virtual Host"
-echo " Type a Name to Identify the Virtual Host"
-echo -n " (For Example: myserver.com) "; read vhost
-touch /usr/local/nginx/conf/sites-available/$vhost
-cd ../..
-cat templates/nginxvhost >> /usr/local/nginx/conf/sites-available/$vhost
-sed -i s/server.com/$vhost/g /usr/local/nginx/conf/sites-available/$vhost
-ln -s /usr/local/nginx/conf/sites-available/$vhost /usr/local/nginx/conf/sites-enabled/$vhost
-say_done
+  #Setting UP Virtual Host
+  set_nginx_vhost(){
+  clear
+  f_banner
+  echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+  echo -e "\e[93m[+]\e[00m Setup Virtual Host for Nginx"
+  echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+  echo " Configure a Virtual Host"
+  echo " Type a Name to Identify the Virtual Host"
+  echo -n " (For Example: myserver.com) "; read vhost
+  touch /usr/local/nginx/conf/sites-available/$vhost
+  cd ../..
+  cat templates/nginxvhost >> /usr/local/nginx/conf/sites-available/$vhost
+  sed -i s/server.com/$vhost/g /usr/local/nginx/conf/sites-available/$vhost
+  ln -s /usr/local/nginx/conf/sites-available/$vhost /usr/local/nginx/conf/sites-enabled/$vhost
+  say_done
 }
+
 
 ##############################################################################################################
 
@@ -371,6 +374,7 @@ sed -i s/server.com/$vhost/g /usr/local/nginx/conf/sites-available/$vhost
 ln -s /usr/local/nginx/conf/sites-available/$vhost /usr/local/nginx/conf/sites-enabled/$vhost
 say_done
 }
+
 
 ##############################################################################################################
 
@@ -398,6 +402,7 @@ set_nginx_modsec_OwaspRules(){
   say_done
 }
 
+
 ##############################################################################################################
 
 # Install, Configure and Optimize PHP
@@ -418,7 +423,6 @@ install_secure_php(){
 }
 
 ##############################################################################################################
-
 # Install, Configure and Optimize PHP for Nginx
 install_php_nginx(){
   clear
@@ -455,6 +459,7 @@ install_modsecurity(){
 }
 
 ##############################################################################################################
+
 # Configure OWASP for ModSecurity
 set_owasp_rules(){
     clear
@@ -487,6 +492,7 @@ set_owasp_rules(){
 }
 
 ##############################################################################################################
+
 # Configure and optimize Apache
 secure_optimize_apache(){
     clear
@@ -523,6 +529,7 @@ install_modevasive(){
 }
 
 ##############################################################################################################
+
 # Install Mod_qos/spamhaus
 install_qos_spamhaus(){
     clear
@@ -536,6 +543,24 @@ install_qos_spamhaus(){
     apt-get -y install libapache2-mod-spamhaus
     cp templates/spamhaus /etc/apache2/mods-available/spamhaus.conf
     service apache2 restart
+    say_done
+}
+
+##############################################################################################################
+
+# Configure fail2ban
+config_fail2ban(){
+    clear
+    f_banner
+    echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+    echo -e "\e[93m[+]\e[00m Configuring Fail2Ban"
+    echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+    echo ""
+    echo " Configuring Fail2Ban......"
+    spinner
+    sed s/MAILTO/$inbox/g templates/fail2ban > /etc/fail2ban/jail.local
+    cp /etc/fail2ban/jail.local /etc/fail2ban/jail.conf
+    /etc/init.d/fail2ban restart
     say_done
 }
 
@@ -568,6 +593,7 @@ additional_packages(){
 }
 
 ##############################################################################################################
+
 # Tune and Secure Kernel
 tune_secure_kernel(){
     clear
@@ -576,7 +602,7 @@ tune_secure_kernel(){
     echo -e "\e[93m[+]\e[00m Tuning and Securing the Linux Kernel"
     echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
     echo ""
-    echo "Securing Linux Kernel"
+    echo " Securing Linux Kernel"
     spinner
     cp templates/sysctl.conf /etc/sysctl.conf; echo " OK"
     cp templates/ufw /etc/default/ufw
@@ -602,7 +628,7 @@ install_rootkit_hunter(){
           - Look for suspected strings in LKM and KLD modules
           - Look for hidden files
           - Optional scan within plaintext and binary files "
-    sleep 2
+    sleep 1
     cd rkhunter-1.4.2/
     sh installer.sh --layout /usr --install
     cd ..
@@ -701,17 +727,19 @@ additional_hardening(){
     echo "Running Additional Hardening Steps...."
     spinner
     echo tty1 > /etc/securetty
+    chmod 0600 /etc/securetty
     chmod 700 /root
     chmod 600 /boot/grub/grub.cfg
     #Protect Against IP Spoofing
     echo nospoof on >> /etc/host.conf
     #Remove AT and Restrict Cron
     apt-get purge at
+    apt-get install -y libpam-cracklib
     echo " Securing Cron "
     touch /etc/cron.allow
     chmod 600 /etc/cron.allow
     awk -F: '{print $1}' /etc/passwd | grep -v root > /etc/cron.deny
-    echo -n "Do you want to Disable USB Support for this Server? (y/n): " ; read usb_answer
+    echo -n " Do you want to Disable USB Support for this Server? (y/n): " ; read usb_answer
     if [ "$usb_answer" == "y" ]; then
        echo "blacklist usb-storage" | sudo tee -a /etc/modprobe.d/blacklist.conf
        update-initramfs -u
@@ -734,6 +762,7 @@ install_unhide(){
     echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
     echo ""
     echo "Unhide is a forensic tool to find hidden processes and TCP/UDP ports by rootkits / LKMs or by another hidden technique."
+    sleep 1
     apt-get -y install unhide
     echo " Unhide is a tool for Detecting Hidden Processes "
     echo " For more info about the Tool use the manpages "
@@ -753,6 +782,7 @@ install_tiger(){
     echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
     echo ""
     echo "Tiger is a security tool that can be use both as a security audit and intrusion detection system"
+    sleep 1
     apt-get -y install tiger
     echo " For More info about the Tool use the ManPages "
     echo " man tiger "
@@ -780,9 +810,9 @@ echo " PSAD is a piece of Software that actively monitors you Firewall Logs to D
 
        "
 echo ""
-echo -n "Do you want to install PSAD (Recommended)? (y/n): " ; read psad_answer
+echo -n " Do you want to install PSAD (Recommended)? (y/n): " ; read psad_answer
 if [ "$psad_answer" == "y" ]; then
-     echo -n "Type an Email Address to Receive PSAD Alerts: " ; read inbox1
+     echo -n " Type an Email Address to Receive PSAD Alerts: " ; read inbox1
      apt-get install psad
      sed s/INBOX/$inbox1/g templates/psad.conf
      sed s/hostname/$host_name.$domain_name/g templates/psad.conf > /etc/psad/psad.conf
@@ -799,6 +829,7 @@ fi
 }
 
 ##############################################################################################################
+
 
 # Disable Compilers
 disable_compilers(){
@@ -823,7 +854,7 @@ disable_compilers(){
     echo ""
     echo " If you wish to use them, just change the Permissions"
     echo " Example: chmod 755 /usr/bin/gcc "
-    echo "OK"
+    echo " OK"
     say_done
 }
 
@@ -837,7 +868,7 @@ apache_conf_restrictions(){
     echo -e "\e[93m[+]\e[00m Restricting Access to Apache Config Files"
     echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
     echo ""
-    echo "Restricting Access to Apache Config Files......"
+    echo " Restricting Access to Apache Config Files......"
     spinner
      chmod 750 /etc/apache2/conf* >/dev/null 2>&1
      chmod 511 /usr/sbin/apache2 >/dev/null 2>&1
@@ -845,7 +876,7 @@ apache_conf_restrictions(){
      chmod 640 /etc/apache2/conf-available/* >/dev/null 2>&1
      chmod 640 /etc/apache2/conf-enabled/* >/dev/null 2>&1
      chmod 640 /etc/apache2/apache2.conf >/dev/null 2>&1
-     echo "OK"
+     echo " OK"
      say_done
 }
 
@@ -893,7 +924,7 @@ install_phpsuhosin(){
   echo -e "\e[93m[+]\e[00m Installing PHP Suhosin Extension"
   echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
   echo ""
-  echo 'deb http://repo.suhosin.org/ vivid main' >> /etc/apt/sources.list
+  echo 'deb http://repo.suhosin.org/ ubuntu-trusty main' >> /etc/apt/sources.list
   #Suhosin Key
   wget https://sektioneins.de/files/repository.asc
   apt-key add repository.asc
@@ -903,6 +934,70 @@ install_phpsuhosin(){
   service apache2 restart
   echo "OK"
   say_done
+}
+
+##############################################################################################################
+
+#Install and enable auditd
+
+install_auditd(){
+  clear
+  f_banner
+  echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+  echo -e "\e[93m[+]\e[00m Installing auditd"
+  echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+  echo ""
+  apt-get install auditd
+  cp templates/audit.rules /etc/audit/audit.rules
+  sysv-rc-conf auditd on
+  service auditd restart
+  echo "OK"
+  say_done
+}
+##############################################################################################################
+
+#Install and Enable sysstat
+
+install_sysstat(){
+  clear
+  f_banner
+  echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+  echo -e "\e[93m[+]\e[00m Installing and enabling sysstat"
+  echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+  echo ""
+  apt-get install sysstat
+  sed -i 's/ENABLED="false"/ENABLED="true"/g' /etc/default/sysstat
+  service sysstat start
+  echo "OK"
+  say_done
+}
+
+##############################################################################################################
+
+#Install ArpWatch
+
+install_arpwatch(){
+  clear
+  f_banner
+  echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+  echo -e "\e[93m[+]\e[00m ArpWatch Install"
+  echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+  echo ""
+  echo "ArpWatch is a tool for monitoring ARP traffic on System. It generates log of observed pairing of IP and MAC."
+  echo ""
+  echo -n " Do you want to Install ArpWatch on this Server? (y/n): " ; read arp_answer
+  if [ "$arp_answer" == "y" ]; then
+     echo "Installing ArpWatch"
+     spinner
+     apt-get install -y arpwatch
+     sysv-rc-conf arpwatch on
+     service arpwatch start
+     echo "OK"
+     say_done
+  else
+     echo "OK"
+     say_done
+  fi
 }
 
 ##############################################################################################################
@@ -932,6 +1027,7 @@ f_banner
 echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
 echo -e "\e[93m[+]\e[00m SELECT THE DESIRED OPTION"
 echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+echo ""
 echo "1. LAMP Deployment"
 echo "2. Reverse Proxy Deployment With Apache"
 echo "3. LEMP Deployment (Under Development, Testing)"
@@ -956,7 +1052,7 @@ rsa_keygen
 rsa_keycopy
 secure_ssh
 set_iptables
-install_sendmail
+install_fail2ban
 install_secure_mysql
 install_apache
 install_secure_php
@@ -965,6 +1061,7 @@ set_owasp_rules
 secure_optimize_apache
 install_modevasive
 install_qos_spamhaus
+config_fail2ban
 additional_packages
 tune_secure_kernel
 install_rootkit_hunter
@@ -980,6 +1077,9 @@ secure_tmp
 apache_conf_restrictions
 unattended_upgrades
 enable_proc_acct
+install_auditd
+install_sysstat
+install_arpwatch
 install_phpsuhosin
 reboot_server
 ;;
@@ -995,13 +1095,14 @@ rsa_keygen
 rsa_keycopy
 secure_ssh
 set_iptables
-install_sendmail
+install_fail2ban
 install_apache
 install_modsecurity
 set_owasp_rules
 secure_optimize_apache
 install_modevasive
 install_qos_spamhaus
+config_fail2ban
 additional_packages
 tune_secure_kernel
 install_rootkit_hunter
@@ -1017,6 +1118,9 @@ secure_tmp
 apache_conf_restrictions
 unattended_upgrades
 enable_proc_acct
+install_auditd
+install_sysstat
+install_arpwatch
 reboot_server
 ;;
 
@@ -1031,12 +1135,13 @@ rsa_keygen
 rsa_keycopy
 secure_ssh
 set_iptables
-install_sendmail
+install_fail2ban
 install_secure_mysql
 install_nginx_modsecurity
 set_nginx_vhost
 set_nginx_modsec_OwaspRules
 install_php_nginx
+config_fail2ban
 additional_packages
 tune_secure_kernel
 install_rootkit_hunter
@@ -1051,6 +1156,9 @@ disable_compilers
 secure_tmp
 unattended_upgrades
 enable_proc_acct
+install_auditd
+install_sysstat
+install_arpwatch
 install_phpsuhosin
 reboot_server
 ;;
@@ -1066,10 +1174,11 @@ rsa_keygen
 rsa_keycopy
 secure_ssh
 set_iptables
-install_sendmail
+install_fail2ban
 install_nginx_modsecurity
 set_nginx_vhost_nophp
 set_nginx_modsec_OwaspRules
+config_fail2ban
 additional_packages
 tune_secure_kernel
 install_rootkit_hunter
@@ -1084,6 +1193,9 @@ disable_compilers
 secure_tmp
 unattended_upgrades
 enable_proc_acct
+install_auditd
+install_sysstat
+install_arpwatch
 reboot_server
 ;;
 
@@ -1098,7 +1210,7 @@ rsa_keygen
 rsa_keycopy
 secure_ssh
 set_iptables
-install_sendmail
+install_fail2ban
 install_secure_mysql
 install_apache
 install_secure_php
@@ -1107,6 +1219,7 @@ set_owasp_rules
 secure_optimize_apache
 install_modevasive
 install_qos_spamhaus
+config_fail2ban
 additional_packages
 tune_secure_kernel
 install_rootkit_hunter
@@ -1122,6 +1235,9 @@ secure_tmp
 apache_conf_restrictions
 unattended_upgrades
 enable_proc_acct
+install_auditd
+install_sysstat
+install_arpwatch
 install_phpsuhosin
 ;;
 
@@ -1143,7 +1259,7 @@ echo "4. Create Admin User"
 echo "5. Instructions to Generate and move Private/Public key Pair"
 echo "6. Secure SSH Configuration"
 echo "7. Set Restrictive IPTable Rules"
-echo "8. Install Sendmail"
+echo "8. Install and Configure Fail2Ban"
 echo "9. Install, Optimize and Secure Apache"
 echo "10. Install Nginx with ModSecurity Module and Set OwaspRules"
 echo "11. Set Nginx Vhost with PHP"
@@ -1208,7 +1324,9 @@ set_iptables
 ;;
 
 8)
-install_sendmail
+echo "Type Email to receive Alerts: " ; read inbox
+install_fail2ban
+config_fail2ban
 ;;
 
 9)
