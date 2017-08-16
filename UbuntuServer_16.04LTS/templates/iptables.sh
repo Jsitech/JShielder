@@ -1,3 +1,14 @@
+#! /bin/sh
+### BEGIN INIT INFO
+# Provides:          iptables
+# Required-Start:    $remote_fs $syslog
+# Required-Stop:     $remote_fs $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Applies Iptable Rules
+# Description:
+### END INIT INFO
+
 iptables -F
 
 #Defaults
@@ -6,7 +17,7 @@ iptables -P INPUT DROP
 iptables -P FORWARD DROP
 iptables -P OUTPUT ACCEPT
 
-#Rules for PSAD  
+#Rules for PSAD
 
 iptables -A INPUT -j LOG
 iptables -A FORWARD -j LOG
