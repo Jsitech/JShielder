@@ -1,10 +1,11 @@
 #!/bin/bash
 
-# JShielder v2.1
+# JShielder v2.2
 # Deployer for Ubuntu Server 16.04 LTS
 #
 # Jason Soto
-# www.jsitech.com
+# www.jasonsoto.com
+# www.jsitech-sec.com
 # Twitter = @JsiTech
 
 # Based from JackTheStripper Project
@@ -278,7 +279,7 @@ install_secure_mysql(){
     echo ""
     apt-get install mysql-server
     echo -n " configuring MySQL............ "
-    cp templates/mysql /etc/mysql/my.cnf; echo " OK"
+    cp templates/mysql /etc/mysql/mysql.conf.d/mysqld.cnf; echo " OK"
     mysql_secure_installation
     service mysql restart
     say_done
@@ -413,11 +414,11 @@ install_secure_php(){
     echo -e "\e[93m[+]\e[00m Installing, Configuring and Optimizing PHP"
     echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
     echo ""
-    apt-get install php5 php5-cli php-pear
-    apt-get install php5-mysql python-mysqldb
+    apt-get install php php-cli php-pear
+    apt-get install php-mysql python-mysqldb
     echo -n " Replacing php.ini..."
-    cp templates/php /etc/php5/apache2/php.ini; echo " OK"
-    cp templates/php /etc/php5/cli/php.ini; echo " OK"
+    cp templates/php /etc/php/7.0/fpm/php.ini; echo " OK"
+    cp templates/php /etc/php/7.0/cli/php.ini; echo " OK"
     service apache2 restart
     say_done
 }
@@ -431,12 +432,12 @@ install_php_nginx(){
   echo -e "\e[93m[+]\e[00m Installing, Configuring and Optimizing PHP/PHP-FPM"
   echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
   echo ""
-  apt-get install php5-fpm php5 php5-cli php-pear
-  apt-get install php5-mysql python-mysqldb
+  apt-get install php-fpm php php-cli php-pear
+  apt-get install php-mysql python-mysqldb
   echo -n " Replacing php.ini..."
-  cp templates/php /etc/php5/cli/php.ini; echo " OK"
-  cp templates/phpnginx /etc/php5/fpm/php.ini; echo "OK"
-  service php5-fpm restart
+  cp templates/php /etc/php/7.0/cli/php.ini; echo " OK"
+  cp templates/phpnginx /etc/php/7.0/fpm/php.ini; echo "OK"
+  service php-fpm restart
   service nginx restart
   say_done
 }
@@ -586,8 +587,8 @@ additional_packages(){
     echo "Install PHPUnit..........";
     pear config-set auto_discover 1
     mv phpunit-patched /usr/share/phpunit
-    echo include_path = ".:/usr/share/phpunit:/usr/share/phpunit/PHPUnit" >> /etc/php5/apache2/php.ini
-    echo include_path = ".:/usr/share/phpunit:/usr/share/phpunit/PHPUnit" >> /etc/php5/cli/php.ini
+    echo include_path = ".:/usr/share/phpunit:/usr/share/phpunit/PHPUnit" >> /etc/php/7.0/cli/php.ini
+    echo include_path = ".:/usr/share/phpunit:/usr/share/phpunit/PHPUnit" >> /etc/php/7.0/fpm/php.ini
     service apache2 restart
     say_done
 }
@@ -929,8 +930,8 @@ install_phpsuhosin(){
   wget https://sektioneins.de/files/repository.asc
   apt-key add repository.asc
   apt-get update
-  apt-get install php5-suhosin-extension
-  php5enmod suhosin
+  apt-get install php-suhosin-extension
+  phpenmod suhosin
   service apache2 restart
   echo "OK"
   say_done
