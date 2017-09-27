@@ -5,11 +5,10 @@
 # Linux Hardening Script
 #
 # Jason Soto
-# www.jsitech.com
+# www.jasonsoto.com
 # Twitter = @JsiTech
 
-# Tool URL = www.jsitech.com/jshielder
-# us.jsitech.com/jshielder
+# Tool URL = github,com/jsitech/jshielder
 
 # Based from JackTheStripper Project
 # Credits to Eugenia Bahit
@@ -63,7 +62,7 @@ echo -e "\e[93m[+]\e[00m SELECT YOUR LINUX DISTRIBUTION"
 echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
 echo ""
 echo "1. Ubuntu Server 14.04 LTS"
-echo "2. Ubuntu Server 16.04 LTS (Testing)"
+echo "2. Ubuntu Server 16.04 LTS"
 echo "3. Linux CentOS 6 (Coming Soon)"
 echo "4. Linux CentOS 7 (Coming Soon)"
 echo "5. Debian GNU/Linux 7 (Coming Soon)"

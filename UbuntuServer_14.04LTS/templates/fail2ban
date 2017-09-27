@@ -18,7 +18,7 @@ action_mwl = %(banaction)s[name=%(__name__)s, port="%(port)s", protocol="%(proto
                %(mta)s-whois-lines[name=%(__name__)s, dest="%(destemail)s", logpath=%(logpath)s, chain="%(chain)s"]
 action = %(action_mw)s
 
-[ssh]
+[sshd]
 enabled = true
 port = 372
 filter = sshd
@@ -37,7 +37,6 @@ enabled = false
 filter = pam-generic
 port = all
 banaction = iptables-allports
-port = anyport
 logpath = /var/log/auth.log
 maxretry = 6
 

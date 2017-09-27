@@ -42,18 +42,15 @@ This tool is a Bash Script with a little python script that hardens the Linux Se
 * Added /tmp folder Hardening
 * Added PSAD IDS installation
 * Added Process Accounting
-
 * Added Unattended Upgrades
 * Added MOTD and Banners for Unauthorized access
 * Disable USB Support for Improved Security (Optional)
 * Restrictive Default UMASK
 * Added Additional Hardening Steps
+* Auditd install (New) 
+* Sysstat install (New)
+* ArpWatch install (New)
 
-* Auditd install (New) **
-* Sysstat install (New) **
-* ArpWatch install (New) **
-
-** For Ubuntu 14.04LTS only, Working on the Newer versions for Ubuntu
 
 # To Run the tool
 
@@ -78,6 +75,8 @@ v1.0 - New Code
 
 
 Developed by ***Jason Soto***
+
+https://www.jasonsoto.com
 
 https://github.com/jsitech
 
