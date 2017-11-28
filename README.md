@@ -2,9 +2,9 @@
 
 
 
-###JShielder Secure LAMP Deployer for Linux Servers
+###JShielder Automared Hardening Script for Linux Servers
 
-JSHielder is an Open Source tool developed to help SysAdmin and developers secure there Linux Servers in which they will be deploying any web application. This tool automates the process of installing all the necessary packages to host a web application and Hardening a Linux server with little interaction from the user.
+JSHielder is an Open Source tool developed to help SysAdmin and developers secure there Linux Servers in which they will be deploying any web application or services. This tool automates the process of installing all the necessary packages to host a web application and Hardening a Linux server with little interaction from the user. Newly added script follows CIS Benchmark Guidance to establish a Secure configuration posture for Linux systems.
 
 This tool is a Bash Script with a little python script that hardens the Linux Server security automatically and the steps followed are:
 
@@ -30,7 +30,7 @@ This tool is a Bash Script with a little python script that hardens the Linux Se
 * Creates Daily Cron job for System Updates
 * Kernel Hardening via sysctl configuration File (Tweaked)
 
-# Recently Added Hardening Steps
+# Other Hardening Steps
 
 
 * Added PHP Suhosin Installation to protect PHP Code and Core for Known and Unknown flaws
@@ -52,6 +52,11 @@ This tool is a Bash Script with a little python script that hardens the Linux Se
 * ArpWatch install (New)
 
 
+# NEWLY ADDED FUNCTION
+
+* Separate Hardening Script Following CIS Benchmark Guidance (Testing)
+
+
 # To Run the tool
 
 
@@ -66,6 +71,8 @@ As the Root user
 Having Problems, please open a New Issue for JShielder on Github.
 
 # ChangeLog
+
+v2.2 Added new Hardening option following CIS Benchmark Guidance
 
 v2.1 Hardened SSH Configuration, Tweaked Kernel Security Config, Fixed iptables rules not loading on Boot. Added auditd, sysstat, arpwatch install.
 

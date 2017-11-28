@@ -1035,7 +1035,8 @@ echo "3. LEMP Deployment (Under Development, Testing)"
 echo "4. Reverse Proxy Deployment with Nginx (ModSecurity)"
 echo "5. Running With SecureWPDeployer or JSDeployer Script"
 echo "6. Customized Run (Only run desired Options)"
-echo "7. Exit"
+echo "7. CIS Benchmark Hardening (Testing)"
+echo "8. Exit"
 echo
 
 read choice
@@ -1441,6 +1442,11 @@ done
 ;;
 
 7)
+chmod +x jshielder-CIS.sh
+./jshielder-CIS.sh
+;;
+
+8)
 exit 0
 ;;
 
