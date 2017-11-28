@@ -9,9 +9,6 @@
 # Twitter = @JsiTech
 
 
-
-source helpers.sh
-
 ##############################################################################################################
 
 f_banner(){
@@ -94,7 +91,7 @@ echo "install vfat /bin/true" >> /etc/modprobe.d/CIS.conf
 
 #1.1.20 Ensure sticky bit is set on all world-writable directories (Scored) 
 
-df --local -P | awk {'if (NR!=1) print $6'} | xargs -I '{}' find '{}' -xdev -type d -perm -0002 2>/dev/null | chmod a+t 
+df --local -P | awk {'if (NR!=1) print $6'} | xargs -I '{}' find '{}' -xdev -type d -perm -0002 2>/dev/null | xargs chmod a+t 
 
 #1.1.21 Disable Automounting (Scored)
 
