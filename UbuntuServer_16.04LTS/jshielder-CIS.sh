@@ -108,7 +108,7 @@ df --local -P | awk {'if (NR!=1) print $6'} | xargs -I '{}' find '{}' -xdev -typ
 #1.3.1 Ensure AIDE is installed (Scored) 
 
 apt-get install aide 
-aide --init 
+aideinit 
 
 #1.3.2 Ensure filesystem integrity is regularly checked (Scored)  
 
@@ -120,6 +120,11 @@ chown root:root /boot/grub/grub.cfg
 chmod og-rwx /boot/grub/grub.cfg 
 
 #1.4.2 Ensure bootloader password is set (Scored)
+
+echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+echo -e "\e[93m[+]\e[00m We will now Set a Bootloader Password"
+echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+echo ""
 
 grub-mkpasswd-pbkdf2 | tee grubpassword.tmp
 grubpassword=$(cat grubpassword.tmp | sed -e '1,2d' | cut -d ' ' -f7)
@@ -341,17 +346,7 @@ sed -i 's/GRUB_CMDLINE_LINUX="ipv6.disable=1"/GRUB_CMDLINE_LINUX="ipv6.disable=1
 #4.1.10 Ensure discretionary access control permission modification events are collected (Scored)  
 #4.1.11 Ensure unsuccessful unauthorized file access attempts are collected (Scored) 
 #4.1.12 Ensure use of privileged commands is collected (Scored)
-
-find / -xdev \( -perm -4000 -o -perm -2000 \) -type f | awk '{print \
-"-a always,exit -F path=" $1 " -F perm=x -F auid>=1000 -F auid!=4294967295 \
--k privileged" } ' >> /etc/audit/audit.rules
-
-echo " " >> /etc/audit/audit.rules
-echo "#End of Audit Rules" >> /etc/audit/audit.rules
-echo "-e 2" >>/etc/audit/audit.rules
-
-#4.1.13 Ensure successful file system mounts are collected (Scored) 
-#4.1.14 Ensure file deletion events by users are collected (Scored) 
+#4.1.13 Ensure successful file system mounts are collected (Scored) #4.1.14 Ensure file deletion events by users are collected (Scored) 
 #4.1.15 Ensure changes to system administration scope (sudoers) is collected (Scored)  
 #4.1.16 Ensure system administrator actions (sudolog) are collected (Scored) 
 #4.1.17 Ensure kernel module loading and unloading is collected (Scored) 
@@ -360,6 +355,13 @@ echo "-e 2" >>/etc/audit/audit.rules
 
 cp templates/audit-CIS.rules /etc/audit/audit.rules
 
+find / -xdev \( -perm -4000 -o -perm -2000 \) -type f | awk '{print \
+"-a always,exit -F path=" $1 " -F perm=x -F auid>=1000 -F auid!=4294967295 \
+-k privileged" } ' >> /etc/audit/audit.rules
+
+echo " " >> /etc/audit/audit.rules
+echo "#End of Audit Rules" >> /etc/audit/audit.rules
+echo "-e 2" >>/etc/audit/audit.rules
 
 #4.2 Configure Logging 
 #4.2.1.1 Ensure rsyslog Service is enabled (Scored)  
