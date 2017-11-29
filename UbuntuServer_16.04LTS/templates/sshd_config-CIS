@@ -1,4 +1,4 @@
-Port 372
+Port 22
 Protocol 2
 HostKey /etc/ssh/ssh_host_rsa_key
 HostKey /etc/ssh/ssh_host_dsa_key
@@ -23,7 +23,7 @@ RhostsRSAAuthentication no
 HostbasedAuthentication no
 PermitEmptyPasswords no
 ChallengeResponseAuthentication no
-PasswordAuthentication no
+PasswordAuthentication yes
 X11Forwarding no
 AllowTcpForwarding no
 PermitUserEnvironment no

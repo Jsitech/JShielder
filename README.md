@@ -47,14 +47,15 @@ This tool is a Bash Script with a little python script that hardens the Linux Se
 * Disable USB Support for Improved Security (Optional)
 * Restrictive Default UMASK
 * Added Additional Hardening Steps
-* Auditd install (New) 
+* Auditd install (New)
 * Sysstat install (New)
 * ArpWatch install (New)
 
 
 # NEWLY ADDED FUNCTION
 
-* Separate Hardening Script Following CIS Benchmark Guidance (Testing)
+* Separate Hardening Script Following CIS Benchmark Guidance
+  https://www.cisecurity.org/benchmark/ubuntu_linux/
 
 
 # To Run the tool

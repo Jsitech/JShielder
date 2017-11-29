@@ -22,7 +22,7 @@ RhostsRSAAuthentication no
 HostbasedAuthentication no
 PermitEmptyPasswords no
 ChallengeResponseAuthentication no
-PasswordAuthentication no
+PasswordAuthentication yes
 X11Forwarding no
 AllowTcpForwarding no
 PermitUserEnvironment no

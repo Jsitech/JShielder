@@ -3,28 +3,27 @@
 
 #Ensure events that modify date and time information are collected
 
--a always,exit -F arch=b32 -S adjtimex -S settimeofday -S stime -k time-change 
 -a always,exit -F arch=b32 -S adjtimex -S settimeofday -S stime -k time-change
--a always,exit -F arch=b64 -S clock_settime -k time-change 
--a always,exit -F arch=b32 -S clock_settime -k time-change 
--w /etc/localtime -p wa -k time-change 
+-a always,exit -F arch=b64 -S clock_settime -k time-change
+-a always,exit -F arch=b32 -S clock_settime -k time-change
+-w /etc/localtime -p wa -k time-change
 
 #Ensure events that modify user/group information are collected
 
 -w /etc/group -p wa -k identity
--w /etc/passwd -p wa -k identity 
--w /etc/gshadow -p wa -k identity 
--w /etc/shadow -p wa -k identity 
--w /etc/security/opasswd -p wa -k identity 
+-w /etc/passwd -p wa -k identity
+-w /etc/gshadow -p wa -k identity
+-w /etc/shadow -p wa -k identity
+-w /etc/security/opasswd -p wa -k identity
 
 #Ensure events that modify the system's network environment are collected
 
--a always,exit -F arch=b32 -S sethostname -S setdomainname -k system-locale 
--a always,exit -F arch=b64 -S sethostname -S setdomainname -k system-locale 
--w /etc/issue -p wa -k system-locale 
--w /etc/issue.net -p wa -k system-locale 
--w /etc/hosts -p wa -k system-locale 
--w /etc/network -p wa -k system-locale 
+-a always,exit -F arch=b32 -S sethostname -S setdomainname -k system-locale
+-a always,exit -F arch=b64 -S sethostname -S setdomainname -k system-locale
+-w /etc/issue -p wa -k system-locale
+-w /etc/issue.net -p wa -k system-locale
+-w /etc/hosts -p wa -k system-locale
+-w /etc/network -p wa -k system-locale
 -w /etc/networks -p wa -k system-locale
 
 #Ensure events that modify system's MAC are collected
@@ -46,11 +45,11 @@
 
 #Ensure discretionary access control permission modification events are collected
 
- -a always,exit -F arch=b64 -S chmod -S fchmod -S fchmodat -F auid>=1000 -F auid!=4294967295 -k perm_mod 
- -a always,exit -F arch=b32 -S chmod -S fchmod -S fchmodat -F auid>=1000 -F auid!=4294967295 -k perm_mod 
- -a always,exit -F arch=b64 -S chown -S fchown -S fchownat -S lchown -F auid>=1000 -F auid!=4294967295 -k perm_mod 
--a always,exit -F arch=b32 -S chown -S fchown -S fchownat -S lchown -F auid>=1000 -F auid!=4294967295 -k perm_mod -a always,exit -F arch=b64 -S setxattr -S lsetxattr -S fsetxattr -S removexattr -S lremovexattr -S fremovexattr -F auid>=1000 -F auid!=4294967295 -k perm_mod 
--a always,exit -F arch=b64 -S setxattr -S lsetxattr -S fsetxattr -S removexattr -S lremovexattr -S fremovexattr -F auid>=1000 -F auid!=4294967295 -k perm_mod 
+-a always,exit -F arch=b64 -S chmod -S fchmod -S fchmodat -F auid>=1000 -F auid!=4294967295 -k perm_mod
+-a always,exit -F arch=b32 -S chmod -S fchmod -S fchmodat -F auid>=1000 -F auid!=4294967295 -k perm_mod
+-a always,exit -F arch=b64 -S chown -S fchown -S fchownat -S lchown -F auid>=1000 -F auid!=4294967295 -k perm_mod
+-a always,exit -F arch=b32 -S chown -S fchown -S fchownat -S lchown -F auid>=1000 -F auid!=4294967295 -k perm_mod
+-a always,exit -F arch=b64 -S setxattr -S lsetxattr -S fsetxattr -S removexattr -S lremovexattr -S fremovexattr -F auid>=1000 -F auid!=4294967295 -k perm_mod
 -a always,exit -F arch=b32 -S setxattr -S lsetxattr -S fsetxattr -S removexattr -S lremovexattr -S fremovexattr -F auid>=1000 -F auid!=4294967295 -k perm_mod
 
 #Ensure unsuccessful unauthorized file access attempts are collected
@@ -84,55 +83,6 @@
 -w /sbin/insmod -p x -k modules
 -w /sbin/rmmod -p x -k modules
 -w /sbin/modprobe -p x -k modules
--a always,exit arch=b64 -S init_module -S delete_module -k modules
+-a always,exit -F arch=b64 -S init_module -S delete_module -k modules
 
 #Ensure use of Privileged commands is collected
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
