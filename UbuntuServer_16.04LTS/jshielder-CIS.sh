@@ -195,9 +195,9 @@ sysctl -e -p
 #1.7.1.1 Ensure message of the day is configured properly (Scored)
 #1.7.1.2 Ensure local login warning banner is configured properly (Not Scored)
 #1.7.1.3 Ensure remote login warning banner is configured properly (Not Scored)
-cat templates/motd > /etc/motd
-cat templates/motd > /etc/issue
-cat templates/motd > /etc/issue.net
+cat templates/motd-CIS > /etc/motd
+cat templates/motd-CIS > /etc/issue
+cat templates/motd-CIS > /etc/issue.net
 
 #1.7.1.4 Ensure permissions on /etc/motd are configured (Not Scored)
 #1.7.1.5 Ensure permissions on /etc/issue are configured (Scored)
