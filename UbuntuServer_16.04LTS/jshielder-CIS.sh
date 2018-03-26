@@ -473,8 +473,7 @@ chown root:root /etc/cron.allow /etc/at.allow
 #5.2 SSH Server Configuration
 #5.2.1 Ensure permissions on /etc/ssh/sshd_config are configured (Scored)
 
-chown root:root /etc/ssh/sshd_config
-chmod og-rwx /etc/ssh/sshd_config
+#Permissions set after template copy on Line 493
 
 #5.2.2 Ensure SSH Protocol is set to 2 (Scored)
 #5.2.3 Ensure SSH LogLevel is set to INFO (Scored)
@@ -504,6 +503,8 @@ echo -n " Securing SSH..."
 sed s/USERNAME/$username/g templates/sshd_config-CIS > /etc/ssh/sshd_config; echo "OK"
 service ssh restart
 
+chown root:root /etc/ssh/sshd_config
+chmod og-rwx /etc/ssh/sshd_config
 
 #5.3 Configure PAM
 #5.3.1 Ensure password creation requirements are configured (Scored)
@@ -636,7 +637,7 @@ chmod 600 /etc/gshadow-
 clear
 f_banner
 
-cat texts/bye-CIS
+cat templates/texts/bye-CIS
 say_continue
 
 reboot
