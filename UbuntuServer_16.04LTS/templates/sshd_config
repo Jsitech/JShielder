@@ -7,7 +7,8 @@ UsePrivilegeSeparation sandbox
 KeyRegenerationInterval 3600
 ServerKeyBits 768
 SyslogFacility AUTH
-ClientAliveCountMax 2
+ClientAliveInterval 300
+ClientAliveCountMax 0
 Compression no
 LogLevel VERBOSE
 MaxAuthTries 2
@@ -25,6 +26,7 @@ ChallengeResponseAuthentication no
 PasswordAuthentication yes
 X11Forwarding no
 AllowTcpForwarding no
+AllowAgentForwarding no
 PermitUserEnvironment no
 X11DisplayOffset 10
 PrintMotd no
@@ -35,6 +37,7 @@ Subsystem sftp /usr/lib/openssh/sftp-server
 UsePAM yes
 UseDNS no
 MaxStartups 2
+MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha2-256,umac-128@openssh.com
 Banner /etc/motd
 AllowUsers USERNAME
 

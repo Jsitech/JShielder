@@ -1,0 +1,642 @@
+Version:2013112401
+#
+# We start with the definitions of the message types and results. There
+# are very few of these, so including these and all the parts of each
+# message in one file makes sense and for easier translation.
+#
+# The message type MSG_TYPE_PLAIN is used for ordinary messages. It has
+# no specific value, and is intercepted in the display function. It is
+# included here for completeness. The index names of MSG_TYPE_ and
+# MSG_RESULT_ are reserved - no messages can use this as part of its index.
+#
+# Translator Mitsuhiro Yoshida (http://mitstek.com/)
+# Started    2017-01-11 00:12:00 UTC
+# Updated    0000-00-00 00:00:00 UTC
+#
+MSG_TYPE_PLAIN:
+MSG_TYPE_INFO:情報
+MSG_TYPE_WARNING:警告
+
+
+#
+# This is the list of message results.
+#
+MSG_RESULT_OK:OK
+MSG_RESULT_SKIPPED:スキップ
+MSG_RESULT_WARNING:警告
+MSG_RESULT_FOUND:発見
+MSG_RESULT_NOT_FOUND:未発見
+MSG_RESULT_NONE_FOUND:発見なし
+MSG_RESULT_ALLOWED:許可
+MSG_RESULT_NOT_ALLOWED:不許可
+MSG_RESULT_UNSET:未設定
+MSG_RESULT_WHITELISTED:ホワイトリスト
+MSG_RESULT_NONE_MISSING:不明なし
+
+MSG_RESULT_UPD:更新済み
+MSG_RESULT_NO_UPD:No 更新
+MSG_RESULT_UPD_FAILED:更新失敗
+MSG_RESULT_VCHK_FAILED:バージョンチェック失敗
+
+
+#
+# The messages.
+#
+VERSIONLINE:[ $1 バージョン $2 ]
+VERSIONLINE2:Running $1 バージョン $2 on $3
+VERSIONLINE3:Running $1 バージョン $2
+
+RKH_STARTDATE:開始日: $1
+RKH_ENDDATE:終了日: $1
+
+OPSYS:検出されたオペレーティングシステム: 「 $1 」
+UNAME:uname出力: 「 $1 」
+
+CONFIG_CHECK_START:設定ファイルおよびコマンドラインオプションをチェックする ...
+CONFIG_CMDLINE:コマンドライン: $1
+CONFIG_DEBUGFILE:デバッグファイル: $1
+CONFIG_ENVSHELL:環境シェル: $1  rkhunterは $2 を使用しています。
+CONFIG_CONFIGFILE:設定ファイル「 $1 」を使用しています。
+CONFIG_LOCALCONFIGFILE:ローカル設定ファイル「 $1 」を使用しています。
+CONFIG_LOCALCONFIGDIR:ローカル設定ディレクトリ「 $1 」を使用しています: $2 ファイル $3 が見つかりました。
+CONFIG_INSTALLDIR:インストレーションディレクトリは「 $1 」です。
+CONFIG_LANGUAGE:利用言語 「 $1 」
+CONFIG_DBDIR:データベースディレクトリとして「 $1 」を使用しています。
+CONFIG_SCRIPTDIR:サポートスクリプトディレクトリとして「 $1 」を使用しています。
+CONFIG_BINDIR:コマンドディレクトリとして「 $1 」を使用しています。
+CONFIG_TMPDIR:一時ディレクトリとして「 $1 」を使用しています。
+CONFIG_NO_MAIL_ON_WARN:「mail-on-warning」アドレスが設定されていません。
+CONFIG_MOW_DISABLED:ユーザのリクエストにより「mail-on-warning」の使用を無効にしました。
+CONFIG_MAIL_ON_WARN:コマンド「 $2 」を使用して「 $1 」に警告をメール送信する
+CONFIG_SSH_ROOT:Rkhunterオプション「ALLOW_SSH_ROOT_USER」を「 $1 」に設定しました。
+CONFIG_SSH_PROTV1:Rkhunterオプション「ALLOW_SSH_PROT_V1」を「 $1 」に設定しました。
+CONFIG_X_AUTO:Xは自動的に検出されます。
+CONFIG_CLRSET2:第2カラーセットを使用する
+CONFIG_NO_SHOW_SUMMARY:ユーザのリクエストによりシステムチェック概要を無効にしました。
+CONFIG_SCAN_MODE_DEV:「SCAN_MODE_DEV」を「 $1 」に設定しました。
+CONFIG_LOG_FILE:ログファイルにロギングする: $1
+CONFIG_NO_VL:ユーザのリクエストにより冗長ロギングを無効にしました。
+CONFIG_APPEND_LOG:現在のロギングはログファイルに追加されます。
+CONFIG_COPY_LOG:エラーがある場合、ログファイルはコピーされます。
+CONFIG_XINETD_PATH:設定ファイル「 $2 」に $1 を使用する
+CONFIG_SOL10_INETD:inetdメカニズムにSolaris 10またはそれ以上を使用する
+CONFIG_STARTUP_PATHS:システムスタートアップパスを使用する: $1
+CONFIG_ROTATE_MIRRORS:ミラーファイルがローテートされます。
+CONFIG_NO_ROTATE_MIRRORS:ミラーファイルはローテートされません。
+CONFIG_UPDATE_MIRRORS:ミラーファイルが更新されます。
+CONFIG_NO_UPDATE_MIRRORS:ミラーファイルは更新されません。
+CONFIG_MIRRORS_MODE0:ローカルおよびリモートミラーの両方を使用する
+CONFIG_MIRRORS_MODE1:ローカルミラーのみ使用する
+CONFIG_MIRRORS_MODE2:リモートミラーのみ使用する
+
+FOUND_CMD:「 $1 」コマンドが見つかりました: $2
+NOT_FOUND_CMD:「 $1 」コマンドが見つかりませんでした。
+CMD_ERROR:コマンド「 $1 」にエラーコード $2 が発生しました。
+
+SYS_PRELINK:システムがprelinkを使用する
+SYS_NO_PRELINK:システムはprelinkを使用しない
+SYS_SELINUX:SELinux有効
+SYS_NO_SELINUX:SELinux無効
+
+HASH_FUNC_PRELINK:ファイルハッシュチェックにprelinkコマンド ($1) を使用する
+HASH_FUNC_PERL:ファイルハッシュチェックにperl $1 モジュールを使用する
+HASH_FUNC_PERL_SHA:ファイルハッシュチェックにperl $1 モジュール ($2) を使用する
+HASH_FUNC:ファイルハッシュチェックに「 $1 」コマンドを使用する
+HASH_FUNC_NONE:ファイルハッシュは無効にされています: NONEが指定されました。
+HASH_FUNC_NONE_PKGMGR:ファイルハッシュ関数に「NONE」が設定されました: パッケージマネージャのみ使用されます。
+HASH_FUNC_DISABLED:ハッシュ関数に「NONE」が設定されました: ファイルハッシュチェックを自動的に無効にします。
+HASH_FUNC_OLD:ハッシュ関数に使用される保存済みハッシュ値「 $1 」
+HASH_FUNC_OLD_DISABLED:前回ハッシュ関数は無効にされました: 保存されたハッシュ値はありません。
+HASH_PKGMGR_OLD:パッケージマネージャに使用される保存済みハッシュ値「 $1 」
+HASH_PKGMGR_OLD_UNSET:保存済みハッシュ値はパッケージマネージャを使用しませんでした。
+
+HASH_PKGMGR:ファイルプロパティチェックにパッケージマネージャ「 $1 」を使用する
+HASH_PKGMGR_MD5:パッケージマネージャ照合支援に使用するMD5ハッシュ関数コマンド「 $1 」
+HASH_PKGMGR_SUM:パッケージ照合に保存済み16ビットチェックサムを使用する
+HASH_PKGMGR_NOT_SPEC:指定されたパッケージマネージャはありません: ハッシュ関数「 $1 」を使用する
+HASH_PKGMGR_NOT_SPEC_PRELINKED:指定されたパッケージマネージャはありません: 「 $1 」でprelinkコマンドを使用する
+
+HASH_FIELD_INDEX:ハッシュ関数フィールドインデックスが $1 に設定されました。
+
+HASHUPD_DISABLED:ハッシュチェックが無効にされています: 現在、ファイルハッシュ値は保存されません。
+HASHUPD_PKGMGR:ファイルハッシュ値を更新するためパッケージマネージャ「 $1 」を使用する
+HASHUPD_PKGMGR_NOT_SPEC:指定されたファイルハッシュ更新パッケージマネージャはありません: ハッシュ関数「 $1 」を使用する
+HASHUPD_PKGMGR_NOT_SPEC_PRELINKED:指定されたファイルハッシュ更新パッケージマネージャはありません: 「 $1 」でprelinkコマンドを使用する
+
+ATTRUPD_DISABLED:ファイル属性チェックは無効にされています: 現在のファイル属性は保存されません。
+ATTRUPD_NOSTATCMD:ファイル属性チェックは無効にされています: 「stat」コマンドは見つかりませんでした: 現在のファイル属性は保存されません。
+ATTRUPD_OK:現在のファイル属性は保存されます。
+ATTRUPD_OLD_DISABLED:前回ファイル属性は無効にされました: 保存されたファイル属性はありません。
+ATTRUPD_OLD_NOSTATCMD:前回ファイル属性は無効にされました: 「stat」コマンドは見つかりませんでした: 保存されたファイル属性はありません。
+ATTRUPD_OLD_OK:前回ファイル属性は保存されました。
+
+RKHDAT_ADD_NEW_ENTRY:ファイルエントリを「rkhunter.dat」ファイルに追加する: $1
+RKHDAT_DEL_OLD_ENTRY:存在しないファイルエントリを「rkhunter.dat」ファイルより削除する: $1
+
+SYSLOG_ENABLED:ロギングにsyslogを使用する - ファシリティ/プライオリティレベルは「 $1 」です。
+SYSLOG_DISABLED:ユーザのリクエストによりsyslogの使用を無効にしました。
+SYSLOG_NO_LOGGER:syslogの使用を無効にする - 「logger」コマンドを見つけることができません。
+
+NAME:$1
+PRESSENTER:[続けるには <ENTER> キーを押してください]
+TEST_SKIPPED_OS:O/Sを原因としてテスト「 $1 」がスキップされました: $2
+
+SUMMARY_TITLE1:システムチェック概要
+SUMMARY_TITLE2:=====================
+SUMMARY_PROP_SCAN:ファイルプロパティチェック ...
+SUMMARY_PROP_REQCMDS:必須コマンドチェックに失敗しました。
+SUMMARY_PROP_COUNT:ファイルチェック: $1
+SUMMARY_PROP_FAILED:疑わしいファイル: $1
+SUMMARY_CHKS_SKIPPED:すべてのチェックがスキップされました。
+SUMMARY_RKT_SCAN:Rootkitチェック ...
+SUMMARY_RKT_COUNT:Rootkitチェック済み : $1
+SUMMARY_RKT_FAILED:rootkitの可能性: $1
+SUMMARY_RKT_NAMES:Rootkit名: $1
+SUMMARY_APPS_SCAN:アプリケーションチェック ...
+SUMMARY_APPS_COUNT:アプリケーションチェック済み : $1
+SUMMARY_APPS_FAILED:疑わしいアプリケーション: $1
+SUMMARY_SCAN_TIME:システムチェックツール: $1
+SUMMARY_NO_SCAN_TIME:システムチェックツール: クロックタイムを取得できません。
+SUMMARY_LOGFILE:すべての結果がログファイルに書き込まれました: $1
+SUMMARY_NO_LOGFILE:ログファイルは作成されませんでした。
+SUMMARY_LOGFILE_COPIED:ログファイルが $1 にコピーされました。
+
+CREATED_TEMP_FILE:一次ファイルを作成しました:「 $1 」
+
+MIRRORS_NO_FILE:ミラーファイルが存在しません: $1
+MIRRORS_NO_MIRRORS:ミラーファイル内に必須のミラーがありません: $1
+MIRRORS_NO_VERSION:ミラーファイルにバージョンナンバーがありません - ゼロにリセットします: $1
+MIRRORS_ROTATED:ミラーファイルがローテートされました: $1
+MIRRORS_SF_DEFAULT:SourceForgeミラーを使用する: $1
+
+DOWNLOAD_CMD:ダウンロードコマンド「 $1 」を実行中
+DOWNLOAD_FAIL:ダウンロード失敗 - $1 のミラーがあります。
+
+VERSIONCHECK_START:rkhunterのバージョンをチェックする ...
+VERSIONCHECK_FAIL_ALL:ダウンロードに失敗しました: 最新プログラムバージョンナンバーを取得できません。
+VERSIONCHECK_CURRENT:このバージョン: $1
+VERSIONCHECK_LATEST:最新バージョン: $1
+VERSIONCHECK_LATEST_FAIL:最新バージョン: ダウンロード失敗
+VERSIONCHECK_UPDT_AVAIL:更新利用可能
+VERSIONCHECK_CONV_FAIL:バージョンナンバーを比較できません: プログラム: 「 $1 」  最新: 「 $2 」
+
+UPDATE_START:rkhunterデータファイルをチェックする ...
+UPDATE_CHECKING_FILE:ファイル $1 をチェックする
+UPDATE_FILE_NO_VERS:ファイル「 $1 」には有効なバージョンナンバーがありません。新しいコピーをダウンロードします。
+UPDATE_FILE_MISSING:ファイル「 $1 」が存在しないまたは空です。新しいコピーをダウンロードします。
+UPDATE_DOWNLOAD_FAIL:「 $1 」のダウンロードに失敗しました: 最新バージョンナンバーを取得できません。
+UPDATE_I18N_NO_VERS:i18n言語ファイルのバージョンナンバーが見つかりません。
+UPDATE_SKIPPED:ユーザのリクエストにより言語ファイルの更新をスキップしました。
+
+OSINFO_START:前回よりO/Sが変更されたか確認する ...
+OSINFO_END:変更されたものはありません。
+OSINFO_HOST_CHANGE1:前回の実行よりホスト名が変更されました:
+OSINFO_HOST_CHANGE2:古いホスト値: $1   新しい値: $2
+OSINFO_OSVER_CHANGE1:前回の実行よりO/S名またはバージョンが変更されました:
+OSINFO_OSVER_CHANGE2:古いO/S値: $1   新しい値: $2
+OSINFO_PRELINK_CHANGE:前回の実行よりシステムがprelinkを使用するよう $1 に変更されました。
+OSINFO_ARCH_CHANGE1:システムがCPUタイプを変更したようです:
+OSINFO_ARCH_CHANGE2:古いCPU値: $1  新しい値: $2
+OSINFO_MSG1:変更によりファイルプロパティチェックは誤検出される可能性があります。
+OSINFO_MSG2:あなたは「--propupd」オプションを使用してrkhunterを再度実行する必要があります。
+OSINFO_DO_UPDT:ファイルプロパティファイルは自動的に更新されます。
+
+SET_FILE_PROP_START:ファイルプロパティを取得する ...
+SET_FILE_PROP_DIR_FILE_COUNT:$2 に $1 ファイルが見つかりました。
+SET_FILE_PROP_FILE_COUNT:ファイル $1: ファイル調査数:$2 / 発見:$3
+SET_FILE_PROP_FILE_COUNT_BL:ファイル $1: ファイル調査数:$2 / 発見:$3 / リンク破損:$4
+SET_FILE_PROP_FILE_COUNT_PROPOPT:ファイル $1: ファイル調査数:$2 / 発見:$3/$4
+SET_FILE_PROP_FILE_COUNT_PROPOPT_BL:ファイル $1: ファイル調査数:$2 / 発見:$3/$4 / リンク破損:$5
+SET_FILE_PROP_FILE_COUNT_NOHASH:ファイル $1: ファイル調査数:$2 / 発見:$3 / ハッシュなし:$4
+SET_FILE_PROP_FILE_COUNT_NOHASH_BL:ファイル $1: ファイル調査数:$2 / 発見:$3 / ハッシュなし:$4 / リンク破損:$5
+SET_FILE_PROP_FILE_COUNT_NOHASH_PROPOPT:ファイル $1: ファイル調査数:$2 / 発見:$3/$4 / ハッシュなし:$5
+SET_FILE_PROP_FILE_COUNT_NOHASH_PROPOPT_BL:ファイル $1: ファイル調査数:$2 / 発見:$3/$4 / ハッシュなし:$5 / リンク破損:$6
+
+PROPUPD_START:ファイルプロパティファイル更新を開始する ...
+PROPUPD_OSINFO_START:O/S情報を収集する ...
+PROPUPD_ARCH_FOUND:システムアーキテクチャが見つかりました: $1
+PROPUPD_REL_FILE:リリースファイルが見つかりました: $1
+PROPUPD_NO_REL_FILE:リリースファイルが見つかりません: LSアウトプット表示:
+PROPUPD_OSNAME_FOUND:O/S名が見つかりました: $1
+PROPUPD_ERROR:新しい「rkhunter.dat」ファイルのインストール中にエラーが発生しました。コード $1
+PROPUPD_NEW_DAT_FILE::新しい「rkhunter.dat」ファイルが「 $1 」にインストールされました。
+PROPUPD_WARN:警告! 「--propupd」オプションを使用する場合、ユーザの責任においてシステム内のファイルすべての真正性および
+PROPUPD_WARN:信頼されるソースからのインストールを確認してください。
+PROPUPD_WARN:rkhunterの「--check」オプションでは現在のファイルプロパティと前回保存された値を比較して値の差異を報告します。
+PROPUPD_WARN:しかし、ユーザによる変更に関してrkhunterは
+PROPUPD_WARN:何が変更を発生させたのか原因究明することはできません。
+
+ENABLED_TESTS:有効にされているテストは次のとおりです: $1
+DISABLED_TESTS:無効にされているテストは次のとおりです: $1
+
+USER_FILE_LIST:ファイルプロパティチェックにユーザファイルを含む:
+USER_CMD_LIST:ファイルプロパティチェックにユーザコマンドを含む:
+USER_DIR_LIST:ファイルプロパティチェックにユーザディレクトリを含む:
+USER_EXCLUDE_PROP:ファイルプロパティチェックから除外する:
+
+KSYMS_FOUND:ksymファイル「 $1 」が見つかりました。
+KSYMS_UNAVAIL:すべてのksymおよびkallsymsチェックはスキップされます - ファイルを読み取ることができません。
+KSYMS_MISSING:すべてのksymおよびkallsymsチェックはスキップされます - どちらのファイルもシステム内にありません。
+
+STARTING_TEST:開始テスト名「 $1 」
+USER_DISABLED_TEST:ユーザのリクエストによりテスト「 $1 」が無効にされました。
+
+CHECK_START:システムチェック開始 ...
+CHECK_WARNINGS_NOT_FOUND:システムチェック中に警告は見つかりませんでした。
+CHECK_WARNINGS_NOT_FOUND0:システムチェック中に 0 件の警告が見つかりました。
+CHECK_WARNINGS_FOUND:システムチェック中に1つまたはそれ以上の警告が見つかりました。
+CHECK_WARNINGS_FOUND_NUMBER:システムチェック中に $1 件の警告が見つかりました。
+CHECK_WARNINGS_FOUND_NUMBER1:システムチェック中に 1 件の警告が見つかりました。
+CHECK_WARNINGS_FOUND_RERUN:rkhunterを再度実行してログファイルが作成されることを確認してください。
+CHECK_WARNINGS_FOUND_CHK_LOG:ログファイル ($1) をチェックしてくください。
+
+CHECK_SYS_COMMANDS:システムコマンドをチェックする ...
+STRINGS_CHECK_START:「strings」コマンドチェックを実行する
+STRINGS_SCANNING_OK:ストリング $1 をスキャンする
+STRINGS_SCANNING_BAD:ストリング $1 をスキャンする
+STRINGS_SCANNING_BAD:「strings」コマンドにストリングは見つかりませんでした。
+STRINGS_CHECK:「strings」コマンドをチェックする
+STRINGS_CHECK:チェックがスキップされました - 「strings」コマンドが見つかりませんでした。
+
+FILE_PROP_START:ファイルプロパティチェックを実行する
+FILE_PROP_CMDS:前提条件をチェックする
+FILE_PROP_IMMUT_OS:すべての不変ビットチェックをスキップします。このチェックはLinuxシステムでのみ利用できます。
+FILE_PROP_IMMUT_SET:不変ビットチェックは破棄されます。
+FILE_PROP_SKIP_ATTR:コマンド「stat」が見つかりませんでした - すべての属性チェックはスキップされます。
+FILE_PROP_SKIP_HASH:次の理由によりすべてのファイルハッシュチェックはスキップされます:
+FILE_PROP_SKIP_HASH_FUNC:値の保存に使用されている現在のハッシュ関数 ($1) またはパッケージマネージャ ($2) はハッシュ関数 ($3) またはパッケージマネージャ ($4) と互換性がありません。
+FILE_PROP_SKIP_HASH_PRELINK:「prelink」コマンドが見つかりませんでした。
+FILE_PROP_SKIP_HASH_SHA1:システムはprelinkを使用していますがハッシュ関数コマンドはSHA1またはMD5ではないようです。
+FILE_PROP_SKIP_HASH_LIBSAFE:エラーの原因となるlibsafeが見つかりました。可能であればlibsafeを無効にしてprelinkコマンドを実行してください。最後に「rkhunter --propupd」を実行してハッシュ値を再作成してください。
+FILE_PROP_SKIP_IMMUT:「lsattr」コマンドが見つかりませんでした - すべてのファイル不変ビットチェックはスキップされます。
+FILE_PROP_SKIP_IMMUT_CMD:「 $1 」コマンドのアウトプットはありません - すべてのファイル不変ビットチェックはスキップされます。
+FILE_PROP_SKIP_SCRIPT:「file」コマンドが見つかりませんでした - すべてのスクリプト置換チェックはスキップされます。
+FILE_PROP_SKIP_FILE_CMD:「file」コマンドによるアウトプットはありません - すべてのスクリプト置換チェックはスキップされます。
+FILE_PROP_NO_OS_WARNING:ユーザのリクエストによりすべてのO/S変更に関する警告は無効にされました。
+FILE_PROP_OS_CHANGED:ローカルホスト設定またはオペレーティングシステムが変更されました。
+FILE_PROP_DAT_MISSING:保存済みファイルプロパティのファイル (rkhunter.dat) が存在しないため作成する必要があります。作成するには「rkhunter --propupd」と入力してください。
+FILE_PROP_DAT_EMPTY:保存済みファイルプロパティのファイル (rkhunter.dat) が空のため作成する必要があります。作成するには「rkhunter --propupd」と入力してください。
+FILE_PROP_SKIP_ALL:すべてのファイルプロパティチェックはスキップされました。
+FILE_PROP_DAT_MISSING_INFO:「rkhunter.dat」ファイルなしで実行できるチェックがあるため、ファイルプロパティチェックは実行されます。
+
+FILE_PROP_FILE_NOT_EXIST:ファイル「 $1 」はシステム内に存在しませんが「rkhunter.dat」ファイル内には存在します。
+FILE_PROP_WL:ファイル「 $1 」が見つかりました: 「 $2 」チェックのためホワイトリストに追加されます。
+FILE_PROP_WL_STR:ファイル「 $1 」およびストリング「 $2 」が見つかりました: 「 $3 」チェックのためホワイトリストに追加されます。
+FILE_PROP_WL_DIR:ディレクトリ「 $1 」が見つかりました: 「 $2 」チェックのためホワイトリストに追加されます。
+FILE_PROP_NO_RKH_REC:ファイル「 $1 」はシステム内に存在しますが「rkhunter.dat」ファイル内には存在しません。
+FILE_PROP_CHANGED:ファイルプロパティが変更されました:
+FILE_PROP_CHANGED2:ファイル: $1
+FILE_PROP_NO_PKGMGR_FILE:ファイル「 $1 」のハッシュ値をスキップしました: ファイルがパッケージに属していません。
+FILE_PROP_NO_SYSHASH:「 $1 」ファイルのハッシュ値は見つかりませんでした。
+FILE_PROP_NO_SYSHASH_BL:ファイルはリンク破損しています: $1 -> $2
+FILE_PROP_BROKEN_LINK_WL_TGT:破損リンクが見つかりましたがターゲットの存在はホワイトリストに追加されます: $1 -> $2
+FILE_PROP_NO_SYSHASH_CMD:Hashコマンド出力: $1
+FILE_PROP_NO_SYSHASH_DEPENDENCY:依存エラーを解決するには「prelink $1」コマンドの実行をお試しください。
+FILE_PROP_IGNORE_PRELINK_DEP_ERR:ファイル「 $1 」のprelink依存エラーを無視する
+FILE_PROP_SYSHASH_UNAVAIL:現在のハッシュ: 取得不可
+FILE_PROP_SYSHASH_UNAVAIL_BL:現在のハッシュ: 取得不可 (リンク切れの可能性)
+FILE_PROP_SYSHASH:現在のハッシュ: $1
+FILE_PROP_RKHHASH:保存済みハッシュ : $1
+FILE_PROP_NO_RKHHASH:「rkhunter.dat」ファイル内のファイル「 $1 」のハッシュ値がありません。
+FILE_PROP_NO_RKHPERM:「rkhunter.dat」ファイル内のファイル「 $1 」のファイルパーミッション値がありません。
+FILE_PROP_PERM_UNAVAIL:現在のパーミッション: 取得不可   保存済みパーミッション: $1
+FILE_PROP_PERM:現在のパーミッション: $1   保存済みパーミッション: $2
+FILE_PROP_UID_UNAVAIL:現在のuid: 取得不可  保存済みuid: $1
+FILE_PROP_UID:現在のuid: $1  保存済みuid: $2
+FILE_PROP_NO_RKHUID:「rkhunter.dat」ファイル内のファイル「 $1 」のuser-id値がありません。
+FILE_PROP_GID_UNAVAIL:現在のgid: 取得不可   保存済みgid: $1
+FILE_PROP_GID:現在のgid: $1   保存済みgid: $2
+FILE_PROP_NO_RKHGID:「rkhunter.dat」ファイル内のファイル「 $1 」のgroup-id値がありません。
+FILE_PROP_INODE_UNAVAIL:現在のinode: 取得不可   保存済みinode: $1
+FILE_PROP_INODE:現在のinode: $1   保存済みinode: $2
+FILE_PROP_NO_RKHINODE:「rkhunter.dat」ファイル内のファイル「 $1 」のinode値がありません。
+FILE_PROP_SIZE_UNAVAIL:現在のサイズ: 取得不可   保存済みサイズ: $1
+FILE_PROP_SIZE:現在のサイズ: $1  保存済みサイズ: $2
+FILE_PROP_NO_RKHSIZE:「rkhunter.dat」ファイル内のファイル「 $1 」のサイズ値がありません。
+FILE_PROP_SYSDTM_UNAVAIL:現在のファイル修正日時:  
+FILE_PROP_SYSDTM:現在のファイル修正日時: $1
+FILE_PROP_RKHDTM:保存済みファイル修正日時: $1
+FILE_PROP_NO_RKHDTM:「rkhunter.dat」ファイル内のファイル「 $1 」のファイル修正日時値がありません。
+FILE_PROP_SYSLNK:現在のシンボリックリンクターゲット: 「 $1 」 -> 「 $2 」
+FILE_PROP_RKHLNK:保存済みシンボリックリンクターゲット : 「 $1 」 -> 「 $2 」
+FILE_PROP_NO_RKHLNK:「rkhunter.dat」ファイル内のファイル「 $1 」へのシンボリックリンクターゲットは見つかりませんでした。
+FILE_PROP_LINK_WL:The シンボリックリンクターゲットが変更されましたがホワイトリストに追加されます: 「 $1 」 -> 「 $2 」
+FILE_PROP_NO_SYSATTR:ファイル「 $1 」の現在のプロパティを取得できません。'
+FILE_PROP_WRITE:すべてのユーザにファイル「 $1 」の書き込み権限が設定されています。
+FILE_PROP_SYSPERM_UNAVAIL:ファイル「 $1 」の現在の書き込み権限を取得できません。'
+FILE_PROP_IMMUT:ファイル「 $1 」には不変ビットセットがあります。
+FILE_PROP_IMMUT_NOT_SET:ファイル「 $1 」には不変ビットセットがありません。
+FILE_PROP_SCRIPT:コマンド「 $1 」はスクリプトに置換されました: $2
+FILE_PROP_SCRIPT_RKH:コマンド「 $1 」は置換されたためスクリプトではありません: $2
+
+FILE_PROP_VRFY:パッケージマネージャ照合に失敗しました
+FILE_PROP_VRFY_HASH:ファイルハッシュ値が変更されました。
+FILE_PROP_VRFY_PERM:ファイルパーミッションが変更されました。
+FILE_PROP_VRFY_UID:ファイルオーナーが変更されました。
+FILE_PROP_VRFY_GID:ファイルグループが変更されました。
+FILE_PROP_VRFY_DTM:ファイル修正日時が変更されました。
+FILE_PROP_VRFY_LNK:シンボリックリンクターゲットが変更されました。
+FILE_PROP_VRFY_SIZE:ファイルサイズが変更されました。
+
+FILE_PROP_EPOCH_DATE_CMD:UNIX時間の処理に「 $1 」を使用する
+
+CHECK_ROOTKITS:rootkitsをチェックする ...
+ROOTKIT_FILES_DIRS_START:既知のrootkitファイルおよびディレクトリのチェックを実行する
+ROOTKIT_FILES_DIRS_NAME_LOG: ${1} をチェックする ...
+ROOTKIT_FILES_DIRS_FILE:ファイル「 $1 」をチェックする
+ROOTKIT_FILES_DIRS_DIR:ディレクトリ「 $1 」をチェックする
+ROOTKIT_FILES_DIRS_KSYM:「 $1 」カーネルシンボル「 $1 」をチェックする
+ROOTKIT_FILES_DIRS_FILE_FOUND:ファイル「 $1 」が見つかりました。
+ROOTKIT_FILES_DIRS_DIR_FOUND:ディレクトリ「 $1 」が見つかりました。
+ROOTKIT_FILES_DIRS_KSYM_FOUND:カーネルシンボル「 $1 」が見つかりました。
+ROOTKIT_FILES_DIRS_STR:ストリング「 $1 」をチェックする
+ROOTKIT_FILES_DIRS_STR_FOUND:ファイル「 $2 」にストリグ「 $1 」が見つかりました。
+ROOTKIT_FILES_DIRS_NOFILE:ファイル「 $1」は存在しません。
+ROOTKIT_FILES_DIRS_SINAR_DIR:「 $1 」をチェックする
+ROOTKIT_FILES_DIRS_SINAR:SInARが見つかりました: $1
+
+ROOTKIT_LINK_COUNT:「 $1 」のハードリンクカウントをチェックする
+ROOTKIT_LINK_COUNT_FAIL:「 $1 」コマンドからのハードリンクカウント: $2
+ROOTKIT_LINK_COUNT_CMDERR:「 $2 」のチェック中に「 $1 」コマンドにエラーが発生しました。
+
+ROOTKIT_PHALANX2_LINK_COUNT_FAIL:「 $1 」のハードリンクのチェックに失敗しました。
+ROOTKIT_PHALANX2_PROC:プロセス「ata/0」のプロセスリストをチェックする
+ROOTKIT_PHALANX2_PROC_FOUND:実行中プロセス「ata/0」が見つかりました。
+ROOTKIT_PHALANX2_PROC_PPID:予期された「kthread」親PID「 $1 」に親PID「 $2 」が見つかりました。'
+ROOTKIT_PHALANX2_PROC_PS_ERR:「ps」の実行が予期しない結果を戻しました: コマンドライン変数がサポートされていない可能性があります。
+
+ROOTKIT_ADD_START:追加rootkitチェックを実行する
+ROOTKIT_ADD_SUCKIT:Suckit Rookit追加チェック
+ROOTKIT_ADD_SUCKIT_LOG:Suckit Rookit追加チェックを実行する
+ROOTKIT_ADD_SUCKIT_LINK_NOCMD:「/sbin/init」リンクカウントをチェックする: 「stat」コマンドが見つかりませんでした。
+ROOTKIT_ADD_SUCKIT_LINK_FOUND:「/sbin/init」リンクカウントをチェックする: カウントは $1 です。「1」にしてください。
+ROOTKIT_ADD_SUCKIT_EXT:隠しファイル拡張子をチェックする
+ROOTKIT_ADD_SUCKIT_EXT_FOUND:隠しファイル拡張子をチェックする: 発見: $1
+ROOTKIT_ADD_SUCKIT_SKDET:skdetコマンドを実行する
+ROOTKIT_ADD_SUCKIT_SKDET_FOUND:skdetコマンドを実行する: 発見: $1
+ROOTKIT_ADD_SUCKIT_SKDET_VER:skdetコマンドを実行する: 不明なバージョン: $1
+
+ROOTKIT_POSS_FILES_DIRS:可能性のあるrootkitファイルおよびディレクトリをチェックする
+ROOTKIT_POSS_FILES_DIRS_LOG:可能性のあるrootkitファイルおよびディレクトリのチェックを実行する
+ROOTKIT_POSS_FILES_FILE_FOUND:ファイル「 $1 」が見つかりました。可能性のあるrootkit: $2
+ROOTKIT_POSS_FILES_DIR_FOUND:ディレクトリ「 $1 」が見つかりました。可能性のあるrootkit: $2
+
+ROOTKIT_POSS_STRINGS:可能性のあるrootkitストリングをチェックする
+ROOTKIT_POSS_STRINGS_LOG:可能性のあるrootkitストリングのチェックを実行する
+ROOTKIT_POSS_STRINGS_FOUND:ファイル「 $2 」内にストリング「 $1 」が見つかりました。rootkitの可能性: $3
+
+ROOTKIT_MALWARE_START:マルウェアチェックを実行する
+ROOTKIT_MALWARE_SUSP_FILES:疑わしいファイルのプロセス実行をチェックする
+ROOTKIT_MALWARE_SUSP_FILES_FOUND:次のプロセスは疑わしいファイルを使用しています:
+ROOTKIT_MALWARE_SUSP_FILES_FOUND_UID:UID: $1    PID: $2
+ROOTKIT_MALWARE_SUSP_FILES_FOUND_CMD:コマンド: $1
+ROOTKIT_MALWARE_SUSP_FILES_FOUND_PATH:パス名: $1
+ROOTKIT_MALWARE_SUSP_FILES_FOUND_RTKT:Rootkitの可能性: $1
+ROOTKIT_MALWARE_HIDDEN_PROCS:隠しプロセスをチェックする
+ROOTKIT_MALWARE_HIDDEN_PROCS_NOUNHIDE:ユーザのリクエストにより「 $1 」の使用が無効にされました。
+ROOTKIT_MALWARE_HIDDEN_PROCS_UNHIDE_VERS:「unhide」コマンドバージョンが見つかりました: $1
+ROOTKIT_MALWARE_HIDDEN_PROCS_UNHIDE_CMD:コマンド「 $1 」を使用する
+ROOTKIT_MALWARE_HIDDEN_PROCS_UNH_ERR:「unhide」は実行されませんでした。無効なテストファイル名: $1
+ROOTKIT_MALWARE_HIDDEN_PROCS_RUBY_ERR:「unhide.rb」コマンドにエラーが発生しました:
+ROOTKIT_MALWARE_HIDDEN_PROCS_FOUND:隠しプロセスが見つかりました:
+ROOTKIT_MALWARE_DELETED_FILES:削除済みファイルの実行プロセスをチェックする
+ROOTKIT_MALWARE_DELETED_FILES_FOUND:次のプロセスは削除済みファイルを使用しています:
+ROOTKIT_MALWARE_DELETED_FILES_FOUND_DATA:プロセス: $1   PID: $2   ファイル: $3
+ROOTKIT_MALWARE_DELETED_FILES_WL:プロセス「 $1 」によるファイル「 $2 」の使用を発見しました: ホワイトリストに追加されます。
+ROOTKIT_MALWARE_LOGIN_BDOOR:ログインバックドアをチェックする
+ROOTKIT_MALWARE_LOGIN_BDOOR_LOG:ログインバックドアのチェックを実行する
+ROOTKIT_MALWARE_LOGIN_BDOOR_CHK:「 $1 」をチェックする
+ROOTKIT_MALWARE_LOGIN_BDOOR_FOUND:ログインバックドアファイルが見つかりました: $1
+ROOTKIT_MALWARE_SUSP_DIR:疑わしいディレクトリをチェックする
+ROOTKIT_MALWARE_SUSP_DIR_LOG:疑わしいディレクトリのチェックを実行する
+ROOTKIT_MALWARE_SUSP_DIR_FOUND:疑わしいディレクトリが見つかりました: $1
+ROOTKIT_MALWARE_SFW_INTRUSION:ソフトウェア侵入をチェックする
+ROOTKIT_MALWARE_SFW_INTRUSION_FOUND:「 $1 」にストリング「 $2 」が含まれています。rootkitの可能性: SHV5
+ROOTKIT_MALWARE_SFW_INTRUSION_SKIP:チェックをスキップしました - tripwireがインストールされていません。
+ROOTKIT_MALWARE_SNIFFER:スニファログファイルをチェックする
+ROOTKIT_MALWARE_SNIFFER_LOG:スニファログファイルのチェックを実行する
+ROOTKIT_MALWARE_SNIFFER_FOUND:可能性のあるスニファログファイルが見つかりました: $1
+ROOTKIT_MALWARE_IPCS:疑わしい共有メモリセグメント
+ROOTKIT_MALWARE_IPCS_DETAILS:プロセス: $1  PID: $2  オーナー: $3
+
+ROOTKIT_TROJAN_START:トロイの木馬固有チェックを実行する
+ROOTKIT_TROJAN_INETD:inetdサービスの有効化をチェックする
+ROOTKIT_TROJAN_INETD_SKIP:チェックをスキップしました  - ファイル「 $1 」が見つかりません。
+ROOTKIT_TROJAN_INETD_FOUND:有効なinetdサービスが見つかりました: $1
+ROOTKIT_TROJAN_XINETD:xinetdサービスの有効化をチェックする
+ROOTKIT_TROJAN_XINETD_LOG:有効なxinetdサービスのチェックを実行する
+ROOTKIT_TROJAN_XINETD_ENABLED:「 $1 」の有効なサービスをチェックする
+ROOTKIT_TROJAN_XINETD_INCLUDE:「include $1」ディレクティブが見つかりました。
+ROOTKIT_TROJAN_XINETD_INCLUDEDIR:「includedir $1」ディレクティブが見つかりました。
+ROOTKIT_TROJAN_XINETD_ENABLED_FOUND:有効なxinetdサービスが見つかりました : $1
+ROOTKIT_TROJAN_XINETD_WHITELIST:サービス「 $1 」が見つかりました。: $2 がホワイトリストに追加されます。
+ROOTKIT_TROJAN_APACHE:Apacheバックドアをチェックする
+ROOTKIT_TROJAN_APACHE_SKIPPED:Apacheバックドアチェックをスキップしました: Apacheモジュールおよび設定ディレクトリが見つかりませんでした。
+ROOTKIT_TROJAN_APACHE_FOUND:Apacheバッグドアモジュール「mod_rootme」が見つかりました: $1
+
+ROOTKIT_OS_START:$1 固有チェックを実行する
+ROOTKIT_OS_SKIPPED:利用できる固有テストはありません。
+ROOTKIT_OS_BSD_SOCKNET:sockstatおよびnetstatコマンドをチェックする
+ROOTKIT_OS_BSD_SOCKNET_FOUND:sockstatおよびnetstatアウトプットに差異が発見されました:
+ROOTKIT_OS_BSD_SOCKNET_OUTPUT:$1 アウトプット (使用中ポート): $2
+ROOTKIT_OS_FREEBSD_KLD:KLDバックドアをチェックする
+ROOTKIT_OS_FREEBSD_KLD_FOUND:FreeBSD KLDバッグドアの可能性が発見されました。ストリング「 $1 」を表示するには「kldstat -v」コマンドを実行してください。
+ROOTKIT_OS_FREEBSD_PKGDB:パッケージデータベースをチェックする
+ROOTKIT_OS_FREEBSD_PKGDB_NOTOK:パッケージデータベースに矛盾が存在します。
+ROOTKIT_OS_FREEBSD_PKGDB_NOTOK:これはセキュリティ問題ではありませんが「pkgdb -Fk」を実行することにより問題を診断することができます。
+ROOTKIT_OS_DFLY_PKGDB_NOTOK:パッケージデータベースに矛盾が存在します。
+ROOTKIT_OS_DFLY_PKGDB_NOTOK:これはセキュリティ問題ではありませんが「pkg_admin check」を実行することにより問題を診断することができます。
+ROOTKIT_OS_LINUX_LKM:読み込み済みカーネルモジュールをチェックする
+ROOTKIT_OS_LINUX_LKM_FOUND:lsmodコマンドと「/proc/modules」ファイルに差異が見つかりました:
+ROOTKIT_OS_LINUX_LKM_OUTPUT:$1 アウトプット: $2
+ROOTKIT_OS_LINUX_LKM_EMPTY:lsmodコマンドまたは「/proc/modules」ファイルからアウトプットは見つかりませんでした:
+ROOTKIT_OS_LINUX_LKM_MOD_MISSING:モジュールファイル「 $1 」がありません。
+ROOTKIT_OS_LINUX_LKMNAMES:カーネルモジュール名をチェックする
+ROOTKIT_OS_LINUX_LKMNAMES_PATH:「 $1 」のモジュールパスを使用する
+ROOTKIT_OS_LINUX_LKMNAMES_FOUND:「 $1 」に既知の問題のあるカーネルモジュールが見つかりました: $2
+ROOTKIT_OS_LINUX_LKMNAMES_PATH_MISSING:カーネルモジュールディレクトリ「 $1 」が存在しないまたは空です。
+
+CHECK_LOCALHOST:ローカルホストをチェックする ...
+STARTUP_FILES_START:システムブートチェックを実行する
+STARTUP_HOSTNAME:ローカルホスト名をチェックする
+STARTUP_NO_HOSTNAME:ホスト名は見つかりませんでした。
+STARTUP_CHECK_FILES_EXIST:システムスタートアップファイルをチェックする
+STARTUP_NONE_GIVEN:ユーザがスタートアップファイルパス名に「NONE」を指定しました。
+STARTUP_CHECK_FILES_MALWARE:マルウェアのシステムスタートアップファイルをチェックする
+STARTUP_CHECK_NO_RC_FILES:システムスタートアップファイルは見つかりませんでした。
+
+ACCOUNTS_START:グループおよびアカウントのチェックを実行する
+ACCOUNTS_PWD_FILE_CHECK:パスワードファイルをチェックする
+ACCOUNTS_FOUND_PWD_FILE:パスワードファイルが見つかりました: $1
+ACCOUNTS_NO_PWD_FILE:パスワードファイル $1 は存在しません。
+ACCOUNTS_UID0:root同等 (UID 0) アカウントをチェックする
+ACCOUNTS_UID0_WL:root同等アカウント「 $1 」が見つかりました: ホワイトリストに追加されます。
+ACCOUNTS_UID0_FOUND:アカウント「 $1 」はroot同等アカウント (UID = 0) です。
+ACCOUNTS_SHADOW_FILE:シャドウファイルが見つかりました: $1
+ACCOUNTS_SHADOW_TCB:TCBシャドウファイルディレクトリが見つかりました: $1
+ACCOUNTS_PWDLESS:パスワードなしアカウントをチェックする
+ACCOUNTS_PWDLESS_WL:パスワードなしアカウント「 $1 」が見つかりました: ホワイトリストに追加されます。
+ACCOUNTS_PWDLESS_FOUND:パスワードなしアカウントが $1 ファイル内に見つかりました: $2
+ACCOUNTS_NO_SHADOW_FILE:シャドウ/パスワードファイルが見つかりませんでした。
+
+PASSWD_CHANGES:パスワードファイル変更をチェックする
+PASSWD_CHANGES_NO_TMP:パスワードファイルの差異を確認できません: パスワードファイルのコピーは存在しません。
+
+PWD_CHANGES_IDADD:ユーザ「 $1 」がパスワードファイルに追加されました。
+PWD_CHANGES_IDREM:ユーザ「 $1 」がパスワードファイルから削除されました。
+PWD_CHANGES_FOUND:ユーザ「 $1 」の変更がパスワードファイルに見つかりました:
+PWDGRP_CHANGES_UNK:不明なフィールドが $1 ファイルに見つかりました: 古いフィールド: 「 $2 」 新しいフィールド: 「 $3 」
+PWD_CHANGES_PWD:パスワードが「 $1 」 から「 $2 」 に変更されました。
+PWD_CHANGES_UID:UIDが「 $1 」 から「 $2 」 に変更されました。
+PWD_CHANGES_GID:GIDが「 $1 」 から「 $2 」 に変更されました。
+PWD_CHANGES_COMM:アカウントコメントが「 $1 」 から「 $2 」 に変更されました。
+PWD_CHANGES_HOME:ホームディレクトリが「 $1 」 から「 $2 」 に変更されました。
+PWD_CHANGES_SHL:ログインシェルスクリプトが「 $1 」 から「 $2 」 に変更されました。
+
+GROUP_CHANGES:グループファイル変更チェック
+GROUP_CHANGES_NO_FILE:グループファイル $1 は存在しません。
+GROUP_CHANGES_NO_TMP:グループファイルの差異を確認できません: グループファイルのコピーは存在しません。
+GROUP_CHANGES_FOUND:グループ「 $1 」のグループファイルに変更が見つかりました:
+GROUP_CHANGES_IDADD:グループ「 $1 」がグループファイルに追加されました。
+GROUP_CHANGES_IDREM:グループ「 $1 」がグループファイルから削除されました。
+GROUP_CHANGES_PWD:グループパスワードが「 $1 」から「 $2 」に変更されました。
+GROUP_CHANGES_GID:グループナンバーが「 $1 」から「 $2 」に変更されました。
+GROUP_CHANGES_GRPREM:ユーザ「 $1 」がグループから削除されました。
+GROUP_CHANGES_GRPADD:ユーザ「 $1 」がグループに追加されました。
+
+HISTORY_CHECK:ルートアカウントのシェル履歴ファイルをチェックする
+HISTORY_CHECK_FOUND:ルートアカウント $1 のシェルスクリプトファイルはシンボリックリンクです: $2
+
+SYSTEM_CONFIGS_START:システム設定ファイルのチェックを実行する
+SYSTEM_CONFIGS_FILE:システムロギング設定ファイルをチェックする
+SYSTEM_CONFIGS_FILE_SSH:SSH設定ファイルをチェックする
+SYSTEM_CONFIGS_FILE_FOUND:$1 $2 設定ファイルが見つかりました: $3
+SYSTEM_CONFIGS_SSH_ROOT:SSHルートアクセスの許可をチェックする
+SYSTEM_CONFIGS_SSH_ROOT_FOUND:SSHおよびrkhunter設定オプションを同じにする必要があります:
+SYSTEM_CONFIGS_SSH_ROOT_FOUND1:SSH設定オプション「PermitRootLogin」: $1
+SYSTEM_CONFIGS_SSH_ROOT_FOUND2:Rkhunter設定オプション「ALLOW_SSH_ROOT_USER」: $1
+SYSTEM_CONFIGS_SSH_ROOT_NOTFOUND:SSH設定オプション「PermitRootLogin」が設定されていません。
+SYSTEM_CONFIGS_SSH_ROOT_NOTFOUND:rootアクセスを許可するためにはデフォルト値を「yes」にしてください。
+SYSTEM_CONFIGS_SSH_PROTO:SSHプロトコルv1の許可をチェックする
+SYSTEM_CONFIGS_SSH_PROTO_DIFF1:SSH設定オプション「Protocol」: $1
+SYSTEM_CONFIGS_SSH_PROTO_DIFF2:Rkhunter設定オプション「ALLOW_SSH_PROT_V1」: $1
+SYSTEM_CONFIGS_SSH_PROTO_NOTFOUND:SSH設定オプション「Protocol」が設定されていません。
+SYSTEM_CONFIGS_SSH_PROTO_NOTFOUND:プロトコルバージョン1の使用を許可するにはデフォルト値を「2,1」にしてください。
+SYSTEM_CONFIGS_SYSLOG:実行中のシステムロギングデーモンをチェックする
+SYSTEM_CONFIGS_SYSLOG_NOT_RUNNING:システムロギングデーモンは見つかりませんでした。
+SYSTEM_CONFIGS_SYSLOG_DAEMON:実行中の「 $1 」デーモンが見つかりました。
+SYSTEM_CONFIGS_SYSLOG_NO_FILE:「 $1 」デーモンは実行されていますが設定ファイルが見つかりませんでした。
+SYSTEM_CONFIGS_SYSLOG_REMOTE:syslogリモートロギングが許可されているかチェックする
+SYSTEM_CONFIGS_SYSLOG_REMOTE_LOG:「 $1 」設定ファイルはリモートロギングを許可します: $2
+SYSTEM_CONFIGS_SYSLOG_REMOTE_ALLOWED:Rkhunter設定オプション「ALLOW_SYSLOG_REMOTE_LOGGING」が有効にされました。
+
+FILESYSTEM_START:ファイルシステムチェックを実行する
+FILESYSTEM_DEV_CHECK:「/dev」の疑わしいファイルタイプをチェックする
+FILESYSTEM_DEV_CHECK_NO_DEV:「/dev」が存在しません。
+FILESYSTEM_DEV_FILE_WL:ファイル「 $1 」が見つかりました: ホワイトリストに追加されます。
+FILESYSTEM_DEV_FILE_FOUND:$1 に疑わしいファイルタイプが見つかりました:
+FILESYSTEM_HIDDEN_DIR_WL:隠しディレクトリ「 $1 」が見つかりました: ホワイトリストに追加されます。
+FILESYSTEM_HIDDEN_FILE_WL:隠しファイル「 $1 」が見つかりました: ホワイトリストに追加されます。
+FILESYSTEM_HIDDEN_CHECK:隠しファイルおよびディレクトリをチェックする
+FILESYSTEM_HIDDEN_DIR_FOUND:隠しディレクトリが見つかりました: $1
+FILESYSTEM_HIDDEN_FILE_FOUND:隠しファイルが見つかりました: $1
+FILESYSTEM_LOGFILE_MISSING:ログファイルの存在をチェックする
+FILESYSTEM_LOGFILE_MISSING_FOUND:ログファイル「 $1 」がありません。
+FILESYSTEM_LOGFILE_EMPTY:空のログファイルをチェックする
+FILESYSTEM_LOGFILE_EMPTY_FOUND:ログファイル「 $1 」は空です。
+
+CHECK_APPS:アプリケーションバージョンをチェックする ...
+APPS_NONE_FOUND:不明なアプリケーションは見つかりませんでした - すべてのバージョンチェックはスキップされました。
+APPS_DAT_MISSING::安全ではないアプリケーションバージョンのファイルは存在しないまたは空です: $1
+APPS_DAT_MISSING:デフォルトファイルをリストアするには「rkhunter --update」を実行してください。
+APPS_DAT_NOTAFILE:安全ではないアプリケーションバージョンのファイルはファイルではありません: $1
+APPS_NOT_FOUND:アプリケーション「 $1 」は見つかりませんでした。
+APPS_CHECK:$1 のバージョンチェック
+APPS_CHECK_WL:アプリケーション「 $1 」が見つかりました: ホワイトリストに追加されます。
+APPS_CHECK_VERSION_UNKNOWN:「 $1 」のバージョンナンバーを取得できません。
+APPS_CHECK_VERSION_FOUND:アプリケーション「 $1 」 バージョン「 $2 」が見つかりました。
+APPS_CHECK_VERSION_WL:アプリケーション「 $1 」 バージョン「 $2 」が見つかりました: このバージョンはホワイトリストに追加されます。
+APPS_CHECK_WHOLE_VERSION_USED:「 $1 」のバージョンナンバーを取得できません: バージョンオプション: $2
+APPS_CHECK_FOUND:アプリケーション「 $1 」 バージョン「 $2 」の有効期限が切れています。セキュリティリスクの可能性があります。
+APPS_TOTAL_COUNT:アプリケーションチェック: $1 / $2
+
+CHECK_NETWORK:ネットワークチェック ...
+NETWORK_PORTS_START:ネットワークポートのチェックを実行する
+NETWORK_PORTS_BACKDOOR:バックドアポートをチェックする
+NETWORK_PORTS_BACKDOOR_LOG:バックドアポートのチェックを実行する
+NETWORK_PORTS_FILE_MISSING:既知のバックドアポートのファイルが存在しないか空です: $1
+NETWORK_PORTS_FILE_MISSING:デフォルトファイルをリストアするには「rkhunter --update」を実行してください。
+NETWORK_PORTS_FILE_NOTAFILE:既知のバッグドアポートのファイルはファイルではありません: $1
+NETWORK_PORTS_UNKNOWN_NETSTAT:すべてのバックドアポートチェックはスキップされました。
+NETWORK_PORTS_UNKNOWN_NETSTAT:このO/Sでは不明なnetstatコマンドフォーマットです。
+NETWORK_PORTS_ENABLE_TRUSTED:信用済みパス名はポートホワイトリスティングに有効にされます。
+NETWORK_PORTS_BACKDOOR_CHK:$1 ポート $2 をチェックする
+NETWORK_PORTS_PATH_WHITELIST:ネットワーク $1 ポート $2 は $3 によって使用されています: パスはホワイトリストに追加されます。
+NETWORK_PORTS_TRUSTED_WHITELIST:ネットワーク $1 ポート $2 は $3 によって使用されています: パスは信用されます。
+NETWORK_PORTS_PORT_WHITELIST:ネットワーク $1 ポート $2 が見つかりました: ポートはホワイトリストに追加されます。
+NETWORK_PORTS_BKDOOR_FOUND:ネットワーク $1 ポート $2 は $3 によって使用されています: rootkit可能性: $4
+NETWORK_PORTS_BKDOOR_FOUND:これをチェックするには「lsof -i」または「netstat -an」コマンドを実行してください。
+NETWORK_HIDDEN_PORTS:隠しポートをチェックする
+NETWORK_HIDDEN_PORTS_FOUND:隠しポートが見つかりました:
+NETWORK_HIDDEN_PORTS_CHK:ポート番号: $1:$2
+NETWORK_HIDDEN_PORTS_CHK_NAME:ポート番号: $1:$2 は $3 によって使用されています。
+NETWORK_HIDDEN_PORTS_PATH_WHITELIST:隠し $1 ポート $2 は $3 によって使用されています: パスはホワイトリストに追加されます。
+NETWORK_HIDDEN_PORTS_TRUSTED_WHITELIST:隠し $1 ポート $2 は $3 によって使用されています: パスは信用されます。
+NETWORK_HIDDEN_PORTS_PORT_WHITELIST:隠し $1 ポート $2 が見つかりました: ポートはホワイトリストに追加されます。
+NETWORK_INTERFACE_START:ネットワークインターフェースのチェックを実行する
+NETWORK_PROMISC_WLIST:プロミスキャスモードが許可されたネットワークインターフェース: $1
+NETWORK_PROMISC_CHECK:プロミスキャスインターフェースをチェックする
+NETWORK_PROMISC_NO_IFCONF_IP:プロミスキャスインターフェースのチェックをスキップしました - 「ifconfig」または「ip」コマンドが見つかりませんでした。
+NETWORK_PROMISC_NO_CMD:「 $1 」コマンドを使用したプロミスキャスインターフェースのチェックをスキップしました - 「 $1 」コマンドが見つかりませんでした。「 $2 」コマンドを使用します。
+NETWORK_PROMISC_IF:プロミスキャスインターフェースの可能性:
+NETWORK_PROMISC_IF_1:「ifconfig」コマンド出力:
+NETWORK_PROMISC_IF_2:「ip」コマンド出力:
+NETWORK_PACKET_CAP_CHECK:パケットキャプチャアプリケーションをチェックする
+NETWORK_PACKET_CAP_CHECK_NO_FILE:パケットキャプチャアプリケーションのチェックをスキップしました - 「 $1 」ファイルがありません。
+NETWORK_PACKET_CAP_FOUND:プロセス「 $1 」(PID $2) はネットワークを待ち受けています。
+NETWORK_PACKET_CAP_WL:プロセス「 $1 」が見つかりました: ホワイトリストに追加されます。
+
+SHARED_LIBS_START:「共有ライブラリ」チェックを実行する
+SHARED_LIBS_PRELOAD_VAR:プリロード変数をチェックする
+SHARED_LIBS_PRELOAD_VAR_FOUND:ライブラリプリロード変数が見つかりました: $1
+SHARED_LIBS_PRELOAD_FILE:プリロードライブラリをチェックする
+SHARED_LIBS_PRELOAD_LIB_FOUND:プリロード共有ライブラリが見つかりました: $1
+SHARED_LIBS_PRELOAD_FILE_FOUND:ライブラリプリロードが見つかりました: $1
+SHARED_LIBS_PRELOAD_LIB_WLIST:プリロード共有ライブラリ「 $1 」が見つかりました: ホワイトリストに追加されます。
+SHARED_LIBS_PATH:「LD_LIBRARY_PATH」変数をチェックする
+SHARED_LIBS_PATH_BAD:「LD_LIBRARY_PATH」環境変数が設定されたためバイナリに影響を与えることができます: 設定: $1
+
+SUSPSCAN_CHECK:疑わしいコンテンツのファイルをチェックする
+SUSPSCAN_DIR_NOT_EXIST:ディレクトリ「 $1 」が存在しません。
+SUSPSCAN_INSPECT:ファイル「 $1 」(スコア: $2) には疑わしいコンテンツが含まれているためチェックすべきです。
+SUSPSCAN_START:疑わしいコンテンツのファイルをチェックする
+SUSPSCAN_DIRS:確認するディレクトリは次のとおりです: $1
+SUSPSCAN_NO_DIRS:ディレクトリが指定されていません: デフォルトを使用します ($1)
+SUSPSCAN_TEMP:使用する一時ディレクトリ: $1
+SUSPSCAN_NO_TEMP:一時ディレクトリが指定されていません:デフォルトを使用します ($1)
+SUSPSCAN_SIZE:チェックする最大ファイルサイズ (バイト): $1
+SUSPSCAN_NO_SIZE:最大ファイルサイズが指定されていません: デフォルトを使用します ($1)
+SUSPSCAN_THRESH:スコア閾値が設定されました: $1
+SUSPSCAN_NO_THRESH:スコア閾値が指定されていません: デフォルトを使用します ($1)
+SUSPSCAN_DIR_CHECK:ディレクトリチェック: $1
+SUSPSCAN_FILE_CHECK:ファイルチェック: 名称:「 $1 」スコア: $2
+SUSPSCAN_FILE_CHECK_DEBUG:ファイルチェック: 名称:「 $1 」スコア: $2 ヒットカウント: $3 ヒット: ($4)
+SUSPSCAN_FILE_SKIPPED_EMPTY:ファイルが無視されました: 空です: $1
+SUSPSCAN_FILE_SKIPPED_LINK:ファイルが無視されました: シンボリックリンク: $1
+SUSPSCAN_FILE_SKIPPED_TYPE:ファイルが無視されました: 正しくないタイプ: 「 $1 」: 「 $2 」
+SUSPSCAN_FILE_SKIPPED_SIZE:ファイルが無視されました: 大きすぎます: $1
+SUSPSCAN_FILE_LINK_CHANGE:シンボリックリンクが見つかりました: 「 $1 」 -> 「 $2 」
+SUSPSCAN_DAT_MISSING:疑わしいコンテンツのデータファイルが見当たらないまたは空です: $1
+SUSPSCAN_DAT_MISSING:デフォルトファイルをリストアするには「rkhunter --update」を実行してください。
+SUSPSCAN_DAT_NOTAFILE:疑わしいコンテンツのデータファイルはファイルではありません: $1
+
+LIST_TESTS:現在のテスト名:
+LIST_GROUPED_TESTS:グループテスト名:
+LIST_LANGS:現在の言語:
+LIST_PERL:Perlモジュールインストールステータス:
+LIST_RTKTS:Rootkitsチェック:
+
+LOCK_USED:ロッキングが使用されています: タイムアウトは $1 秒です。
+LOCK_UNUSED:ロッキングは使用されていません。
+LOCK_WAIT:ロックファイル応答待ち
+LOCK_FAIL:ロックファイルを見つけることができませんでした: rkhunterは動作していません!

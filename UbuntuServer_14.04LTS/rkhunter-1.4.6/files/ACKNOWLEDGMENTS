@@ -1,0 +1,45 @@
+
+ROOTKIT HUNTER ACKNOWLEDGMENTS
+==============================
+
+Michael Boelen      Initial Rootkit Hunter developer
+John Horne          Current Rootkit Hunter developer
+Aus9                For Wiki and documentation support
+Gary Bak            For enhancing AIX support and testing
+Andrej Ricnik       For patching and testing
+konsolebox          For loads of suggestions and testing
+Sibtay Abbas        For testing
+Constantin Stefan   For ideas
+Iain Roberts        AIX and OpenBSD support
+Doncho N. Gunchev
+Steph               For testing
+unSpawn             Current Rootkit Hunter developer
+
+
+KNOWN CONTRIBUTORS
+==================
+
+Macemoneta          FUSE support
+B. Donnachie        cAos support
+intrigeri           Parallel run support
+jabel               FreeBSD 6.1 cli vs cron
+baddcarma           ProFTPd 1.3.0 on SuSE 10.0
+linux_fqh           Chinese translations
+Ryan Beckett        For IRIX support
+Marc Becker         German translation
+Mark Dominik Bürkle German translation (updated)
+Julien Valroff      Bug reports, ideas and fixes
+Dick Gevers         For packaging and hosting skdet
+Jan Iven            Bug reports, ideas and fixes
+CaPaCuL             Turkish translations
+Mitsuhiri Yoshida   Japanese translation
+Alexander Wittig    BSDng package manager code
+Patrick G.          IPCS whitelisting code
+incitem/geophy      Alpine Linux (busybox) support
+
+
+And thanks to all others who contributed to Rootkit Hunter:
+the regulars on the Rootkit Hunter users mailing list, bug
+reporters, package maintainers, end-users and those promoting
+Rootkit Hunter usage.
+

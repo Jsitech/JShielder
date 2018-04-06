@@ -36,8 +36,7 @@ function say_continue() {
 
 # Obtain Server IP
 function __get_ip() {
-    linea=`ifconfig eth0 | grep -e "inet\ addr:"`
-    serverip=`python scripts/get_ip.py $linea`
+    serverip=$(ip route get 1 | awk '{print $NF;exit}')
     echo $serverip
 }
 
@@ -52,18 +51,4 @@ function tunning() {
 }
 
 
-# Add BlockIP Command
-function add_command_blockip() {
-    echo "  ===> blockip [IP] -- Adds IP To Block List in IPTABLES (OK)"
-    echo "  ===> unblockip [IP] -- Remove IP From Block List (OK)"
-    cp commands/blockip /sbin/jts-iptables
-    chmod +x /sbin/jts-iptables
-    ln -s /sbin/jts-iptables /sbin/blockip
-    ln -s /sbin/jts-iptables /sbin/unblockip
-    echo -n "  Adding Man Pages blockip(8) and unblockip(8)"
-    cp commands/manpages/blockip /usr/share/man/man8/blockip.8
-    gzip -q /usr/share/man/man8/blockip.8
-    cp commands/manpages/unblockip /usr/share/man/man8/unblockip.8
-    gzip -q /usr/share/man/man8/unblockip.8
-    echo " (Done!)"
-}
+

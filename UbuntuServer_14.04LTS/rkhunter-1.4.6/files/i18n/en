@@ -1,0 +1,652 @@
+Version:2018021101
+#
+# We start with the definitions of the message types and results. There
+# are very few of these, so including these and all the parts of each
+# message in one file makes sense and for easier translation.
+#
+# The message type MSG_TYPE_PLAIN is used for ordinary messages. It has
+# no specific value, and is intercepted in the display function. It is
+# included here for completeness. The index names of MSG_TYPE_ and
+# MSG_RESULT_ are reserved - no messages can use this as part of its index.
+#
+MSG_TYPE_PLAIN:
+MSG_TYPE_INFO:Info
+MSG_TYPE_WARNING:Warning
+
+
+#
+# This is the list of message results.
+#
+MSG_RESULT_OK:OK
+MSG_RESULT_SKIPPED:Skipped
+MSG_RESULT_WARNING:Warning
+MSG_RESULT_FOUND:Found
+MSG_RESULT_NOT_FOUND:Not found
+MSG_RESULT_NONE_FOUND:None found
+MSG_RESULT_ALLOWED:Allowed
+MSG_RESULT_NOT_ALLOWED:Not allowed
+MSG_RESULT_UNSET:Not set
+MSG_RESULT_WHITELISTED:Whitelisted
+MSG_RESULT_NONE_MISSING:None missing
+
+MSG_RESULT_UPD:Updated
+MSG_RESULT_NO_UPD:No update
+MSG_RESULT_UPD_FAILED:Update failed
+MSG_RESULT_VCHK_FAILED:Version check failed
+
+
+#
+# The messages.
+#
+VERSIONLINE:[ $1 version $2 ]
+VERSIONLINE2:Running $1 version $2 on $3
+VERSIONLINE3:Running $1 version $2
+
+RKH_STARTDATE:Start date is $1
+RKH_ENDDATE:End date is $1
+
+OPSYS:Detected operating system is '$1'
+UNAME:Uname output is '$1'
+
+CONFIG_CHECK_START:Checking configuration file and command-line options...
+CONFIG_CMDLINE:Command line is $1
+CONFIG_DEBUGFILE:Debug file is $1
+CONFIG_ENVSHELL:Environment shell is $1; rkhunter is using $2
+CONFIG_CONFIGFILE:Using configuration file '$1'
+CONFIG_LOCALCONFIGFILE:Using local configuration file '$1'
+CONFIG_LOCALCONFIGDIR:Using local configuration directory '$1': $2 file$3 found
+CONFIG_INSTALLDIR:Installation directory is '$1'
+CONFIG_LANGUAGE:Using language '$1'
+CONFIG_DBDIR:Using '$1' as the database directory
+CONFIG_SCRIPTDIR:Using '$1' as the support script directory
+CONFIG_BINDIR:Using '$1' as the command directories
+CONFIG_TMPDIR:Using '$1' as the temporary directory
+CONFIG_NO_MAIL_ON_WARN:No mail-on-warning address configured
+CONFIG_MOW_DISABLED:Disabling use of mail-on-warning at users request
+CONFIG_MAIL_ON_WARN:Emailing warnings to '$1' using command '$2'
+CONFIG_SSH_ROOT:Rkhunter option ALLOW_SSH_ROOT_USER set to '$1'.
+CONFIG_SSH_PROTV1:Rkhunter option ALLOW_SSH_PROT_V1 set to '$1'.
+CONFIG_X_AUTO:X will be automatically detected
+CONFIG_CLRSET2:Using second color set
+CONFIG_NO_SHOW_SUMMARY:Disabling system check summary at users request
+CONFIG_SCAN_MODE_DEV:SCAN_MODE_DEV set to '$1'
+CONFIG_LOG_FILE:Logging to log file: $1
+CONFIG_NO_VL:Disabling verbose logging at users request
+CONFIG_APPEND_LOG:Current logging will be appended to the log file
+CONFIG_COPY_LOG:The log file will be copied if there are any errors
+CONFIG_XINETD_PATH:Using $1 configuration file '$2'
+CONFIG_SOL10_INETD:Using Solaris 10 and later inetd mechanism
+CONFIG_STARTUP_PATHS:Using system startup paths: $1
+CONFIG_ROTATE_MIRRORS:The mirrors file will be rotated
+CONFIG_NO_ROTATE_MIRRORS:The mirrors file will not be rotated
+CONFIG_UPDATE_MIRRORS:The mirrors file will be updated
+CONFIG_NO_UPDATE_MIRRORS:The mirrors file will not be updated
+CONFIG_MIRRORS_MODE0:Both local and remote mirrors will be used
+CONFIG_MIRRORS_MODE1:Only local mirrors will be used
+CONFIG_MIRRORS_MODE2:Only remote mirrors will be used
+
+FOUND_CMD:Found the '$1' command: $2
+NOT_FOUND_CMD:Unable to find the '$1' command
+DISABLED_CMD:The '$1' command has been disabled
+CMD_ERROR:The command '$1' gave error code $2.
+
+SYS_PRELINK:System is using prelinking
+SYS_NO_PRELINK:System is not using prelinking
+SYS_SELINUX:SELinux is enabled
+SYS_NO_SELINUX:SELinux is disabled
+
+HASH_FUNC_PRELINK:Using the prelink command (with $1) for the file hash checks
+HASH_FUNC_PERL:Using the perl $1 module for the file hash checks
+HASH_FUNC_PERL_SHA:Using the perl $1 module (with $2) for the file hash checks
+HASH_FUNC:Using the '$1' command for the file hash checks
+HASH_FUNC_NONE:File hash checks disabled: NONE specified
+HASH_FUNC_NONE_PKGMGR:File hash function NONE specified: only package manager will be used
+HASH_FUNC_DISABLED:Hash function set to 'NONE': automatically disabling file hash checks
+HASH_FUNC_OLD:Stored hash values used hash function '$1'
+HASH_FUNC_OLD_DISABLED:Previous hash function was disabled: no hash values were stored
+HASH_PKGMGR_OLD:Stored hash values used package manager '$1'
+HASH_PKGMGR_OLD_UNSET:Stored hash values did not use a package manager
+
+HASH_PKGMGR:Using package manager '$1' for file property checks
+HASH_PKGMGR_MD5:Using MD5 hash function command '$1' to assist package manager verification
+HASH_PKGMGR_SHA:Using SHA hash function command '$1' to assist package manager verification
+HASH_PKGMGR_SUM:Using the stored 16-bit checksum for package verification
+HASH_PKGMGR_NOT_SPEC:No package manager specified: using hash function '$1'
+HASH_PKGMGR_NOT_SPEC_PRELINKED:No package manager specified: using prelink command with '$1'
+
+HASH_FIELD_INDEX:The hash function field index is set to $1
+
+HASHUPD_DISABLED:Hash checks disabled: current file hash values will not be stored
+HASHUPD_PKGMGR:Using package manager '$1' to update the file hash values
+HASHUPD_PKGMGR_NOT_SPEC:No file hash update package manager specified: using hash function '$1'
+HASHUPD_PKGMGR_NOT_SPEC_PRELINKED:No file hash update package manager specified: using prelink command with '$1'
+
+ATTRUPD_DISABLED:File attribute checks disabled: current file attributes will not be stored
+ATTRUPD_NOSTATCMD:File attribute checks disabled: no 'stat' command found: current file attributes will not be stored
+ATTRUPD_OK:Current file attributes will be stored
+ATTRUPD_OLD_DISABLED:Previous file attributes were disabled: no file attributes were stored
+ATTRUPD_OLD_NOSTATCMD:Previous file attributes were disabled: no 'stat' command found: no file attributes were stored
+ATTRUPD_OLD_OK:Previous file attributes were stored
+
+RKHDAT_ADD_NEW_ENTRY:Adding file entry to the 'rkhunter.dat' file: $1
+RKHDAT_DEL_OLD_ENTRY:Deleting non-existent file entry from the 'rkhunter.dat' file: $1
+
+SYSLOG_ENABLED:Using syslog for some logging - facility/priority level is '$1'.
+SYSLOG_DISABLED:Disabling use of syslog at users request.
+SYSLOG_NO_LOGGER:Disabling use of syslog - unable to find 'logger' command.
+
+NAME:$1
+PRESSENTER:[Press <ENTER> to continue]
+TEST_SKIPPED_OS:Test '$1' skipped due to O/S: $2
+
+SUMMARY_TITLE1:System checks summary
+SUMMARY_TITLE2:=====================
+SUMMARY_PROP_SCAN:File properties checks...
+SUMMARY_PROP_REQCMDS:Required commands check failed
+SUMMARY_PROP_COUNT:Files checked: $1
+SUMMARY_PROP_FAILED:Suspect files: $1
+SUMMARY_CHKS_SKIPPED:All checks skipped
+SUMMARY_RKT_SCAN:Rootkit checks...
+SUMMARY_RKT_COUNT:Rootkits checked : $1
+SUMMARY_RKT_FAILED:Possible rootkits: $1
+SUMMARY_RKT_NAMES:Rootkit names    : $1
+SUMMARY_APPS_SCAN:Applications checks...
+SUMMARY_APPS_COUNT:Applications checked: $1
+SUMMARY_APPS_FAILED:Suspect applications: $1
+SUMMARY_SCAN_TIME:The system checks took: $1
+SUMMARY_NO_SCAN_TIME:The system check took: Unable to determine clock time
+SUMMARY_LOGFILE:All results have been written to the log file: $1
+SUMMARY_NO_LOGFILE:No log file created.
+SUMMARY_LOGFILE_COPIED:Log file copied to $1
+
+CREATED_TEMP_FILE:Created temporary file '$1'
+
+MIRRORS_NO_FILE:The mirrors file does not exist: $1
+MIRRORS_NO_MIRRORS:The mirrors file has no required mirrors in it: $1
+MIRRORS_NO_VERSION:The mirrors file has no version number - resetting to zero: $1
+MIRRORS_ROTATED:The mirrors file has been rotated: $1
+MIRRORS_SF_DEFAULT:Using the SourceForge mirror: $1
+
+DOWNLOAD_CMD:Executing download command '$1'
+DOWNLOAD_FAIL:Download failed - $1 mirror(s) left.
+
+VERSIONCHECK_START:Checking rkhunter version...
+VERSIONCHECK_FAIL_ALL:Download failed: Unable to determine the latest program version number.
+VERSIONCHECK_CURRENT:This version  : $1
+VERSIONCHECK_LATEST:Latest version: $1
+VERSIONCHECK_LATEST_FAIL:Latest version: Download failed
+VERSIONCHECK_UPDT_AVAIL:Update available
+VERSIONCHECK_CONV_FAIL:Unable to compare version numbers: Program: '$1'    Latest: '$2'
+
+UPDATE_START:Checking rkhunter data files...
+UPDATE_CHECKING_FILE:Checking file $1
+UPDATE_FILE_NO_VERS:File '$1' has no valid version number. Downloading a new copy.
+UPDATE_FILE_MISSING:File '$1' is missing or empty. Downloading a new copy.
+UPDATE_DOWNLOAD_FAIL:Download of '$1' failed: Unable to determine the latest version number.
+UPDATE_I18N_NO_VERS:No i18n language file version numbers can be found.
+UPDATE_SKIPPED:Language file update skipped at users request.
+
+OSINFO_START:Checking if the O/S has changed since last time...
+OSINFO_END:Nothing seems to have changed.
+OSINFO_HOST_CHANGE1:The host name has changed since the last run:
+OSINFO_HOST_CHANGE2:Old host value: $1    New value: $2
+OSINFO_OSVER_CHANGE1:The O/S name or version has changed since the last run:
+OSINFO_OSVER_CHANGE2:Old O/S value: $1    New value: $2
+OSINFO_PRELINK_CHANGE:The system has changed to ${1}using prelinking since the last run.
+OSINFO_ARCH_CHANGE1:The system seems to have changed CPU type:
+OSINFO_ARCH_CHANGE2:Old CPU value: $1    New value: $2
+OSINFO_MSG1:Because of the change(s) the file properties checks may give some false-positive results.
+OSINFO_MSG2:You may need to re-run rkhunter with the '--propupd' option.
+OSINFO_DO_UPDT:The file properties file will be automatically updated.
+
+SET_FILE_PROP_START:Getting file properties...
+SET_FILE_PROP_DIR_FILE_COUNT:Found $1 files in $2
+SET_FILE_PROP_FILE_COUNT:File $1: searched for $2 files, found $3
+SET_FILE_PROP_FILE_COUNT_BL:File $1: searched for $2 files, found $3, broken links $4
+SET_FILE_PROP_FILE_COUNT_PROPOPT:File $1: searched for $2 files, found $3 of $4
+SET_FILE_PROP_FILE_COUNT_PROPOPT_BL:File $1: searched for $2 files, found $3 of $4, broken links $5
+SET_FILE_PROP_FILE_COUNT_NOHASH:File $1: searched for $2 files, found $3, missing hashes $4
+SET_FILE_PROP_FILE_COUNT_NOHASH_BL:File $1: searched for $2 files, found $3, missing hashes $4, broken links $5
+SET_FILE_PROP_FILE_COUNT_NOHASH_PROPOPT:File $1: searched for $2 files, found $3 of $4, missing hashes $5
+SET_FILE_PROP_FILE_COUNT_NOHASH_PROPOPT_BL:File $1: searched for $2 files, found $3 of $4, missing hashes $5, broken links $6
+
+PROPUPD_START:Starting file properties data update...
+PROPUPD_OSINFO_START:Collecting O/S info...
+PROPUPD_ARCH_FOUND:Found system architecture: $1
+PROPUPD_REL_FILE:Found release file: $1
+PROPUPD_NO_REL_FILE_NO_OUTPUT:Unable to find an O/S release file.
+PROPUPD_NO_REL_FILE:Unable to find an O/S release file: LS output shows:
+PROPUPD_OSNAME_FOUND:Found O/S name: $1
+PROPUPD_ERROR:Error installing new 'rkhunter.dat' file. Code $1
+PROPUPD_NEW_DAT_FILE:New 'rkhunter.dat' file installed in '$1'
+PROPUPD_WARN:WARNING! It is the users responsibility to ensure that when the '--propupd' option
+PROPUPD_WARN:is used, all the files on their system are known to be genuine, and installed from a
+PROPUPD_WARN:reliable source. The rkhunter '--check' option will compare the current file properties
+PROPUPD_WARN:against previously stored values, and report if any values differ. However, rkhunter
+PROPUPD_WARN:cannot determine what has caused the change, that is for the user to do.
+
+ENABLED_TESTS:Enabled tests are: $1
+DISABLED_TESTS:Disabled tests are: $1
+
+USER_FILE_LIST:Including user files for file properties check:
+USER_CMD_LIST:Including user commands for file properties check:
+USER_DIR_LIST:Including user directories for file properties check:
+USER_EXCLUDE_PROP:Excluding from file properties check:
+
+KSYMS_FOUND:Found kernel symbols file '$1'
+KSYMS_UNAVAIL:All kernel symbol checks will be skipped - the kernel symbols file is unreadable: $1
+KSYMS_MISSING:All kernel symbol checks will be skipped - could not find a kernel symbols file on the system.
+
+STARTING_TEST:Starting test name '$1'
+USER_DISABLED_TEST:Test '$1' disabled at users request.
+
+CHECK_START:Starting system checks...
+CHECK_WARNINGS_NOT_FOUND:No warnings were found while checking the system.
+CHECK_WARNINGS_NOT_FOUND0:0 warnings were found while checking the system.
+CHECK_WARNINGS_FOUND:One or more warnings have been found while checking the system.
+CHECK_WARNINGS_FOUND_NUMBER:$1 warnings have been found while checking the system.
+CHECK_WARNINGS_FOUND_NUMBER1:1 warning has been found while checking the system.
+CHECK_WARNINGS_FOUND_RERUN:Please re-run rkhunter, ensuring that a log file is created.
+CHECK_WARNINGS_FOUND_CHK_LOG:Please check the log file ($1)
+
+CHECK_SYS_COMMANDS:Checking system commands...
+STRINGS_CHECK_START:Performing 'strings' command checks
+STRINGS_SCANNING_OK:Scanning for string $1
+STRINGS_SCANNING_BAD:Scanning for string $1
+STRINGS_SCANNING_BAD:String not found in 'strings' command
+STRINGS_CHECK:Checking 'strings' command
+STRINGS_CHECK:Check skipped - no 'strings' command found.
+
+FILE_PROP_START:Performing file properties checks
+FILE_PROP_CMDS:Checking for prerequisites
+FILE_PROP_IMMUT_OS:Skipping all immutable-bit checks. This check is only available for Linux systems.
+FILE_PROP_IMMUT_SET:The immutable-bit check will be reversed.
+FILE_PROP_SKIP_ATTR:Unable to find the 'stat' command - all file attribute checks will be skipped.
+FILE_PROP_SKIP_ATTR_DISABLED:The 'stat' command has been disabled - all file attribute checks will be skipped.
+FILE_PROP_SKIP_HASH:All file hash checks will be skipped because:
+FILE_PROP_SKIP_HASH_FUNC:The current hash function ($1) or package manager ($2) is incompatible with the hash function ($3) or package manager ($4) used to store the values.
+FILE_PROP_SKIP_HASH_PRELINK:Unable to find 'prelink' command.
+FILE_PROP_SKIP_HASH_SHA1:This system uses prelinking, but the hash function command does not look like SHA1 or MD5.
+FILE_PROP_SKIP_HASH_LIBSAFE:Libsafe was found, which can cause errors. If possible, disable libsafe and then run the prelink command. Finally, recreate the hash values using 'rkhunter --propupd'.
+FILE_PROP_SKIP_IMMUT:Unable to find the 'lsattr' command - all file immutable-bit checks will be skipped.
+FILE_PROP_SKIP_IMMUT_DISABLED:The 'lsattr' command has been disabled - all file immutable-bit checks will be skipped.
+FILE_PROP_SKIP_IMMUT_CMD:No output from the '$1' command - all file immutable-bit checks will be skipped.
+FILE_PROP_SKIP_SCRIPT:Unable to find the 'file' command - all script replacement checks will be skipped.
+FILE_PROP_SKIP_SCRIPT_DISABLED:The 'file' command has been disabled - all script replacement checks will be skipped.
+FILE_PROP_SKIP_FILE_CMD:No output from the 'file' command - all script replacement checks will be skipped.
+FILE_PROP_SKIP_INODE:All file inode checks will be skipped.
+FILE_PROP_NO_OS_WARNING:Warnings of any O/S change have been disabled at the users request.
+FILE_PROP_OS_CHANGED:The local host configuration or operating system has changed.
+FILE_PROP_DAT_MISSING:The file of stored file properties (rkhunter.dat) does not exist, and should be created. To do this type in 'rkhunter --propupd'.
+FILE_PROP_DAT_EMPTY:The file of stored file properties (rkhunter.dat) is empty, and should be created. To do this type in 'rkhunter --propupd'.
+FILE_PROP_SKIP_ALL:All file property checks are now being skipped.
+FILE_PROP_DAT_MISSING_INFO:The file properties check will still run as there are checks that can be performed without the 'rkhunter.dat' file.
+
+FILE_PROP_FILE_NOT_EXIST:The file '$1' does not exist on the system, but it is present in the 'rkhunter.dat' file.
+FILE_PROP_WL:Found file '$1': it is whitelisted for the '$2' check.
+FILE_PROP_WL_STR:Found file '$1' and string '$2': they are whitelisted for the '$3' check.
+FILE_PROP_WL_DIR:Found directory '$1': it is whitelisted for the '$2' check.
+FILE_PROP_NO_RKH_REC:The file '$1' exists on the system, but it is not present in the 'rkhunter.dat' file.
+FILE_PROP_CHANGED:The file properties have changed:
+FILE_PROP_CHANGED2:File: $1
+FILE_PROP_NO_PKGMGR_FILE:File '$1' hash value skipped: file does not belong to a package
+FILE_PROP_NO_SYSHASH:No hash value found for file '$1'
+FILE_PROP_NO_SYSHASH_BL:The file is a broken link: $1 -> $2
+FILE_PROP_BROKEN_LINK_WL_TGT:Found a broken link, but the targets existence is whitelisted: $1 -> $2
+FILE_PROP_NO_SYSHASH_CMD:Hash command output: $1
+FILE_PROP_NO_SYSHASH_DEPENDENCY:Try running the command 'prelink $1' to resolve dependency errors.
+FILE_PROP_IGNORE_PRELINK_DEP_ERR:Ignoring prelink dependency error for file '$1'
+FILE_PROP_SYSHASH_UNAVAIL:Current hash: Unavailable
+FILE_PROP_SYSHASH_UNAVAIL_BL:Current hash: Unavailable (possible broken link)
+FILE_PROP_SYSHASH:Current hash: $1
+FILE_PROP_RKHHASH:Stored hash : $1
+FILE_PROP_NO_RKHHASH:No hash value found for file '$1' in the 'rkhunter.dat' file.
+FILE_PROP_NO_RKHPERM:No file permissions value found for file '$1' in the 'rkhunter.dat' file.
+FILE_PROP_PERM_UNAVAIL:Current permissions: Unavailable    Stored permissions: $1
+FILE_PROP_PERM:Current permissions: $1    Stored permissions: $2
+FILE_PROP_UID_UNAVAIL:Current uid: Unavailable    Stored uid: $1
+FILE_PROP_UID:Current uid: $1    Stored uid: $2
+FILE_PROP_NO_RKHUID:No user-id value found for file '$1' in the 'rkhunter.dat' file.
+FILE_PROP_GID_UNAVAIL:Current gid: Unavailable    Stored gid: $1
+FILE_PROP_GID:Current gid: $1    Stored gid: $2
+FILE_PROP_NO_RKHGID:No group-id value found for file '$1' in the 'rkhunter.dat' file.
+FILE_PROP_INODE_UNAVAIL:Current inode: Unavailable    Stored inode: $1
+FILE_PROP_INODE:Current inode: $1    Stored inode: $2
+FILE_PROP_NO_RKHINODE:No inode value found for file '$1' in the 'rkhunter.dat' file.
+FILE_PROP_SIZE_UNAVAIL:Current size: Unavailable    Stored size: $1
+FILE_PROP_SIZE:Current size: $1    Stored size: $2
+FILE_PROP_NO_RKHSIZE:No size value found for file '$1' in the 'rkhunter.dat' file.
+FILE_PROP_SYSDTM_UNAVAIL:Current file modification time: Unavailable
+FILE_PROP_SYSDTM:Current file modification time: $1
+FILE_PROP_RKHDTM:Stored file modification time : $1
+FILE_PROP_NO_RKHDTM:No file modification time value found for file '$1' in the 'rkhunter.dat' file.
+FILE_PROP_SYSLNK:Current symbolic link target: '$1' -> '$2'
+FILE_PROP_RKHLNK:Stored symbolic link target : '$1' -> '$2'
+FILE_PROP_NO_RKHLNK:No symbolic link target found for file '$1' in the 'rkhunter.dat' file.
+FILE_PROP_LINK_WL:The symbolic link target has changed, but it is whitelisted: '$1' -> '$2'
+FILE_PROP_NO_SYSATTR:Unable to obtain current properties for file '$1'
+FILE_PROP_WRITE:Write permission is set on file '$1' for all users.
+FILE_PROP_SYSPERM_UNAVAIL:Unable to obtain current write permission for file '$1'
+FILE_PROP_IMMUT:File '$1' has the immutable-bit set.
+FILE_PROP_IMMUT_NOT_SET:File '$1' does not have the immutable-bit set.
+FILE_PROP_SCRIPT:The command '$1' has been replaced by a script: $2
+FILE_PROP_SCRIPT_RKH:The command '$1' has been replaced and is not a script: $2
+
+FILE_PROP_VRFY:Package manager verification has failed:
+FILE_PROP_VRFY_HASH:The file hash value has changed
+FILE_PROP_VRFY_PERM:The file permissions have changed
+FILE_PROP_VRFY_UID:The file owner has changed
+FILE_PROP_VRFY_GID:The file group has changed
+FILE_PROP_VRFY_DTM:The file modification time has changed
+FILE_PROP_VRFY_LNK:The symbolic link target has changed
+FILE_PROP_VRFY_SIZE:The file size has changed
+
+FILE_PROP_EPOCH_DATE_CMD:Using '$1' to process epoch second times
+
+CHECK_ROOTKITS:Checking for rootkits...
+ROOTKIT_FILES_DIRS_START:Performing check of known rootkit files and directories
+ROOTKIT_FILES_DIRS_NAME_LOG:Checking for ${1}...
+ROOTKIT_FILES_DIRS_FILE:Checking for file '$1'
+ROOTKIT_FILES_DIRS_DIR:Checking for directory '$1'
+ROOTKIT_FILES_DIRS_KSYM:Checking for kernel symbol '$1'
+ROOTKIT_FILES_DIRS_FILE_FOUND:File '$1' found
+ROOTKIT_FILES_DIRS_DIR_FOUND:Directory '$1' found
+ROOTKIT_FILES_DIRS_KSYM_FOUND:Kernel symbol '$1' found
+ROOTKIT_FILES_DIRS_STR:Checking for string '$1'
+ROOTKIT_FILES_DIRS_STR_FOUND:Found string '$1' in file '$2'
+ROOTKIT_FILES_DIRS_NOFILE:The file '$1' does not exist!
+ROOTKIT_FILES_DIRS_SINAR_DIR:Checking in '$1'
+ROOTKIT_FILES_DIRS_SINAR:Found SInAR in: $1
+
+ROOTKIT_LINK_COUNT:Checking hard link count on '$1'
+ROOTKIT_LINK_COUNT_FAIL:Hard link count from '$1' command: $2
+ROOTKIT_LINK_COUNT_CMDERR:Error from '$1' command when checking '$2'
+
+ROOTKIT_PHALANX2_LINK_COUNT_FAIL:Hard link check on '$1' failed
+ROOTKIT_PHALANX2_PROC:Checking process list for process 'ata/0'
+ROOTKIT_PHALANX2_PROC_FOUND:Found running process 'ata/0'
+ROOTKIT_PHALANX2_PROC_PPID:Expected 'kthread' parent PID '$1' found parent PID '$2'
+ROOTKIT_PHALANX2_PROC_PS_ERR:Running 'ps' returned unexpected results: possibly unsupported cmdline arguments.
+
+ROOTKIT_ADD_START:Performing additional rootkit checks
+ROOTKIT_ADD_SUCKIT:Suckit Rootkit additional checks
+ROOTKIT_ADD_SUCKIT_LOG:Performing Suckit Rootkit additional checks
+ROOTKIT_ADD_SUCKIT_LINK_NOCMD:Checking '/sbin/init' link count: no 'stat' command found
+ROOTKIT_ADD_SUCKIT_LINK_DISABLED:Checking '/sbin/init' link count: the 'stat' command has been disabled
+ROOTKIT_ADD_SUCKIT_LINK_FOUND:Checking '/sbin/init' link count: count is $1, it should be 1
+ROOTKIT_ADD_SUCKIT_EXT:Checking for hidden file extensions
+ROOTKIT_ADD_SUCKIT_EXT_FOUND:Checking for hidden file extensions: found: $1
+ROOTKIT_ADD_SUCKIT_SKDET:Running skdet command
+ROOTKIT_ADD_SUCKIT_SKDET_FOUND:Running skdet command: found: $1
+ROOTKIT_ADD_SUCKIT_SKDET_VER:Running skdet command: unknown version: $1
+
+ROOTKIT_POSS_FILES_DIRS:Checking for possible rootkit files and directories
+ROOTKIT_POSS_FILES_DIRS_LOG:Performing check of possible rootkit files and directories
+ROOTKIT_POSS_FILES_FILE_FOUND:Found file '$1'. Possible rootkit: $2
+ROOTKIT_POSS_FILES_DIR_FOUND:Found directory '$1'. Possible rootkit: $2
+
+ROOTKIT_POSS_STRINGS:Checking for possible rootkit strings
+ROOTKIT_POSS_STRINGS_LOG:Performing check for possible rootkit strings
+ROOTKIT_POSS_STRINGS_FOUND:Found string '$1' in file '$2'. Possible rootkit: $3
+
+ROOTKIT_MALWARE_START:Performing malware checks
+ROOTKIT_MALWARE_SUSP_FILES:Checking running processes for suspicious files
+ROOTKIT_MALWARE_SUSP_FILES_FOUND:The following processes are using suspicious files:
+ROOTKIT_MALWARE_SUSP_FILES_FOUND_UID:UID: $1    PID: $2
+ROOTKIT_MALWARE_SUSP_FILES_FOUND_CMD:Command: $1
+ROOTKIT_MALWARE_SUSP_FILES_FOUND_PATH:Pathname: $1
+ROOTKIT_MALWARE_SUSP_FILES_FOUND_RTKT:Possible Rootkit: $1
+ROOTKIT_MALWARE_HIDDEN_PROCS:Checking for hidden processes
+ROOTKIT_MALWARE_HIDDEN_PROCS_UNHIDE_VERS:Found 'unhide' command version: $1
+ROOTKIT_MALWARE_HIDDEN_PROCS_UNHIDE_CMD:Using command '$1'
+ROOTKIT_MALWARE_HIDDEN_PROCS_UNH_ERR:'unhide' not executed: invalid configured test names: $1
+ROOTKIT_MALWARE_HIDDEN_PROCS_FOUND:Hidden processes found:
+ROOTKIT_MALWARE_DELETED_FILES:Checking running processes for deleted files
+ROOTKIT_MALWARE_DELETED_FILES_FOUND:The following processes are using deleted files:
+ROOTKIT_MALWARE_DELETED_FILES_FOUND_DATA:Process: $1    PID: $2    File: $3
+ROOTKIT_MALWARE_DELETED_FILES_WL:Found process '$1' using file '$2': it is whitelisted.
+ROOTKIT_MALWARE_LOGIN_BDOOR:Checking for login backdoors
+ROOTKIT_MALWARE_LOGIN_BDOOR_CHK:Checking for '$1'
+ROOTKIT_MALWARE_LOGIN_BDOOR_FOUND:Found login backdoor file: $1
+ROOTKIT_MALWARE_SUSP_DIR:Checking for suspicious directories
+ROOTKIT_MALWARE_SUSP_DIR_FOUND:Found suspicious directory: $1
+ROOTKIT_MALWARE_SFW_INTRUSION:Checking for software intrusions
+ROOTKIT_MALWARE_SFW_INTRUSION_FOUND:The file '$1' contains the string '$2'. Possible rootkit: SHV5
+ROOTKIT_MALWARE_SFW_INTRUSION_SKIP:Check skipped - tripwire not installed
+ROOTKIT_MALWARE_SNIFFER:Checking for sniffer log files
+ROOTKIT_MALWARE_SNIFFER_FOUND:Found possible sniffer log file: $1
+ROOTKIT_MALWARE_IPCS:Checking for suspicious (large) shared memory segments
+ROOTKIT_MALWARE_IPCS_FOUND:The following suspicious (large) shared memory segments have been found:
+ROOTKIT_MALWARE_IPCS_DETAILS:Process: $1    PID: $2    Owner: $3    Size: $4 (configured size allowed: $5)
+ROOTKIT_MALWARE_IPCS_DETACHED:Detached segment with no pathname: Owner: $1    PID: $2    Segment ID: $3    Size: $4 (configured size allowed: $5)
+ROOTKIT_MALWARE_IPCS_ATTACHED:Attached segment with no pathname: Owner: $1    Segment ID: $2    Attached processes: $3    Creator PID: $4    Last PID: $5    Size: $4 (configured size allowed: $5)
+ROOTKIT_MALWARE_IPCS_WL_PATH:Found process pathname '$1': it is whitelisted.
+ROOTKIT_MALWARE_IPCS_WL_USER:Found process username '$1': it is whitelisted.
+ROOTKIT_MALWARE_IPCS_WL_PID:Found process PID '$1': it is whitelisted.
+
+ROOTKIT_TROJAN_START:Performing trojan specific checks
+ROOTKIT_TROJAN_INETD:Checking for enabled inetd services
+ROOTKIT_TROJAN_INETD_SKIP:Check skipped - file '$1' does not exist.
+ROOTKIT_TROJAN_INETD_FOUND:Found enabled inetd service: $1
+ROOTKIT_TROJAN_XINETD:Checking for enabled xinetd services
+ROOTKIT_TROJAN_XINETD_ENABLED:Checking '$1' for enabled services
+ROOTKIT_TROJAN_XINETD_INCLUDE:Found 'include $1' directive
+ROOTKIT_TROJAN_XINETD_INCLUDEDIR:Found 'includedir $1' directive
+ROOTKIT_TROJAN_XINETD_ENABLED_FOUND:Found enabled xinetd service: $1
+ROOTKIT_TROJAN_XINETD_WHITELIST:Found service '$1': it is $2 whitelisted.
+ROOTKIT_TROJAN_APACHE:Checking for Apache backdoor
+ROOTKIT_TROJAN_APACHE_SKIPPED:Check skipped - no Apache module or configuration directories found.
+ROOTKIT_TROJAN_APACHE_FOUND:Apache backdoor module 'mod_rootme' found: $1
+
+ROOTKIT_OS_START:Performing $1 specific checks
+ROOTKIT_OS_SKIPPED:No specific tests available
+ROOTKIT_OS_BSD_SOCKNET:Checking sockstat and netstat commands
+ROOTKIT_OS_BSD_SOCKNET_FOUND:Differences found between sockstat and netstat output:
+ROOTKIT_OS_BSD_SOCKNET_OUTPUT:$1 output (ports in use): $2
+ROOTKIT_OS_FREEBSD_KLD:Checking for KLD backdoors
+ROOTKIT_OS_FREEBSD_KLD_FOUND:Found possible FreeBSD KLD backdoor. 'kldstat -v' command shows string '$1'
+ROOTKIT_OS_FREEBSD_PKGDB:Checking package database
+ROOTKIT_OS_FREEBSD_PKGDB_NOTOK:The package database seems to have inconsistencies.
+ROOTKIT_OS_FREEBSD_PKGDB_NOTOK:This may not be a security issue, but running 'pkgdb -F' may help diagnose the problem.
+ROOTKIT_OS_DFLY_PKGDB_NOTOK:The package database seems to have inconsistencies.
+ROOTKIT_OS_DFLY_PKGDB_NOTOK:This may not be a security issue, but running 'pkg_admin check' may help diagnose the problem.
+ROOTKIT_OS_LINUX_LKM:Checking loaded kernel modules
+ROOTKIT_OS_LINUX_LKM_FOUND:Differences found between the lsmod command and the /proc/modules file:
+ROOTKIT_OS_LINUX_LKM_OUTPUT:$1 output: $2
+ROOTKIT_OS_LINUX_LKM_EMPTY:No output found from the lsmod command or the /proc/modules file:
+ROOTKIT_OS_LINUX_LKM_MOD_MISSING:The modules file '$1' is missing.
+ROOTKIT_OS_LINUX_LKMNAMES:Checking kernel module names
+ROOTKIT_OS_LINUX_LKMNAMES_PATH:Using modules pathname of '$1'
+ROOTKIT_OS_LINUX_LKMNAMES_FOUND:Known bad kernel module found in '$1': $2
+ROOTKIT_OS_LINUX_LKMNAMES_PATH_MISSING:The kernel modules directory '$1' is missing or empty.
+
+CHECK_LOCALHOST:Checking the local host...
+STARTUP_FILES_START:Performing system boot checks
+STARTUP_HOSTNAME:Checking for local host name
+STARTUP_NO_HOSTNAME:No host name found.
+STARTUP_CHECK_FILES_EXIST:Checking for system startup files
+STARTUP_NONE_GIVEN:User specified 'NONE' for startup file pathnames
+STARTUP_CHECK_FILES_MALWARE:Checking system startup files for malware
+STARTUP_CHECK_NO_RC_FILES:No system startup files found.
+
+ACCOUNTS_START:Performing group and account checks
+ACCOUNTS_PWD_FILE_CHECK:Checking for passwd file
+ACCOUNTS_FOUND_PWD_FILE:Found password file: $1
+ACCOUNTS_NO_PWD_FILE:Password file $1 does not exist.
+ACCOUNTS_UID0:Checking for root equivalent (UID 0) accounts
+ACCOUNTS_UID0_WL:Found root equivalent account '$1': it is whitelisted.
+ACCOUNTS_UID0_FOUND:Account '$1' is root equivalent (UID = 0)
+ACCOUNTS_SHADOW_FILE:Found shadow file: $1
+ACCOUNTS_SHADOW_TCB:Found TCB shadow file directory: $1
+ACCOUNTS_PWDLESS:Checking for passwordless accounts
+ACCOUNTS_PWDLESS_WL:Found passwordless account '$1': it is whitelisted.
+ACCOUNTS_PWDLESS_FOUND:Found passwordless account in $1 file: $2
+ACCOUNTS_NO_SHADOW_FILE:No shadow/password file found.
+
+PASSWD_CHANGES:Checking for passwd file changes
+PASSWD_CHANGES_NO_TMP:Unable to check for passwd file differences: no copy of the passwd file exists.
+
+PWD_CHANGES_IDADD:User '$1' has been added to the passwd file.
+PWD_CHANGES_IDREM:User '$1' has been removed from the passwd file.
+PWD_CHANGES_FOUND:Changes found in the passwd file for user '$1':
+PWDGRP_CHANGES_UNK:Unknown field found in the $1 file: Old field: '$2' New field: '$3'
+PWD_CHANGES_PWD:The passwd has changed from '$1' to '$2'
+PWD_CHANGES_UID:The UID has changed from '$1' to '$2'
+PWD_CHANGES_GID:The GID has changed from '$1' to '$2'
+PWD_CHANGES_COMM:The account comment has changed from '$1' to '$2'
+PWD_CHANGES_HOME:The home directory has changed from '$1' to '$2'
+PWD_CHANGES_SHL:The login shell has changed from '$1' to '$2'
+
+GROUP_CHANGES:Checking for group file changes
+GROUP_CHANGES_NO_FILE:Group file $1 does not exist.
+GROUP_CHANGES_NO_TMP:Unable to check for group file differences: no copy of the group file exists.
+GROUP_CHANGES_FOUND:Changes found in the group file for group '$1':
+GROUP_CHANGES_IDADD:Group '$1' has been added to the group file.
+GROUP_CHANGES_IDREM:Group '$1' has been removed from the group file.
+GROUP_CHANGES_PWD:The group passwd has changed from '$1' to '$2'
+GROUP_CHANGES_GID:The group number has changed from '$1' to '$2'
+GROUP_CHANGES_GRPREM:User '$1' has been removed from the group
+GROUP_CHANGES_GRPADD:User '$1' has been added to the group
+
+HISTORY_CHECK:Checking root account shell history files
+HISTORY_CHECK_FOUND:Root account $1 shell history file is a symbolic link: $2
+
+SYSTEM_CONFIGS_START:Performing system configuration file checks
+SYSTEM_CONFIGS_FILE:Checking for a system logging configuration file
+SYSTEM_CONFIGS_FILE_SSH:Checking for an SSH configuration file
+SYSTEM_CONFIGS_FILE_FOUND:Found $1 $2 configuration file: $3
+SYSTEM_CONFIGS_SSH_ROOT:Checking if SSH root access is allowed
+SYSTEM_CONFIGS_SSH_ROOT_FOUND:The SSH and rkhunter configuration options should be the same:
+SYSTEM_CONFIGS_SSH_ROOT_FOUND1:SSH configuration option 'PermitRootLogin': $1
+SYSTEM_CONFIGS_SSH_ROOT_FOUND2:Rkhunter configuration option 'ALLOW_SSH_ROOT_USER': $1
+SYSTEM_CONFIGS_SSH_ROOT_NOTFOUND:The SSH configuration option 'PermitRootLogin' has not been set.
+SYSTEM_CONFIGS_SSH_ROOT_NOTFOUND:The default value may be 'yes', to allow root access.
+SYSTEM_CONFIGS_SSH_PROTO:Checking if SSH protocol v1 is allowed
+SYSTEM_CONFIGS_SSH_PROTO_DIFF1:SSH configuration option 'Protocol': $1
+SYSTEM_CONFIGS_SSH_PROTO_DIFF2:Rkhunter configuration option 'ALLOW_SSH_PROT_V1': $1
+SYSTEM_CONFIGS_SSH_PROTO_NOTFOUND:The SSH configuration option 'Protocol' has not been set.
+SYSTEM_CONFIGS_SSH_PROTO_NOTFOUND:The default value may be '2,1', to allow the use of protocol version 1.
+SYSTEM_CONFIGS_SSH_EXTRA:Checking for other suspicious configuration settings
+SYSTEM_CONFIGS_SSH_EBURY:Possible Ebury sshd backdoor found (SSH AuthorizedKeysFile setting)
+SYSTEM_CONFIGS_SYSLOG:Checking for a running system logging daemon
+SYSTEM_CONFIGS_SYSLOG_NOT_RUNNING:No running system logging daemon has been found.
+SYSTEM_CONFIGS_SYSLOG_DAEMON:A running '$1' daemon has been found.
+SYSTEM_CONFIGS_SYSLOG_NO_FILE:The '$1' daemon is running, but no configuration file can be found.
+SYSTEM_CONFIGS_SYSLOG_REMOTE:Checking if syslog remote logging is allowed
+SYSTEM_CONFIGS_SYSLOG_REMOTE_LOG:The '$1' configuration file allows remote logging: $2
+SYSTEM_CONFIGS_SYSLOG_REMOTE_ALLOWED:Rkhunter configuration option 'ALLOW_SYSLOG_REMOTE_LOGGING' has been enabled.
+
+FILESYSTEM_START:Performing filesystem checks
+FILESYSTEM_DEV_CHECK:Checking /dev for suspicious file types
+FILESYSTEM_DEV_CHECK_NO_DEV:/dev does not exist.
+FILESYSTEM_DEV_FILE_WL:Found file '$1': it is whitelisted.
+FILESYSTEM_DEV_FILE_FOUND:Suspicious file types found in ${1}:
+FILESYSTEM_HIDDEN_DIR_WL:Found hidden directory '$1': it is whitelisted.
+FILESYSTEM_HIDDEN_FILE_WL:Found hidden file '$1': it is whitelisted.
+FILESYSTEM_HIDDEN_CHECK:Checking for hidden files and directories
+FILESYSTEM_HIDDEN_DIR_FOUND:Hidden directory found: $1
+FILESYSTEM_HIDDEN_FILE_FOUND:Hidden file found: $1
+FILESYSTEM_LOGFILE_MISSING:Checking for missing log files
+FILESYSTEM_LOGFILE_MISSING_FOUND:The log file '$1' is missing.
+FILESYSTEM_LOGFILE_MISS_DISABLED:No missing log file names configured.
+FILESYSTEM_LOGFILE_EMPTY:Checking for empty log files
+FILESYSTEM_LOGFILE_EMPTY_FOUND:The log file '$1' is empty.
+FILESYSTEM_LOGFILE_EMPTY_DISABLED:No empty log file names configured.
+
+CHECK_APPS:Checking application versions...
+APPS_NONE_FOUND:No known applications found - all version checks skipped.
+APPS_DAT_MISSING:The file of unsecure application versions is missing or empty: $1
+APPS_DAT_MISSING:Run 'rkhunter --update' to restore the default file.
+APPS_DAT_NOTAFILE:The file of unsecure application versions is not a file: $1
+APPS_NOT_FOUND:Application '$1' not found.
+APPS_CHECK:Checking version of $1
+APPS_CHECK_WL:Found application '$1': it is whitelisted.
+APPS_CHECK_VERSION_UNKNOWN:Unable to obtain version number for '$1'.
+APPS_CHECK_VERSION_FOUND:Application '$1' version '$2' found.
+APPS_CHECK_VERSION_WL:Found application '$1' version '$2': this version is whitelisted.
+APPS_CHECK_WHOLE_VERSION_USED:Unable to obtain version number for '$1': version option gives: $2
+APPS_CHECK_FOUND:Application '$1', version '$2', is out of date, and possibly a security risk.
+APPS_TOTAL_COUNT:Applications checked: $1 out of $2
+
+CHECK_NETWORK:Checking the network...
+NETWORK_PORTS_START:Performing checks on the network ports
+NETWORK_PORTS_BACKDOOR:Checking for backdoor ports
+NETWORK_PORTS_BACKDOOR_LOG:Performing check for backdoor ports
+NETWORK_PORTS_FILE_MISSING:The file of known backdoor ports is missing or empty: $1
+NETWORK_PORTS_FILE_MISSING:Run 'rkhunter --update' to restore the default file.
+NETWORK_PORTS_FILE_NOTAFILE:The file of known backdoor ports is not a file: $1
+NETWORK_PORTS_UNKNOWN_NETSTAT:All backdoor port checks skipped.
+NETWORK_PORTS_UNKNOWN_NETSTAT:Unknown netstat command format with this O/S.
+NETWORK_PORTS_ENABLE_TRUSTED:Trusted pathnames are enabled for port whitelisting.
+NETWORK_PORTS_BACKDOOR_CHK:Checking for $1 port $2
+NETWORK_PORTS_PATH_WHITELIST:Network $1 port $2 is being used by $3: the pathname is whitelisted.
+NETWORK_PORTS_TRUSTED_WHITELIST:Network $1 port $2 is being used by $3: the pathname is trusted.
+NETWORK_PORTS_PORT_WHITELIST:Network $1 port $2 found: the port is whitelisted.
+NETWORK_PORTS_BKDOOR_FOUND:Network $1 port $2 is being used${3}. Possible rootkit: $4
+NETWORK_PORTS_BKDOOR_FOUND:Use the 'lsof -i' or 'netstat -an' command to check this.
+NETWORK_HIDDEN_PORTS:Checking for hidden ports
+NETWORK_HIDDEN_PORTS_FOUND:Hidden ports found:
+NETWORK_HIDDEN_PORTS_CHK:Port number: $1:$2
+NETWORK_HIDDEN_PORTS_CHK_NAME:Port number: $1:$2 is being used by $3
+NETWORK_HIDDEN_PORTS_PATH_WHITELIST:Hidden $1 port $2 is being used by $3: the pathname is whitelisted.
+NETWORK_HIDDEN_PORTS_TRUSTED_WHITELIST:Hidden $1 port $2 is being used by $3: the pathname is trusted.
+NETWORK_HIDDEN_PORTS_PORT_WHITELIST:Hidden $1 port $2 found: the port is whitelisted.
+NETWORK_INTERFACE_START:Performing checks on the network interfaces
+NETWORK_PROMISC_WLIST:Network interfaces allowed to be in promiscuous mode: $1
+NETWORK_PROMISC_CHECK:Checking for promiscuous interfaces
+NETWORK_PROMISC_NO_IFCONF_IP:Promiscuous network interface check skipped - unable to find the 'ifconfig' or 'ip' command.
+NETWORK_PROMISC_NO_CMD:Promiscuous network interface check using the '$1' command skipped - unable to find the '$1' command. Using the '$2' command.
+NETWORK_PROMISC_IF:Possible promiscuous interfaces:
+NETWORK_PROMISC_IF_1:'ifconfig' command output:
+NETWORK_PROMISC_IF_2:'ip' command output:
+NETWORK_PACKET_CAP_CHECK:Checking for packet capturing applications
+NETWORK_PACKET_CAP_CHECK_NO_FILE:Packet capturing application check skipped - the '$1' file is missing.
+NETWORK_PACKET_CAP_FOUND:Process '$1' (PID $2) is listening on the network.
+NETWORK_PACKET_CAP_WL:Found process '$1': it is whitelisted.
+
+SHARED_LIBS_START:Performing 'shared libraries' checks
+SHARED_LIBS_PRELOAD_VAR:Checking for preloading variables
+SHARED_LIBS_PRELOAD_VAR_FOUND:Found library preload variable: $1
+SHARED_LIBS_PRELOAD_FILE:Checking for preloaded libraries
+SHARED_LIBS_PRELOAD_LIB_FOUND:Found preloaded shared library: $1
+SHARED_LIBS_PRELOAD_FILE_FOUND:Found library preload file: $1
+SHARED_LIBS_PRELOAD_LIB_WLIST:Found preloaded shared library '$1': it is whitelisted.
+SHARED_LIBS_PATH:Checking LD_LIBRARY_PATH variable
+SHARED_LIBS_PATH_BAD:The LD_LIBRARY_PATH environment variable is set and can influence binaries: set to: $1
+
+SUSPSCAN_CHECK:Checking for files with suspicious contents
+SUSPSCAN_DIR_NOT_EXIST:The directory '$1' does not exist.
+SUSPSCAN_INSPECT:File '$1' (score: $2) contains some suspicious content and should be checked.
+SUSPSCAN_START:Performing check of files with suspicious contents
+SUSPSCAN_DIRS:Directories to check are: $1
+SUSPSCAN_TEMP:Temporary directory to use: $1
+SUSPSCAN_SIZE:Maximum file size to check (in bytes): $1
+SUSPSCAN_THRESH:Score threshold is set to: $1
+SUSPSCAN_DIR_CHECK:Checking directory: $1
+SUSPSCAN_FILE_CHECK:File checked: Name: '$1' Score: $2
+SUSPSCAN_FILE_CHECK_DEBUG:File checked: Name: '$1' Score: $2 Hitcount: $3 Hits: ($4)
+SUSPSCAN_FILE_SKIPPED_EMPTY:File ignored: empty: $1
+SUSPSCAN_FILE_SKIPPED_LINK:File ignored: symbolic link: $1
+SUSPSCAN_FILE_SKIPPED_TYPE:File ignored: wrong type: '$1': '$2'
+SUSPSCAN_FILE_SKIPPED_SIZE:File ignored: too big: $1
+SUSPSCAN_FILE_LINK_CHANGE:Symbolic link found: '$1' -> '$2'
+SUSPSCAN_DAT_MISSING:The data file of suspicious contents is missing or empty: $1
+SUSPSCAN_DAT_MISSING:Run 'rkhunter --update' to restore the default file.
+SUSPSCAN_DAT_NOTAFILE:The data file of suspicious contents is not a file: $1
+SUSPSCAN_WL:Found file '$1': it is whitelisted.
+
+LIST_TESTS:Current test names:
+LIST_GROUPED_TESTS:Grouped test names:
+LIST_LANGS:Current languages:
+LIST_PERL:Perl module installation status:
+LIST_RTKTS:Rootkits checked for:
+
+LOCK_USED:Locking is being used: timeout is $1 seconds
+LOCK_DIR:Using '$1' as the locking directory
+LOCK_UNUSED:Locking is not being used
+LOCK_WAIT:Waiting for lock file
+LOCK_FAIL:Unable to get the lock file: rkhunter has not run!
+
+IPC_SEG_SIZE:The minimum shared memory segment size to be checked (in bytes): $1
+
+LINUX_ONLY:Check skipped - this check is only for Linux systems.

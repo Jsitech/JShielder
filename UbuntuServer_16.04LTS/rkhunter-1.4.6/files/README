@@ -1,0 +1,718 @@
+
+THE ROOTKIT HUNTER PROJECT
+==========================
+
+Copyright (c) 2003-2017, Michael Boelen
+See the LICENSE file for conditions of use and distribution.
+
+It is recommended that all users of RootKit Hunter (RKH) join the
+rkhunter-users mailing list. Subscribing to the list can be done via
+the RKH website at http://rkhunter.sourceforge.net
+
+A copy of the RKH FAQ is also available from the web site.
+
+
+ROOTKIT HUNTER REQUIREMENTS
+===========================
+
+Please note that RKH has some requirements:
+
+1) Before RKH starts it will check that certain required commands
+   are present on the system. These are typical commands such as
+   'cat', 'sed', 'head', 'tail', etc. If a command is missing then
+   RKH will not run.
+
+2) Some tests require commands such as stat, readlink, sha256 or
+   sha256sum. If these are not present, then RKH has perl scripts
+   which will automatically be used instead. However, this requires
+   perl, and certain modules, being present. If they are not, then
+   the tests will be skipped. Readlink is provided as a script
+   itself, and does not use perl. Other tests will use other
+   commands. If the relevant command is not found on the system,
+   then the test will be skipped.
+
+3) A tool should be present with which to download file updates. 
+   Currently wget, curl, (e)links, lynx and GET are supported. If your
+   system does not allow the possibility to install one of these 
+   applications, but does run perl, you can use 'bget' available from 
+   http://www.cpan.org/authors/id/E/EL/ELIJAH/. If you use another 
+   generic method of updating RKH then please let us know. Additionally,
+   a non-standard command to be used for file downloads can be
+   configured in the RKH configuration file.
+
+4) Some tests require single-purpose tools. RKH does not depend on
+   these, but it will use them if it finds them. They can enhance
+   RKH's detection capabilities.
+   The tools are:
+   - Skdet
+       Tests for SucKIT, Adore, Adore-NG, UNFshit, UNFkmem and
+       frontkey.
+       http://www.xs4all.nl/~dvgevers/
+   - Unhide and unhide-tcp (C versions)
+       Finds hidden ports and processes.
+       http://unhide.sourceforge.net
+   If the relevant tool is not found, then the test is skipped.
+
+
+ROOTKIT HUNTER INSTALLATION
+===========================
+
+Unpacking the tar file should produce a single directory called
+'rkhunter-<version>'. Where '<version>' is the version number of rkhunter
+being installed. For example, the rkhunter-1.4.0.tar.gz tar file will produce
+the 'rkhunter-1.4.0' directory when unpacked. Within this directory is the
+installation script called 'installer.sh'.
+
+To perform a default installation of RKH simply unpack the tarball and,
+as root, run the installation script:
+
+    tar zxf rkhunter-<version>.tar.gz
+    cd rkhunter-<version>
+    ./installer.sh --install
+
+Note: If some form of file permission error is shown, then check that the
+      'installer.sh' script is executable.
+
+RKH installation supports custom layouts. To show some examples
+run:
+
+    ./installer.sh --examples
+
+The installer also has a help option:
+
+    ./installer.sh --help
+
+The default installation process will install a configuration file,
+called 'rkhunter.conf', into the '/etc' directory or where
+you chose using the '--layout' switch. You can either edit the main
+configuration file itself, or create a 'local' configuration file
+for your own settings. This file, which must be called
+'rkhunter.conf.local', must reside in the same directory as the main
+configuration file. Alternatively, or in addition if wished, you can
+create a directory, named 'rkhunter.d', in the same directory as the
+main configuration file. Within 'rkhunter.d' you can then create
+further configuration files. The only restriction is that the file
+names end in '.conf'.
+
+You should edit the configuration file(s) according to your own
+system requirements.
+
+Note: If the installer detects an existing 'rkhunter.conf.local' file,
+or an 'rkhunter.d' directory, then these will be added to the main
+configuration file for monitoring by rkhunter. The installer will also
+add the 'rkhunter.conf' file itself to be monitored. By doing this, any
+changes to the rkhunter configuration file(s) will be detected.
+
+If the installer encounters an existing 'rkhunter.conf' file, it will
+not be overwritten. Instead the installer creates a new configuration
+file, but with a unique number as its suffix. Please inspect the new
+configuration file, and copy over any changes to the existing main
+configuration file or to your local configuration file(s).
+
+The main RKH script will be installed into the '/usr/local/bin'
+directory or where you chose using the '--layout' switch. Man pages will 
+be installed into '/usr/local/share/man', and other documentation will 
+be installed into the '/usr/local/share/doc' directory. RKH data files,
+language support, and a directory for temporary files will be
+installed into '/var/lib/rkhunter'. Finally, RKH support scripts will
+be installed into '/usr/local/lib/rkhunter/scripts', or, if using an
+x86_64 system, into '/usr/local/lib64/rkhunter/scripts'. All directories,
+except 'lib64', will be created where necessary.
+
+Before running RKH you will need to fill the file properties database by
+running the following command:
+
+    rkhunter --propupd
+
+Note that if you want to use the package management tools provided by 
+your distribution you will need to select a package manager. In the case
+of using RPM your command would be:
+
+    rkhunter --propupd --pkgmgr RPM
+
+
+To run RKH, as root, simply enter the following command:
+
+    rkhunter --check
+
+
+By default, the log file '/var/log/rkhunter.log' will be created. It
+will contain the results of the checks made by RKH.
+
+To see what other options can be used with rkhunter, enter:
+
+    rkhunter --help
+
+or see the 'rkhunter' man page.
+
+
+NOTE: The first run of 'rkhunter' after installation may give some
+      warning messages. Please see the FAQ file and the rkhunter mailing
+      list archive posts for more details about this.
+
+
+STANDALONE INSTALLATION
+=======================
+
+It is possible to run RKH standalone, that is, with it all being
+installed into one directory.
+
+To do this unpack RKH as described above, and then install it using
+the following command:
+
+    ./installer.sh --layout custom . --install
+
+It is then necessary to change to the 'files' directory:
+
+    cd files
+
+Within the directory will be a copy of the 'rkhunter.conf' configuration
+file. You can modify this file according to your requirements if you
+wish.
+
+To run RKH, as root simply enter the following command:
+
+    ./rkhunter --propupd --check --sk
+
+
+TESTING RKHUNTER WITHOUT INSTALLING IT
+======================================
+
+It is perfectly understandable that new users may wish to try out rkhunter
+without having to fully install it. Similarly current users may want to
+test a new version of rkhunter, or a development version of it, without it
+affecting their current system or current installation of rkhunter. This is
+all perfectly possible, and quite easy, using a standalone installation.
+
+First, as the root user, it is suggested that a separate temporary directory
+is created, and then change to that directory. For example:
+
+       mkdir /tmp/rkh
+       cd /tmp/rkh
+
+It is now necessary to either copy or download a tarball of the version of
+rkhunter that you want to test. (Since you are reading this file, we assume
+you have already downloaded the relevant version.) For users wishing to try
+the latest development version, it is possible to download a tarball:
+
+       wget http://rkhunter.sourceforge.net/rkhunter-dev.tar.gz
+
+Next, it is necessary to extract the files from the tarball. The simplest
+way is to use the 'tar' command, such as:
+
+       tar xzf rkhunter-dev.tar.gz
+
+Obviously, for official releases, you will need to use the correct tarball
+name. For example:
+
+       tar xzf rkhunter-1.4.0.tar.gz
+
+For users of systems with alternative implementations of 'tar', for example
+Solaris users, you may need to break the extraction process into two steps
+(or use the 'gtar' command if you have it installed). For example:
+
+       gunzip rkhunter-dev.tar.gz
+       tar xf rkhunter-dev.tar
+
+The extraction process will create a sub-directory containing all the
+rkhunter files. The sub-directory name will contain the rkhunter version
+number, or, for development tarballs, it will simply be called 'rkhunter'.
+Change into this directory:
+
+       cd rkhunter-1.4.0         (for an official release tarball)
+   or  cd rkhunter               (for development tarballs)
+
+Now, we can run the installer program as described in the section above
+about standalone installations:
+
+       ./installer.sh --layout custom . --install
+
+Finally change to the 'files' sub-directory:
+
+       cd files
+
+Within here will be all the files that rkhunter requires. The configuration
+file, './rkhunter.conf', will already have been configured for a standalone
+installation. So there is no need to modify it unless you want to. Any
+files created by rkhunter will be within this directory. So, as mentioned
+above, it is perfectly possible to run a check using this installation
+without affecting any other installation of rkhunter that may exist on your
+system. To run a check use this command:
+
+       ./rkhunter --propupd --check --sk
+
+By default a log file (rkhunter.log) will be created, and that too will be
+within this directory.
+
+NOTE: If the rkhunter '--debug' option is used then this will, by default,
+create a file in the '/tmp' directory, and not within the current directory.
+
+Once you have finished testing rkhunter, simply delete the entire directory
+it was installed into:
+
+       cd /tmp
+       /bin/rm -rf rkh
+
+
+INSTALLATION INFORMATION FOR x86_64 SYSTEMS
+===========================================
+
+The installation of RKH is largely independent of the system architecture.
+However, RKH does have some support scripts and these need to be installed
+into the appropriate library directory. When performing a default
+installation, or using one of the known layout options (for example, '/usr'
+or '/usr/local'), then the relevant 'lib64' directory will be used only if
+it already exists. For a 'custom' layout, the 'lib64' directory will be used
+and created if necessary. Standalone installations do not use any special
+library directory at all. RPM installations will use the relevant 'lib64'
+directory only if the system architecture is detected as being 'x86_64'.
+
+
+REMOVING AN INSTALLATION
+========================
+
+RKH supports uninstallation. To do this unpack the installation
+tarball, and then run the installer with the --remove option. If RKH
+was installed using a default installation, then run:
+
+    tar zxf rkhunter-<version>.tar.gz
+    cd rkhunter-<version>
+    ./installer.sh --remove
+
+If you chose a different layout, for example '/usr', then run the
+installer using:
+
+    ./installer.sh --layout /usr --remove
+
+Note: the installer will not remove files that were installed using RPM
+(use the 'rpm' command to remove the package).
+
+For a standalone uninstallation, specified by using '--layout custom .',
+the installer will remove the whole installation directory (the 'files'
+sub-directory).
+
+During uninstallation, the installer will remove the initial configuration
+file (usually '/etc/rkhunter.conf'). However, any other files beginning with
+'rkhunter.conf' are not removed. Similarly, any 'rkhunter.d' directory is
+not removed. These may be removed manually if wished.
+
+When installing RKH, some directories may have been created. However,
+RKH is unaware of this when being uninstalled. As such, and especially
+when having used a custom installation, some directories may be
+emptied of files, but the directories themselves may remain. Again,
+these can be removed manually if wished.
+
+In order to see where RKH installed its files during installation, the
+'--show' option can be used. For example:
+
+    ./installer.sh --layout custom /opt --show
+
+
+USING TEST NAMES
+================
+
+Within RKH some of the tests have been given names. There are two types of
+test names - specific test names and grouped test names. A specific test name
+generally refers to one specific test within RKH. A grouped test name refers
+to a set, or group, of related tests. Within a group name there are usually
+one or more specific test names.
+
+To see the current list of test names use the 'rkhunter --list tests' command.
+The grouped names list will show the specific names that are within the group.
+
+So, for example, the file properties check has the grouped name of 'properties'.
+However, within that test the file hash value test is known as 'hashes'.
+Similarly, the file attributes check, which checks the file permissions, uid
+and gid values, and so on, is known as the 'attributes' test. Note that while
+it is possible to tell RKH to run the file properties check, but ignore the
+file hash value test, it is not possible to tell RKH to run the file attributes
+but to ignore the file permissions checks. RKH has no specific name for the
+file permissions test, and so it cannot be specifically enabled or disabled.
+
+RKH can be told to enable or disable one or more of the tests by using the
+'--enable' and '--disable' command-line options. Alternatively, the RKH
+configuration file options 'ENABLE_TESTS' and 'DISABLE_TESTS' can be used.
+By default, if the command-line '--disable' option is used, then the
+configuration file option 'DISABLE_TESTS' is also used to determine which tests
+to run. If only the command-line option is to be used to determine which tests
+to run, then the '--nocf' option must also be given. The program defaults, if
+no options are used at all, are to enable all tests and to disable no tests.
+For this purpose the enable options can use the special test name 'all', and
+the disable options can use the name 'none'. The enable options cannot use the
+name 'none', and the disable options cannot use the name 'all'. To specify
+more than one test name, specify them as a comma-separated list. For example:
+
+    rkhunter --enable 'rootkits,hashes'
+
+Note that in the above example no disabled test list was specified. As such, it
+will default to the value of the configuration file option (DISABLE_TESTS), or
+ultimately to the program default value of 'none'. The command-line options
+'--enable' and '--disable' may be used more than once on the command-line.
+
+The supplied RKH configuration file will have some tests already disabled.
+These are generally CPU and/or I/O intensive tests, or ones which may be prone
+to giving false-positive results. They can, of course, be enabled by editing
+the DISABLE_TESTS list. To run the tests from the command line, either use
+the '--enable' command-line option with the specified test name, or use
+either '--enable all' or '--disable none'.
+
+If either of the '--enable' or '--disable' command-line options is used, and
+the '--propupd' option is not given, then '--check' is assumed.
+
+If the '--enable' option is used and only one test name, other than 'all',
+is given, then the '--skip-keypress' option is assumed as well. So, for
+example, to run all the rootkit tests just use:
+
+    rkhunter --enable rootkits
+
+Similarly, to run all the tests except the rootkit tests, then use:
+
+    rkhunter --disable rootkits
+
+In this example RKH will assume the value of the configuration file option
+(ENABLE_TESTS) for the enabled test list, or ultimately the program default
+of 'all'. In the previous example, the value of DISABLED_TESTS or, ultimately,
+'none' will have been used for the disabled tests list.
+
+If a combination of enabled and disabled tests are specified, then RKH will
+disable a test if it is specified in the enable list. So, for example:
+
+    rkhunter --enable 'rootkits,deleted_files' --disable malware
+
+In this example the 'malware' test is disabled because it is part of the
+'rootkits' test. The fact that the 'deleted_files' test is specified to be
+run is ignored, because that is part of the 'malware' test. RKH will always
+look to see what tests to disable first. It will then run any enabled tests
+that are left.
+
+By default RKH will log what test names have been enabled and disabled.
+Additionally it will log each test name that it is about to execute. When
+initially run RKH may skip some tests due to missing commands or files. It is
+usually possible to omit these tests by including them in the DISABLE_TESTS
+list in the configuration file. The test name associated with these tests can
+be found by looking in the log file.
+
+It should be noted that not all the tests have been given names. As such some
+test names may execute more tests than expected. For example:
+
+    rkhunter --enable group_changes
+
+The 'group_changes' test name refers to the check to see if the /etc/group file
+has been modified. However, running the above command will also cause several
+tests on the /etc/passwd file to be executed. This is because those tests are
+part of the 'local_host' grouped test name, as is the 'group_changes' test,
+but those other tests have no specific names. As such, RKH will start the
+'local_host' tests, executing some of the /etc/passwd file tests and then the
+'group_changes' test, but ignoring any other tests within 'local_host' which
+do have specific names (for example, 'filesystem' and 'passwd_changes').
+
+
+USING PACKAGE MANAGERS
+======================
+
+The RKH file properties check, by default, performs a check of various current
+file properties against those that it has previously stored in the
+'rkhunter.dat' file. This way RKH can warn the user if a file has changed. The
+file properties include items such as the files hash value, file permissions,
+uid, gid, inode number and so on. The properties are obtained and stored in the
+rkhunter.dat file when RKH is run with the '--propupd' option.
+
+Typically the file properties are obtained using commands such as 'stat',
+'file', 'md5sum' and 'prelink'. However, it is also possible to specify that
+RKH should get whatever values it can by using a package manager. This can be
+done by using the '--pkgmgr' command-line option, or the 'PKGMGR' configuration
+file option. When the RPM package manager is specified, during the file
+properties check the results from the RPM verification command are used as the
+test results. For the other package managers, the values from the package
+manager database are compared against the current values for the files. By
+using a package manager, it is possible to avoid some false-positive reports
+that a file has changed when in fact it has been automatically updated by the
+system.
+
+The currently available package managers are 'RPM' for RedHat/RPM-based
+systems, 'DPKG' for Debian-based systems, 'BSD' (using the 'pkg_info' command)
+and 'BSDng' (using the 'pkg' command) for *BSD systems, and 'SOLARIS' for
+Solaris systems. It is also possible to specify 'NONE' to indicate not to use
+a package manager. The program default is 'NONE'.
+
+Any file which is not part of a package is treated as before, that is,
+the HASH_CMD configuration file option, or the '--hash' command-line
+option, will be used.
+
+It should be noted that all the package managers, except 'SOLARIS', provide
+a hash value for a file. However, the 'RPM' and 'SOLARIS' package managers
+can provide other file property values as well, such as the file permissions,
+uid, gid, modification time and so on. During the file properties check all
+of these values will be used, rather than the ones stored in the rkhunter.dat
+file. The Solaris package manager does store a 16-bit hash value, but this is
+not used by default. If it is wished to use the stored value, then the
+USE_SUNSUM configuration option must be enabled.
+
+It should also be noted that the 'DPKG', 'BSD' and 'BSDng' package manager
+options only provide a files hash value. As such, during the file properties
+check, all the other current file properties will be re-calculated as before,
+and compared against the values in the rkhunter.dat file. Hence, only the 'RPM'
+and 'SOLARIS' package managers offer any real benefits in using a package manager.
+
+NOTE: It is possible for a package manager database to become maliciously
+corrupted. To that extent the use of the package manager options with RKH
+does not provide any increase in security. However, it may result in less
+false-positive warnings of files which have changed. As always RKH can only
+report on changes, but not on what has caused the change.
+
+
+USING LOCAL MIRRORS
+===================
+
+When the '--update' or '--versioncheck' options are used, rkhunter uses
+a mirror site from the mirrors.dat file to obtain the required information.
+By default rkhunter will use any mirror listed in the file, and it will
+then rotate the list of mirrors. At the time of writing the supplied
+mirrors.dat file lists the Rootkit Hunter SourceForge site as a mirror.
+
+However, it is possible for users to define a local mirror if they wish to.
+This is done by simply editing the mirrors.dat file and inserting the
+mirror URL. The line should begin with the text 'local='. For example:
+
+    local=http://www.example.com/rkhunter_data
+
+The required rkhunter files must be placed in a location, of the users choice,
+which is accessible by the clients. So in the above example, the rkhunter
+data files would have been placed in the 'rkhunter_data' directory. The
+required files consist of the '.dat' files supplied with rkhunter, and which
+will have been installed in the database directory. For a default
+installation this would have been in '/var/lib/rkhunter/db'.
+
+Additionally, the mirror directory must have an 'i18n' sub-directory which
+contains all the current language translation files for the various versions
+of rkhunter. Each version is put into its own sub-directory. So, for example,
+there would be a '1.4.0' sub-directory, a '1.4.2' sub-directory and so on,
+all within the 'i18n' directory. Again, the database directory will already
+have had the 'i18n' sub-directory installed in to it, but it will only
+contain the language files for the current version of rkhunter. There are
+no version sub-directories installed by default. As such, the mirror will
+need to have the various version sub-directories created, and the relevant
+language files put in to them, for the versions of rkhunter that the mirror
+is required to support. If a client tries to access the language files for a
+version of rkhunter that is not supported by the mirror, then the download
+will fail. Depending on how the client is configured, another, possibly
+remote, mirror may be tried, or rkhunter will give a warning.
+
+Within each rkhunter version sub-directory of the 'i18n' directory, it is
+necessary to have a file called 'i18n.ver'. This file simply contains a list
+of the available language files, and their version numbers. For example:
+
+      cn:2009112801
+      en:2009112902
+
+So, as an example, the mirror file structure will need to look similar
+to this:
+
+                      rkhunter_data
+                            ||
+                            ||
+     ===============================================
+     ||               ||              ||          ||
+ mirrors.dat  rkhunter_latest.dat    i18n    suspscan.dat
+                                      ||
+                                      ||
+                  1.3.8 ============ 1.4.0 ============ 1.4.2
+                  / | \              / | \              / | \
+                 /  |  \            /  |  \            /  |  \
+               cn  en  i18n.ver   cn  en  i18n.ver   cn  en  i18n.ver
+
+
+Finally, if the '--versioncheck' option is to be supported with the local
+mirror, then the directory, 'rkhunter_data' in the above example, must
+contain a file called 'rkhunter_latest.dat'. This file must contain the
+current rkhunter version number (for example, '1.4.0') and no other text.
+
+It is possible to similarly define 'remote' mirrors, which begin with the
+text 'remote='. At present though there is no real difference between a
+local or remote mirror.
+
+The supplied mirror site(s) in the mirrors.dat file begin with the text
+'mirror=', and this should not be changed.
+
+In order to select whether all the mirrors or only the local or remote
+mirrors should be used, the rkhunter configuration file has an option in
+it called 'MIRRORS_MODE'. This option takes a numeric value, which by default
+is zero. The current values and meanings are:
+
+    0 - use any mirror (the default)
+    1 - use only local mirrors
+    2 - use only remote mirrors
+
+To further support local and remote mirrors there are two other configuration
+options available:
+
+The first is 'UPDATE_MIRRORS', which simply tells rkhunter whether the
+mirrors.dat file itself should be updated (i.e. overwritten) when the
+'--update' option is used. If local mirrors are listed in the file then you
+probably do not want the file automatically updated. The 'UPDATE_MIRRORS'
+option has a default value of one, indicating that the mirrors.dat file should
+be updated. Set this option to zero to disable this feature.
+
+The second option is 'ROTATE_MIRRORS'. This tells rkhunter whether it should
+rotate the list of mirrors whenever the '--update' or '--versioncheck' options
+are used. Again, with local mirrors you may want these accessed in a specific
+order, rather than rotated each time. The option has a default value of one
+indicating that the mirrors should be rotated. Set this option to zero to
+disable this feature.
+
+By default if a mirror fails for some reason, then rkhunter will use the next
+mirror, of the configured type, listed in the file. If there are no more
+mirrors left, then rkhunter will give a warning message.
+
+
+CREATING A NEW LANGUAGE FILE
+============================
+
+Creating a new language file to work with rkhunter is quite easy - the actual
+translating is the hard part! First, it is necessary to find out where the
+current language files are located. For a default installation this will be
+in the '/var/lib/rkhunter/db/i18n' directory. If this directory does not
+exist, then look in the rkhunter log file (usually located in /var/log) and
+there should be a line similar to 'Using... as the database directory'.
+Within that directory there should be the 'i18n' sub-directory. Once you
+have changed to that directory, you should then see the current language
+files. Next, take a copy of the 'en' language file and name it for your new
+language. We would suggest that you use something similar to the known
+ISO 639 language codes. For example, to create a generic French language
+file, then execute 'cp -p en fr'. Once you have done this, your new language
+file will be recognised by rkhunter. You can check this by using the command
+'rkhunter --list lang'. Note that if you use the 'rkhunter --update' command,
+the new language file will not be touched in any way. Also note that you must
+not remove the 'en' file, rkhunter will not work without it.
+
+The next part is to actually translate the messages. Each language file starts
+with a line containing the version number of that file. The actual messages
+start with a keyword, which must not be changed at all, followed by a colon
+(:), and then the actual message. It is the actual message which you need to
+translate. Some messages may contain variables such as '$1' or '$2'. Again,
+these must not be changed. Once you have translated the messages you can test
+them by using the command 'rkhunter --lang fr ...' - substituting 'fr' for
+whatever name you gave to your language file.
+
+If you want to have your new language translation made available as part of
+rkhunter, then please submit a feature request on the rkhunter SourceForge
+web site. However, please be aware that the language file is a fundamental
+part of rkhunter, and as such is continuously changing. You should endeavour
+to keep your translation up to date with the current version of rkhunter.
+
+
+ROOTKIT HUNTER GENERAL SUPPORT
+==============================
+
+If a problem is found with RKH, it is recommended that users initially
+try and resolve the problem themselves. This can be done by first
+checking the FAQ file, which is present in your installation if the
+distributed tarball is used as source. The FAQ will contain answers 
+to many common problems. The latest version of the FAQ can always be 
+found at RKH's project pages on SourceForge, in the 'Documentation' 
+section.
+
+If the problem has occurred directly after upgrading RKH, then please
+check the CHANGELOG file. It will contain information about changes
+made since the previous version of RKH, and may indicate why you are
+now experiencing a problem.
+
+Users should also check the rkhunter-users mailing list archives
+(available on the web site). The problem will be investigated by the
+RKH development team, and, where appropriate, a solution posted on the
+mailing list. Hence the mailing list archives may well contain a
+solution to the problem.
+
+Additionally, users should check the RKH tracker system (available at
+http://sourceforge.net/tracker/?group_id=155034). It is quite
+possible that the problem has already been reported to us as a bug or
+support request. It is also possible that a fix for the problem has
+been provided in the tracker log.
+
+Depending upon the nature of the problem it may be worthwhile trying
+an Internet search (for example using google), to see if anyone else
+has experienced a similar problem.
+
+Finally, if you have still not found an answer to the problem, then
+mail it to the rkhunter-users mailing list. Please provide as much
+information as possible about the problem, but do not make the
+message excessively long! Information such as your operating system
+and version of RKH should always be included.
+
+Please be advised that while you are free to ask for advice in your 
+favourite IRC channel, all-purpose forum or distribution mailing list,
+the demonstrated level of general and security knowledge and experience, 
+and therefore the quality of responses, may vary (very much).
+
+If you are sure the problem is a bug, or want it considered as a
+support request, then please submit it directly into the tracker
+system.
+
+
+ROOTKIT HUNTER REPORTS SIGNS OF A POTENTIAL BREACH OF SECURITY
+==============================================================
+
+When you think you have a (potential) security problem it is advised to 
+think and inform yourself thoroughly before you act. Please consider
+checking the FAQ, the rkhunter-users mailing list archives, your
+distribution documentation about security and security issues and the 
+CERT Intruder Detection Checklist, formerly located at 
+http://www.cert.org/tech_tips/intruder_detection_checklist.html, and 
+archived at http://web.archive.org/web/20080109214340/\
+http://www.cert.org/tech_tips/intruder_detection_checklist.html.
+If you do not have the required knowledge and experience to deal with
+security issues then please ensure yourself that the people who respond 
+do and have.
+
+- Logging in, killing processes, deleting files, powering down, rebooting
+  the machine, removing or installing software may signal the intruder and
+  may destroy vital information. If you need to communicate with people or
+  compile software then do use a different machine to work on.
+- If usage of the machine is governed by rules and regulations consider
+  alerting the designated security officer or team, systems or network
+  administrators or IT department before doing anything else.
+- In your initial email or post include as much information and make it
+  as detailed as possible. The more details you provide the more efficient
+  the troubleshooting or incident response process will be.
+- Do not be easily satisfied or mistake "don't worry" type of replies for
+  qualitatively good answers: read the FAQ, ask for specific steps to take
+  and commands to run so you can verify things yourself.
+- Please act timely and responsibly. (Potential) security problems should be
+  prioritized and acted on at the time of reporting, not days or weeks later.
+
+
+ROOTKIT HUNTER AS PART OF YOUR SECURITY STRATEGY
+================================================
+
+Rootkit Hunter is a host-based, passive, post-incident, path-based tool.
+
+- Host-based means it only diagnoses the host you run it on.
+- Passive means it has to be scheduled or run manually.
+- Post-incident means it can only be effective when a breach of security
+  is suspected, is in progress or has already occurred. Due to the nature of
+  software that hides processes and files it may be beneficial to run Rootkit
+  Hunter from a bootable medium if a breach of security is suspected and the
+  machine can be booted from a bootable medium.
+- Path-based means RKH will check for filenames. It does not include or use
+  heuristics or signatures like for instance an antivirus product could. Do 
+  understand that the SCANROOTKITMODE configuration option and "suspscan" 
+  functionality are just crude attempts to try and bridge that gap. 
+
+
+Rootkit Hunter is best deployed as part of your security strategy.
+
+- Most breaches of security are preceded by reconnaissance. Regular system
+  and log file auditing provides the necessary "early warning" capabilities.
+- RKH does not replace, or absolve you from performing, proper host hardening.
+  Common administration errors that may result in a breach of security includes
+  failing to apply updates when they are released, misconfiguration, lack of
+  access restrictions and lack of auditing.
+  Please see your distribution documentation and search the 'net.
+- Do not rely on one tool or one class of tools. Consider installing same-
+  class tools like Chkrootkit or OSSEC-HIDS and consider overlap as a Good
+  Thing. Additionally it is suggested you install and use a separate filesystem
+  integrity scanner like Samhain, Aide, Integrit, Osiris (or even tripwire) to
+  provide you with a second opinion.
+- Like with all data used for verifying integrity it is recommended to 
+  regularly save a copy of your RKH data files off-site.
+

@@ -113,6 +113,7 @@ update_system(){
    echo ""
    apt-get update
    apt-get upgrade -y
+   apt-get dist-upgrade -y
    apt-get install -y sysv-rc-conf
    say_done
 }
@@ -280,8 +281,9 @@ install_secure_mysql(){
     echo ""
     apt-get install mysql-server
     echo -n " configuring MySQL............ "
-    cp templates/mysql /etc/mysql/mysql.conf.d/mysqld.cnf; echo " OK"
+    cp templates/mysql /etc/mysql/mysqld.cnf; echo " OK"
     mysql_secure_installation
+    cp templates/usr.sbin.mysqld /etc/apparmor.d/local/usr.sbin.mysqld
     service mysql restart
     say_done
 }
@@ -606,6 +608,7 @@ tune_secure_kernel(){
     echo ""
     echo " Securing Linux Kernel"
     spinner
+    echo "* hard core 0" >> /etc/security/limits.conf
     cp templates/sysctl.conf /etc/sysctl.conf; echo " OK"
     cp templates/ufw /etc/default/ufw
     sysctl -e -p
@@ -631,14 +634,14 @@ install_rootkit_hunter(){
           - Look for hidden files
           - Optional scan within plaintext and binary files "
     sleep 1
-    cd rkhunter-1.4.2/
+    cd rkhunter-1.4.6/
     sh installer.sh --layout /usr --install
     cd ..
     rkhunter --update
     rkhunter --propupd
     echo " ***To Run RootKit Hunter ***"
     echo "     rkhunter -c --enable all --disable none"
-    echo "     Puede ver el reporte detallado en /var/log/rkhunter.log"
+    echo "     Detailed report on /var/log/rkhunter.log"
     say_done
 }
 
@@ -919,24 +922,24 @@ enable_proc_acct(){
 ##############################################################################################################
 
 #Install PHP Suhosin Extension
-install_phpsuhosin(){
-  clear
-  f_banner
-  echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
-  echo -e "\e[93m[+]\e[00m Installing PHP Suhosin Extension"
-  echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
-  echo ""
-  echo 'deb http://repo.suhosin.org/ ubuntu-trusty main' >> /etc/apt/sources.list
-  #Suhosin Key
-  wget https://sektioneins.de/files/repository.asc
-  apt-key add repository.asc
-  apt-get update
-  apt-get install php-suhosin-extension
-  phpenmod suhosin
-  service apache2 restart
-  echo "OK"
-  say_done
-}
+#install_phpsuhosin(){
+#  clear
+#  f_banner
+#  echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+#  echo -e "\e[93m[+]\e[00m Installing PHP Suhosin Extension"
+#  echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+#  echo ""
+#  echo 'deb http://repo.suhosin.org/ ubuntu-trusty main' >> /etc/apt/sources.list
+#  #Suhosin Key
+#  wget https://sektioneins.de/files/repository.asc
+#  apt-key add repository.asc
+#  apt-get update
+#  apt-get install php-suhosin-extension
+# phpenmod suhosin
+#  service apache2 restart
+#  echo "OK"
+#  say_done
+#}
 
 ##############################################################################################################
 
@@ -1001,6 +1004,34 @@ install_arpwatch(){
      say_done
   fi
 }
+
+##############################################################################################################
+
+set_grubpassword(){
+  clear
+  f_banner
+  echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+  echo -e "\e[93m[+]\e[00m GRUB Bootloader Password"
+  echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+  echo ""
+  echo "It is recommended to set a password on GRUB bootloader to prevent altering boot configuration (e.g. boot in single user mode without password)"
+  echo ""
+  echo -n " Do you want to set a GRUB Bootloader Password? (y/n): " ; read grub_answer
+  if [ "$grub_answer" == "y" ]; then
+    grub-mkpasswd-pbkdf2 | tee grubpassword.tmp
+    grubpassword=$(cat grubpassword.tmp | sed -e '1,2d' | cut -d ' ' -f7)
+    echo " set superusers="root" " >> /etc/grub.d/40_custom
+    echo " password_pbkdf2 root $grubpassword " >> /etc/grub.d/40_custom
+    rm grubpassword.tmp
+    update-grub
+    echo "On every boot enter root user and the password you just set"
+    echo "OK"
+    say_done
+  else
+    echo "OK"
+    say_done
+  fi
+}    
 
 ##############################################################################################################
 
@@ -1083,7 +1114,7 @@ enable_proc_acct
 install_auditd
 install_sysstat
 install_arpwatch
-install_phpsuhosin
+set_grubpassword
 reboot_server
 ;;
 
@@ -1124,6 +1155,7 @@ enable_proc_acct
 install_auditd
 install_sysstat
 install_arpwatch
+set_grubpassword
 reboot_server
 ;;
 
@@ -1162,7 +1194,7 @@ enable_proc_acct
 install_auditd
 install_sysstat
 install_arpwatch
-install_phpsuhosin
+set_grubpassword
 reboot_server
 ;;
 
@@ -1199,6 +1231,7 @@ enable_proc_acct
 install_auditd
 install_sysstat
 install_arpwatch
+set_grubpassword
 reboot_server
 ;;
 
@@ -1241,13 +1274,13 @@ enable_proc_acct
 install_auditd
 install_sysstat
 install_arpwatch
-install_phpsuhosin
+set_grubpassword
 ;;
 
 6)
 
 menu=""
-until [ "$menu" = "33" ]; do
+until [ "$menu" = "34" ]; do
 
 clear
 f_banner
@@ -1282,12 +1315,13 @@ echo "24. Install Tiger"
 echo "25. Disable Compilers"
 echo "26. Enable Unnatended Upgrades"
 echo "27. Enable Process Accounting"
-echo "28. Install PHP Suhosin"
+echo "28. Install PHP Suhosin (Disabled for Now)"
 echo "29. Install and Secure MySQL"
 echo "30. Set More Restrictive UMASK Value (027)"
 echo "31. Secure /tmp Directory"
 echo "32. Install PSAD IDS"
-echo "33. Exit"
+echo "33. Set GRUB Bootloader Password"
+echo "34. Exit"
 echo " "
 
 read menu
@@ -1413,9 +1447,9 @@ unattended_upgrades
 enable_proc_acct
 ;;
 
-28)
-install_phpsuhosin
-;;
+#28)
+#install_phpsuhosin
+#;;
 
 29)
 install_secure_mysql
@@ -1434,6 +1468,10 @@ install_psad
 ;;
 
 33)
+set_grubpassword
+;;
+
+34)
 break ;;
 
 *) ;;

@@ -1,0 +1,2223 @@
+
+####################################################################
+#
+# CHANGELOG
+#
+####################################################################
+
+ !! Important notices !!
+
+ - Dates in this file are formatted as DD/MM/YYYY (European format).
+ - The rkhunter configuration file (default /etc/rkhunter.conf) will
+   not be overwritten when using the rkhunter installer, unless
+   specifically requested to do so (using the '--overwrite' option).
+   Be sure you compare your existing configuration file against the
+   one delivered in this package, in order to optimize the file for
+   your machine.
+
+
+ -- 
+
+ * 1.4.6 (20/02/2018)
+
+ New:
+ - Added support for Alpine Linux (busybox).
+ - Added the 'Diamorphine LKM' test.
+ - Added the ALLOWIPCPID configuration file option. This will allow
+   specific PIDs to be whitelisted from the shared memory check.
+ - Added the ALLOWIPCUSER configuration file option. This will allow
+   specific usernames to be whitelisted from the shared memory check.
+ - Added the IPC_SEG_SIZE configuration file option. This can be used
+   to set the minimum shared memory segment size to check. The default
+   value is 1048576 bytes (1MB).
+ - Added the SKIP_INODE_CHECK configuration file option. Setting this
+   option will disable the reporting of any changed inode numbers.
+   The default is to report inode changes. (This option may be useful
+   for filesystems such as Btrfs.)
+ - Added Ebury sshd backdoor test.
+ - Added a new SSH configuration test to check for various suspicious
+   configuration options. Currently there is only one check which
+   relates to the Ebury backdoor.
+ - Added basic test for Jynx2 rootkit.
+ - Added Komplex trojan test.
+ - Added basic test for KeRanger running process.
+ - Added test for Keydnap backdoor.
+ - Added basic test for Eleanor backdoor running process.
+ - Added basic tests for Mokes backdoor.
+ - Added tests for Proton backdoor.
+ - Added the SUSPSCAN_WHITELIST configuration file option. This
+   option can be used to whitelist file pathnames from the
+   'suspscan' test.
+
+ Changes:
+ - The 'ipc_shared_mem' test will now log the minimum segment size
+   that will be checked. It will also log the size of any segments
+   which appear suspicious (that is, larger than the configured
+   allowed maximum size).
+ - If verbose logging is disabled, then generally only the test
+   name and the final result for the test will now be logged.
+ - Kernel symbol checks will now use the 'System.map' file, if it
+   exists, and no other kernel symbol file can be found.
+
+ Bugfixes:
+ - For prelinked systems ensure that the default hash function is
+   SHA1 and not SHA256.
+ - The result from the 'hidden_procs' test was not being
+   calculated correctly.
+ - Checking the O/S version number could be missed in some cases.
+ - Minor improvement to the *BSD immutable files check.
+ - The 'OS_VERSION_FILE' configuration option pathname cannot be
+   a link, but this was not checked.
+ - Improved checks for the O/S name on Devuan systems.
+ - Handling of the '/etc/issue' file during O/S detection has now
+   improved. Escape sequences are either replaced or removed.
+ - Not all the linux kernel module names were being checked.
+ - The logging of detached memory segments tried to show the
+   process pathname. This has now been corrected, and where no
+   pathname is available, the segment owner and PID will be logged.
+ - It was possible for the return code to be lost when running the
+   'ipc_shared_mem' test. This has now been corrected.
+ - Some configuration options were still not being handled correctly
+   when specified more than once.
+ - The 'ipc_shared_mem' test did not correctly handle whitelisting
+   when a segment pathname was flagged as deleted. This has now
+   been corrected.
+ - Commands disabled in the configuration file were being logged
+   as not found. They are now logged as having been disabled.
+ - Disabling verbose logging could hide some warning messages.
+ - The 'shared_libs' test now caters for simple filenames, as well
+   as pathnames which contain the '$LIB', '$ORIGIN' or '$PLATFORM'
+   variables.
+
+ --
+
+ * 1.4.4 (29/06/2017)
+
+ New:
+ - Added the GLOBSTAR configuration file option. This will set the
+   shells globstar option to allow recursive checks of directories.
+   By default this option is disabled.
+ - Added a Japanese translation file.
+ - Added support for the 'BSDng' package manager option. This can
+   be used by those *BSD systems which have the 'pkg' command
+   available (currently later FreeBSD systems).
+ - The BSD package manager will now try the 'pkg_info' command '-W'
+   option if the '-F' option fails.
+ - Added the LOCKDIR configuration option. It is now possible to
+   specify the directory rkhunter will use to store the lock file
+   (if USE_LOCKING has been set). The default is unset, and this
+   will cause rkhunter to look for a directory to use. Details are
+   in the configuration file.
+ - Added the ALLOWIPCPROC configuration file option. This can be
+   used to whitelist suspicious processes using shared memory
+   segments (found during the 'ipc_shared_mem' check).
+
+ Changes:
+ - The DISABLE_UNHIDE option has been removed from the configuration
+   file. It is no longer required as disabling the 'hidden_procs' or
+   'hidden_ports' tests has the same effect.
+ - The installer now installs directories and executable files with
+   mode 700, other files are set as mode 600. The man page is left
+   at mode 644. The documentation directory is mode 755, and the
+   files within it are mode 644. The 'rkhunter' program itself will
+   set the mode of copied files to 600 (for example log files, and
+   the passwd/group files).
+ - By default the 'apps' test is now disabled in the configuration
+   file.
+ - The default hash function for the file properties test, given by
+   the HASH_CMD option in the configuration file, has now changed
+   to SHA256. It was previously SHA1, or MD5 if SHA1 was not found.
+ - Previously the lock file (if locking was used) was just an empty
+   file. It now contains the PID of the running process.
+ - The 'system_configs' test name has now been changed into a test
+   group consisting of the two tests 'system_configs_ssh' and
+   'system_configs_syslog'. Each test may now be enabled or disabled
+   individually.
+ - The 'other_malware' test name has been removed, and replaced by
+   the 'login_backdoors', 'sniffer_logs', 'tripwire', 'susp_dirs'
+   and 'ipc_shared_mem' test names. These are now all part of the
+   'malware' test group.
+
+ Bugfixes:
+ - Ensure that 'lsof' errors are not displayed.
+ - Ensure that 'ipcs' errors and the locale are handled correctly.
+ - Correct broken pipe errors in some commands.
+ - For Solaris users set the 'awk' command very early on so that
+   option processing works correctly.
+ - The ALLOWPROCDELFILE option was not handling multiple pathnames
+   or wildcards correctly. It was also not handling the option
+   pathnames correctly.
+ - The SCANROOTKITMODE configuration option was never actually read
+   as a configuration option.
+ - The '--config-check'/'-C' option could produce incorrect error
+   messages in certain circumstances.
+ - Setting the ALLOW_SSH_PROT_V1 option to '2' could cause warning
+   messages when SSH protocol 1 was allowed.
+ - Allow Linux 'grep' to work correctly with binary (i18n) files.
+ - Multiple UID0_ACCOUNTS and PWDLESS_ACCOUNTS options were not being
+   handled correctly.
+ - Uppercase test names were not being handled correctly.
+ - Changed the 'logger' command tag from 'Rootkit Hunter' to 'rkhunter'
+   to avoid problems with spaces.
+ - Ensure that 'fdescfs' filesystems are correctly detected.
+ - To try and avoid colour escape sequences being logged, both of
+   the variables CLICOLOR and CLICOLOR_FORCE are unset for *BSD and
+   SunOS systems.
+ - The 'startup_malware' and 'possible_rkt_strings' checks will now
+   check systemd startup scripts if they are located in the 
+   '/etc/systemd/system' directory.
+ - The 'sockstat' command output on BSD systems can become corrupted
+   if a username is very long. This is now detected, and processed
+   correctly.
+ - The 'shared_libs' test now recognises comments in the preload file.
+ - The ALLOWPROMISCIF configuration option was not handling multiple
+   occurrences correctly. This has now been corrected.
+ - Tighten up the input verification check on the mirror file to
+   ensure that only URL's are used as a mirror. (CVE-2017-7480)
+ - The BSD package manager seemed to be needlessly stripping out
+   parts of package names on NetBSD systems. It no longer does this.
+ - In certain cases it was possible for certain tests to not display
+   any output. This has now been corrected.
+ - The installer did not always add the 'rkhunter.d' directory, if
+   it existed, to the main configuration file for monitoring.
+
+ -- 
+
+ * 1.4.2 (24/02/2014)
+
+ New:
+ - The 'ssh', 'sshd' and 'telnet' commands are now checked as part of
+   the file properties test.
+ - It is now possible to include configuration files found in a local
+   configuration directory. This directory, called 'rkhunter.d', must
+   be in the same directory as the main configuration file. Only files
+   ending in '.conf' will be treated as configuration files, all other
+   files will be ignored. The configuration options found in the files
+   will be merged with the options found in the main configuration file
+   and the local configuration file, if present. Both the local
+   configuration file, and the 'rkhunter.d' configuration files, will
+   only override a previously specified option if the option can only
+   be specified once, or, for list options, if the null string is given.
+   The installer will automatically include any configuration files to
+   the file properties test.
+ - A new configuration file option, 'SHOW_SUMMARY_WARNINGS_NUMBER',
+   can be set so that the summary will display the actual number of
+   warnings found, rather than the default message which simply states
+   that one or more warnings were found. If no warnings were found,
+   then it will be stated that '0' warnings were found.
+ - The tests to see if 'syslog' is running, and its configuration
+   file is present, have now been changed. The test has been renamed
+   to state 'system logging' rather than 'syslog', and will now detect
+   if 'systemd' logging is being used as well as, or instead of, syslog.
+ - Two new tests have been added to the 'filesystem' checks. The first
+   will check if any configured log files are missing, and the second
+   will check if any configured log files are empty. The second test will
+   also check if the log files are missing, but only report it if the
+   first test has not done so. For both tests the results are only shown
+   if the relevant test has been configured. To enable this there are
+   also two new configuration file options - MISSING_LOGFILES and
+   EMPTY_LOGFILES.
+ - Added the 'UNHIDETCP_OPTS' configuration option. This may be set to
+   options which are then used by the 'unhide-tcp' command. By default
+   no options are used.
+ - Added the SHOW_SUMMARY_TIME configuration option. This can be used
+   to specify where the summary scan time should be displayed, if at
+   all. The default (as before) is to display the time both on the
+   screen and in the log file.
+ - Added the PORT_PATH_WHITELIST configuration option to be used when
+   specifying a pathname. Other port whitelisting types use the
+   PORT_WHITELIST option as before.
+ - Added Turkish translation files.
+ - Added System V Shared Memory test for Linux.
+ - Added ClamAV-compatible signatures for an Apache DSO, pam_unix.so
+   backdoor, xsyslog, SHV4, SHV5, Kbeast, libncom, Jynx, Turtle, 
+   Glupteba, trojaned OpenSSH daemon, improved libkeyutils.1.9.so and
+   common sniffer strings. These signatures are highly experimental,
+   prone to false positives and must be run manually using ClamAV.
+   Currently no update mechanism is provided and the rkhunter-users
+   mailing list may or may not provide support for any questions about
+   these signatures.
+
+ Changes:
+ - The test 'possible_rkts' has been removed because this is exactly
+   the same as the 'additional_rkts' test.
+ - To allow for the merging of configuration options from files in the
+   rkhunter.d directory, the UNHIDE_TESTS, MAIL-ON-WARNING, ENABLE_TESTS
+   and DISABLE_TESTS options may now be specified more than once.
+ - It is no longer required that the MAIL-ON-WARNING option exists in
+   the configuration file.
+ - Some configuration options, typically lists, can be specified more
+   than once, and it is now possible to set these options to the null
+   string ("") so as to delete any previous value. Previously use of the
+   null string was ignored. Some options may assume a default value if
+   the option is set to null.
+   (This change was made so that configuration files in the 'rkhunter.d'
+   directory, and the local configuration file, can reset an option to
+   null, and, if required, provide new values simply by specifying the
+   option once as null and then with a value.)
+ - The file properties test will now state if the target of a symbolic
+   link has changed. Previously this would have been detected, but
+   reported as a change of hash value, inode, file size etc.
+ - The PORT_WHITELIST configuration option can now only be used to
+   specify protocol:port pairs or the '*' option. To specify pathnames,
+   the new PORT_PATH_WHITELIST option must be used.
+ - Displayed and logged pathnames which contain either space, tab or
+   control characters are now displayed differently. A space character
+   will be displayed as '<SP>', a tab as '<TAB>' and a control character
+   as '?'. This should make pathnames with these characters easier to
+   see when displayed or logged.
+ - Detection of the O/S being used now includes looking for the
+   '/etc/os-release' file.
+ - In the configuration file the HASH_FUNC option has now changed
+   name to HASH_CMD. However, the old name will still be recognised.
+ - Most configuration options which take pathnames are now internally
+   treated as newline-separated lists. As such, the options can only
+   have one entry per line, and that entry can contain any character
+   other than a newline character. (Note: Do not use quotes around the
+   pathname.) Options which previously used the '%' character to
+   represent a space, no longer require this.
+ - The USER_FILEPROP_FILES_DIRS no longer recognises the '!' character
+   as being special. Any pathnames to be excluded from the file
+   properties checks should use the new EXCLUDE_USER_FILEPROP_FILES_DIRS
+   configuration option instead. No '!' is required with that option.
+ - The 'promisc' test for promiscuous network interfaces now uses
+   either the 'ifconfig' command or, for Linux systems, the 'ip'
+   command. Previously the 'ifconfig' command had to be present.
+ - If either of the APPEND_LOG or COPY_LOG_ON_ERROR configuration
+   options is set, then this is now logged.
+ - It is now possible to include filenames containing a colon (:)
+   character in the file properties tests. The filename can be specified
+   in the configuration file using the USER_FILEPROP_FILES_DIRS option.
+
+ Bugfixes:
+ - Cater for the latest version of the 'unhide' command.
+ - Allow the ALLOWDEVFILE option to handle file names containing
+   forward slashes.
+ - Improved the process check in the 'packet_cap_apps' test.
+ - Ensure that the 'rkhunter.conf.local' file, if present, is not a
+   symbolic link and is readable.
+ - Improve the test that the root user is running rkhunter.
+ - The RPM package manager would log (as an info message) if an 'rpm'
+   command failed, but the user would generally be unaware of this.
+   Additionally, the relevant file would pass the file properties
+   test. Now the file is marked as having a missing hash.
+ - The RPM package manager could produce additional spurious warnings
+   if a file from a package was deleted, and the '/bin' or '/sbin'
+   directories were symbolic links (as now occurs with Fedora).
+ - The 'tripwire', 'ports' and 'running_procs' tests detect possible
+   rootkits, but these were not being reported in the summary. This
+   has now been fixed, and those tests will always show a summary.
+ - The 'filesystem' test did not correctly check a files file type.
+   Additionally, testing the files size prevented character and block
+   file types from being detected. As before, empty files are ignored.
+   The OSX 'file' command can return multiple lines for certain files.
+   This has now been catered for (generally the output was assumed to
+   be on one line.)
+ - Some configuration options were not being processed until late in
+   the code. Now, all options are processed early in the program. This
+   means that any error messages will show up much earlier.
+ - Some configuration options, for specific tests, were being processed
+   even if the test was disabled. The configuration options are now
+   only processed if the relevant test is enabled.
+ - Some configuration options were not being checked fully for errors.
+   Now, all options are fully checked, and any errors reported.
+ - If the '--propupd' option was used with the '--enable' option,
+   it could cause a shell error to appear and some tests not to run
+   correctly.
+ - If the '--propupd' option was used in conjunction with the file
+   properties test, and the hash function was changed, or a package
+   manager used, then the file properties test would fail stating that
+   the new and old hash functions, or package managers, were
+   incompatible. The test now runs as it should using the new hash
+   function or package manager.
+ - The pathname of the log file is now logged if the summary is
+   disabled or a check is not being run. Previously the log file
+   path only appeared in the check summary.
+ - Both the '--bindir' command-line option, and the BINDIR configuration
+   option, are now checked more thoroughly to ensure that the
+   directories are valid.
+ - AIX systems do not fully check files when using the 'strings'
+   command. As such several warnings are produced when the strings
+   command integrity test is executed. The strings command '-a' option
+   is now used so that the whole file is checked. This option seems to
+   be universal so should not be a problem for any other systems.
+ - When using a hash command of 'NONE' the file properties test would
+   still report some files as having no hash value. This is now fixed.
+ - The xinetd check was too simple, and could miss services which were
+   enabled. The test now also checks for any 'defaults' section, and
+   checks the found service and 'id' names against the defaults.
+
+ -- 
+
+ * 1.4.0 (01/05/2012)
+
+ New:
+ - Added the '--list propfiles' command-line option. This will dump out
+   the list of filenames that will be searched for when building the file
+   properties database. By default the list is not shown if just '--list'
+   is used.
+ - Added Jynx rootkit check.
+ - Added Turtle/Turtle2 rootkit check.
+ - Added KBeast rootkit check.
+ - The installer now supports the Slackware TXZ package layout option.
+
+ Changes:
+ - Avoid checking exclamation points in ALLOWDEVFILE checks (this was
+   caught on 01/05/2012 causing a reissue of the 1.4.0 release).
+ - Allow the ALLOWDEVFILE, ALLOWHIDDENFILE and ALLOWHIDDENDIR options to
+   use '%' as the space character. (Note: This is a temporary fix).
+ - The ALLOWPROCDELFILE option can now use wildcards in the file names.
+ - The '--list perl' command-line option now shows whether the perl
+   command itself is installed or not.
+ - The 'shared_libs' test now allows whitelisting of the preloading
+   environment variables.
+ - The '-r/--rootdir' command-line options, and the ROOTDIR
+   configuration option are now deprecated. If they are used then an
+   error message will be displayed. The options will have no effect,
+   but rkhunter will continue. The options will be completely removed
+   at the next release.
+ - The 'hidden_ports' test will now show if a found port is TCP or UDP.
+ - It is now possible to whitelist ports in the 'hidden_ports' test
+   using the PORT_WHITELIST configuration option.
+
+ Bugfixes:
+ - Allow the ALLOWPROCDELFILE option to work again.
+ - Correct the check of the ProFTPD version number.
+ - Fix the FreeBSD 'sockstat' command check to ensure that the correct
+   fields are used.
+ - Fix for newer version of the 'file' command when reporting scripts.
+ - Fix the ALLOWHIDDENFILE option to allow hidden symbolic links.
+ - The 'filesystem' check now handles files and directories with spaces
+   in their names correctly.
+ - The 'startup_files' test was displaying file names with spaces in
+   them incorrectly. Also the test was not checking files which were
+   in hidden directories.
+ - Ensure that the ALLOWDEVFILE, ALLOWHIDDENFILE and ALLOWHIDDENDIR
+   options re-evaluate their whitelisting lists to ensure that any
+   wildcard entries are the most recent. (A time window previously
+   existed which meant that the list was processed, but new files
+   could be created before the test was run. As such they were reported
+   as false-positive warnings, when they should have been whitelisted.)
+ - Allow the EXISTWHITELIST option to work with symbolic links.
+ - The test of whether prelinking is being used or not was sometimes
+   causing the file properties hash test to be skipped, without the
+   real reason being stated. Now the hash test will proceed but the
+   user will still get a warning (because it detects that prelinking was
+   used and is not now, or vice-versa).
+ - Rkhunter will now check to see if the 'head' and 'tail' commands
+   understand the '-n' option. If they do, then it will be used. If they
+   do not, then the older 'head -1' and 'tail -1' commands will be used.
+
+ -- 
+
+ * 1.3.8 (17/11/2010)
+
+ New:
+ - It is now possible to whitelist specific rootkit strings in
+   specific files using the RTKT_FILE_WHITELIST option. Details
+   are in the configuration file.
+ - For those systems on which files generally have the immutable
+   -bit set, the 'immutable' test can now be reversed (that is,
+   warnings will be issued for files which do not have the bit
+   set). The configuration file option IMMUTABLE_SET can be set
+   to '1' to enable this. By default it is '0'.
+ - The installer now supports the ppc64 architecture.
+ - The RTKT_FILE_WHITELIST option can be used to whitelist
+   reported 'suspicious files' found in the 'running_procs' test.
+ - Using the EXISTWHITELIST configuration option it is now possible
+   to whitelist files and directories that might not always be
+   present on the system. Whitelisted items are, in effect,
+   whitelisted from 'existence' checks.
+ - Added a new test to check for hidden network ports being used.
+   It is called 'hidden_ports'. This test is disabled by default,
+   and will only run if the 'unhide-tcp' command is present.
+ - Added support for DragonFly BSD.
+ - Added Inqtana worm check (variants A, B and C).
+ - It is now possible to whitelist a combined pathname and port number
+   with the PORT_WHITELIST configuration option. Details are in the
+   configuration file.
+ - Added Togroot rootkit check.
+ - It is now possible to specify 'SOLARIS' as a package manager for
+   Solaris systems. It can be used to check several of the file
+   properties, such as the file permissions, ownership, size and so
+   on. By default the stored 16-bit hash value is not used, and a hash
+   value will be calculated, as before, using the configured hash
+   function. However, if it is wished that the stored hash value is
+   used, then the USE_SUNSUM configuration option must be enabled.
+ - The command-line option '--list perl' may be used to see the
+   installation status of perl modules that may be used by some of
+   the tests.
+ - For the file properties test the hash functions 'Whirlpool' and
+   'Ripemd160' may now be specified. However, only the relevant perl
+   module will be looked for when using these functions.
+ - Added Solaris Wanuk backdoor and worm checks.
+ - The new command-line option '-C' (or '--config-check') can be
+   used to check the rkhunter configuration files. This will check
+   most of the options, but only for the tests which would normally
+   be run (as defined by the enable and disable options). The program
+   exits once the check has run. See the man page for more details.
+ - The 'hidden_procs' test will now run the 'unhide.rb' command if it
+   is present. This is the Ruby version of the original C 'unhide'
+   program. (The 'unhide' command is also still run if found.)
+ - Added the DISABLE_UNHIDE configuration option. This allows users
+   to disable one or other of the 'unhide' or 'unhide.rb' commands
+   if they are both present on the system. The default is to look
+   for and run both commands.
+ - Added OS X Boonana (Koobface.A) trojan check.
+
+ Changes:
+ - Allow the 'unhide' command to be detected on Linux systems.
+ - Allow most of the whitelisting-type configuration options to
+   be specified more than once in the configuration file.
+ - NIS entries are now ignored when checking the password file.
+ - The use of '--disable all' on the command-line is now allowed
+   provided that the '--enable' option is also used, and not set
+   to 'none'. Disabling all the tests in the configuration file
+   will still give an error.
+ - If the enabled and disabled test name(s) are the same, then an
+   error will now be displayed. This only applies to certain
+   non-grouped test names.
+ - The check of syslog remote logging no longer considers a
+   127.x.x.x address as being remote.
+ - In the configuration file the WEBCMD option has now changed
+   name to WEB_CMD. However, the old name will still be recognised.
+ - If the UPDT_ON_OS_CHANGE option is set, and an O/S change has been
+   detected, a message is now logged stating that an automatic
+   update will occur. Additionally, the output of the update is no
+   longer displayed (it looked confusing).
+ - Removed the automatic exception of TDB database files from the
+   'filesystem' check. (This seems to have been introduced in version
+   1.1.3, but we have whitelisting now.)
+ - The file properties test now handles broken links. These were
+   previously reported as an error. If there are any broken links,
+   then the '--propupd' option will report how many have been found.
+ - The old configuration options LOCAL_RC_PATH and SYSTEM_RC_DIR
+   have now been removed. They were replaced by STARTUP_PATHS at
+   version 1.3.6.
+ - Most of the configuration options which take a list of pathnames,
+   and which are not set in the provided config file, can now be
+   specified more than once. They are all now space-separated lists
+   as well.
+ - The 'suspicious files' check in the 'running_procs' test now displays
+   each found file individually. Additionally the warning will include
+   the command being executed, the PID, the user id, the full pathname
+   that appears to be suspicious, and the possible rootkit name.
+ - Reverted a change to the 'os_specific' test so that it will show the
+   test as being skipped for O/S's which have no specific tests. Without
+   this if the test was enabled on its own, then nothing at all was
+   displayed.
+ - More rigorous testing of the various '.dat' files before each test
+   which uses them has now been included. If a problem is found, then
+   a warning is displayed.
+ - The ALLOW_SSH_ROOT_USER configuration option can no longer be set
+   to 'yes' if the 'PermitRootLogin' option is not set in the SSH
+   configuration file. A value of 'unset' must be used.
+ - The ALLOW_SSH_PROT_V1 configuration option can no longer be set
+   to '1' if the 'Protocol' option is not set in the SSH configuration
+   file. A value of '2' must be used. (The use of '1' in this instance
+   was an undocumented, but allowed setting.)
+ - The '--enable' and '--disable' command-line options may now be
+   specified more than once.
+ - The default behaviour when the command-line option '--disable' is
+   used has been changed. Rkhunter will now also include the
+   configuration file option used to disable tests, in order to
+   determine overall which tests to run. This is more intuitive for the
+   user. If the previous behaviour of only the '--disable' option being
+   used to determine which tests to run, then the new '--nocf' option
+   must also be used.
+ - The network 'ports' test no longer displays the details of the test
+   on the screen, but just shows the overall result. This brings the test
+   format more inline with the other tests. The result of individual
+   ports being checked is still logged as before.
+ - The 'sort' and 'uniq' commands are now required to be on the system
+   in order to run rkhunter.
+ - Grsecurity-enabled systems may now run the network 'ports' test. If
+   this causes a problem, then that particular test can be disabled.
+ - Improved support for OS X a little bit more.
+ - When using the installer '--show' option, if a directory does not
+   exist, then it will now state that the directory will be created.
+ - The 'hidden_procs' test used to run the 'unhide sys' command. Now
+   it is possible to specify which test names to provide to the 'unhide'
+   command by using the UNHIDE_TESTS configuration option. It defaults
+   to 'sys'. This allows for additional tests to be run with 'unhide'
+   if the user wishes, and caters for newer versions of 'unhide' which
+   have several new options. Increased the amount of logging of what
+   rkhunter is doing during the 'hidden_procs' test.
+ - Both the '--bindir' command-line option and the BINDIR configuration
+   file option may now be specified more than once. The description of
+   how these options affect the PATH of rkhunter has been reworded in
+   both the supplied rkhunter.conf file and the man page.
+ - The log file permissions and owner/group settings will now be copied
+   to each new log file, rather than a new log file, with default
+   permissions, being created each time. This will allow users to
+   modify the permissions/owner/group of the log file, without them
+   being lost when a new log file is created. If no log file exists,
+   then, as before, one will be created with permissions of 600 and
+   with the owner/group of the root user.
+ - For OS X users the test of root-equivalent accounts now works
+   with directory services as well as with the password files.
+ - The check of the syslog configuration file will now check all
+   the files found, not just the first one.
+
+ Bugfixes:
+ - Corrected test of ProFTPD version number in apps test.
+ - Make the apps test version number check case-independent.
+ - Ensure the promiscuous interface whitelisting is applied to both
+   parts of the test. Corrected and tidied up the displayed output.
+ - Correct the test of rkhunter itself being changed to a non-script
+   file.
+ - Ensure the suspscan test removes any files it creates. (Again!)
+ - The --rootdir/ROOTDIR configuration option now works correctly if
+   specified as '/'. Previously it caused the file properties file
+   entries to become a bit messed up.
+ - The file properties immutable test checked the 'lsattr' command
+   against the rkhunter configuration file. However, if the file was
+   a symbolic link, then the test failed. Now the test checks 'lsattr'
+   against several of the rkhunter installed files, looking for a
+   regular, non-link, file. These include the configuration file, the
+   rkhunter database files, and the language files.
+ - The ALLOWDEVFILE whitelisting now allows filenames to contain
+   colon (:) characters.
+ - The rootkit summary could list detected rootkit names more than once.
+   This has now been corrected, each rootkit name will only be
+   displayed once. The rootkit count will also now only show the number
+   of unique rootkits found.
+ - It was possible for part of the summary to be displayed twice. This
+   has now been corrected so that it only displays once.
+ - For system startup files (rc files), the rootkit strings check now
+   ignores comment lines (lines starting with '#'). For Solaris systems,
+   the 'gstrings' command is used rather than 'strings' if it exists.
+ - Allow *BSD 'grep' to work correctly with binary (i18n) files.
+ - Removed the configuration file option use of a comma as an option
+   separator. Now only spaces and tabs can be used. Use of a comma would
+   prevent known rootkit files and directories, as well as RCS files, from
+   being whitelisted correctly.
+ - When the German language is selected rkhunter will now try to display
+   messages using the correct encoding.
+ - The test of rootkit strings in the startup files could display the
+   wrong string and rootkit. It now displays the correct information.
+ - The 'filesystem' check now correctly identifies non-standard
+   directories (e.g. setgid directory), and allows them to be whitelisted.
+ - The UPDT_ON_OS_CHANGE option was defaulting to 1 rather than 0.
+ - The result of the libsafe check, a prelink command check, and a prelink
+   hash function check were not being reported.
+ - The 'filesystem' check would ignore files with spaces in their name if
+   the default setting of SCAN_MODE_DEV was used. This has now been
+   corrected, filenames with spaces in them are checked regardless of the
+   configuration option setting.
+ - If the installer is used with the RPM, TGZ or DEB layout options,
+   and '/' is the build root, then this will now build correctly.
+ - NetBSD, FreeBSD and OS X would print out an error regarding the 'print'
+   command. They would also display the locking messages incorrectly. Both
+   of these have now been corrected.
+ - The sockstat/netstat output check for *BSD systems gave a spurious
+   error message because FreeBSD/OpenBSD sockstat did not support the '-n'
+   option. This has been fixed, but NetBSD systems will still use it.
+ - The installer option '--layout custom /' now works correctly.
+ - The SHA256 perl module was not being called correctly.
+
+-- 
+
+ * 1.3.6 (30/11/2009)
+
+ New:
+ - Added ZK rootkit check.
+ - German translation provided.
+ - Added the IGNORE_PRELINK_DEP_ERR option to the configuration file. This
+   option can be used when a persistent prelink dependency error occurs.
+   Further details of its use are in the configuration file.
+ - Added CX rootkit check.
+ - Added the USER_FILEPROP_FILES_DIRS configuration option. This allows
+   users to add further files and directories to the file properties
+   check. Details are in the configuration file. The installer program
+   will automatically add the configuration file pathname to this option.
+ - Added the EPOCH_DATE_CMD configuration option. In the file properties
+   test any modification date/times will now be displayed in human-readable
+   format as well as the number of epoch seconds. This option can be used
+   to specify the command to use if the 'date' or 'perl' commands cannot
+   convert epoch seconds.
+ - Added the COPY_LOG_ON_ERROR configuration option. When set this will
+   take a copy of the log file if any errors or warnings have occurred.
+ - Added the WEBCMD configuration option. This allows users to specify
+   the command used to download data file updates from the Internet.
+ - It is now possible to put configuration changes into a local config
+   file. This file, called 'rkhunter.conf.local', must be in the same
+   directory as the main configuration file. Rkhunter will look for
+   configuration options in the main config file, and then in the local
+   config file if it exists. As before, for options allowed only once,
+   the last one seen is used. For options allowed more than once, all
+   options from both files will be used.
+ - Added the SHARED_LIB_WHITELIST configuration option to allow the
+   whitelisting of preloaded shared libraries.
+ - Made some minor changes to enable support for SliTaz Linux.
+ - Added the WARN_ON_OS_CHANGE and UPDT_ON_OS_CHANGE configuration
+   options. During the file properties check there are some O/S tests
+   performed to see if the O/S has changed since the last run of
+   'rkhunter --propupd'. By default if something has changed, then a
+   warning is shown. If the WARN_ON_OS_CHANGE option is unset, then no
+   warnings will be shown. If the UPDT_ON_OS_CHANGE option is set, and
+   the O/S has changed, then rkhunter will automatically update the file
+   properties file (in effect, it will run 'rkhunter --propupd').
+ - The installer now has a '--overwrite/-o' option. When used this will
+   overwrite the existing configuration file. This allows a site to check
+   the new config file (at least once) for changes, and then modify their
+   own 'rkhunter.conf.local' file as required. This option can then be
+   used to have the installer overwrite the default config file. It saves
+   having to move the new default config file into place on each computer.
+ - Locking is now possible when rkhunter runs. This prevents RKH running
+   more than once and corrupting any modified files such as the log file,
+   or the file properties file. New configuration options have been added
+   to handle the locking, and the configuration file contains details of
+   how the locking works. The default is not to use locking.
+ - Added support for hash functions SHA224, SHA256, SHA384 and SHA512 using
+   perl modules Digest-SHA-PurePerl or SHA256, both available at CPAN.
+ - Added the UPDATE_LANG configuration option. This can be set to those
+   language files the user wants to be updated when the '--update' option is
+   used. Since most sites may only use one language, this can reduce the
+   network bandwidth used. The default is to update all the languages. The
+   configured default language, and English (en), are always updated.
+ - Added the ALLOWPROMISCIF configuration option. This can be used to
+   specify network interfaces which are allowed to be in promiscuous mode.
+ - Added the SCANROOTKITMODE configuration option. If set to "THOROUGH" then
+   the scanrootkit function will search for filenames in all directories.
+   While still not optimal this is one step away from the rigidity of
+   searching only in known locations. Enabling this feature implies you have
+   the knowledge to interpret the results properly.
+ - Added OSX rootkit check.
+ - Added weaponX rootkit check.
+ - Added the PKGMGR_NO_VRFY configuration option. This allows specified
+   files to be exempt from the package manager verification process. Now
+   that users can include their own files into the file properties check,
+   it is possible that changed packaged files will cause a warning to be
+   issued. This option allows those files to skip the package manager
+   verification, and be treated as non-packaged files.
+ - Added cb rootkit check.
+ - Added Fu rootkit check.
+ - Added ld-linuxv.so.1 LD_PRELOAD check.
+ - Added Adore Rootkit aka strings.o rootkit aka Dextenea check.
+ - Added iLLogiC rootkit check.
+ - Added 'Spanish' rootkit check.
+ - Added Xzibit rootkit check.
+ - Added trNkit rootkit check.
+
+ Changes:
+ - Removed the 'os_specific' test for OpenBSD. The *BSD test is currently
+   only applicable to NetBSD and FreeBSD.
+ - Updated the ENYE LKM check.
+ - The '--debug' option no longer needs to be the first option on the
+   command line.
+ - Improved support for MAC's now using the bash shell by default. Include
+   logging of whether 64-bit is available.
+ - When uninstalling rkhunter, old versions of the document directory
+   (usually /usr/local/share/doc/rkhunter-*) will now be removed.
+ - The warnings from the passwd and group file changes tests are now
+   more specific about what has changed.
+ - Small change to the detection of Source Mage Linux.
+ - Renamed part of the 'shared_libs' test to display that it is checking
+   for preloaded libraries, rather than just the preload file. The pathname
+   of the preload file is now logged, and any found shared library files are
+   now logged as a warning.
+ - The SYSLOG_CONFIG_FILE configuration option can now take the value of
+   'NONE' to indicate that there is no syslog configuration file, despite
+   the fact that syslogd may be running.
+ - Some tests will now show their result as 'Whitelisted'. If a test uses a
+   configuration option, and this has been set, and the test passes - giving
+   a green result - then it will now be shown as 'Whitelisted'. The user can
+   now see that a test has either passed correctly - an 'OK' or 'Not found'
+   type result - or has passed because the test requirements have been
+   whitelisted. It is for the user to investigate if this is correct or not.
+   (This change does not currently apply to all relevant tests.)
+   Additionally, the configuration option WHITELISTED_IS_WHITE can be set
+   if the 'Whitelisted' result is to be shown in white rather than green.
+   For color set two users this will be shown in black.
+ - Improved the O/S name detection slightly for those systems which only
+   provide a version number.
+ - Rkhunter now ensures that the output from the 'lsattr' command, or
+   'ls -lno' on *BSD systems, and the 'file' command is valid. That is, it
+   produces something on stdout. If it doesn't, then the 'immutable' and/or
+   'scripts' test is skipped.
+ - Changed the RPM spec file so as not to verify the checksum, size and mtime
+   of the database files and the i18n files. These files may be changed by
+   rkhunter itself.
+ - The installer now uses the 'default' layout by default. It is no longer
+   necessary to specify the layout at all if the default is to be used.
+   The '--layout' option no longer needs to be the first option specified
+   if it is used.
+ - Improved Fleakit Linux Rootkit checks.
+ - Improved SHV4 Rootkit checks.
+ - Improved beX2 Rootkit check.
+ - Improved Phalanx2 Rootkit check to include Phalanx version 2.3d as reported
+   in ticket 2839813, including a PHALANX2_DIRTEST configuration option which 
+   enables scanning for directory names and accepts the value '0' for default 
+   directory names to search for and '1' for scanning the /etc and /usr 
+   directories for directory names ending in '.p2' at the expense of a slightly
+   longer running time. Absence of the configuration option selects value '0'.
+ - Improved Ambient (ark) Rootkit check.
+ - Improved BOBkit Rootkit check.
+ - Improved Dica-Kit Rootkit check.
+ - Improved Evil strings test.
+ - Improved Possible rootkit files and directories test.
+ - Improved Suspicious startup file strings test.
+ - Improved Suspicious open files test.
+ - Improved Known bad Linux kernel modules test.
+ - Improved Dreams Rootkit check.
+ - Improved Universal Rootkit (URK) check.
+ - Improved FreeBSD Rootkit (FBRK) check and removed standalone ImperialS version.
+
+ Bugfixes:
+ - When using the Korn shell the application check could give a spurious
+   error printing out '-1'.
+ - The debug code only partially worked when using the Korn shell.
+ - Fixed the option parsing in the configuration file such that leading
+   and trailing whitespace are now correctly removed.
+ - When displaying the list of checked rootkit names, the list was supposed
+   to be sorted.
+ - If the '--list' option was used more than once with the same argument
+   (e.g. '--list tests --list tests'), it displayed the wrong information.
+ - The rootkit strings check wasn't logging a warning for the particular
+   string found. It was, however, displaying an overall test failure
+   warning on the screen though.
+ - The rootkit file whitelisting wasn't applied to the startup script
+   malware check. Also the summary wasn't showing if any possible rootkits
+   had been found or not.
+ - If the '--propupd' option was used with either of the '--enable/--disable'
+   command-line options, then the file properties would not be stored.
+   However, if, for example, the 'hashes' test was enabled, then only these
+   would be stored. In all cases the relevant test was not run after the
+   file properties were obtained, unless the '--check' option was also used.
+ - The installer now uses a basic 'echo' command. Hopefully it should work
+   on all UNIX/Linux systems, and avoid any further "-e"'s being displayed.
+ - Changed how rkhunter detects the Korn shell, and added a test to see if
+   the 'echo -e' command works or not. As with the installer, this should
+   allow rkhunter to work on all UNIX/Linux systems, and avoid any further
+   "-e"'s being displayed.
+ - When converting the case of characters, unpredictable results could
+   occur when other languages were specified (via LANG). We now use character
+   classes rather than the 'a-z' and 'A-Z' ranges.
+ - For the 'ports' test ensure that only local ports are checked. Also if a
+   port is whitelisted, the result will say so.
+ - Using '--hash MD5 --propupd' on a prelinked system caused an error.
+ - If a non-existent syslog config file was put into the RKH configuration
+   file, then rkhunter incorrectly said that it was found.
+ - If the use of prelinking changed, and the 'hashes' test was disabled, then
+   rkhunter correctly logged a warning (of an O/S change) but did not display
+   it unless the '--rwo' option was used. It now displays the warning whether
+   '--rwo' is used or not.
+ - The 'group_accounts' test now checks /etc/passwd, as well as the shadow
+   file, for passwordless accounts.
+ - If the passwd file did not exist, then a warning of this was logged three
+   times. It is now logged once as a warning, and as an info message for the
+   other times.
+ - It was possible for the network ports test to incorrectly display a warning
+   due to an uninitialised variable.
+ - The SSH configuration file tests now allow for leading spaces/tabs.
+ - When using the '--debug' option, and running the 'suspscan' test, the debug
+   file itself could be logged as suspicious. It is now skipped from the test.
+ - Ensure the /proc/ksyms or /proc/kallsyms file is readable before using it.
+ - If the mirrors.dat file has been locally modified to provide a mirror, then
+   the installer will no longer overwrite the file.
+
+-- 
+
+ * 1.3.4 (31/12/2008)
+
+ New:
+ - Added IntoXonia-NG rootkit check.
+ - Added Vampire rootkit check.
+ - Added support for TCB shadow files.
+ - Added Phalanx2 rootkit check.
+
+ Changes:
+ - The MAIL-ON-WARNING option must now exist in the configuration file. This
+   avoids it being accidentally misspelt, and rkhunter then not notifying the
+   user of any warnings.
+ - The DBDIR directory can now be read-only, after installation, provided that
+   neither of the '--propupd' or '--update' options are specified, and that the
+   '--versioncheck' option is not specified if ROTATE_MIRRORS is set to 1 in the
+   configuration file.
+ - Renamed the cron job file created by the RPM spec file from '01-rkhunter' to
+   'rkhunter'. This will then run 'rkhunter' after a prelink cron job (if one exists),
+   and avoid some of the 'run prelink' errors.
+ - The system startup file and directory tests have now been merged. The configuration
+   file options LOCAL_RC_PATH and SYSTEM_RC_DIR have been replaced by the
+   STARTUP_PATHS option, but, for compatability, they will still be recognised.
+ - The ALLOWPROCDELFILE configuration option, used to whitelist specific processes
+   from the deleted files test, can now be followed by a colon-separated list
+   of pathnames. The given process will then only be whitelisted if it is using
+   one of the given pathnames.
+ - The '--propupd' option can now take an optional file, directory or package name
+   after it. The argument can be a list of names. When used, then only the given
+   file names will be updated in the rkhunter.dat file. Hopefully this will make
+   things a bit quicker on slower machines. See the man page for more details. If
+   using a package manager, then you must run 'rkhunter --propupd' first.
+ - The Linux 'os_specific' test has now been split into two separate tests -
+   'loaded_modules' and 'avail_modules'. The tests, however, are the same as
+   before, they check the currently loaded kernel modules and the names of the
+   available modules. A new configuration file option has been added, called
+   MODULES_DIR, so that users can specify which directory, and sub-directories,
+   are checked for bad module names, should rkhunter be unable to work out the
+   correct location.
+ - The pathname of the debug file, if used, is now written to the log file.
+
+ Bugfixes:
+ - Cater for when ROOTDIR is explicitly set to '/'.
+ - Added an infinite loop check to the readlink.sh supplied script - only 64 levels
+   of symbolic links are allowed now. Also cater better for top-level names and
+   links, and file names with spaces.
+ - Improved the rsyslog remote logging check.
+ - The wrong error message was shown if the English (en) language file was missing.
+ - The hidden files and directories check wasn't checking for directories!
+ - Improved the O/S name detection. Previously the lsb-release file would have
+   preference to any other file. This could result in some gibberish being given as
+   the O/S name, rather than continuing to look for other release files. This has
+   now been fixed.
+ - The tests against the SSH configuration file now accept the key/value pair to be
+   separated by an equals sign as well as spaces and/or tabs.
+ - The file properties inode check did not work correctly when used on non-prelinked
+   systems with the RPM package manager. The test is now only performed when
+   prelinking is not being used, and the inode data is always obtained from the disk.
+   This is a partial fix, as the test should run for scripts regardless of whether
+   prelinking is used or not.
+ - The debug file is now created with a random name, and the file permissions are
+   set to 600.
+
+ -- 
+
+ * 1.3.2 (27/02/2008)
+
+ New:
+ - Added support for the socklog and rsyslog (syslog) daemons.
+ - Added support for IRIX/IRIX64 systems.
+ - If the user wishes to force RKH to use the 'stat' or 'readlink'
+   supplied scripts, then this can be set in the configuration file.
+   The options STAT_CMD and READLINK_CMD, respectively, can be given
+   the value of BUILTIN to achieve this. For the 'stat' script, perl
+   must be present.
+
+ Changes:
+ - Improved the 'unsupported language' error message so that the user is
+   told exactly what command to run in order to see the list of supported
+   languages. Added a similar comment in the configuration file.
+ - Errors from applications during the application version check are mostly
+   now ignored. Improved checking that a valid version has been found.
+ - The ALLOW_SSH_ROOT_USER and ALLOW_SSH_PROT_V1 options in the configuration
+   file can now be set to 'unset' and '2' respectively. These values indicate
+   that the SSH configuration file have no specific value set for the
+   corresponding SSH option ('PermitRootLogin' and 'Protocol'). RKH will show
+   the test result in green and as 'Not set'.
+ - Application names, in the application check, can now be completely
+   whitelisted. Previously only specific versions were whitelisted, and
+   RKH had to run the application to find the version. By whitelisting
+   the application completely, RKH does not have to run it.
+ - The use of the 'pflog' network interface is now checked for on all *BSD
+   systems (not just OpenBSD).
+ - Allow i18n language filenames to contain characters other than just letters.
+
+ Bugfixes:
+ - Scanning the /dev directory in LAZY mode corrupted the pathname being
+   tested. Also RKH now handles filenames (in /dev) with spaces correctly.
+ - During the test of files in /dev, MAKEDEV was not being automatically
+   whitelisted if it exists as an actual file (not a symlink).
+ - Ensure the suspscan test removes any files it creates.
+ - The MAIL-ON-WARNING configuration file option and the --no-verbose-logging
+   command-line option, are now only logged if the system is being checked.
+ - Root equivalent and passwordless account names are now shown correctly.
+   Previously, names which contained spaces, for example if the account had
+   been manually commented out, were only shown up to the first space character.
+ - Whitelisted passwordless account names are now logged.
+ - Suspscan warnings were being ignored by the rkhunter summary and return code.
+ - Corrected obtaining process names in Solaris for the network ports and
+   deleted files tests. Previously they did not report the name correctly, if
+   at all.
+ - Use of the '--debug' option with the Korn shell was not working correctly.
+ - Reset the SIGPIPE handler to its default to avoid pipe output errors.
+ - Language files may contain backticks. These are now escaped during
+   processing.
+ - Unset the MANPATH in the spec file to allow the RPM to be built on
+   OpenSuSE systems.
+ - The hidden files/directories test would try and run even if no 'file'
+   command was present.
+ - Cater for *BSD systems using the fdesc/fdescfs filesystem on /dev/fd.
+
+ -- 
+
+ * 1.3.0 (22/09/2007)
+
+ New:
+ - Created an ACKNOWLEDGMENTS file.
+ - Added configuration file option MAIL_CMD when MAIL-ON-WARNING is used.
+   This can specify the 'mail' command to use and the subject line.
+ - The log file can be appended to. This can be set in the config file or
+   by using the --append-log command line option.
+ - A second colour set has been added for users using rkhunter with black
+   characters on a white screen. The command-line option --cs2 will enable it.
+ - Added special config file and command-line option, -x/-X, to detect if X
+   is in use. If detected then second colour set will be used.
+ - Added '--propupd' option. This allows a user to create the rkhunter.dat
+   file. This file contains the O/S name, file hash values and other bits of
+   information. If the file hash values change, perhaps due to new versions
+   of software, then the user simply runs rkhunter with the option again. If
+   the user has not run rkhunter with this option, then the file properties
+   checks are skipped. This option obsoletes the 'hashupd.sh' script previously
+   recommended to users. If use of the '--propupd' option is suggested by
+   the program, then the log file will contain a warning message to the
+   user that they must ensure that the commands checked on their system must
+   have been installed and verified as being genuine. The file properties
+   check consists of two main parts - the file attributes (permissions, uid
+   etc), and the hash value. Both are stored in rkhunter.dat. Either part, or
+   both, can be disabled using the '--disable' option.
+ - Added the '--hash' command-line option, and the HASH_FUNC option to the
+   configuration file. This allows a user to select the hash function command
+   they want to use for the file hash value check and the properties update.
+   By default SHA1 will be used, or MD5 if SHA1 cannot be found. For prelinked
+   systems the function must be either MD5 or SHA1. A value of NONE can be used
+   to disable the hash check or to stop the hash values being recorded in the
+   rkhunter.dat file.
+ - Added the HASH_FLD_IDX option to the configuration file. This specifies the
+   field of the HASH_FUNC command output which contains the hash value. A
+   default of 1 is used, except for *BSD systems where 4 will be used.
+ - The files for the file hash checks are now 'looked for'. The code will
+   search the command directories, and check the relevant files in all the
+   directories. Additional commands and directories are used for Solaris,
+   MAC OS X, NetBSD and FreeBSD systems. Overall more commands will be checked.
+ - Added support for Ubuntu, and the 'dash' and 'ash' shells.
+ - If the O/S name, architecture or prelinking status changes from one rkhunter
+   run to the next, then a warning message is written to the log file and the
+   file properties prerequisite check will fail. The change may well cause the
+   file hash checks to show false positives. (The user should rerun rkhunter
+   with the --propupd option.)
+ - Rkhunter will now check that certain commands are present before starting
+   any checks. This avoids spurious 'command not found' type messages
+   suddenly appearing.
+ - Added basic internationalization (i18n) functionality. The messages
+   displayed during test processing are obtained from an indexed file.
+   This file can be translated in to other languages, keeping the index
+   the same. To see which languages are provided use the new
+   '--list languages' option. Chinese translation provided.
+ - Added two new command-line and configuration file options, '--enable'
+   and '--disable' to specify which tests are to be carried out and which
+   are to be ignored. Use of either option will automatically assume '--check'.
+ - To list the available test names, use the new '--list tests' option.
+ - The '--update' and --versioncheck' options can now use commands other than
+   wget to download files. Supported commands are now wget, curl, elinks,
+   links, lynx, bget and GET. Once a command has been found, it will be used
+   for all downloads. Since bget and GET are perl commands, checks will be
+   made that any required perl modules are also present on the system.
+ - (SF Tracker 1616395) Added '--syslog' cli option, configuration file option
+   USE_SYSLOG. This will allow the --check option start and finish time to
+   be logged via syslog. The facility/priority are user configurable.
+ - Added --debug cli option, and allow commands to be configured in the
+   configuration file. Both of these additions are for the developers, but
+   may be used when debugging user problems.
+ - Added command-line options '--summary/--nosummary' (--ns). These control
+   whether the system checks summary is shown. By default it is shown.
+   The '--summary' option, as well as the '--report-warnings-only' option,
+   will override the '--quiet' option if they are specified. However, no
+   other information will be displayed if '--quiet' is used.
+ - Added SunOS SInAR rootkit check.
+ - Added '--verbose-logging/--no-verbose-logging' options. This cuts down on
+   some of the logging for some of the tests. By default verbose logging is
+   enabled.
+ - The inetd and xinetd configuration file pathnames can now be specified
+   in the rkhunter configuration file. Also, enabled inetd and xinetd
+   services can now be whitelisted.
+ - Added support for Solaris 10 inetd mechanism (inetadm).
+ - The directory containing the SSH configuration file can now be specified
+   in the rkhunter config file.
+ - The pathname to the syslog configuration file can now be specified
+   in the rkhunter config file.
+ - The use of syslog remote logging can be allowed in the configuration file.
+ - The pathnames to the local system startup file (rc.local), and the
+   startup directory (/etc/rc.d) can now be specified in the rkhunter
+   config file.
+ - Files in /dev can now be whitelisted.
+ - Application version numbers can now be whitelisted. This caters for those
+   distributions that may patch a 'known bad' version, but without updating
+   the original version number.
+ - Added 'suspscan' to malware tests. Suspscan attempts to scan files in 
+   directories containing temporary files for signs of malicious activity, and
+   could be of use on (publicly accessable) web servers running for instance 
+   PHP-based applications. Please note that in it's current state suspscan is 
+   prone to reporting false positives, and is CPU and I/O intensive to boot.
+   Therefore suspscan is disabled by default. Please do not enable suspscan
+   unless you have good reasons to use it. Review the settings in the configu-
+   ration file, and test before deploying it on production servers.
+ - Added the command-line option '--pkgmgr', and the configuration file option
+   PKGMGR. These provide support for package managers when using the
+   '--propupd' and '--check' options. Currently supported package managers are
+   'RPM' for RedHat/RPM-based systems, 'DPKG' for Debian-based systems, and
+   'BSD' for *BSD systems. Additionally, 'NONE' can be used to indicate that
+   no package manager is to be used. The default is 'NONE'. See the README file
+   for more details.
+ - It is now possible to configure rkhunter to use local or remote mirrors,
+   rather than just the SourceForge one. This applies when either the
+   '--update' or the '--versioncheck' option is used. The default is to use
+   all defined mirrors. The README file has more details about this.
+ - It is possible to configure rkhunter to not rotate the mirrors.dat file.
+   It is also possible to configure the mirrors file not to be updated when
+   the '--update' option is used. Both of these options can be useful when
+   defining local mirrors. The README file has more details about this.
+ - Added a file size check to the file properties checks. This will only occur
+   for non-prelinked files, files not part of a package, or packaged files
+   when the RPM package manager is being used.
+ - Network ports listed in the backdoorports.dat file can now be whitelisted.
+   Specific protocol/port pairs, or pathnames to allowed executables, may be
+   used. Additionally, an asterisk may be used to indicate that trusted
+   pathnames will be allowed. The configuration file has more details about this.
+ - The O/S 'release' file pathname may now be configured. This option should only
+   be necessary for those systems on which rkhunter cannot automatically
+   determine the O/S name or version.
+ - Rootkit files and directories, including those with spaces, may now be
+   whitelisted in the configuration file.
+
+ Changes:
+ - Improved command-line and config file option checking.
+ - The log file is now created by default, it can be disabled in the config
+   file or by using the --nolog command line option. The log file is created
+   with permissions 600.
+ - The log file cannot be a symlink.
+ - Multiple recipients may be specified with the MAIL-ON-WARNING config option.
+ - Added BINDIR and ROOTDIR options to the config file.
+ - Split out the README file in to README and FAQ files.
+ - Solaris will now use the bash shell if available.
+ - Expanded the command PATH used to include the /opt/sfw and /usr/sfw
+   directories for Solaris users.
+ - Expanded the command PATH used to include the /usr/pkg directory for
+   NetBSD users.
+ - Expanded the command PATH used to include the /System/Links/Executables
+   directory for GoboLinux users.
+ - Versioncheck now checks the versions numerically.
+ - The HASHWHITELIST configuration file option has been removed. It is no
+   longer required because users can now create their own file of hash
+   values using the '--propupd' option.
+ - The '--checkall' option has been changed to '--check'. The old option is
+   still recognised, but will be deprecated at some time.
+ - If a log file is to be written, but not appended to, then the old log file
+   is moved to '<logfile name>.old' now. The same happens to the rkhunter.dat
+   file if the --propupd option is used.
+ - The previous 'known good' hash check now also checks the files inode, uid,
+   gid, permissions and modification date/time, for any changes. The latter
+   is only for non-prelinked systems. As before, in all cases, the file hash
+   is checked. (This is now the file properties check.)
+ - Improved the O/S detection mechanism. Rather than requiring users to send
+   us details, rkhunter actively looks at the 'release' file(s) to find the
+   O/S name. Included support for some lesser-known Linuxes - GoboLinux,
+   Lunar Linux, Rock Linux, Source Mage Linux, Kanotix, Sidux and Zenwalk.
+ - If the --propupd or --update options are used, as well as the system
+   check option --check, then the update checks are performed before the
+   system is checked. Previously the update occurred after the system was
+   checked.
+ - Hidden file search now checks /usr/share/man directories.
+ - Improved NetBSD support.
+ - The supplied perl scripts, providing the stat, md5 and sha1 commands,
+   can now be executed without perl being in the default directory (/usr/bin).
+ - If a perl script is to be used, then a check is made that required modules
+   are installed on the system. If they are not, then it is treated the same
+   as if perl was not present.
+ - Included the /usr/share/man directories when looking for hidden files.
+ - Check for symbol entries in kallsyms file if ksyms does not exist.
+ - Enabled sockstat/netstat test for all BSD variants (not just FreeBSD).
+ - Enabled backdoor port test for all systems which have either the 'lsof'
+   or 'netstat' command. However, if the netstat syntax is not understood
+   on the O/S, then an error is shown. (The user can configure the test to
+   be disabled to avoid the error.)
+ - The TMPDIR configuration option and --tmpdir command-line option cannot
+   be set to /tmp or /var/tmp because files will be copied and left there.
+   It cannot be set to /etc either because files will be deleted from there.
+ - Removed the '--scan-knownbad-files' option. This test was considered to
+   be obsolete.
+ - Removed the '--disable-md5-check' option. This is now the 'hashes' test
+   name, and can be disabled by the '--disable' option.
+ - Removed the '--allow-ssh-root-user' option from the command-line. This
+   can still be set/unset in the configuration file. This option must now
+   be set to the value of the 'PermitRootLogin' option in the SSH config
+   file. This then allows root access to be set, but will check to see if
+   the option has changed. A default value of "no" is used. 
+ - The --rootdir/ROOTDIR configuration option has been changed to be more
+   intuitive. Previously the specified ROOTDIR had to end in a slash (e.g.
+   '/abc/'). Now this is not necessary, a normal directory name can be used
+   (e.g. '/abc').
+ - The '--versioncheck' option now rotates the mirror file. It also assumes
+   program defaults if the mirror file is missing or empty, or if no mirrors
+   are found within it. Additionally if the URL is missing from the
+   configuration file, then a program default is used. This allows the option
+   to work even if the files have become a bit corrupt. Any missing files or
+   mirrors are logged to the log file. If a mirror fails, then the next
+   mirror is used, until all the mirrors have been tried. Only then is a
+   failure message displayed, and the return code set. The return code will be
+   set to 0 if no error occurred, 1 if an error did occur, and 2 if no error
+   occurred but a new version is available.
+ - The '--update' option will use a default mirror if the mirror file is
+   missing or empty. If a mirror fails then the next mirror is used. If a file
+   has become corrupted such that the version number cannot be read, then a
+   new copy will be downloaded. The return code will be set for this function.
+   It will take the value of 0 for no error, 1 for an error, and 2 for no
+   error but an update has occurred. This allows a user to use the --quiet
+   option, but still check for the return code.
+ - The version numbering of the '.dat' database files has changed. This makes
+   them incompatable with previous versions of rkhunter, and as such files
+   from previous versions will be overwritten if used with this version.
+ - The displayed output and logged output are now similar. This allows
+   checking the log file to be easier when looking for specific tests. The
+   log file will, of course, log more information than is displayed on
+   the screen.
+ - Script replacement check now checks for any type of script (perl, awk, etc).
+   Previous versions only checked for shell scripts. Commands which are
+   supposed to be scripts can be whitelisted in the configuration file.
+   The 'rkhunter' command itself is an exception, and the check will ensure
+   that 'rkhunter' is a shell script. The script check will be automatically
+   skipped if a package manager is being used, and the file has already
+   passed the file size and hash checks.
+ - File permissions check improved to check if 'other' has the 'w' bit set.
+   Previous versions only checked if '777' ('rwxrwxrwx') was set. Merged this
+   into the file properties checks. Soft links are ignored, as are packaged
+   files when the RPM package manager is used.
+ - The '--report-mode' option has been removed. It was not seen as being
+   useful, and combinations of the other options will provide the same, if
+   not better, reporting.
+ - The xinetd.conf check now handles the 'include' directive. It also now
+   handles the 'includedir' directive in all files, and not just in the
+   initial xinetd configuration file.
+ - The '--display-logfile' option can now be used after any option. Previously
+   the log file was only shown after checking the system.
+ - The checks on accounts and the password and shadow files, have been improved.
+   The user can configure the pathname to the password and shadow files, as
+   well as being able to whitelist accounts with no password or which are root
+   equivalent. *BSD support improved.
+ - Improved the hidden files and directories checks. Some directories are now
+   searched more thoroughly, and checks against the file type are more robust.
+ - Apache backdoor test now looks in more places.
+ - The application version check no longer checks against known 'good'
+   versions. Only a file of bad versions is kept. The previous method was
+   impossible to maintain.
+ - Enabled the immutable file test for *BSD systems.
+ - Soft (symbolic) links for files and directories are now handled correctly.
+   Previously the link was dealt with, but not what it pointed to. Soft links
+   are dealt with when using the '--propupd' command, and when running the
+   file properties checks. For those systems with no 'readlink' command (e.g.
+   Solaris), or those in which readlink does not understand the '-f' option
+   (e.g. NetBSD), a shell script is now provided to support this.
+ - RPM spec file and installer now caters for x86_64 machines. Removing the
+   RPM now more fully removes RKH; only the rkhunter.conf file should remain.
+
+ Bugfixes:
+ - Command-line options requiring an argument now work correctly under Solaris.
+ - The -h/--help option now works as expected.
+ - The 'ignoKit rootkit' check was not checking all the required files.
+ - Some checks were not respecting the ROOTDIR option in their pathnames. This
+   has now been corrected (possibly not completely though). Also, some tests
+   were using ROOTDIR pathnames in grep/strings checks when they shouldn't
+   have been. This has also been corrected.
+ - The file hash prelink test should now work even if SELinux objects to the
+   prelink command (provided the 'runcon' command exists). When the '--propupd'
+   option is used, any file for which a hash cannot be obtained is logged as
+   a warning. (Typically prelink may need to be run on the file.) Rkhunter will
+   still work as before, but the file properties check may show that the hash
+   value has changed to or from a null value.
+ - Corrected file attributes check - previously the immutable flag would never
+   have been found.
+ - Backdoor UDP port tests were not being done correctly. The TCP port tests
+   have been made a bit more aggressive - TCP tests only look for TCP ports;
+   they also look for established connections rather than just listeners.
+ - Backdoor port data file (backdoorports.dat) is now part of the '--update'
+   process.
+ - The '--versioncheck' option did not set the return code. It now does so.
+   However, note that if an update is available then the code will be set
+   to '2'. This allows use of the '--quiet' option, but still being able to
+   detect if an error occurred (code 1), an update is available (code 2) or
+   if no error occurred and no update available (code 0).
+ - Corrected bug in Solaris script replacement check. The tested output is
+   never used on Solaris, so previously the test would never have worked.
+ - The '--quiet' option now does what it says. No output is shown unless other
+   options are specified by the user. E.g. using '--quiet' on its own produces
+   no output, but sets the return code. If the '--report-warnings-only'
+   option is used as well, then warnings will be shown despite '--quiet'
+   being used.
+ - Enabled the login backdoor check. It was coded, but used the wrong variable.
+   It also checked for directory names rather than file names. This looked
+   wrong, but I could not find any more info about it. As such we now check
+   for their existence rather than whether they are files or directories.
+ - Corrected the suspicious directories check.
+ - The xinetd.conf check only occurred for Linux systems. It will now occur
+   for all O/S's. Also, the check always reported the file was clean,
+   regardless of whether this was true or not.
+ - The hidden files and directories check was not working correctly for
+   Gentoo users.
+ - Small bug in T0rn rootkit file list.
+
+ --
+
+ * 1.2.10 (Not released)
+
+ New:
+ - Enabled Ohhara Rootkit check
+
+ Changes:
+ - If duplicate configuration file options are seen, then only the last
+   one seen is used
+
+ Bugfixes:
+ - Lsof resolution fix
+ - Fixed Danny Boy's Abuse Kit check
+ - Fixed SHV5/Tripwire check
+ - Fixed ignoKit check
+
+ --
+
+ * 1.2.9 (30/09/2006)
+
+ New:
+ - Rootkit Hunter is under new management so maintenance, development and support is assured
+ - Added support for RHEL WS/AS/ES 3, Taroon update 8
+ - Added support for Fedora Core 5
+ - Added support for SuSE 10
+ - Added check for packet capturing applications (see rkhunter.conf for whitelisting)
+ - Added check for processes using deleted files (see rkhunter.conf for whitelisting)
+ - Enabled netstat check for AIX
+ - Enabled backdoor check for SunOS
+ - Enabled logfile specification and checks
+
+ Changes:
+ - Improved cAos support
+ - Improved AIX rc.sysinit test
+ - Improved second promiscuous mode check
+ - Improved prelinking test
+ - Improved binaries found check
+ - Improved MD5 check and application scan
+ - Improved FreeBSD/AIX grepping
+ - Improved Solaris grep/ifconfig (FP's)
+ - Improved reportmode report-warnings-only
+ - Improved permitrootlogin check with forced-commands-only
+ - Improved passwordless user accounts test
+ - Improved file/module name checks (FP's)
+ - Improved check-update: DBDIR vs temp dir and preserve DAC rights
+ - Improved Solaris script replacements
+ - Fix typos, grammatical changes, formatting/displaying
+ - Added more examples to config
+ - Change contact information
+
+ Bugfixes:
+ - Removed stale mirrors
+ - Fix SF tracker issue 1449701
+ - Fix skdet test
+ - Time uses Perl epoch 
+ - Error message about "group" file
+ - Ksh 'shift' fix
+
+ --
+
+ * 1.2.8 (24/02/2006)
+
+ New:
+ - Added '-sk' alias (instead of --skip-keypress)
+ - Added support for Fedora core 4
+ - Added support for FreeBSD 4.11, 5.2, 5.3, 5.4, 6.0
+ - Added support for CentOS 3.3 ('final' and 'Final')
+ - Added support for CentOS 3.5, 4.1 and 4.2
+ - Added support for Debian 3.1 (AMD64)
+ - Added support for RHEL WS/AS/ES 3, Taroon update 6
+ - Added support for RHEL WS 4, Nahant Update 1 and 2
+ - Added support for Slackware 10.2
+ 
+ Changes:
+ - Updated RHEL hashes
+ - Updated Fedora Core 3 hashes
+ - Updated SuSE 9.1 hashes
+ - Updated software database
+ - Update copyright line
+ 
+ --
+
+ * 1.2.7 (24/05/2005)
+ 
+ New:
+ - Added support for CentOS 4.0
+ - Added support for Mandrake 10.2
+ - Added support for Gentoo (sparc/sparc64/x86)
+ - Added additional support for E-smith (SME 6.0.1)
+ - Added support for FreeBSD 4.5 and 4.6
+
+ Changes:
+ - Improved support for Bind (thanks to Craig)
+ - Improved support for RHEL AS release 3
+ - Updated hashes for SuSE 9.1 (core-utils)
+
+ Bugfixes:
+ - Fixed problem with the updater (file was retrieved, but not placed within
+   the correct directory)
+ 
+ --
+
+ * 1.2.6 (10/05/2005)
+ 
+ New:
+ - Added support for Tao Linux
+ - Added support for Trustix 2.2 (Sunchild)
+ 
+ Bugfixes:
+ - Fixed problem with updater
+ 
+ --
+
+ * 1.2.5 (03/05/2005)
+ 
+ New:
+ - Added support for FreeBSD 4.11 (i386)
+ - Added support for RHEL AS release 3
+ - Added support for Cobalt (6.5.1)
+
+ Changes:
+ - Fixed permissions of check_update.sh
+ - Fixed typo in help
+ - Improved detection for some unknown rootkits/backdoors
+ - Improved messages/logging
+ - Some code cleanups
+ - Important: fixed a security issue, related to temporary files
+ 
+ --
+
+ * 1.2.4 (25/04/2005)
+ 
+ New:
+ - Added support for E-smith (SME 6.0)
+ 
+ Changes:
+ - Updated hashes for Fedora core 2
+ - Improved documentation of tools (see tools directory)
+ - Removed logging from installer
+  
+ Bugfixes:
+ - Fixed problem when using --allow-ssh-root-user (option was overwritten
+   by configuration file option) 
+ 
+ --
+
+ * 1.2.3 (21/03/2005)
+
+ New:
+ - Added option to allow/whitelist hidden files and directories. See
+   configuration file
+ - Added support for SuSE 9.2 (x86-64)
+
+ Changes:
+ - Updated configuration file, to give more information about
+   whitelisting of hidden files/directories
+ - Updated Fedora core 3 hashes (procps package)
+ - Updated packages: OpenSSH
+ - Updated manpage
+ - Improved logging
+ - Added debugging info for named
+ - Strip off patch version with PHP port (Debian)
+ - Extended support for Fink (MacOS), added /sw/bin to BINPATHS in
+   check_update.sh
+ - Improved installer when /usr/local/bin is missing
+  
+ Bugfixes:
+ - Fixed problem with unquoted variable (passwordless accounts)
+
+ --
+
+ * 1.2.2 (18/03/2005)
+ 
+ New:
+ - Added support for Mandrake 10.1
+ - Added hashes for Mandrake 10.1. Thanks to Roderick B. Greening
+ - Added support for RHEL WS release 3
+ - Added support for NIS when looking for passwordless accounts
+ - Added support for beX2 (evil code)
+ 
+ Changes:
+ - Updated Debian hashes
+ - Changed permissions of installer (0755 instead of 0750)
+ - Changed installer so normal users can install rkhunter. This is
+   experimental, so check is commented in installer
+ - Updated packages: Bind, Exim, OpenSSL
+ - Improved logging
+ - Small layout fixes
+ - Code cleanup
+ - Updated mirror list
+ - Updated copyright message (2005)
+ 
+ Bugfixes:
+ - Changed symbols when one or more groups are added/removed
+
+ --
+
+ * 1.2.1 (21/02/2005)
+ 
+ New:
+ - Added support for Mandrake 8.1 (i586, no hashes)
+ - Added support for FreeBSD 5.3 (i386, with hashes for release version)
+ - Added support for Slackware 10.1
+ - Added Turkish translation to installer (note: language support
+   temporarily disabled)
+ - Added support for Fink (MacOS), added /sw/bin to BINPATHS
+ - Added contrib directory
+ - Added script (contrib) run_rkhunter, by Andy Spiegel
+ 
+ Changes: 
+ - Updated hashes for SuSE 9.1, Mandrake 10.0
+ - Updated installer (changed copyright line, comments and disabled
+   version number, because it can be confusing when installer version
+   is another version than main version.)
+ - Perform extra check before checking configuration file (to see if
+   it exists)
+ - Improved logging (show temporary directory, improve output when
+   scanning for default rootkit files/directories)
+ - Improved output when system is unsupported
+ - Stop program when temporary directory doesn't exist instead of
+   creating it
+ - Updated packages: Apache, Bind, GnuPG, OpenSSL
+ - Fixed some typos
+
+ Bugfixes:
+ - BINPATHS got overwritten when performing software version check
+ - Fixed bug when checking for ssh root user. Thanks to Andy Spiegel
+ - Clean up temporary prelink file
+
+ Website:
+ - Added notification list
+ - Fixed some XHTML bugs
+
+ --
+ 
+ 
+ * 1.2.0 (10/02/2005)
+
+ New:
+ - Added support for CentOS 3.4
+ - Added new configuration option 'ALLOW_SSH_ROOT_USER' and program
+   parameter '--allow-ssh-root-user' to allow directly login of a
+   `root` user, in your SSH configuration file.
+ 
+ Changes:
+ - Updated hashes for Fedora Core 1, Core 2, Core 3
+ - Changed RHEL 3, so taroon 4 uses the hashes of taroon 3
+ - Updated Debian hashes
+ - Removed ClamAV from application scan. It warns the user now when
+   it runs an too old version.
+ - Updated manpage  
+ - Changed detection for SuSE versions. SuSE Linux Enterprise Server
+   didn't work, because of the capitals (instead of the usual name)
+ - Warn if user uses /tmp as temporary directory (possible security
+   issue)
+ - Updated wishlist/todo and manpage.
+   
+ Bugfixes:
+ - Fixed wrong message when group was added/deleted from /etc/groups
+ 
+ --
+ 
+ * 1.1.9 (28/12/2004)
+
+ New:
+ - Added RH-Sharpe's rootkit (rootkit)
+ - Added SHV5 rootkit (rootkit)
+ - Added special test for tripwire
+ - Added support for metalog (syslog daemon) 
+ - Added support for ALTLinux 2.2 and 2.4
+ - Added support for CentOS 3.3
+ - Added support for Gentoo 1.6
+ - Added support for FreeBSD 4.10 (alpha platform)
+ - Added support for SuSE SLES8. Thanks to Mario Lenz
+ - Added support for SuSE 9.2 (i586)
+ - Added support for Fedora Core 3
+ - Added support for Red Hat Enterprise Linux ES/WS release 4
+ - Added hashes for Fedora Core 3. Thanks to Steph
+ - Official port is now available for ALTLinux
+ - Change text when an old software package has been found. This
+   will happen with backporting operating systems (Red Hat,
+   Fedora etc)
+ 
+ Changes:
+ - Improved logging for lsof test
+ - Updated hashes for Fedora Core 1
+ - Updated hashes for Debian woody
+ - Updated hashes for Red Hat Enterprise Linux ES/WS release 3
+ - Updated hashes for Slackware 9
+ - Updated hashes for Slackware 10
+ - Updated hashes for SuSE 9.1
+ - Updated wishlist/todo, updated readme and manpage.
+ - Code cleanup (added more remarks, cleanup of old/buggy things)..
+ - Improved logging
+ 
+ Bugfixes:
+ - Changed binary search path due typo. Thanks to Bertrand
+
+ --
+
+ * 1.1.8 (12/09/2004)
+ 
+ New:
+ - Added support for Red Hat 6.2 and hashes. Thanks to Sebastian Herbszt
+ - Added support for Red Hat Enterprise Linux ES 3, Taroon update 3
+ - Added support for Red Hat Enterprise Linux AS 3, Taroon update 1
+ 
+ Changes:
+ - Improved Suckit detection
+ - Improved FreeBSD version detection. It now will skip MD5 check if sysctl
+   contains 'release', but patches for primary binaries are installed (like
+   ls, ps, top etc)
+ - Added error redirection when performing lsattr checks
+ - Added `find` to path search
+ - Updated installer with portogues/brazilian language. Thanks to Douglas
+ - Updated hashes for Red Hat Enterprise Linux 3
+ - Updated hashes for Slackware 10
+ - Cleaned up logging when checking for passwordless accounts
+ - Show message when bad hashes are found. Some scared people began to worry
+   inmediately after they found several bad hashes, without understanding the
+   reason of it (reason: updated packages).
+ - Improved output in logging which deals with updated packages / hashes
+ - Improved logging (informational logging)
+ - Improved output of hidden directories/files. Thanks to Greg Houlette
+ - Corrected some parts of logging
+ - Code cleanup
+ 
+ Bugfixes:
+ - Forgot to initialise LSATTRFOUND
+ 
+ --
+
+ * 1.1.7 (29/08/2004)
+ 
+ New:
+ - Added support for ADM Worm
+ - Added support for MzOzD and spwn backdoor
+ - Added LKM filename check (experimental)
+ - Added passwordless user account test
+ 
+ Changes:
+ - Updated Mandrake 9.2 hashes. Thanks to Eric Gerbier
+ - Updated application version list
+ - Extended inetd.conf test (searches for shells)
+ - Added total of vulnerable applications at report, if application scan was
+   performed.
+ 
+ Bugfixes:
+ - Fixed a major bug in the installer when you install version 1.1.5 or newer. The
+   sample configuration won't be copied and the due to that, the --update function
+   won't work.
+
+ --
+ 
+ * 1.1.6 (18/08/2004)
+
+ New:
+ - Added support for RSHA's rootkit (rootkit)
+ - Inspect files attributes (immutable detection)
+ - Added '--update' to help text. Updater seems to be stable
+ - Added FreeBSD packages database test (pkgdb). It performs an automatic
+   fixup of the database and displays an error when problems were found.
+ - Added '--skip-application-check' option. This skips the program version
+   check. On some systems it's half useless, because they use patched
+   (old) version numbers.
+ 
+ Changes:
+ - Improved report at end (hide line when no rootkits are found)
+ - Updated hashes for SuSE 9.1 (i586)
+ - Fixed double hash in database
+ - Updated database with program versions
+ - Added more help and informational messages
+
+ Bugfixes:
+ - Improved installer (when last line contains no newline char, the INSTALLDIR
+   option was added on the wrong place)
+   
+ --
+ 
+ * 1.1.5 (11/08/2004)
+ 
+ New:
+ - Added support for Ni0 Rootkit (rootkit)
+ - Added 'open files' check
+ - Added OpenSSL check
+ - Added Solaris 9 support
+
+ Changes:
+ - Improved logging of application scan check
+ - Improved xinetd.conf tests (disabled some parts, due false positives)
+ - Improved logging on different places (more breaks etc)
+ - Improved SunOS support. Thanks to Michael Gueting
+ - Improved (POSIX compatible) applications support for SunOS
+ - Fixed a typo (application version check)
+ - Fixed a typo (SSH check)
+ - Fixed small layout issue at application scan check
+ - Removed an double declared variable (WARNING=0)
+ 
+ Bugfixes:
+ - Fixed missing lines in rkhunter.spec file
+ - Installation script shouldn't be overwriting rkhunter.conf file..
+ 
+ --
+   
+ * 1.1.4 (07/08/2004)
+ 
+ New:
+ - Added support for FreeBSD 4.10
+ - Added support for White Box Enterprise Linux 3.0 
+ - Added support for Debian 3.1 (Sid)
+ - Added support for OpenBSD 3.5 (i386 and sparc64)
+ - Added support for SunOS. Thanks to Michael Gueting
+ - Added boot.local test for SuSE 9.x
+ - Added Apache test
+ - Added support for mod_rootme module (apache backdoor)
+ - Added option '--display-logfile'. It displays the logfile you specified
+   at the end of the output (don't forget to use --create-logfile)
+ - Added application version checker
+ 
+ Changes:
+ - Don't quit when wget cannot be found during install   
+ - Updated installer (for new update function)
+ - Updated MD5 hashes for Mandrake 9.1
+ - Updated MD5 hashes for Slackware 9.1
+ - Updated MD5 hashes for FreeBSD 5.2.1
+ - Improved logging in quiet mode
+ - Improved key pauses when in 'interactive' mode
+ - Improved xinetd check
+ - Improved report-mode option (--report-mode). If you want a small amount of
+   information (ie. if you scan a lot of servers), use this option.
+ - Updated document location in installer   
+ - Updated the wishlist. A lot of issues are solved now.
+ - Updated changelog (had some little typos)
+   
+ Bugfixes:
+ - Fixed false positive when using Debian 
+ - Fixed support for PLD Linux and CPUBuilders Linux
+ - Fixed a typo in the installer
+ 
+ --  
+   
+ * 1.1.3 (20/07/2004)
+ 
+ New:
+ - Added support for SuSE Linux Enterprise Server 8. Thanks to Daniel Berlin
+ - Added support for SuSE Linux Openexchange Server 4.1.1. Thanks to Daniel Berlin
+ - Added support for Fedora Core 2 with 64 bits support
+ - Added support for TDB database (/dev related)
+ - Added hashes for FreeBSD 5.2.1
+ * Added tools directory in tarball with a experimal auto-updater. Use it on your
+   own risk and check the script before you run it!
+ 
+ Changes:
+ - Improved Suckit support (rootkit)
+ - Improved user detection (the check will now handle NIS users fine when
+   checking for UID 0 alike users)
+ - Improved logging on multiple sections
+ - Updated parameter list (--help), to reflect changes (--quiet)
+ - Updated hashes for Mandrake 10
+ - Updated installer. With a SunOS improvement by Michael Gueting.
+ 
+ Bugfixes:
+ - Quiet-option is now really quiet (xinetd line still appeared when running in
+   quiet mode)
+ - Fixed a problem with the binary UPX scan (multiple error lines appeared)
+ 
+ --
+ 
+ * 1.1.2 (14/05/2004)
+
+ New:
+ - Added string check. This checks some binaries which often get trojaned.
+ - Added '--quiet' option. Very usefull when running Rootkit Hunter as a cronjob
+   and don't want to see all the output (EXCEPT when warnings/errors has been
+   found)
+ - Added xinet daemon test. Thanks to unSpawn and Andrea
+ - Added test for binaries (UPX)
+ - Added alias '--create-logfile' for '--createlogfile'  
+ - Added support for Mandrake 8.2
+ - Added support for Mandrake 9.0
+ - Added support for Mandrake 9.1
+ - Added support for Redhat Enterprise Linux AS (Taroon update 2). Thanks to Yann Le Guennec
+ - Added support for Slackware 10. Thanks to Fred Bulthuis
+ - Added support for Gentoo 1.5. Thanks to Nicolas Kaiser
+ - Added support for some Gentoo ppc versions
+ - Added hashes for Slackware 10
+
+ Changes:
+ - Improved support for AIX and OpenBSD. Thanks to Iain Roberts
+ - Improved support for rootkits (Dica, Dreams, Fuckit, MRK, Ohhara, Sin, SunOS Rootkit
+   and TBD Rootkit)
+ - Updated hashes for Fedora Core 2 
+ - Updated hashes for SuSE 8.2. Thanks to Jack Denman
+ - Updated installer
+  
+ Bugfixes:
+ - Fixed another problem in the installer
+ - Fixed a problem with the updater (not yet in use)
+ - Changed output of `ps` when checking for syslog daemon (should fix a problem on some
+   systems where the output was too long)
+ 
+ --
+ 
+ * 1.1.1
+ 
+ Bugfixes:
+ - Fixed a problem with the installer.. (wrong shell)  
+   
+ --
+
+ * 1.1.0
+
+ New:
+ - Added support for Red Hat Linux Advanced Server 2.1
+ - Added support for Slackware 9.0. Thanks to Stan Cosmin
+ - Added support for Slackware 9.1. Thanks to Fred Bulthuis
+ - Added support for Trustix 2.0. Thanks to Agung Ud
+ - Added support for Debian with sparc64 architecture (testing/unstable)
+ - Added hashes for Slackware 9.0
+ - Added hashes for Slackware 9.1
+
+ Changes:
+ - Updated SuSE 9.1 hashes
+ - Updated Mandrake 10 hashes
+ - Updated Fedora Core 1 hashes
+ - Updated Fedora Core 2 hashes
+ - Updated OpenBSD 3.3 hashes
+ - Updated Suckit (rootkit), multiple improvements
+ - Updated rkhunter.spec file. Thanks to Craig Orsinger
+ - Updated installer. Thanks to Iain Roberts
+ - Added mirrors.dat to file checks
+  
+ Bugfixes:
+ - Fixed WHITELIST option again (it stripped the wrong characters: when a hash
+   contains a '5', it got stripped)
+ - Updated sockstat/netstat check for FreeBSD
+ - Skipping of MD5 didn't work anymore (due a forcefully check when Perl module
+   Digest::MD5 was found). Thanks to Zac
+
+ -- 
+
+ * 1.0.9
+ 
+ New:
+ - Added support for Balaur Rootkit (rootkit)
+ - Added installdir option to the installer
+ - Added INSTALLDIR option to configuration file
+ - Added support for SuSE 9.1 (pro)
+ - Added support for Fedora Core 2
+ - Added support for RHEL 3 Taroon update 2 
+ - Added support for PCLinuxOS (HD-install) 
+ - Added hashes for SuSE 9.1
+ - Added hashes for Fedora Core 2
+ - Added hashes for Mandrake 10
+ 
+ Changes:
+ - Updated hashes for Fedora Core 1 (updating prelinked hashes is no good
+   idea..) Thanks to Doncho.
+ - Updated hashes for SuSE 8.2
+ - Updated hashes for Mandrake 9.2
+ - Updated hashes for RHEL 3 Taroon update 1 and update 2. Thanks to Tom and Eilko
+ - Improved hidden file detection
+   
+ Bugfixes:
+ - Added prelink check, to resolve some problems with a few Fedora Core 1
+   installations. Thanks to Mike Haslam for pointing out this problem.
+ - Changed detection of syslog daemon 
+ - Fixed a problem with the MD5WHITELIST option (see rkhunter.conf). Thanks to
+   John P. New
+ - Updated installer (added /usr/local/etc to directory check, because some
+   systems don't have this directory by default)
+ 
+ --
+
+ * 1.0.8
+
+ New:
+ - Added support for Mandrake 10 (official release). Thanks to Dave Edwards
+ - Added support for Slackware 9.1.0. Thanks to Zebul666
+ - Added hashes for Red Hat Enterprise Linux 2.1 (Panama). Thanks to Duke
+   (mastre). (+1 beer for me)
+ 
+ Changes:
+ - Updated hashes for Red Hat Enterprise Linux 3
+ - Updated hashes for Fedora Core 1. Thanks to Greg Houlette
+ - Updated rkhunter.spec file by Doncho
+ - Improved extra Suckit tests. Check the presence of `stat`, before performing
+   the scans. Reported by Pasi.
+ 
+ -- 
+
+ * 1.0.7
+
+ New:
+ - Added support for Irix Rootkit (rootkit)
+ - Added support for URK (Universal Root Kit) (rootkit)
+ - Added 'whitelist support' for MD5 hashes. See configuration file for more
+   information about this new option.
+ - Added improved support for Yellowdog 3.0 (Sirius). Thanks to P. Hopkins
+ 
+ Changes:
+ - Improved Suckit detection (multiple improvements). Thanks to unSpawn!
+ - Fixed problem when running a special listener under FreeBSD (i.e. a DHCP
+   daemon). Thanks to Yann Nottara
+ - Fixed wrong text with 'rootdir' option. Thanks to Doncho N. Gunchev
+ - Fixed typo with '--dbdir' parameter. Thanks to unSpawn.
+ - Fixed rkhunter.spec file. md5blacklist.dat was missing. Thanks to Masanari
+   Iida
+ - Fixed a problem with the $rootdir
+ - Improved rkhunter.spec file. Thanks to Doncho N. Gunchev
+ - Improved Perl version detection. Thanks to Doncho N. Gunchev
+ - Updated installer to support dynamic paths soon.
+ - Layout improvements for installer 
+ - Changed copyright text in main binary and installer (as required/suggested
+   by GPL)
+ - Updated website (FAQ, documentation)
+
+ --
+
+ * 1.0.6
+ 
+ New:
+ - Added support for FreeBSD 4.9 and 5.2.1
+ - Added support for SuSE 9.0 (i386 and i586). Thanks to multiple people
+ - Added support for Trustix. Thanks to Joachim Holst
+ - Added support for Whitebox Enterprise Linux 3.0. Thanks to Fire
+ - Added support for CentOS 3.1. Thanks to Fire
+ - Added support for Mandrake 10 (community release). Thanks to Ted Kline
+ - Added support for CPUBuilders Linux. Thanks to Chris Locke
+ - Added support for Gentoo's 'rc.local' file (local.start)
+ - Added parameter '--bindir' to use another (binary) directory than the default
+   ones (to select which binaries will be used to perform the tests). Requested
+   by Joel.
+ - Added parameter '--configfile' to use another configuration file.
+ - Added parameter '--dbdir' to use another (dynamic) database directory
+ - Added a check when dynamic parameters are used (like --dbdir, --bindir) to
+   check the existance of these paths/files.
+ - Added lsmod check (/proc/modules) for Linux distros. Thanks to Micah Anderson
+
+ Changes:
+ - Updated hashes for Mandrake 9.2. Thanks to John P. New and others.
+ - Updated hashes for Red Hat Enterprise Linux Update 1. Thanks to Eilko
+ - Added informational message, when 'PermitRootLogin' or SSH protocol 1 is found,
+   into the logfile
+ - Renamed .spec file to rkhunter.spec  
+ - Updated installer. Thanks to Uwe Hermann
+ - Improved LKM check. Thanks to Joe Croft 
+ - Improved logging
+ - Fixed a problem with ifconfig
+ 
+ --
+
+ * 1.0.5
+
+ New:
+ - Added 'ignoKit' (rootkit)
+ - Added support for Red Hat Linux 8.0 (Psyche)
+ - Added option '--disable-passwd-check', to disable passwd/group check. Suggested
+   by Michael Niehren
+ - Added option '--scan-knownbad-files', to scan besides the 'known good' MD5 checks,
+   a lot of system binaries against a 'known bad' database.
+ - Added option '--tmpdir', to specify a temporary directory instead of the static
+   one (see below, at 'tmpdir' option within the configuration file).
+ - Added a 'known bad' database with a lot of 'blacklisted' binaries and tools
+   (like sniffers, rootkits, backdoored binaries, IRC tools etc)
+ - Added hashes for Red Hat Enterprise Linux ES release 3 (unpatched). Thanks
+   to Nico Morrison
+ - Added a 'mail-on-warning' option to the configuration file. When the checker finds
+   one or more warnings, it will send a warning to the system administrator (see the
+   configuration file for more information)
+ - Added 'tmpdir' option to the configuration. This optional value can be used instead
+   of the default (/usr/local/rkhunter/tmp) directory and is one of the first steps
+   to make rkhunter less static.   
+ - Rootkit Hunter now exists with an exit code of 1 when a rootkit is found or
+   a MD5 checksum failed. Suggested by Michael Niehren
+
+ Changes:
+ - Updated support for Red Hat Enterprise Linux. Thanks to Nico Morrison
+ - Improved/updated .spec file for RPM creation (improved cronjob script, updated
+   file version, corrected packager value). Thanks to Joe Klemmer and Michael Niehren
+ - Improved cronjob check (it contained a little bug, so it wasn't always non-
+   interactive..)
+ - Improved logging of sockstat/netstat tests
+ - Fixed message when parameters are provided, but 'check' option is missing
+ - Updated installer (0.0.6)
+
+ --
+
+ * 1.0.4
+ 
+ New:
+ - Added 'AjaKit' (rootkit)
+ - Added 'Legion of Doom (LoD)' (rootkit) (note: uses almost every same file
+   as AjaKit)
+ - Added support for Red Hat Enterprise Linux. Thanks to Kevin Jarnot
+ 
+ Changes:
+ - Updated 'NSDAP' (rootkit)
+ - Updated 'Dica' (rootkit)
+ - Updated 'X-Org SunOS Rootkit' (rootkit)
+ - Changed message 'not found' into 'OK' when no file redirection has been found.
+   Thanks to Jens Gutzeit
+ - Improved check for hidden files (empty files will be skipped, more directories
+   added)
+ - Corrected file scan counter.
+ - Improved logging
+ - Cleaned up tarball
+ 
+ --
+
+ * 1.0.3
+
+ New:
+ - Added support for SuSE Linux 8.1.
+ 
+ Changes:
+ - Updated 'Flea Linux Rootkit', because /lib/security is a legal path name.
+   Thanks to Moritz Bunkus
+ - Updated syslog-ng checking (checking remote logging in the configuration file).
+   Thanks to Juri Memmert for reporting the problem
+ 
+ --
+
+ * 1.0.2
+ 
+ New:
+ - Added 'aPa Kit' (rootkit)
+ - Added 'Danny-Boy's Abuse Kit' (rootkit)
+ - Added 'Duarawkz' (rootkit)
+ - Added 'Flea Linux Rootkit' (rootkit)
+ - Added 'HjC kit' (rootkit)
+ - Added 'Kitko' (rootkit)
+ - Added 'R3dstorm Toolkit' (rootkit)
+ - Added 'TeLeKiT' (rootkit)
+ - Added 'VcKit' (rootkit)
+ - Added support for Aurora Linux 1.0 (SPARC, named 'Ansel')
+ - Added support for Red Hat Linux 7.0
+ - Added support for Mac OS X (Darwin kernel)
+ - Added option '--report-mode' to remove footer and location of logfile
+ - Added alias parameter '--createlog' for '--createlogfile'
+ - Added alias parameter '--skipkeypress' for '--skip-keypress'
+ - Added informational message when a user doesn't use '--checkall' or '--cronjob'
+
+ Changes:
+ - Updated hashes for Fedora Core 1. Thanks to Doncho N. Gunchev
+ - Improved output of logfile
+ - Changed warning message when a part of a rootkit has been found (show correct
+   logfile instead of default file)
+ - Changed footer message (and tell you guys you have to submit your undetected
+   rootkits)
+   
+ Website:
+ - Updated articles: Hyperlinks, Scanning Techniques
+ 
+ --
+
+ * 1.0.1
+
+ New:
+ - Added parameter '-h' (or --help, -?) to display the usage syntax (same thing
+   when you give no options at all). Reported by Arthur E. Groen
+ - Support for Linux SuSE 8.2 (i586 platform)
+ 
+ Changes:
+ - Improved scan for 'Suckit' (rootkit)
+ - Updates hashes for Mandrake 9.2
+ - Fixed a problem with the installer (wrong function declaration).
+ - Had to strip down all colors in the installer, because of the complaints :-)
+ - Changed installer so it could be used as a non-interactive installer (like it
+   was before).. Languages are still usuable, but will be used in later versions
+   (with a interactive switch)
+ - Fixed the LANG function (renamed it, because of the reserved name).
+ - Added Swedish translation for the installer. Thanks to Daniel Olsson
+ - Improved logging when Perl has been found
+ - Undo 'skip MD5 test' (MD5CHECK_SKIP=0) when Digest::MD5 available, but
+   md5(sum) isn't, so we can still scanning.
+ - Fixed a wrong path name (deleting of temporary passwd file)
+ 
+ Website / Documentation:
+ - Updated FAQ
+ - Updated Project information (updated supported OSes, rootkits, added date of
+   last modification)
+ - Updated README
+ 
+ --
+
+ * 1.0.0
+ 
+ Special remarks:
+ - New developer: Stephane Dudzinski (a.k.a. FRLinux)
+
+ New:
+ * Operating system support
+ - Added support for Fedora (tested with Core 1, Yarrow)
+ - Added support for Gentoo (tested with 1.4 release)
+ - Added support for Red Hat 7.3 (Valhalla)
+ - Added support for Sun Solaris (not working yet..)
+ - Added OpenBSD 3.3 (i386) hashes
+ - Added Fedora Core 1 (i386) hashes
+ - Added special verify section when prelinked binaries are found (like Fedora
+   Core 1 uses). Thanks to Michael G. Rozman
+ - Added support for IBM AIX. A big thanks to Iain Roberts!
+   Versions 4.3.2, 4.3.3, 5.1, 5.2, 5.3, 5.4
+
+ * Rootkit / backdoor support
+ - Added 'Dreams' (rootkit). Thanks to Joshua Levitsky
+ - Added 'Heroin' (LKM rootkit)
+ - Added 'Sin' (rootkit)
+ - Added 'Shutdown' (rootkit)
+ - Added 'Sneakin' (rootkit)
+ - Added 'Superkit' (rootkit)
+ - Added 'T0rn' (rootkit)
+ - Added 'Trojanit Kit' (rootkit)
+ - Added 'zaRwT.KiT' (rootkit)
+ - Added 'Volc' (rootkit)
+
+ * Linux support
+ - Added extra kernel check (2.4/2.6) when OS is Linux
+ - Added Linux 2.6 kernel support.
+ - Added extra check when using a RPM based distro, to display the package name
+   in the logfile when filehashes are different. Thanks to Michael G. Rozman
+
+ * Rootkit Hunter options
+ - Added option '--quick'. Can be used with newly added scans and will use
+   some tweaks to scan quicker (be carefull: can hide some usefull information
+   at first scan, i.e. hidden files with trojaned binaries)
+ - Added option '--skip-keypress'. Make rkhunter non-interactive, so you don't
+   have to press [enter] after every test. Requested by Michael G. Rozman
+ - Added option '--version'. Displays version and quits.
+ - Added extra check for promiscuous interfaces, when 'ip' command is available
+ - Added check for (rootdir)etc/conf.d/local.start file (Gentoo)
+ - Added ksyms check to rootkitscan section
+ - Added check for binaries like nmap, ls, lsof, ps (for future use)
+ - Added Perl Digest::SHA1 module check
+ - Added SSH 'PermitRootLogin without-password' (as an unsafe option). Thanks
+   to Doncho
+ - Added check for sniffer logfiles detection
+ - Added support for grsec enabled Linux kernel. Thanks Steph ;-)
+
+ Changes:
+ - Improved installation
+ - Splitted version number (from 1.00 --> 1.0.0) due future minor releases
+ - Updated 'Ambient'
+ - Updated 'BOBkit'
+ - Updated 'Knark'
+ - Updated 'Sebek'
+ - Updated hashes for Red Hat 7.1 (fileutils, util-linux, SysVinit and xinetd).
+   Thanks to Michael G. Rozman
+ - Updated hashes for Debian 3.0 (IPv6 enabled version of tcpd). Thanks to Steph
+ - Changed LKM check when kernelversion of Linux is the new 2.6
+ - Improved support for other rootdirs (instead of '/')
+ - Added check for empty files when searching for hidden files
+ - Added check for real device fiels when searching for hidden files
+ - Added colored layout, when performing file checks (for i.e. hidden files)
+ - Little bugfix when perform LKM checking
+ - Bugfix when scanning sshd_config for file if file isn't available in /etc/ssh
+ - Improved logging for selftests
+ - Improved logging when performing MD5 hash test
+ - Improved logging for scanning of rootkits and malware
+ - Improved logging of rootkitscan section (files and directories)
+ - Improved logging for detection of binaries and Perl modules
+ - Improved SSH 'root login allowed', to decrease false positives
+ - Changed detection of users with an UID of 0 (zero)
+ - Improved rootkitscan section for files and directories with spaces
+ - Fixed wrong detection of Debian version (unstable/testing). Thanks to Daniel
+   Olsson
+ - Fixed wrong use of parameters when using --quick option, but not using -c.
+   Thanks to Joost Peters
+ - Added missing 'full OS' string, when RH doesn't recognise the operating
+   system.
+ - Fixed bad logging of rootkits (and files)
+ - Fixed a problem when using --skip-keypress and a rootkit was found (skip
+   keypress didn't work, and user input was required).   
+ - Fixed installer for NetBSD and MacOS X, by commenting whereis functions (will
+   be soon replaced)
+ - A lot of code cleanups..
+
+ Website:
+ - Updated website (FAQ / Changelog, Project information)
+ - Fixed a problem with the contact form (-moz-opacity CSS property failed with
+   some browsers).
+
+
+ --
+
+ * 1.00 RC3
+
+ New:
+ - Added option --disable-md5-check to skip checking MD5 hashes (if you run 
+   customized binaries/tools)
+ - Added option --rootdir (or -r), to use with chrooted systems. Note: not
+   completely integrated yet. Requested by Henk Wevers
+ - Added functions logtext and displaytext to make script more powerfull and
+   easier to use (for example with a new 'quiet' option)
+ - Added support for OpenBSD 3.3 and OpenBSD 3.4 (MD5 fix added, due the
+   missing of the -q (quiet) option of MD5). Thanks to Stefan
+
+ Changes:
+ - Updated 'Beastkit'
+ - Updated 'BOBkit'
+ - Updated hashes for Red Hat 9.0 (coreutils update). Thanks to Andrew Matthews
+ - Fixed a little problem with support for multiple file hashes (see 1.00 RC2).
+   When more than one hash was available, only the first one was checked. Thanks
+   to Andrew Matthews for testing.
+ - Solved two little issues with netstat check. Check reported possible backdoor
+   if portnumber was present in another portnumber (like string '2001' is
+   available in '20010'). Also the portnumber was found when the remote connection
+   had the same portnumber as a possible backdoor (like a dynamic port 2001 was
+   assigned to a SSH client). Thanks to Michael Firkins
+ - Changed text when a possible backdoored file is found (because --debug option
+   is not a valid). Thanks to Anton Pirnat
+ - Changed check for OpenSSH sshd_config file (it will search now for more than
+   1 place). Thanks to Jeroen Griede
+ - Added extra check for file retrieval utilities (i.e. to do version checking)
+ - Changed string at beginning of RH output (Determing OS... Ready)
+ - Made some tweaks to the layout of the logfile (with --createlogfile option)
+
+ --
+
+ * 1.00 RC2
+ 
+ New:
+ - Added check for syslog-ng (instead of only checking for the presence of
+   syslogd). Thanks to Chris Vaughan
+ - Added check to allow more than one MD5/SHA1 for a single file. When a 'base'
+   file will be updated, it's possible to add a second hash. Thanks to
+   James Clark and Greg Bell
+ - Added AIX check. Thanks to Val Baranov
+ - Added hashes for SuSE 8.2 (i386)
+ - Added hashes for Red Hat 9.0
+ - Added hashes for Mandrake 9.2
+ - Added hashes for Debian 3.0 (tested with release 2)
+ - Added support for Mandrake (i.e. /dev/.devfsd file)
+ - Added section to check the file type of every hidden file found
+ - Added parameter 'nocolors' to disable colored output
+ - Added support to run RH as a cronjob (parameter '--cronjob')
+ - Added check to removed layout when running as cronjob
+ - Added option to create a logfile (parameter '--createlogfile')
+ - Added changelog on website (rootkit.nl)
+ 
+ Changes:
+ - Updated hashes for Red Hat 7.2
+ - Cleanup logfile at startup
+ - Just check /dev directory once for hidden files
+ - Deleted unused consistency check (on Debian it showed several warnings)
+ - Fixed a little problem with querying the default hashes database (added a
+   slash to the query, to resolve the problem)
+ - Layout fix for Linux distros
+ - Fixed an error for Debian (where /etc/rc.d files not always exists..) by
+   adding an extra check for the presence of this files.
+ - Tweaked section to scan /dev directory. Scan is faster now (scan for
+   unknown shellscripts and files)
+ - Some little layout changes
+ - Updated 'Beastkit' due false positive. Thanks to Dunay
+ - Updated 'Suckit' (more checks added)
+ - Changed FAQ
+
+ --
+ 
+ * 1.00 RC1
+
+ Remarks:
+ First release
+ 
+ New:
+ - Database: backdoor ports (DB:backdoorports.dat)
+ - Added filtering for network connections
+ - Added OS support for SuSE Linux:
+ - Added OS support for Debian: 2.2/3.0/testing
+ - Added OS support for FreeBSD 5.x: version 5.0/5.1
+ - Added OS support for FreeBSD 4.x: version 4.3/4.7
+ - Added OS support for Red Hat Linux 7.1/7.2
+ - Added KLD tests (FreeBSD)
+ - All other options...
+ 
