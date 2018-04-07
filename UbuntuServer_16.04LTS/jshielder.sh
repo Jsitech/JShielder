@@ -819,8 +819,8 @@ echo -n " Do you want to install PSAD (Recommended)? (y/n): " ; read psad_answer
 if [ "$psad_answer" == "y" ]; then
      echo -n " Type an Email Address to Receive PSAD Alerts: " ; read inbox1
      apt-get install psad
-     sed s/INBOX/$inbox1/g templates/psad.conf
-     sed s/hostname/$host_name.$domain_name/g templates/psad.conf > /etc/psad/psad.conf
+     sed -i 's/INBOX/$inbox1/g' templates/psad.conf
+     sed -i 's/CHANGEME/$host_name.$domain_name/g' templates/psad.conf > /etc/psad/psad.conf
      psad --sig-update
      service psad restart
      echo "Installation and Configuration Complete"
