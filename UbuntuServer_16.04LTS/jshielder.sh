@@ -111,10 +111,10 @@ update_system(){
    echo -e "\e[93m[+]\e[00m Updating the System"
    echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
    echo ""
-   apt-get update
-   apt-get upgrade -y
-   apt-get dist-upgrade -y
-   apt-get install -y sysv-rc-conf
+   apt update
+   apt upgrade -y
+   apt dist-upgrade -y
+   apt install -y sysv-rc-conf
    say_done
 }
 
@@ -193,6 +193,7 @@ secure_tmp(){
   echo -n " ¿Did you Create a Separate /tmp partition during the Initial Installation? (y/n): "; read tmp_answer
   if [ "$tmp_answer" == "n" ]; then
       echo "We will create a FileSystem for the /tmp Directory and set Proper Permissions "
+      spinner
       dd if=/dev/zero of=/usr/tmpDISK bs=1024 count=2048000
       mkdir /tmpbackup
       cp -Rpf /tmp /tmpbackup
@@ -264,8 +265,8 @@ install_fail2ban(){
     echo -e "\e[93m[+]\e[00m Installing Fail2Ban"
     echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
     echo ""
-    apt-get install sendmail
-    apt-get install fail2ban
+    apt install sendmail
+    apt install fail2ban
     say_done
 }
 
@@ -279,7 +280,7 @@ install_secure_mysql(){
     echo -e "\e[93m[+]\e[00m Installing, Configuring and Optimizing MySQL"
     echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
     echo ""
-    apt-get install mysql-server
+    apt install mysql-server
     echo -n " configuring MySQL............ "
     cp templates/mysql /etc/mysql/mysqld.cnf; echo " OK"
     mysql_secure_installation
@@ -298,7 +299,7 @@ install_apache(){
   echo -e "\e[93m[+]\e[00m Installing Apache Web Server"
   echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
   echo ""
-  apt-get install apache2
+  apt install apache2
   say_done
 }
 
@@ -312,7 +313,7 @@ install_nginx_modsecurity(){
   echo -e "\e[93m[+]\e[00m Downloading and Compiling Nginx with ModSecurity"
   echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
   echo ""
-  apt-get -y install git build-essential libpcre3 libpcre3-dev libssl-dev libtool autoconf apache2-prefork-dev libxml2-dev libcurl4-openssl-dev
+  apt -y install git build-essential libpcre3 libpcre3-dev libssl-dev libtool autoconf apache2-prefork-dev libxml2-dev libcurl4-openssl-dev
   mkdir src
   cd src/
   git clone https://github.com/SpiderLabs/ModSecurity
@@ -417,8 +418,8 @@ install_secure_php(){
     echo -e "\e[93m[+]\e[00m Installing, Configuring and Optimizing PHP"
     echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
     echo ""
-    apt-get install php php-cli php-pear
-    apt-get install php-mysql python-mysqldb
+    apt install php php-cli php-pear
+    apt install php-mysql python-mysqldb
     echo -n " Replacing php.ini..."
     cp templates/php /etc/php/7.0/fpm/php.ini; echo " OK"
     cp templates/php /etc/php/7.0/cli/php.ini; echo " OK"
@@ -435,8 +436,8 @@ install_php_nginx(){
   echo -e "\e[93m[+]\e[00m Installing, Configuring and Optimizing PHP/PHP-FPM"
   echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
   echo ""
-  apt-get install php-fpm php php-cli php-pear
-  apt-get install php-mysql python-mysqldb
+  apt install php-fpm php php-cli php-pear
+  apt install php-mysql python-mysqldb
   echo -n " Replacing php.ini..."
   cp templates/php /etc/php/7.0/cli/php.ini; echo " OK"
   cp templates/phpnginx /etc/php/7.0/fpm/php.ini; echo "OK"
@@ -455,9 +456,9 @@ install_modsecurity(){
     echo -e "\e[93m[+]\e[00m Installing ModSecurity"
     echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
     echo ""
-    apt-get install libxml2 libxml2-dev libxml2-utils
-    apt-get install libaprutil1 libaprutil1-dev
-    apt-get install libapache2-mod-security2
+    apt install libxml2 libxml2-dev libxml2-utils
+    apt install libaprutil1 libaprutil1-dev
+    apt install libapache2-mod-security2
     service apache2 restart
     say_done
 }
@@ -524,7 +525,7 @@ install_modevasive(){
     echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
     echo ""
     echo -n " Type Email to Receive Alerts "; read inbox
-    apt-get install libapache2-mod-evasive
+    apt install libapache2-mod-evasive
     mkdir /var/log/mod_evasive
     chown www-data:www-data /var/log/mod_evasive/
     sed s/MAILTO/$inbox/g templates/mod-evasive > /etc/apache2/mods-available/mod-evasive.conf
@@ -542,9 +543,9 @@ install_qos_spamhaus(){
     echo -e "\e[93m[+]\e[00m Installing Mod_Qos/Spamhaus"
     echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
     echo ""
-    apt-get -y install libapache2-mod-qos
+    apt -y install libapache2-mod-qos
     cp templates/qos /etc/apache2/mods-available/qos.conf
-    apt-get -y install libapache2-mod-spamhaus
+    apt -y install libapache2-mod-spamhaus
     cp templates/spamhaus /etc/apache2/mods-available/spamhaus.conf
     service apache2 restart
     say_done
@@ -578,15 +579,15 @@ additional_packages(){
     echo -e "\e[93m[+]\e[00m Installing Additional Packages"
     echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
     echo ""
-    echo "Install tree............."; apt-get install tree
-    echo "Install Python-MySQLdb..."; apt-get install python-mysqldb
-    echo "Install WSGI............."; apt-get install libapache2-mod-wsgi
-    echo "Install PIP.............."; apt-get install python-pip
-    echo "Install Vim.............."; apt-get install vim
-    echo "Install Nano............."; apt-get install nano
-    echo "Install pear............."; apt-get install php-pear
-    echo "Install DebSums.........."; apt-get install debsums
-    echo "Install apt-show-versions"; apt-get install apt-show-versions
+    echo "Install tree............."; apt install tree
+    echo "Install Python-MySQLdb..."; apt install python-mysqldb
+    echo "Install WSGI............."; apt install libapache2-mod-wsgi
+    echo "Install PIP.............."; apt install python-pip
+    echo "Install Vim.............."; apt install vim
+    echo "Install Nano............."; apt install nano
+    echo "Install pear............."; apt install php-pear
+    echo "Install DebSums.........."; apt install debsums
+    echo "Install apt-show-versions"; apt install apt-show-versions
     echo "Install PHPUnit..........";
     pear config-set auto_discover 1
     mv phpunit-patched /usr/share/phpunit
@@ -663,7 +664,6 @@ tune_nano_vim_bashrc(){
     cp templates/bashrc-user /home/$username/.bashrc
     chown $username:$username /home/$username/.bashrc
     echo "OK"
-    say_done
 
 
 # Tune Vim
@@ -678,6 +678,7 @@ tune_nano_vim_bashrc(){
     spinner
     tunning nanorc
     echo "OK"
+    say_done
 }
 
 ##############################################################################################################
@@ -687,12 +688,12 @@ daily_update_cronjob(){
     clear
     f_banner
     echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
-    echo -e "\e[93m[+]\e[00m Adding Daily System Udpdate Cron Job"
+    echo -e "\e[93m[+]\e[00m Adding Daily System Update Cron Job"
     echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
     echo ""
     echo "Creating Daily Cron Job"
     spinner
-    job="@daily apt-get update; apt-get dist-upgrade -y"
+    job="@daily apt update; apt dist-upgrade -y"
     touch job
     echo $job >> job
     crontab job
@@ -710,7 +711,7 @@ install_portsentry(){
     echo -e "\e[93m[+]\e[00m Installing PortSentry"
     echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
     echo ""
-    apt-get install portsentry
+    apt install portsentry
     mv /etc/portsentry/portsentry.conf /etc/portsentry/portsentry.conf-original
     cp templates/portsentry /etc/portsentry/portsentry.conf
     sed s/tcp/atcp/g /etc/default/portsentry > salida.tmp
@@ -738,14 +739,20 @@ additional_hardening(){
     #Protect Against IP Spoofing
     echo nospoof on >> /etc/host.conf
     #Remove AT and Restrict Cron
-    apt-get purge at
-    apt-get install -y libpam-cracklib
+    apt purge at
+    apt install -y libpam-cracklib
+    echo ""
     echo " Securing Cron "
+    spinner
     touch /etc/cron.allow
     chmod 600 /etc/cron.allow
     awk -F: '{print $1}' /etc/passwd | grep -v root > /etc/cron.deny
+    echo ""
     echo -n " Do you want to Disable USB Support for this Server? (y/n): " ; read usb_answer
     if [ "$usb_answer" == "y" ]; then
+       echo ""
+       echo "Disabling USB Support"
+       spinner
        echo "blacklist usb-storage" | sudo tee -a /etc/modprobe.d/blacklist.conf
        update-initramfs -u
        echo "OK"
@@ -768,7 +775,8 @@ install_unhide(){
     echo ""
     echo "Unhide is a forensic tool to find hidden processes and TCP/UDP ports by rootkits / LKMs or by another hidden technique."
     sleep 1
-    apt-get -y install unhide
+    apt -y install unhide
+    echo ""
     echo " Unhide is a tool for Detecting Hidden Processes "
     echo " For more info about the Tool use the manpages "
     echo " man unhide "
@@ -788,7 +796,8 @@ install_tiger(){
     echo ""
     echo "Tiger is a security tool that can be use both as a security audit and intrusion detection system"
     sleep 1
-    apt-get -y install tiger
+    apt -y install tiger
+    echo ""
     echo " For More info about the Tool use the ManPages "
     echo " man tiger "
     say_done
@@ -818,7 +827,7 @@ echo ""
 echo -n " Do you want to install PSAD (Recommended)? (y/n): " ; read psad_answer
 if [ "$psad_answer" == "y" ]; then
      echo -n " Type an Email Address to Receive PSAD Alerts: " ; read inbox1
-     apt-get install psad
+     apt install psad
      sed -i s/INBOX/$inbox1/g templates/psad.conf
      sed -i s/CHANGEME/$host_name.$domain_name/g templates/psad.conf  
      cp templates/psad.conf /etc/psad/psad.conf
@@ -915,7 +924,7 @@ enable_proc_acct(){
   echo -e "\e[93m[+]\e[00m Enable Process Accounting"
   echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
   echo ""
-  apt-get install acct
+  apt install acct
   touch /var/log/wtmp
   echo "OK"
 }
@@ -934,8 +943,8 @@ enable_proc_acct(){
 #  #Suhosin Key
 #  wget https://sektioneins.de/files/repository.asc
 #  apt-key add repository.asc
-#  apt-get update
-#  apt-get install php-suhosin-extension
+#  apt update
+#  apt install php-suhosin-extension
 # phpenmod suhosin
 #  service apache2 restart
 #  echo "OK"
@@ -953,7 +962,7 @@ install_auditd(){
   echo -e "\e[93m[+]\e[00m Installing auditd"
   echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
   echo ""
-  apt-get install auditd
+  apt install auditd
   cp templates/audit.rules /etc/audit/audit.rules
   sysv-rc-conf auditd on
   service auditd restart
@@ -971,7 +980,7 @@ install_sysstat(){
   echo -e "\e[93m[+]\e[00m Installing and enabling sysstat"
   echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
   echo ""
-  apt-get install sysstat
+  apt install sysstat
   sed -i 's/ENABLED="false"/ENABLED="true"/g' /etc/default/sysstat
   service sysstat start
   echo "OK"
@@ -995,7 +1004,7 @@ install_arpwatch(){
   if [ "$arp_answer" == "y" ]; then
      echo "Installing ArpWatch"
      spinner
-     apt-get install -y arpwatch
+     apt install -y arpwatch
      sysv-rc-conf arpwatch on
      service arpwatch start
      echo "OK"
