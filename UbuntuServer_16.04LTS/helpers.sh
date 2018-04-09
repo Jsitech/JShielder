@@ -47,6 +47,5 @@ function tunning() {
     cp templates/$whoapp /root/.$whoapp
     cp templates/$whoapp /home/$username/.$whoapp
     chown $username:$username /home/$username/.$whoapp
-    say_done
 }
 

@@ -72,6 +72,11 @@ As the Root user
 
 Having Problems, please open a New Issue for JShielder on Github.
 
+# Distro Availability
+
+* Ubuntu Server 14.04LTS
+* Ubuntu Server 16.04LTS
+
 # Notes
 
 After Final Release of Ubuntu 18.04LTS, will not be maintaining Jshielder for Ubuntu 14.04. Will focus on last 2 major LTS Releases.
