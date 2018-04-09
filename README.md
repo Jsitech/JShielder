@@ -2,7 +2,7 @@
 
 
 
-###JShielder Automared Hardening Script for Linux Servers
+###JShielder Automated Hardening Script for Linux Servers
 
 JSHielder is an Open Source tool developed to help SysAdmin and developers secure there Linux Servers in which they will be deploying any web application or services. This tool automates the process of installing all the necessary packages to host a web application and Hardening a Linux server with little interaction from the user. Newly added script follows CIS Benchmark Guidance to establish a Secure configuration posture for Linux systems.
 
@@ -50,6 +50,7 @@ This tool is a Bash Script that hardens the Linux Server security automatically 
 * Auditd install (New)
 * Sysstat install (New)
 * ArpWatch install (New)
+* Hardening steps following CIS Benchmark
 
 
 # NEWLY ADDED FUNCTION
@@ -71,7 +72,13 @@ As the Root user
 
 Having Problems, please open a New Issue for JShielder on Github.
 
+# Notes
+
+After Final Release of Ubuntu 18.04LTS, will not be maintaining Jshielder for Ubuntu 14.04. Will focus on last 2 major LTS Releases.
+
 # ChangeLog
+
+v2.3 More Hardening steps Following some CIS Benchmark items for LAMP Deployer
 
 v2.2.1 Removed suhosing installation on Ubuntu 16.04, Fixed MySQL Configuration, GRUB Bootloader Setup function,
 Server IP now obtain via ip route to not rely on interface naming

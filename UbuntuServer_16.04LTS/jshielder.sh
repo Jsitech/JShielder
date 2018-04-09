@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# JShielder v2.2
+# JShielder v2.3
 # Deployer for Ubuntu Server 16.04 LTS
 #
 # Jason Soto
@@ -32,7 +32,7 @@ echo "
 ╚════╝ ╚══════╝╚═╝  ╚═╝╚═╝╚══════╝╚══════╝╚═════╝ ╚══════╝╚═╝  ╚═╝
 
 For Ubuntu Server 16.04 LTS
-By Jason Soto "
+Developed By Jason Soto @Jsitech"
 echo
 echo
 
@@ -134,6 +134,49 @@ restrictive_umask(){
    echo ""
    echo "OK"
    say_done
+}
+
+#############################################################################################################
+
+#Disabling Unused Filesystems
+
+unused_filesystems(){
+   clear
+   f_banner
+   echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+   echo -e "\e[93m[+]\e[00m Disabling Unused FileSystems"
+   echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+   echo ""
+   spinner
+   echo "install cramfs /bin/true" >> /etc/modprobe.d/CIS.conf
+   echo "install freevxfs /bin/true" >> /etc/modprobe.d/CIS.conf
+   echo "install jffs2 /bin/true" >> /etc/modprobe.d/CIS.conf
+   echo "install hfs /bin/true" >> /etc/modprobe.d/CIS.conf
+   echo "install hfsplus /bin/true" >> /etc/modprobe.d/CIS.conf
+   echo "install squashfs /bin/true" >> /etc/modprobe.d/CIS.conf
+   echo "install udf /bin/true" >> /etc/modprobe.d/CIS.conf
+   echo "install vfat /bin/true" >> /etc/modprobe.d/CIS.conf
+   echo " OK"
+   say_done
+}
+
+##############################################################################################################
+
+uncommon_netprotocols(){
+   clear
+   f_banner
+   echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+   echo -e "\e[93m[+]\e[00m Disabling Uncommon Network Protocols"
+   echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+   echo ""
+   spinner
+   echo "install dccp /bin/true" >> /etc/modprobe.d/CIS.conf
+   echo "install sctp /bin/true" >> /etc/modprobe.d/CIS.conf
+   echo "install rds /bin/true" >> /etc/modprobe.d/CIS.conf
+   echo "install tipc /bin/true" >> /etc/modprobe.d/CIS.conf
+   echo " OK"
+   say_done
+
 }
 
 ##############################################################################################################
@@ -963,7 +1006,23 @@ install_auditd(){
   echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
   echo ""
   apt install auditd
-  cp templates/audit.rules /etc/audit/audit.rules
+
+  # Using CIS Benchmark configuration
+  
+  #Ensure auditing for processes that start prior to auditd is enabled 
+  sed -i 's/GRUB_CMDLINE_LINUX=""/GRUB_CMDLINE_LINUX="audit=1"/g' /etc/default/grub
+  update-grub
+
+  cp templates/audit-CIS.rules /etc/audit/audit.rules
+
+  find / -xdev \( -perm -4000 -o -perm -2000 \) -type f | awk '{print \
+  "-a always,exit -F path=" $1 " -F perm=x -F auid>=1000 -F auid!=4294967295 \
+  -k privileged" } ' >> /etc/audit/audit.rules
+
+  echo " " >> /etc/audit/audit.rules
+  echo "#End of Audit Rules" >> /etc/audit/audit.rules
+  echo "-e 2" >>/etc/audit/audit.rules
+
   sysv-rc-conf auditd on
   service auditd restart
   echo "OK"
@@ -1041,8 +1100,69 @@ set_grubpassword(){
     echo "OK"
     say_done
   fi
+
+echo -e ""
+echo -e "Securing Boot Settings"
+spinner
+sleep 2
+chown root:root /boot/grub/grub.cfg
+chmod og-rwx /boot/grub/grub.cfg
+say_done
+
 }    
 
+##############################################################################################################
+
+file_permissions(){
+ clear
+  f_banner
+  echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+  echo -e "\e[93m[+]\e[00m Setting File Permissions on Critical System Files"
+  echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+  echo ""
+  spinner
+  sleep 2
+  chmod -R g-wx,o-rwx /var/log/*
+
+  chown root:root /etc/ssh/sshd_config
+  chmod og-rwx /etc/ssh/sshd_config
+
+  chown root:root /etc/passwd
+  chmod 644 /etc/passwd
+
+  chown root:shadow /etc/shadow
+  chmod o-rwx,g-wx /etc/shadow
+
+  chown root:root /etc/group
+  chmod 644 /etc/group
+
+  chown root:shadow /etc/gshadow
+  chmod o-rwx,g-rw /etc/gshadow
+
+  chown root:root /etc/passwd-
+  chmod 600 /etc/passwd-
+
+  chown root:root /etc/shadow-
+  chmod 600 /etc/shadow-
+
+  chown root:root /etc/group-
+  chmod 600 /etc/group-
+
+  chown root:root /etc/gshadow-
+  chmod 600 /etc/gshadow-
+
+
+  echo -e ""
+  echo -e "Setting Sticky bit on all world-writable directories"
+  sleep 2
+  spinner
+
+  df --local -P | awk {'if (NR!=1) print $6'} | xargs -I '{}' find '{}' -xdev -type d -perm -0002 2>/dev/null | xargs chmod a+t
+
+  echo " OK"
+  say_done
+
+}
 ##############################################################################################################
 
 # Reboot Server
@@ -1091,6 +1211,8 @@ config_host
 config_timezone
 update_system
 restrictive_umask
+unused_filesystems
+uncommon_netprotocols
 admin_user
 rsa_keygen
 rsa_keycopy
@@ -1125,6 +1247,7 @@ install_auditd
 install_sysstat
 install_arpwatch
 set_grubpassword
+file_permissions
 reboot_server
 ;;
 
@@ -1134,6 +1257,8 @@ config_host
 config_timezone
 update_system
 restrictive_umask
+unused_filesystems
+uncommon_netprotocols
 admin_user
 rsa_keygen
 rsa_keycopy
@@ -1166,6 +1291,7 @@ install_auditd
 install_sysstat
 install_arpwatch
 set_grubpassword
+file_permissions
 reboot_server
 ;;
 
@@ -1175,6 +1301,8 @@ config_host
 config_timezone
 update_system
 restrictive_umask
+unused_filesystems
+uncommon_netprotocols
 admin_user
 rsa_keygen
 rsa_keycopy
@@ -1205,6 +1333,7 @@ install_auditd
 install_sysstat
 install_arpwatch
 set_grubpassword
+file_permissions
 reboot_server
 ;;
 
@@ -1214,6 +1343,8 @@ config_host
 config_timezone
 update_system
 restrictive_umask
+unused_filesystems
+uncommon_netprotocols
 admin_user
 rsa_keygen
 rsa_keycopy
@@ -1242,6 +1373,7 @@ install_auditd
 install_sysstat
 install_arpwatch
 set_grubpassword
+file_permissions
 reboot_server
 ;;
 
@@ -1251,6 +1383,8 @@ config_host
 config_timezone
 update_system
 restrictive_umask
+unused_filesystems
+uncommon_netprotocols
 admin_user
 rsa_keygen
 rsa_keycopy
@@ -1285,6 +1419,7 @@ install_auditd
 install_sysstat
 install_arpwatch
 set_grubpassword
+file_permissions
 ;;
 
 6)

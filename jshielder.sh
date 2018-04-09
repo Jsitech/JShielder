@@ -1,14 +1,14 @@
 #!/bin/bash
 
 
-# JShielder v2.1
+# JShielder v2.3
 # Linux Hardening Script
 #
 # Jason Soto
 # www.jasonsoto.com
 # Twitter = @JsiTech
 
-# Tool URL = github,com/jsitech/jshielder
+# Tool URL = github.com/jsitech/jshielder
 
 # Based from JackTheStripper Project
 # Credits to Eugenia Bahit
