@@ -12,8 +12,8 @@ This tool is a Bash Script that hardens the Linux Server security automatically 
 * Reconfigures the Timezone
 * Updates the entire System
 * Creates a New Admin user so you can manage your server safely without the need of doing remote connections with root.
-* Generates Secure RSA Keys, so that remote access to your server is done exclusive from you local pc and no Conventional password
-* Configures, Optimize and secures the SSH Server
+* Helps user Generate Secure RSA Keys, so that remote access to your server is done exclusive from your local pc and no Conventional password
+* Configures, Optimize and secures the SSH Server (Some Settings Following CIS Benchmark Ubuntu 16.04)
 * Configures IPTABLES Rules to protect the server from common attacks
 * Protects the server against Brute Force attacks by installing a configuring fail2ban
 * Stop Portscans by blocking intrusive IP via IPTABLES using portsentry
@@ -33,7 +33,7 @@ This tool is a Bash Script that hardens the Linux Server security automatically 
 # Other Hardening Steps
 
 
-* Added PHP Suhosin Installation to protect PHP Code and Core for Known and Unknown flaws
+* Added PHP Suhosin Installation to protect PHP Code and Core for Known and Unknown flaws (Removed on Ubuntu 16.04)
 * Use of Function for code execution customization
 * Distro Selection Menu
 * Function Selection Menu
@@ -51,6 +51,12 @@ This tool is a Bash Script that hardens the Linux Server security automatically 
 * Sysstat install (New)
 * ArpWatch install (New)
 * Hardening steps following CIS Benchmark
+* Secures Cron
+* Disables Unused Filesystems and Uncommon Network protocols
+* Configure Auditd rules following CIS benchmark (Ubuntu 16.04)
+* Automates the process of setting a GRUB Bootloader Password
+* Secures Boot Settings
+* Sets Secure File Permissions for Critical System Files
 
 
 # NEWLY ADDED FUNCTION
