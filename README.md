@@ -47,9 +47,9 @@ This tool is a Bash Script that hardens the Linux Server security automatically 
 * Disable USB Support for Improved Security (Optional)
 * Restrictive Default UMASK
 * Added Additional Hardening Steps
-* Auditd install (New)
-* Sysstat install (New)
-* ArpWatch install (New)
+* Auditd install 
+* Sysstat install 
+* ArpWatch install
 * Hardening steps following CIS Benchmark
 * Secures Cron
 * Disables Unused Filesystems and Uncommon Network protocols
