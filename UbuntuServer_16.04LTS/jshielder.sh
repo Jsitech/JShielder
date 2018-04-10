@@ -324,7 +324,9 @@ install_secure_mysql(){
     echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
     echo ""
     apt install mysql-server
+    echo ""
     echo -n " configuring MySQL............ "
+    spinner
     cp templates/mysql /etc/mysql/mysqld.cnf; echo " OK"
     mysql_secure_installation
     cp templates/usr.sbin.mysqld /etc/apparmor.d/local/usr.sbin.mysqld
@@ -463,7 +465,9 @@ install_secure_php(){
     echo ""
     apt install php php-cli php-pear
     apt install php-mysql python-mysqldb
+    echo ""
     echo -n " Replacing php.ini..."
+    spinner
     cp templates/php /etc/php/7.0/fpm/php.ini; echo " OK"
     cp templates/php /etc/php/7.0/cli/php.ini; echo " OK"
     service apache2 restart
@@ -481,7 +485,9 @@ install_php_nginx(){
   echo ""
   apt install php-fpm php php-cli php-pear
   apt install php-mysql python-mysqldb
+  echo ""
   echo -n " Replacing php.ini..."
+  spinner
   cp templates/php /etc/php/7.0/cli/php.ini; echo " OK"
   cp templates/phpnginx /etc/php/7.0/fpm/php.ini; echo "OK"
   service php-fpm restart
@@ -683,6 +689,7 @@ install_rootkit_hunter(){
     cd ..
     rkhunter --update
     rkhunter --propupd
+    echo ""
     echo " ***To Run RootKit Hunter ***"
     echo "     rkhunter -c --enable all --disable none"
     echo "     Detailed report on /var/log/rkhunter.log"
@@ -1010,8 +1017,15 @@ install_auditd(){
   # Using CIS Benchmark configuration
   
   #Ensure auditing for processes that start prior to auditd is enabled 
+  echo ""
+  echo "Enabling auditing for processes that start prior to auditd"
+  spinner
   sed -i 's/GRUB_CMDLINE_LINUX=""/GRUB_CMDLINE_LINUX="audit=1"/g' /etc/default/grub
   update-grub
+
+  echo ""
+  echo "Configuring Auditd Rules"
+  spinner
 
   cp templates/audit-CIS.rules /etc/audit/audit.rules
 
