@@ -1,0 +1,87 @@
+Mutex file:${APACHE_LOCK_DIR} default
+PidFile ${APACHE_PID_FILE}
+Timeout 300
+KeepAlive On
+MaxKeepAliveRequests 1000
+KeepAliveTimeout 2
+
+<IfModule mpm_prefork_module>
+    StartServers 1
+    MinSpareServers 3
+    MaxSpareServers 6
+    MaxClients 24
+    MaxRequestsPerChild 3000
+</IfModule>
+
+<IfModule mpm_worker_module>
+    StartServers 2
+    MinSpareThreads 25
+    MaxSpareThreads 75
+    ThreadLimit 64
+    ThreadsPerChild 25
+    MaxClients 150
+    MaxRequestsPerChild 0
+</IfModule>
+
+<IfModule mpm_event_module>
+    StartServers 2
+    MinSpareThreads 25
+    MaxSpareThreads 75
+    ThreadLimit 64
+    ThreadsPerChild 25
+    MaxClients 150
+    MaxRequestsPerChild 0
+</IfModule>
+
+User ${APACHE_RUN_USER}
+Group ${APACHE_RUN_GROUP}
+AccessFileName .htaccess
+<Files ~ "^\.ht">
+    Order allow,deny
+    Deny from all
+    Satisfy all
+</Files>
+
+<Directory />
+    Options -Indexes -Includes -ExecCGI
+    <LimitExcept GET POST HEAD>
+       deny from all
+    </LimitExcept>
+</Directory>
+
+HostnameLookups Off
+ErrorLog ${APACHE_LOG_DIR}/error.log
+LogLevel warn
+
+# Include module configuration:
+Include mods-enabled/*.load
+Include mods-enabled/*.conf
+
+# Include ports listing
+Include ports.conf
+
+LogFormat "%v:%p %h %l %u %t \"%r\" %>s %O \"%{Referer}i\" \"%{User-Agent}i\"" vhost_combined
+LogFormat "%h %l %u %t \"%r\" %>s %O \"%{Referer}i\" \"%{User-Agent}i\"" combined
+LogFormat "%h %l %u %t \"%r\" %>s %O" common
+LogFormat "%{Referer}i -> %U" referer
+
+<IfModule security2_module>
+    Include /usr/share/modsecurity-crs/*.conf
+    Include /usr/share/modsecurity-crs/base_rules/*.conf
+</IfModule>
+
+LogFormat "%{User-agent}i" agent
+
+IncludeOptional conf-enabled/*.conf
+IncludeOptional sites-enabled/*.conf
+
+ServerSignature Off
+ServerTokens Prod
+
+ErrorDocument 404 "Archivo no encontrado"
+ErrorDocument 500 "Tareas de mantenimiento en curso. Disculpe las molestias"
+
+
+FileETag None
+Header unset ETag
+TraceEnable off
