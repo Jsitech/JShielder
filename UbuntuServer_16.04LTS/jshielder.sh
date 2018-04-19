@@ -463,8 +463,8 @@ install_secure_php(){
     echo -e "\e[93m[+]\e[00m Installing, Configuring and Optimizing PHP"
     echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
     echo ""
-    apt install php php-cli php-pear
-    apt install php-mysql python-mysqldb
+    apt install -y php php-cli php-pear
+    apt install -y php-mysql python-mysqldb libapache2-mod-php7.0
     echo ""
     echo -n " Replacing php.ini..."
     spinner
