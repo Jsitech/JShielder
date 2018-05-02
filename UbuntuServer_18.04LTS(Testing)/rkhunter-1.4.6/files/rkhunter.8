@@ -1,0 +1,451 @@
+.\" rkhunter - RootKit Hunter
+.TH rkhunter 8 "June 2017"
+
+.SH NAME
+rkhunter \- RootKit Hunter
+.SH SYNOPSIS
+\fBrkhunter\fP {--check | --unlock | --update | --versioncheck |
+          --propupd [{filename | directory | package name},...] |
+          --list [tests | {lang | languages} | rootkits | perl |
+                  propfiles] |
+          --config\-check | --version | --help} [options]
+
+.SH DESCRIPTION
+\fBrkhunter\fP is a shell script which carries out various checks on the local
+system to try and detect known rootkits and malware. It also performs checks
+to see if commands have been modified, if the system startup files have been
+modified, and various checks on the network interfaces, including checks for
+listening applications.
+
+\fBrkhunter\fP has been written to be as generic as possible, and so should run
+on most Linux and UNIX systems. It is provided with some support scripts should
+certain commands be missing from the system, and some of these are perl scripts.
+\fBrkhunter\fP does require certain commands to be present for it to be able
+to execute. Additionally, some tests require specific commands, but if these
+are not present then the test will be skipped. \fBrkhunter\fP needs to be run
+under a Bourne\-type shell, typically \fBbash\fP or \fBksh\fP. \fBrkhunter\fP
+can be run as a cron job or from the command\-line.
+
+.PP
+.SH COMMAND OPTIONS
+If no command option is given, then \fB\-\-help\fP is assumed.
+\fBrkhunter\fP will return a non-zero exit code if any error or warning occurs.
+
+.PP
+.IP "\fB\-c, \-\-check\fP"
+This command option tells \fBrkhunter\fP to perform various checks on the local
+system. The result of each test will be displayed on stdout. If anything
+suspicious is found, then a warning will be displayed. A log file of the tests
+and the results will be automatically produced.
+
+It is suggested that this command option is run regularly in order to ensure
+that the system has not been compromised.
+
+.IP
+
+.IP "\fB\-\-unlock\fP"
+This command option simply unlocks (removes) the lock file. If this option is
+used on its own, then no log file is created.
+
+.IP
+
+.IP \fB\-\-update\fP
+This command option causes \fBrkhunter\fP to check if there is a later version
+of any of its text data files. A command\-line web browser, for example
+\fBwget\fP or \fBlynx\fP, must be present on the system when using this option.
+
+It is suggested that this command option is run regularly in order to ensure
+that the data files are kept up to date.
+
+If this option is used via cron, then it is recommended that the \fB\-\-nocolors\fP
+option is also used.
+
+An exit code of zero for this command option means that no updates were
+available. An exit code of one means that a download error occurred, and a code
+of two means that no error occurred but updates were available and have been
+installed.
+
+.IP
+
+.IP "\fB\-\-propupd [{filename | directory | package name},...]\fP"
+One of the checks \fBrkhunter\fP performs is to compare various current file
+properties of various commands, against those it has previously stored. This
+command option causes \fBrkhunter\fP to update its data file of stored values
+with the current values.
+
+If the \fIfilename\fP option is used, then it must either be a full pathname,
+or a plain file name (for example, 'awk'). When used, then only the entry in
+the file properties database for that file will be updated. If the
+\fIdirectory\fP option is used, then only those files listed in the database
+that are in the given directory will be updated. Similarly, if the
+\fIpackage name\fP option is used, then only those files in the database
+which are part of the specified package will be updated. The package name
+must be the base part of the name, no version numbers should be included - for
+example, 'coreutils'. Package names will, of course, only be stored in the
+file properties database if a package manager is being used. If a package
+name is the same as a file name - for example, 'file' could refer to the 'file'
+command or to the RPM 'file' package (which contains the 'file' command) - the
+package name will be used.
+If no specific option is given, then the entire database is updated.
+
+\fIWARNING:\fP It is the users responsibility to ensure that the files on the
+system are genuine and from a reliable source. \fBrkhunter\fP can only report
+if a file has changed, but not on what has caused the change. Hence, if a file
+has changed, and the \fB\-\-propupd\fP command option is used, then
+\fBrkhunter\fP will assume that the file is genuine.
+
+.IP
+
+.IP \fB\-\-versioncheck\fP
+This command option causes \fBrkhunter\fP to check if there is a later version
+of the program. A command\-line web browser must be present on the system when
+using this option.
+
+If this option is used via cron, then it is recommended that the \fB\-\-nocolors\fP
+option is also used.
+
+An exit code of zero for this command option means that no new version was
+available. An exit code of one means that an error occurred downloading the
+latest version number, and a code of two means that no error occurred but a
+new version is available.
+
+.IP
+
+.IP "\fB\-\-list [tests | {lang | languages} | rootkits | perl | propfiles]\fP"
+This command option will list some of the supported capabilities of the
+program, and then exit. The \fItests\fP option lists the currently available
+test names (see the README file for more details about test names). The
+\fIlanguages\fP option lists the currently available languages, and the
+\fIrootkits\fP option lists the rootkits that are searched for by
+\fBrkhunter\fP. The \fIperl\fP option lists the installation status of the perl
+command and perl modules that may be used by some of the tests. Note that it is
+not \fIrequired\fP to install these modules. However, if \fBrkhunter\fP is
+forced to use perl to execute a test then the module must be present. The
+\fIpropfiles\fP option will list the file names that are used to generate the
+file properties database. If no specific option is given, then all the lists,
+except for the file properties database, are displayed.
+
+.IP
+
+.IP "\fB\-C, \-\-config\-check\fP"
+This command option causes \fBrkhunter\fP to check its configuration
+file(s), and then exit. The program will run through its normal
+configuration checks as specified by the enable and disable options
+on the command\-line and in the configuration files. That is, only the
+configuration options for tests which would normally run are checked. In
+order to check all the configured options, then use the \fB--enable all
+--disable none\fP options on the command line. Additionally, the program will
+check to see if there are any unrecognised configuration options. If any
+configuration problems are found, then they will be displayed and the return
+code will be set to 1.
+
+It is suggested that this option is used whenever the configuration
+file(s) have been changed.
+
+.IP
+
+.IP "\fB\-V, \-\-version\fP"
+This command option causes \fBrkhunter\fP to display its version number, and
+then exit.
+
+.IP
+
+.IP "\fB\-h, \-\-help\fP"
+.br
+This command option displays the help screen menu, and then exits.
+
+.IP
+
+.SH OPTIONS
+\fBrkhunter\fP uses a configuration file, named \fIrkhunter.conf\fP, for many of
+its configuration options. It can also use a local configuration file, named
+\fIrkhunter.conf.local\fP, and a directory named \fIrkhunter.d\fP if it is present.
+Both the local configuration file, and the local directory, must be in the same
+directory as the main configuration file. The installer does not create the local
+file or directory, but one, or both, can be created by the user if required.
+If a directory is used, then within the directory any file ending in \fI.conf\fP
+will be treated as a local configuration file.
+
+Some options can also be specified on the command\-line, and these will
+override the equivalent configuration file options. The configuration file options are well
+documented within the main configuration file itself. The following are the
+command\-line options. The defaults mentioned here are the program defaults,
+unless explicitly stated as the configuration file default.
+
+.PP
+
+.IP \fB\-\-appendlog\fP
+By default a new log file will be created when \fBrkhunter\fP runs, and the
+previous log file will be renamed by having \fI.old\fP appended to its name.
+This option tells \fBrkhunter\fP to append to the existing log file. If the
+log file does not exist, then it will be created.
+
+.IP "\fB\-\-bindir <directory>...\fP"
+This option modifies which directories \fBrkhunter\fP looks in to find the
+various commands it requires (that is, its PATH). The default is the root
+PATH, and an internal list of some common command directories. By default
+a specified directory will be appended to the default list. However, if the
+directory name begins with the '+' character, then it will be prepended to
+the list (that is, it will be put at the start of the list).
+
+.IP "\fB\-\-cs2, \-\-color\-set2\fP"
+By default \fBrkhunter\fP will display its test results in color. The colors
+used are green for successful tests, red for failed tests (warnings), and
+yellow for skipped tests. These colors are visible when a black background is
+used, but are difficult to see on a white background. This option tells
+\fBrkhunter\fP to use a different color set which is more suited to a white
+background.
+
+.IP "\fB\-\-configfile <file>\fP"
+The installation process will automatically tell \fBrkhunter\fP where its
+configuration file is located. However, if necessary, this option can be used
+to specify a different pathname.
+
+If a local configuration file, or directory, is to be used, then it must
+reside in the same directory as the configuration file specified by this option.
+
+.IP \fB\-\-cronjob\fP
+This is similar to the \fB\-\-check\fP command option, but it disables several
+of the interactive options. When this option is used \fB\-\-check\fP,
+\fB\-\-nocolors\fP and \fB\-\-skip-keypress\fP are assumed. By default no output
+is sent to stdout, so the \fB\-\-report\-warnings\-only\fP option may be useful
+with this option.
+
+.IP "\fB\-\-dbdir <directory>\fP"
+The installation process will automatically configure where the data files are
+stored for \fBrkhunter\fP. However, if necessary, this option can be used
+to specify a different directory. The directory can be read-only, after installation,
+provided that neither of the \fB\-\-update\fP or \fB\-\-propupd\fP options are
+specified, and that the \fB\-\-versioncheck\fP option is not specified if
+ROTATE_MIRRORS is set to 1 in the configuration file.
+
+.IP \fB\-\-debug\fP
+This is a special option mainly for the developers. It produces no output on
+stdout. Regular logging will continue as per default or as specified by the
+\fB\-\-logfile\fP option, and the debug output will be in a randomly generated
+filename which starts with \fI/tmp/rkhunter\-debug\fP.
+
+.IP "\fB\-\-disable <test>[,<test>...]\fP"
+This option tells \fBrkhunter\fP not to run the specified tests. Read the
+README file for more information about test names. By default no tests are
+disabled.
+
+.IP \fB\-\-display\-logfile\fP
+This option will cause the logfile to be displayed on the screen once
+\fBrkhunter\fP has finished.
+
+.IP "\fB\-\-enable <test>[,<test>...]\fP"
+This option tells \fBrkhunter\fP to only run the specified tests. If only one
+test name, other than \fIall\fP, is given, then the \fB\-\-skip\-keypress\fP
+option is assumed. Read the README file for more information about test
+names. By default all tests are enabled. All the test names are listed below
+under TESTS.
+
+.IP "\fB\-\-hash {MD5 | SHA1 | SHA224 | SHA256 | SHA384 | SHA512 |\fP"
+\fB NONE | <command>}\fP
+.br
+Both the file properties check and the \fB\-\-propupd\fP command option will
+use a hash function to determine a files current hash value. This option tells
+\fBrkhunter\fP which hash function to use. The \fIMD5\fP and \fISHA\fP
+options will look for the relevant command, and, if not found, a perl support
+script will then be used to see if a perl module supporting the function has been
+installed. Alternatively, a specific \fIcommand\fP may be specified. A value of
+\fINONE\fP can be used to indicate that the hash values should not be obtained
+or used as part of the file properties check. The default is \fISHA256\fP.
+
+Systems using prelinking must use either MD5, SHA1 or NONE.
+
+.IP "\fB\-\-lang, \-\-language <language>\fP"
+This option specifies which language to use for the displayed tests and results.
+The currently supported languages can be seen by the \fB\-\-list\fP command
+option. The default is \fIen\fP (English). If a message to be displayed cannot
+be found in the language file, then the English version will be used. As such,
+the English language file must always be present. The \fB\-\-update\fP command
+option will update the language files when new versions are available.
+
+.IP "\fB\-l, \-\-logfile [file]\fP"
+By default \fBrkhunter\fP will write out a log file. The default location of
+the file is \fI/var/log/rkhunter.log\fP. However, this location can be changed
+by using this option. If \fI/dev/null\fP is specified as the log file, then no
+log file will be written. If no specific \fIfile\fP is given, then the default
+will be used. By default \fBrkhunter\fP will create a new log file each time
+it is run. Any previously existing logfile is moved out of the way, and has
+\fI.old\fP appended to it.
+
+.IP \fB\-\-noappend\-log\fP
+This option reverts \fBrkhunter\fP to its default behaviour of creating a new
+log file rather than appending to it.
+
+.IP \fB\-\-nocf\fP
+.br
+This option is only valid when the command\-line \fB\-\-disable\fP option is used.
+When the \fB\-\-disable\fP option is used, by default, the configuration file
+option to disable tests is also used to determine which tests to run. If only the
+\fB\-\-disable\fP option is to be used to determine which tests to run, then
+\fB\-\-nocf\fP must be given.
+
+.IP \fB\-\-nocolors\fP
+This option causes the result of each test to not be displayed in a specific
+color. The default color, usually the reverse of the background color, will be
+used (typically this is just black and white).
+
+.IP \fB\-\-nolog\fP
+This option tells \fBrkhunter\fP not to write anything to a log file.
+
+.IP "\fB\-\-nomow, \-\-no\-mail\-on\-warning\fP"
+The configuration file has an option which will cause a simple email message to
+be sent to a user should \fBrkhunter\fP detect any warnings during system
+checks. This command\-line option overrides the configuration file option, and
+prevents an email message from being sent. The configuration file default is
+not to email a message.
+
+.IP "\fB\-\-ns, \-\-nosummary\fP"
+When the \fB\-\-check\fP command option is used, by default a short summary of
+results is displayed at the end. This option prevents the summary from being
+displayed.
+
+.IP "\fB\-\-novl, \-\-no\-verbose\-logging\fP"
+During some tests \fBrkhunter\fP will log a lot of information. Use of this
+option reduces the amount of logging, and so can improve the performance of
+\fBrkhunter\fP. However, the log file will contain less information should any
+warnings occur. By default verbose logging is enabled.
+
+.IP "\fB\-\-pkgmgr {RPM | DPKG | BSD | BSDng | SOLARIS | NONE}\fP"
+This option is used during the file properties check or when the
+\fB\-\-propupd\fP command option is given. It tells \fBrkhunter\fP that the
+current file property values should be obtained from the relevant package manager.
+See the README file for more details of this option. The default is \fINONE\fP,
+which means not to use a package manager.
+
+.IP "\fB\-q, \-\-quiet\fP"
+This option tells \fBrkhunter\fP not to display any output. It can be useful
+when only the exit code is going to be checked. Other options may be used with
+this one, to force only specific items to be displayed.
+
+.IP "\fB\-\-rwo, \-\-report\-warnings\-only\fP"
+This option causes only warning messages to be displayed. This can be
+useful when \fBrkhunter\fP is run via cron. Other options may be used to
+force other items of information to be displayed.
+
+.IP "\fB\-\-sk, \-\-skip\-keypress\fP"
+When the \fB\-\-check\fP command option is used, after certain sections of
+tests, the user will be prompted to press the \fIreturn\fP key in order to
+continue. This option disables that feature, and \fBrkhunter\fP will run until
+all the tests have completed.
+
+If this option has not been given, and the user is prompted to press the
+\fIreturn\fP key, a single '\fIs\fP' character, in upper\- or lowercase, may be
+given followed by the \fIreturn\fP key. \fBrkhunter\fP will then continue
+the tests without prompting the user again (as if this option had been given).
+
+.IP \fB\-\-summary\fP
+This option will cause the summary of test results to be displayed. This is
+the default.
+
+.IP "\fB\-\-syslog [facility.priority]\fP"
+When the \fB\-\-check\fP command option is used, this option will cause the
+start and finish times to be logged to syslog. The default is not to log
+anything to syslog, but if the option is used, then the default level
+is \fIauthpriv.notice\fP.
+
+.IP "\fB\-\-tmpdir <directory>\fP"
+The installation process will automatically configure where temporary files are
+to be created. However, if necessary, this option can be used to specify a
+different directory. The directory must not be a symbolic link, and must be
+secure (root access only).
+
+.IP "\fB\-\-vl, \-\-verbose\-logging\fP"
+This option tells \fBrkhunter\fP that when it runs some tests, it should log
+as much information as possible. This can be useful when trying to diagnose
+why a warning has occurred, but it obviously also takes more time. The default
+is to use verbose logging.
+
+.IP "\fB\-x, \-\-autox\fP"
+When this option is used, \fBrkhunter\fP will try and detect if the X Window
+system is in use. If it is in use, then the second color set will
+automatically be used (see the \fB\-\-color\-set2\fP option). This allows
+\fBrkhunter\fP to be run on, for example, a server console (where X is not
+present, so the default color set should be used), and on a users terminal
+(where X is in use, so the second color set should be used). In both cases
+\fBrkhunter\fP will use the correct color set. The configuration file default
+is to try and detect X.
+
+.IP "\fB\-X, \-\-no\-autox\fP"
+This option prevents \fBrkhunter\fP from automatically detecting if the X
+Window system is being used. See the \fB\-\-autox\fP option.
+
+
+.SH TESTS
+[This section to be written]
+
+.IP "\fBadditional_rkts\fP" 
+This test is for SHORT_EXPLANATION. It works as part of GROUP. Corresponding 
+configuration file entries: ONE=one, TWO=two and for white-listing 
+THREE=three,three. Simple globbing (/dev/shm/file-*) works.
+
+
+.IP \fBall\fP
+.IP \fBapps\fP
+.IP \fBattributes\fP
+.IP \fBavail_modules\fP
+.IP \fBdeleted_files\fP
+.IP \fBfilesystem\fP
+.IP \fBgroup_accounts\fP
+.IP \fBgroup_changes\fP
+.IP \fBhashes\fP
+.IP \fBhidden_ports\fP
+.IP \fBhidden_procs\fP
+.IP \fBimmutable\fP
+.IP \fBknown_rkts\fP
+.IP \fBloaded_modules\fP
+.IP \fBlocal_host\fP
+.IP \fBmalware\fP
+.IP \fBnetwork\fP
+.IP \fBnone\fP
+.IP \fBos_specific\fP
+.IP \fBother_malware\fP
+.IP \fBpacket_cap_apps\fP
+.IP \fBpasswd_changes\fP
+.IP \fBports\fP
+.IP \fBpossible_rkt_files\fP
+.IP \fBpossible_rkt_strings\fP
+.IP \fBpromisc\fP
+.IP \fBproperties\fP
+.IP \fBrootkits\fP
+.IP \fBrunning_procs\fP
+.IP \fBscripts\fP
+.IP \fBshared_libs\fP
+.IP \fBshared_libs_path\fP
+.IP \fBstartup_files\fP
+.IP \fBstartup_malware\fP
+.IP \fBstrings\fP
+.IP \fBsuspscan\fP
+.IP \fBsystem_commands\fP
+.IP \fBsystem_configs\fP
+.IP \fBtrojans\fP
+
+
+.SH FILES
+(For a default installation)
+.br
+/etc/rkhunter.conf
+.br
+/var/log/rkhunter.log
+
+.SH SEE ALSO
+See the CHANGELOG file for recent changes.
+.br
+The README file has information about installing \fBrkhunter\fP, as well as
+specific sections on test names and using package managers.
+.br
+The FAQ file should also answer some questions.
+
+.SH LICENSING
+RootKit Hunter is licensed under the GPL, copyright Michael Boelen.
+See the LICENSE file for details of GPL licensing.
+
+.SH CONTACT INFORMATION
+This software was developed by the RootKit Hunter project team.
+To report bugs, patches, comments and questions, please go to:
+http://rkhunter.sourceforge.net/
+.fi

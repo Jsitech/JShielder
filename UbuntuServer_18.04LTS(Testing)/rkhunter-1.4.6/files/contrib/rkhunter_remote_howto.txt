@@ -1,0 +1,100 @@
+RUNNING ROOTKIT HUNTER FROM A CENTRAL SERVER
+============================================
+
+An example for running Rootkit Hunter using Webjob.
+
+Rootkit Hunter (RKH) currently does not have the capability 
+to be run in a client-server way. We can remedy that by 
+running RKH as a webjob command. Webjob allows you to run a 
+command or a set of commands on a client by fetching the 
+command from a remote server and returning the output to the 
+server. While this setup is not exhaustively tested the steps
+should provide enough information to get you going.
+
+
+PREREQUISITES
+=============
+- A webserver with CGI capabilities and Perl
+- A client with the requirements for running Webjob and RKH
+
+
+SETUP
+=====
+1. Set up Webjob and PAD by following the instructions included in 
+the Webjob tarball.
+
+2. Install "webjob" binary client-side and verify server-client
+operation works as expected with a client config (~/.webjob.cfg): 
+
+ ClientId=client_1
+ URLGetURL=http://your.server.net/cgi-client/nph-webjob.cgi
+ URLPutURL=http://your.server.net/cgi-client/nph-webjob.cgi
+ URLUsername=client_1
+ URLPassword=<password>
+ URLAuthType=basic
+ RunType=snapshot
+ TempDirectory=/dev/shm
+ OverwriteExecutable=Y
+ UnlinkOutput=N
+ UnlinkExecutable=N
+
+- Download and unpack RKH and create a local installation:
+
+ sh installer.sh --install --layout . 
+
+- Set executable mode on the main rkhunter script, then rename
+the "files" directory, make the tarball, then pad:
+
+ chmod 0755 files/rkhunter
+ mv files rkhunter
+ tar -czf rkhunter.tgz rkhunter
+ pad-make-script --create rkhunter.tgz > rkhunter.tgz.pad
+
+- Now remove rkhunter/ and ../rkhunter-1.2.9/ and move 
+rkhunter.tgz.pad to $WEBJOB_DIR/profiles/client_1/commands/.
+
+- Add a Sudo entry to allow an unprivileged user to run RKH from
+webjob as root account user. Note this is one line:
+
+ Cmnd_Alias WEBJOB_RKH=/dev/shm/rkhunter/rkhunter --configfile 
+ /dev/shm/rkhunter/rkhunter.conf -c -sk --cronjob
+
+- Add the alias as a NOPASSWD entry to the unprivileged user account.
+
+- As unprivileged user run (note this is one line):
+ rm -rf /dev/shm/rkhunter
+ /usr/local/webjob/bin/webjob --execute --file ~/.webjob.cfg 
+ rkhunter.tgz.pad tar -C /dev/shm -zxf %payload \&\& cd /dev/shm/rkhunter 
+ \&\& sudo /dev/shm/rkhunter/rkhunter --configfile 
+ /dev/shm/rkhunter/rkhunter.conf -c -sk --cronjob
+
+- Inspect output on your.server.net in the $WEBJOB_DIR/incoming/
+directory. It is named client_1_DATE-SPEC_JOB-SPEC_rkhunter.tgz.pad.out.
+
+
+CAUTION
+=======
+Note this example does not cover running webjob and RKH on a compromised
+host. For RKH to produce less questionable results in such a situation you
+would minimally need to check the integrity of the download-capable binary
+before executing your secure download, be aware of the consequences of 
+disturbing a "live" filesystem and memory contents, and download all 
+requirements for unpacking and running RKH or access those from read-only
+media.
+
+
+GETTING HELP
+============
+- In the steps above we have taken the examples and variable
+  names from the Webjob README. Inspect the Webjob README for
+  answers about the examples and variable names.
+- Webjob-related questions about configuring, installing, running
+  the server-side and client-side part should be directed to 
+  http://sourceforge.net/projects/webjob.
+- Sudo-related problems should be remedied by reading the man page.
+
+Please do not use the RKH mailing list for questions about webjob 
+or sudo.
+
+
+

@@ -1,0 +1,638 @@
+Version:2014010301
+#
+# We start with the definitions of the message types and results. There
+# are very few of these, so including these and all the parts of each
+# message in one file makes sense and for easier translation.
+#
+# The message type MSG_TYPE_PLAIN is used for ordinary messages. It has
+# no specific value, and is intercepted in the display function. It is
+# included here for completeness. The index names of MSG_TYPE_ and
+# MSG_RESULT_ are reserved - no messages can use this as part of its index.
+#
+MSG_TYPE_PLAIN:
+MSG_TYPE_INFO:Information
+MSG_TYPE_WARNING:Warnung
+
+
+#
+# This is the list of message results.
+#
+MSG_RESULT_OK:OK
+MSG_RESULT_SKIPPED:Übersprungen
+MSG_RESULT_WARNING:Warnung
+MSG_RESULT_FOUND:Gefunden
+MSG_RESULT_NOT_FOUND:Nicht gefunden
+MSG_RESULT_NONE_FOUND:Nichts gefunden
+MSG_RESULT_ALLOWED:Erlaubt
+MSG_RESULT_NOT_ALLOWED:Nicht erlaubt
+MSG_RESULT_UNSET:Nicht gesetzt
+
+MSG_RESULT_UPD:aktualisiert
+MSG_RESULT_NO_UPD:Keine Aktualisierung
+MSG_RESULT_UPD_FAILED:Aktualisierung fehlgeschlagen
+MSG_RESULT_VCHK_FAILED:Versions-Überprüfung fehlgeschlagen
+
+
+#
+# The messages.
+#
+VERSIONLINE:[ $1 Version $2 ]
+VERSIONLINE2:Running $1 in Version $2 auf $3
+VERSIONLINE3:Running $1 in Version $2
+
+RKH_STARTDATE:Start Datum ist $1
+RKH_ENDDATE:Enddatum ist $1
+
+OPSYS:Erkanntes Betriebssystem ist '$1'
+UNAME:Ausgabe des Befehls uname ist '$1'
+
+CONFIG_CHECK_START:Überprüfe Konfigurationsdatei und Kommandozeilen-Optionen...
+CONFIG_CMDLINE:Kommandozeile ist $1
+CONFIG_DEBUGFILE:Debug-Datei ist $1
+CONFIG_ENVSHELL:Umgebungsshell ist $1; rkhunter verwendet $2
+CONFIG_CONFIGFILE:Verwende Konfigurationsdatei '$1'
+CONFIG_INSTALLDIR:Installationsverzeichnis ist '$1'
+CONFIG_LANGUAGE:Verwende die Sprache '$1'
+CONFIG_DBDIR:Verwende '$1' als Datenbank-Verzeichnis
+CONFIG_SCRIPTDIR:Verwende '$1' als Script-Verzeichnis
+CONFIG_BINDIR:Verwende '$1' als Kommando-Verzeichnis
+CONFIG_ROOTDIR:Verwende '$1' als Root-Verzeichnis
+CONFIG_ROOTDIR_DFLT:Verwende '/' standardmäßig als Root-Verzeichnis
+CONFIG_TMPDIR:Verwende '$1' als temporäres Verzeichnis
+CONFIG_NO_MAIL_ON_WARN:Keine E-Mail-Adresse für Benachrichtigungen konfiguriert
+CONFIG_MOW_DISABLED:Deaktiviere das Versenden von Benachrichtigungs-E-Mails aufgrund von Benutzer-Vorgaben
+CONFIG_MAIL_ON_WARN:Versenden von Benachrichtigungen von '$1' mittels dem Kommando '$2'
+CONFIG_SSH_ROOT:Rkhunter Option ALLOW_SSH_ROOT_USER wurde auf '$1' geändert.
+CONFIG_SSH_PROTV1:Rkhunter Option ALLOW_SSH_PROT_V1 wurde auf '$1' geändert.
+CONFIG_X_AUTO:X wird automatisch erkannt
+CONFIG_CLRSET2:Verwende zweites Farbset
+CONFIG_NO_SHOW_SUMMARY:Deaktiviere die Zusammenfassung der System-Überprüfung aufgrund von Benutzer-Vorgaben
+CONFIG_SCAN_MODE_DEV:SCAN_MODE_DEV gesetzt auf '$1'
+CONFIG_NO_VL:Deaktiviere erweiterte Ausgaben aufgrund von Benutzer-Vorgaben
+CONFIG_XINETD_PATH:Verwende $1 Konfigurations-Datei '$2'
+CONFIG_SOL10_INETD:Verwende Solaris 10 und spätere Inetd-Mechanismen
+CONFIG_STARTUP_PATHS:Verwende System-Pfade: $1
+CONFIG_ROTATE_MIRRORS:Die Liste der Spiegel-Server wird rotiert
+CONFIG_NO_ROTATE_MIRRORS:Die Liste der Spiegel-Server wird nicht rotiert
+CONFIG_UPDATE_MIRRORS:Die Liste der Spiegel-Server wird upgedatet
+CONFIG_NO_UPDATE_MIRRORS:Die Liste der Spiegel-Server wird nicht upgedatet
+CONFIG_MIRRORS_MODE0:Sowohl lokale als auch entfernte Spiegel-Server werden verwendet
+CONFIG_MIRRORS_MODE1:Nur lokale Spiegel-Server werden verwendet
+CONFIG_MIRRORS_MODE2:Nur entfernte Spiegel-Server werden verwendet
+
+FOUND_CMD:Das Kommando '$1' wurde gefunden: $2
+NOT_FOUND_CMD:Das Kommando '$1' konnte nicht gefunden werden
+CMD_ERROR:Das Kommando '$1' gab den Fehlercode '$2' zurück.
+
+SYS_PRELINK:System verwendet prelinking
+SYS_NO_PRELINK:System verwendet kein prelinking
+SYS_SELINUX:SELinux ist aktiviert
+SYS_NO_SELINUX:SELinux ist deaktiviert
+
+HASH_FUNC_PRELINK:Verwende prelink-Kommando (mit $1) für Datei-Hash Überprüfungen
+HASH_FUNC_PERL:Verwende das Perl-Modul $1 für Datei-Hash Überprüfungen
+HASH_FUNC:Verwende das Kommando '$1' für Datei-Hash Überprüfungen
+HASH_FUNC_NONE:Datei-Hash Überprüfungen deaktiviert: NONE konfiguriert
+HASH_FUNC_NONE_PKGMGR:Datei-Hash Überprüfungen mit NONE konfiguriert: es wird nur der Paketmanager verwendet
+HASH_FUNC_DISABLED:Hash-Funktion auf 'NONE' gesetzt: Datei-Hash Überprüfungen automatisch deaktiviert
+HASH_FUNC_OLD:Gespeicherte Hash-Werte erzeugt mit der Hash-Funktion '$1'
+HASH_FUNC_OLD_DISABLED:Vorangegangene Hash-Funktion wurde deaktiviert: keine Hash-Werte gespeichert
+HASH_PKGMGR_OLD:Gespeicherte Hash-Werte verwendeten den Paketmanager '$1' (md5-Funktion)
+HASH_PKGMGR_OLD_UNSET:Gespeicherte Hash-Werte verwendeten nicht den Paketmanager
+
+HASH_PKGMGR:Verwende den Paketmanager '$1' für die Überprüfung der Dateieigenschaften
+HASH_PKGMGR_MD5:Verwende MD5 Hash-Funktion mit dem Kommando '$1' zur Unterstützung der Paketmanager-Überprüfung
+HASH_PKGMGR_NOT_SPEC:Kein Paketmanager koniguriert: verwende die Hash-Funktion '$1'
+HASH_PKGMGR_NOT_SPEC_PRELINKED:Kein Paketmanager konfiguriert: verwende das prelink-Kommando mit '$1'
+
+HASH_FIELD_INDEX: Der Index der Hash-Funktion wurde auf $1 gesetzt
+
+HASHUPD_DISABLED:Hash-Überprüfung deaktiviert: Hash-Werte der aktuellen Dateien werden nicht gespeichert
+HASHUPD_PKGMGR:Verwende den Paketmanager '$1' zum Erneuern der Hash-Werte
+HASHUPD_PKGMGR_NOT_SPEC:Keine Hash-Update-Funktion für Dateien via Paketmanager konfiguriert: verwende die Hash-Funktion '$1'
+HASHUPD_PKGMGR_NOT_SPEC_PRELINKED:Keine Hash-Update-Funktion für Dateien via Paketmanager konfiguriert: verwende prelink-Kommando mit '$1'
+
+ATTRUPD_DISABLED:Überprüfung der Datei-Attribute deaktiviert: aktuelle Datei-Attribute werden nicht gespeichert
+ATTRUPD_NOSTATCMD:Überprüfung der Datei-Attribute deaktiviert: kein 'stat'-Kommando gefunden: aktuelle Datei-Attribute werden nicht gespeichert
+ATTRUPD_OK:aktuelle Datei-Attribute werden gespeichert
+ATTRUPD_OLD_DISABLED:Vorherige Datei-Attribute waren deaktiviert: keine Speicherung der Attribute
+ATTRUPD_OLD_NOSTATCMD:Vorherige Datei-Attribute waren deaktiviert: kein 'stat'-Kommando gefunden: keine Speicherung der Attribute
+ATTRUPD_OLD_OK:Vorherige Datei-Attribute wurden gespeichert
+
+GRSECINSTALLED:Installation von grsecurity gefunden
+
+SYSLOG_ENABLED:Verwende syslog für das Logging - Prioritätsebene ist '$1'.
+SYSLOG_DISABLED:Deaktiviere die Benutzung von syslog aufgrund von Benutzer-Vorgaben
+SYSLOG_NO_LOGGER:Deaktiviere die Benutzung von syslog - das 'logger'-Kommando kann nicht gefunden werden.
+
+NAME:$1
+PRESSENTER:[<ENTER> um fortzufahren]
+TEST_SKIPPED_OS:Test '$1' übersprungen wegen des Betriebssystems: $2
+
+SUMMARY_TITLE1:Zusammenfassung der Systemüberprüfung
+SUMMARY_TITLE2:=====================================
+SUMMARY_PROP_SCAN:Dateieigenschaften-Überprüfung...
+SUMMARY_PROP_REQCMDS:Überprüfung der erforderlichen Befehle fehlgeschlagen
+SUMMARY_PROP_COUNT:Dateien überprüft: $1
+SUMMARY_PROP_FAILED:Verdächtige Dateien: $1
+SUMMARY_CHKS_SKIPPED:Alle Überprüfungen übersprungen
+SUMMARY_RKT_SCAN:Rootkit-Überprüfungen...
+SUMMARY_RKT_COUNT:Rootkits überprüft : $1
+SUMMARY_RKT_FAILED:Mögliche Rootkits: $1
+SUMMARY_RKT_NAMES:Rootkit Namen    : $1
+SUMMARY_APPS_SCAN:Anwendungs-Überprüfungen...
+SUMMARY_APPS_COUNT:Anwendungen überprüft: $1
+SUMMARY_APPS_FAILED:Verdächtige Anwendungen: $1
+SUMMARY_SCAN_TIME:Dauer der System-Überprüfung: $1
+SUMMARY_NO_SCAN_TIME:Dauer der System-Überprüfung: auslesen der Uhrzeit nicht möglich
+SUMMARY_LOGFILE:Alle Ergebnisse wurden in die Log-Datei geschrieben ($1)
+SUMMARY_NO_LOGFILE:Keine Log-Datei erstellt.
+
+CREATED_TEMP_FILE:Temporäre Datei '$1' erstellt
+
+MIRRORS_NO_FILE:Die Datei '$1' (Liste der Spiegel-Server) existiert nicht.
+MIRRORS_NO_MIRRORS:Die Datei '$1' enthält keine benötigten Spiegel-Server.
+MIRRORS_NO_VERSION:Die Datei '$1' (Liste der Spiegel-Server) enthält keine Versionsnummer - zurück gesetzt auf null.
+MIRRORS_ROTATED:Die Datei '$1' (Liste der Spiegel-Server) wurde rotiert.
+MIRRORS_SF_DEFAULT:Verwende den Sourceforge-Spiegel-Server: $1
+
+DOWNLOAD_CMD:Ausführen des Download-Kommandos '$1'
+DOWNLOAD_FAIL:Download fehlgeschlagen - $1 Spiegel-Server übrig.
+
+VERSIONCHECK_START:Überprüfung der Version von rkhunter...
+VERSIONCHECK_FAIL_ALL:Download fehlgeschlagen: die neueste Versionsnummer des Programms kann nicht bestimmt werden.
+VERSIONCHECK_CURRENT:This version  : $1
+VERSIONCHECK_LATEST:Latest version: $1
+VERSIONCHECK_LATEST_FAIL:Neueste Version: Download fehlgeschlagen
+VERSIONCHECK_UPDT_AVAIL:Update verfügbar
+VERSIONCHECK_CONV_FAIL:Vergleich der Versionsnummern nicht möglich: Programm: '$1'    Neueste: '$2'
+
+UPDATE_START:Überprüfung der Daten-Dateien von rkhunter...
+UPDATE_CHECKING_FILE:Überprüfe Datei $1
+UPDATE_FILE_NO_VERS:Datei '$1' enthält keine gültige Versionsnummer. Lade eine neue Kopie herunter.
+UPDATE_FILE_MISSING:Datei '$1' ist nicht vorhanden oder leer. Lade eine neue Kopie herunter.
+UPDATE_DOWNLOAD_FAIL:Download von '$1' fehlgeschlagen: die neueste Versionsnummer kann nicht bestimmt werden.
+UPDATE_I18N_NO_VERS:Keine Versionsnummern einer i18n-Sprachdatei gefunden.
+
+OSINFO_START:Überprüfung, ob sich das Betriebssystem seit der letzten Überprüfung geändert hat...
+OSINFO_END:Anscheinend hat sich nichts geändert
+OSINFO_HOST_CHANGE1:Der Hostname hat sich seit der letzten Überprüfung geändert:
+OSINFO_HOST_CHANGE2:ehemaliger Hostname: $1    neuer Hostname: $2
+OSINFO_OSVER_CHANGE1:Das Betriebssystem hat sich seit der letzten Überprüfung geändert:
+OSINFO_OSVER_CHANGE2:ehemaliges Betriebssystem: $1    neues Betriebssystem: $2
+OSINFO_PRELINK_CHANGE:Das System änderte sich zu ${1}using prelinking seit der letzten Überprüfung.
+OSINFO_ARCH_CHANGE1:Anscheinend hat sich der Prozessor-Typ geändert:
+OSINFO_ARCH_CHANGE2:ehemaliger Prozessor-Wert: $1    neuer Wert: $2
+OSINFO_MSG1:Aufgrund der Änderung(en) kann die Dateieigenschaften-Überprüfung einige fehlerhafte Warnungsmeldungen erzeugen.
+OSINFO_MSG2:Eventuell müssen Sie rkhunter mit der Option '--propupd' erneut starten.
+
+SET_FILE_PROP_START:Auslesen der Datei-Eigenschaften...
+SET_FILE_PROP_DIR_FILE_COUNT:$1 Dateien in $2 gefunden
+SET_FILE_PROP_FILE_COUNT:Datei aktualisiert: gesucht wurden $2 Dateien, gefunden wurden $3
+SET_FILE_PROP_FILE_COUNT_PROPOPT:Datei $1: gesucht nach $2 Dateien, gefunden wurden $3 von $4
+SET_FILE_PROP_FILE_COUNT_NOHASH:Datei $1: gesucht nach $2 Dateien, gefunden wurden $3, keine Hash-Wert für $4
+SET_FILE_PROP_FILE_COUNT_NOHASH_PROPOPT:Datei $1: gesucht nach $2 Dateien, gefunden wurden $3 von $4, keine Hash-Werte für $5
+
+PROPUPD_START:Starte update der Dateieigenschaften...
+PROPUPD_OSINFO_START:Sammle Informationen zum Betriebsystem...
+PROPUPD_ARCH_FOUND:System-Architektur gefunden: $1
+PROPUPD_REL_FILE:Release-Datei gefunden: $1
+PROPUPD_NO_REL_FILE:Release-Datei konnte nicht gefunden werden: LS-Ausgabe zeigt:
+PROPUPD_OSNAME_FOUND:Name des Betriebssystems gefunden: $1
+PROPUPD_ERROR:Fehler bei der Installation der neuen rkhunter.dat-Datei. Code $1
+PROPUPD_NEW_DAT_FILE:Neue rkhunter.dat-Datei installiert in '$1'
+PROPUPD_WARN:WARNUNG! Es liegt in der Verantwortung des Benutzers, dafür zu sorgen, dass, wenn die '--propupd' Option
+PROPUPD_WARN:genutzt wird, alle Dateien auf dem System authentisch sind und aus einer verlässlichen Quelle
+PROPUPD_WARN:installiert wurden. Die rkhunter '--check' Option wird die Dateieigenschaften der derzeitigen Dateien
+PROPUPD_WARN:mit vorher gespeicherten Werten vergleichen und Unterschiede melden. Rkhunter kann nicht heraus
+PROPUPD_WARN:finden, was die Ursache für den Unterschied ist, dies liegt im Aufgabenbereich des Benutzers.
+
+ENABLED_TESTS:Aktivierte Tests: $1
+DISABLED_TESTS:Deaktivierte Tests: $1
+
+KSYMS_FOUND:ksym-Datei gefunden '$1'
+KSYMS_MISSING:Alle ksyms und kallsyms Überprüfungen werden übersprungen - keine der Dateien exisitert auf dem System.
+
+STARTING_TEST:Beginne mit dem Test '$1'
+USER_DISABLED_TEST:Test '$1' deaktiviert aufgrund von Benutzer-Vorgaben
+
+CHECK_START:Starte System-Überprüfungen...
+CHECK_WARNINGS_NOT_FOUND:Keine Warnungen während der System-Überprüfung gefunden.
+CHECK_WARNINGS_FOUND:Eine oder mehrere Warnungen während der System-Überprüfung gefunden.
+CHECK_WARNINGS_FOUND_RERUN:Bitte starten Sie rkhunter erneut, um sicherzustellen, dass die Log-Datei erstellt wird.
+CHECK_WARNINGS_FOUND_CHK_LOG:Bitte überprüfen Sie die Log-Datei ($1)
+
+CHECK_SYS_COMMANDS:Überprüfen der System-Kommandos...
+STRINGS_CHECK_START:Überprüfung des 'strings'-Kommando
+STRINGS_SCANNING_OK:Suche nach der Zeichenkette $1
+STRINGS_SCANNING_BAD:Suche nach der Zeichenkette $1
+STRINGS_SCANNING_BAD:Zeichenkette nicht gefunden im 'strings'-Kommando
+STRINGS_CHECK:Überprüfen des 'strings'-Kommando
+STRINGS_CHECK:Überprüfung übersprungen - kein 'strings'-Kommando gefunden.
+
+FILE_PROP_START:Überprüfung der Dateieigenschaften
+FILE_PROP_CMDS:Überprüfen der Abhängigkeiten     
+FILE_PROP_IMMUT_OS:Überspringe alle immutable-bit Überprüfungen. Diese Überprüfung ist nur für Linux-Systeme verfügbar.
+FILE_PROP_SKIP_ATTR:'stat'-Kommando nicht gefunden - alle Überprüfungen der Dateieigenschaften werden übersprungen.
+FILE_PROP_SKIP_HASH:Alle Überprüfungen der Hash-Werte werden übersprungen weil:
+FILE_PROP_SKIP_HASH_FUNC:Die derzeitige Hash-Funktion ($1) oder der Paketmanager ($2) sind nicht kompatibel mit der Hash-Funktion ($3) oder dem Paketmananger ($4), die benutzt wurden um die Werte zu speichern.
+FILE_PROP_SKIP_HASH_PRELINK:'prelink'-Kommando wurde nicht gefunden.
+FILE_PROP_SKIP_HASH_SHA1:Dieses System benutzt prelinking, aber die das Kommando für die Hash-Funktion sieht nicht nach SHA1 oder MD5 aus.
+FILE_PROP_SKIP_HASH_LIBSAFE:Libsafe wurde gefunden, dies kann Fehler verursachen. Deaktivieren Sie, sofern möglich, libsafe und starten das prelink-Kommando erneut. Abschließend die Hash-Werte erneuern mittels 'rkhunter --propupd'.
+FILE_PROP_SKIP_IMMUT:'lsattr'-Kommando wurde nicht gefunden - alle  immutable-bit Überprüfungen werden übersprungen.
+FILE_PROP_SKIP_SCRIPT:'file'-Kommando wurde nicht gefunden - Alle Skript-Ersetzungs-Überprüfungen werden übersprungen.
+FILE_PROP_OS_CHANGED:Die lokale Host-Konfiguration oder das Betriebssystem hat sich geändert.
+FILE_PROP_DAT_MISSING:Die Datei mit den gespeicherten Dateieigenschaften (rkhunter.dat) existiert nicht und muss erstellt werden. Um dies zu veranlassen führen Sie 'rkhunter --propupd' aus.
+FILE_PROP_DAT_EMPTY:Die Datei mit den gespeicherten Dateieigenschaften (rkhunter.dat) ist leer und muss erstellt werden. Um dies zu veranlassen führen Sie 'rkhunter --propupd' aus.
+FILE_PROP_SKIP_ALL:Alle Überprüfungen der Dateieigenschaften werden von nun an übersprungen.
+
+FILE_PROP_FILE_NOT_EXIST:Die Datei '$1' existiert nicht auf dem System, ist jedoch in der Datei rkhunter.dat erfasst.
+FILE_PROP_WL:Datei '$1' gefunden: diese ist mittels Whitelist freigegeben für '$2' Überprüfung.
+FILE_PROP_WL_DIR:Verzeichnis '$1' gefunden: dieses ist mittels Whitelist freigegeben für '$2' Überprüfung.
+FILE_PROP_NO_RKH_REC:Die Datei '$1' existiert auf dem System, aber nicht in der rkhunter.dat Datei.
+FILE_PROP_CHANGED:Dateieigenschaften haben sich geändert:
+FILE_PROP_CHANGED2:Datei: $1
+FILE_PROP_NO_PKGMGR_FILE:Datei '$1' Hash-Wert übersprungen: Datei gehört nicht zum Paket
+FILE_PROP_NO_SYSHASH:Kein Hash-Wert für Datei '$1' gefunden
+FILE_PROP_NO_SYSHASH_CMD:Hash-Kommando Ausgabe: $1
+FILE_PROP_NO_SYSHASH_DEPENDENCY:Versuche das 'prelink'-Kommando auszuführen um Abhängigkeits-Fehler zu aufzulösen.
+FILE_PROP_SYSHASH_UNAVAIL:Aktueller Hash-Wert: nicht verfügbar
+FILE_PROP_SYSHASH:Aktueller Hash-Wert: $1
+FILE_PROP_RKHHASH:Gespeicherter Hash-Wert: $1
+FILE_PROP_NO_RKHHASH:Kein Hash-Wert gefunden für die Datei '$1' in der rkhunter.dat Datei.
+FILE_PROP_NO_RKHPERM:Keinen Wert für die Dateiberechtigungen der Datei '$1' in der Datei rkhunter.dat gefunden.
+FILE_PROP_PERM_UNAVAIL:Aktuelle Dateiberechtigungen: nicht verfügbar    Gespeicherte Berechtigungen: $1
+FILE_PROP_PERM:Aktuelle Dateiberechtigungen: $1    Gespeicherte Berechtigungen: $2
+FILE_PROP_UID_UNAVAIL:Aktuelle UID: nicht verfügbar    Gespeicherte UID: $1
+FILE_PROP_UID:Aktuelle UID: $1    Gespeicherte UID: $2
+FILE_PROP_NO_RKHUID:Kein Wert für die Benutzer-ID (UID) der Datei '$1' in der Datei rkhunter.dat gefunden.
+FILE_PROP_GID_UNAVAIL:Aktuelle GID: nicht verfügbar    Gespeicherte GID: $1
+FILE_PROP_GID:Aktuelle GID: $1    Gespeicherte GID: $2
+FILE_PROP_NO_RKHGID:Kein Wert für die Gruppen-ID (GID) der Datei '$1' in der Datei rkhunter.dat gefunden.
+FILE_PROP_INODE_UNAVAIL:Aktueller Knoten (inode): nicht verfügbar    Gespeicherter Knoten (inode): $1
+FILE_PROP_INODE:Aktueller Knoten (inode): $1    Gespeicherter Knoten (inode): $2
+FILE_PROP_NO_RKHINODE:Kein Wert für den Knoten (inode) der Datei '$1' in der Datei rkhunter.dat gefunden.
+FILE_PROP_SIZE_UNAVAIL:Aktuelle Dateigröße: nicht verfügbar    Gespeicherte Dateigröße: $1
+FILE_PROP_SIZE:Aktuelle Dateigröße: $1    Gespeicherte Dateigröße: $2
+FILE_PROP_NO_RKHSIZE:Keinen Wert für die Größe der Datei '$1' in der Datei rkhunter.dat gefunden.
+FILE_PROP_SYSDTM_UNAVAIL:Aktuelle Zeit der letzten Dateiänderung: nicht verfügbar
+FILE_PROP_SYSDTM:Aktuelle Zeit der letzten Dateiänderung: $1
+FILE_PROP_RKHDTM:Gespeicherte Zeit der letzten Dateiänderung : $1
+FILE_PROP_NO_RKHDTM:Keinen Wert für die Zeit der letzten Dateiänderung in der Datei rkhunter.dat gefunden.
+FILE_PROP_NO_SYSATTR:Aktuelle Dateieigenschaften der Datei '$1' konnten nicht ausgelesen werden
+FILE_PROP_WRITE:Schreibberechtigung der Datei '$1' gilt für alle Benutzer.
+FILE_PROP_SYSPERM_UNAVAIL:Aktuelle Schreibberechtigung der Datei '$1' konnte nicht ausgelesen werden
+FILE_PROP_IMMUT:Die Datei '$1' hat das immutable-bit gesetzt.
+FILE_PROP_SCRIPT:Das Kommando '$1' wurde durch ein Skript ersetzt: $2
+FILE_PROP_SCRIPT_RKH:Das Kommando '$1' wurde ersetzt und ist kein Skript: $2
+
+FILE_PROP_VRFY:Prüfung mittels Paketmanager fehlgeschlagen:
+FILE_PROP_VRFY_HASH:Der Hash-Wert der Datei hat sich geändert
+FILE_PROP_VRFY_PERM:Die Dateiberechtigungen haben sich geändert
+FILE_PROP_VRFY_UID:Der Besitzer der Datei hat sich geändert
+FILE_PROP_VRFY_GID:Die Gruppe der Datei hat sich verändert
+FILE_PROP_VRFY_DTM:Zeit des letzten Zugriffs hat sich geändert
+FILE_PROP_VRFY_SIZE:Dateigröße hat sich geändert
+
+CHECK_ROOTKITS:Überprüfe auf Rootkits...
+ROOTKIT_FILES_DIRS_START:Führe die Überprüfung auf bekannte Rootkit-Dateien und -Verzeichnisse aus
+ROOTKIT_FILES_DIRS_NAME_LOG:Überprüfe auf ${1}...
+ROOTKIT_FILES_DIRS_FILE:Überprüfe auf Datei '$1'
+ROOTKIT_FILES_DIRS_DIR:Überprüfe auf Verzeichnis '$1'
+ROOTKIT_FILES_DIRS_KSYM:Überprüfe auf Kernel-Symbol '$1'
+ROOTKIT_FILES_DIRS_FILE_FOUND:Datei'$1' gefunden
+ROOTKIT_FILES_DIRS_DIR_FOUND:Verzeichnis '$1' gefunden
+ROOTKIT_FILES_DIRS_KSYM_FOUND:Kernel-Symbol '$1' gefunden
+ROOTKIT_FILES_DIRS_STR:Überprüfe auf Zeichenkette '$1'
+ROOTKIT_FILES_DIRS_STR_FOUND:Zeichenkette '$1' in Datei '$2' gefunden
+ROOTKIT_FILES_DIRS_NOFILE:Die Datei '$1' existiert nicht!
+ROOTKIT_FILES_DIRS_SINAR_DIR:Überprüfe in '$1'
+ROOTKIT_FILES_DIRS_SINAR:SInAR gefunden in: $1
+
+ROOTKIT_LINK_COUNT:Überprüfung des "hard link"-Zählers von '$1'
+ROOTKIT_LINK_COUNT_FAIL:"Hard link"-Zähler von '$1'    Kommando: $2
+ROOTKIT_LINK_COUNT_CMDERR:Fehler von '$1' Kommando während der Überprüfung '$2'
+
+ROOTKIT_PHALANX2_LINK_COUNT_FAIL:"Hard link"-Überprüfung von '$1' fehlgeschlagen
+
+ROOTKIT_ADD_START:Führe zusätzliche Rootkit-Tests aus
+ROOTKIT_ADD_SUCKIT: erweiterte "Suckit Rookit"-Tests
+ROOTKIT_ADD_SUCKIT_LOG:Führe erweiterte "Suckit Rookit"-Tests
+ROOTKIT_ADD_SUCKIT_LINK_NOCMD:Überprüfe '/sbin/init' link-Anzahl: kein 'stat'-Kommando gefunden
+ROOTKIT_ADD_SUCKIT_LINK_FOUND:Überprüfe '/sbin/init' link-Anzahl: Anzahl ist $1, sollte aber 1 sein
+ROOTKIT_ADD_SUCKIT_EXT:Überprüfung auf versteckte Datei-Erweiterung
+ROOTKIT_ADD_SUCKIT_EXT_FOUND:Überprüfe auf versteckte Datei-Erweiterungen: $1 gefunden
+ROOTKIT_ADD_SUCKIT_SKDET:Führe skdet-Kommando aus
+ROOTKIT_ADD_SUCKIT_SKDET_FOUND:Führe skdet-Kommando aus: $1 gefunden
+ROOTKIT_ADD_SUCKIT_SKDET_VER:Führe skdet-Kommando aus: unbekannte Version: $1
+
+ROOTKIT_POSS_FILES_DIRS:Überprüfe auf mögliche Rootkit-Dateien und -Verzeichnisse
+ROOTKIT_POSS_FILES_DIRS_LOG:Führe Überprüfung auf mögliche Rootkit-Dateien und -Verzeichnisse aus
+ROOTKIT_POSS_FILES_FILE_FOUND:Datei '$1' gefunden. Mögliches Rootkit: $2
+ROOTKIT_POSS_FILES_DIR_FOUND:Verzeichnis '$1' gefunden. Mögliches Rootkit: $2
+
+ROOTKIT_POSS_STRINGS:Überprüfe auf mögliche Rootkit-Zeichenketten
+ROOTKIT_POSS_STRINGS_LOG:Führe Überprüfung auf mögliche Rootkit-Zeichenketten aus
+ROOTKIT_POSS_STRINGS_FOUND:Zeichenkette '$1' gefunden in Datei '$2'. Mögliches Rootkit: $3
+
+ROOTKIT_MALWARE_START:Führe Überprüfung auf Malware aus
+ROOTKIT_MALWARE_SUSP_FILES:Überprüfe laufende Prozesse auf verdächtige Dateien
+ROOTKIT_MALWARE_SUSP_FILES_FOUND:Eine oder mehrere Datei(en) wurden gefunden: $1
+ROOTKIT_MALWARE_SUSP_FILES_FOUND:Überprüfen Sie die Ausgabe des lsof-Kommandos 'lsof -F n -w -n'
+ROOTKIT_MALWARE_HIDDEN_PROCS:Überprüfe auf versteckte Prozesse
+ROOTKIT_MALWARE_HIDDEN_PROCS_FOUND:Versteckte Prozesse gefunden: $1
+ROOTKIT_MALWARE_DELETED_FILES:Überprüfe laufende Prozesse auf gelöschte Dateien
+ROOTKIT_MALWARE_DELETED_FILES_FOUND:Die folgenden Prozesse nutzen gelöschte Dateien:
+ROOTKIT_MALWARE_DELETED_FILES_FOUND_DATA:Prozess: $1    PID: $2    Datei: $3
+ROOTKIT_MALWARE_DELETED_FILES_WL:Prozess '$1' benutzt Datei '$2': erlaubt mittels Whitelist.
+ROOTKIT_MALWARE_LOGIN_BDOOR:Überprüfung auf Backdoors, die der Anmeldung dienen
+ROOTKIT_MALWARE_LOGIN_BDOOR_LOG:Führe Überprüfungen auf Backdoors für die Anmeldung aus
+ROOTKIT_MALWARE_LOGIN_BDOOR_CHK:Überprüfe auf '$1'
+ROOTKIT_MALWARE_LOGIN_BDOOR_FOUND:Backdoor-Datei für Anmeldung gefunden: $1
+ROOTKIT_MALWARE_SUSP_DIR:Überprüfung auf verdächtige Verzeichnisse
+ROOTKIT_MALWARE_SUSP_DIR_LOG:Führe Überprüfung auf verdächtige Verzeichnisse aus
+ROOTKIT_MALWARE_SUSP_DIR_FOUND:Verdächtiges Verzeichnis gefunden: $1
+ROOTKIT_MALWARE_SFW_INTRUSION:Überprüfung auf Eingriff in Software
+ROOTKIT_MALWARE_SFW_INTRUSION_FOUND:Die Datei '$1' enthält die Zeichenkette '$2'. Mögliches Rootkit: SHV5
+ROOTKIT_MALWARE_SFW_INTRUSION_SKIP:Überprüfung übersprungen - tripwire ist nicht installiert
+ROOTKIT_MALWARE_SNIFFER:Überprüfung auf Log-Files von Sniffern
+ROOTKIT_MALWARE_SNIFFER_LOG:Führe Überprüfung auf Log-Files von Sniffern aus
+ROOTKIT_MALWARE_SNIFFER_FOUND:Mögliche Sniffer-Log-Datei gefunden: $1
+
+ROOTKIT_TROJAN_START:Führe Überprüfung auf Trojaner aus
+ROOTKIT_TROJAN_INETD:Überprüfe auf aktivierte Inetd-Dienste
+ROOTKIT_TROJAN_INETD_SKIP:Überprüfung übersprungen - Datei '$1' existiert nicht.
+ROOTKIT_TROJAN_INETD_FOUND:Aktivierten Inetd-Dienst gefunden: $1
+ROOTKIT_TROJAN_XINETD:Überprüfe auf aktivierte Xinetd-Dienste
+ROOTKIT_TROJAN_XINETD_LOG:Überprüfe auf aktivierte Xinetd-Dienste
+ROOTKIT_TROJAN_XINETD_ENABLED:Überprüfe '$1' auf aktivierte Dienste
+ROOTKIT_TROJAN_XINETD_INCLUDE:'include $1'-Anweisung gefunden
+ROOTKIT_TROJAN_XINETD_INCLUDEDIR:'includedir $1'-Anweisung gefunden
+ROOTKIT_TROJAN_XINETD_ENABLED_FOUND:Aktivierten Xinetd-Dienst gefunden: $1
+ROOTKIT_TROJAN_XINETD_WHITELIST:Dienst '$1' gefunden: erlaubt in $2 mittels Whitelist.
+ROOTKIT_TROJAN_APACHE:Überprüfe auf Apache-Backdoor
+ROOTKIT_TROJAN_APACHE_SKIPPED:Überprüfung auf Apache-Backdoor übersprungen: Apache-Module und Konfigurations-Verzeichnis nicht gefunden.
+ROOTKIT_TROJAN_APACHE_FOUND:Apache-Backdoor Modul 'mod_rootme' gefunden: $1
+
+ROOTKIT_OS_START:Führe $1 Überprüfungen aus
+ROOTKIT_OS_SKIPPED:Keine speziellen Test verfügbar
+ROOTKIT_OS_BSD_SOCKNET:Überprüfe sockstat und netstat Kommandos
+ROOTKIT_OS_BSD_SOCKNET_FOUND:Unterschiede zwischen sockstat und netstat Ausgaben:
+ROOTKIT_OS_BSD_SOCKNET_OUTPUT:$1 Ausgabe: $2
+ROOTKIT_OS_FREEBSD_KLD:Überprüfe auf KLD-Backdoors
+ROOTKIT_OS_FREEBSD_KLD_FOUND:Mögliche FreeBSD KLD-Backdoor gefunden. 'kldstat -v' Kommando zeigt Zeichenkette '$1'
+ROOTKIT_OS_FREEBSD_PKGDB:Überprüfe Paketdatenbank
+ROOTKIT_OS_FREEBSD_PKGDB_NOTOK:Die Paketdatenbank enthält möglicherweise widersprüchliche Daten.
+ROOTKIT_OS_FREEBSD_PKGDB_NOTOK:Dies könnte kein Sicherheitsproblem sein, aber das Ausführen von 'pkgdb -F' könnte bei der Diagnose helfen.
+ROOTKIT_OS_LINUX_LKM:Überprüfe geladene Kernel-Module
+ROOTKIT_OS_LINUX_LKM_FOUND:Unterschiede zwischen dem lsmod-Kommando und der Datei /proc/modules:
+ROOTKIT_OS_LINUX_LKM_OUTPUT:$1 Ausgabe: $2
+ROOTKIT_OS_LINUX_LKM_EMPTY:Keine Ausgabe des lsmod-Kommandos oder aus der Datei /proc/modules erhalten:
+ROOTKIT_OS_LINUX_LKM_MOD_MISSING:Die Modul-Datei '$1' fehlt.
+ROOTKIT_OS_LINUX_LKMNAMES:Überprüfe Namen der Kernel-Module
+ROOTKIT_OS_LINUX_LKMNAMES_PATH:Verwende Modul-Pfadname von '$1'
+ROOTKIT_OS_LINUX_LKMNAMES_FOUND:Als schädlich bekanntes Kernel-Modul gefunden in '$1': $2
+ROOTKIT_OS_LINUX_LKMNAMES_PATH_MISSING:Das Kernel-Modul-Verzeichnis '$1' fehlt oder ist leer.
+
+CHECK_LOCALHOST:Überprüfe lokalen Host...
+STARTUP_FILES_START:Führe Überprüfung des System-Boot aus
+STARTUP_HOSTNAME:Überprüfe auf lokalen Hostnamen
+STARTUP_NO_HOSTNAME:Kein Hostname gefunden.
+STARTUP_CHECK_FILES_EXIST:Überprüfung der System-Start-Dateien
+STARTUP_NONE_GIVEN:Benutzer-Vorgabe 'NONE' für System-Start Pfadnamen
+STARTUP_CHECK_FILES_MALWARE:Überprüfe System-Start-Dateien auf Malware
+STARTUP_CHECK_NO_RC_FILES:Keine System-Start-Dateien gefunden.
+
+ACCOUNTS_START:Führe Überprüfungen auf Gruppen und Konten aus
+ACCOUNTS_PWD_FILE_CHECK:Überprüfe auf passwd-Datei
+ACCOUNTS_FOUND_PWD_FILE:password-Datei gefunden: $1
+ACCOUNTS_NO_PWD_FILE:Passwort-Datei $1 existiert nicht.
+ACCOUNTS_UID0:Überprüfung auf root-ähnliche (UID 0) Konten
+ACCOUNTS_UID0_WL:root-ähnliches Konto '$1' gefunden: erlaubt mittels Whitelist.
+ACCOUNTS_UID0_FOUND:Konto '$1' ist root-ähnlich (UID = 0)
+ACCOUNTS_SHADOW_FILE:Shadow-Datei gefunden: $1
+ACCOUNTS_SHADOW_TCB:TCB-Shadow-Datei Verzeichnis: $1
+ACCOUNTS_PWDLESS:Überprüfung auf Konten ohne Passwort
+ACCOUNTS_PWDLESS_WL:Konto '$1' ohne Passwort gefunden: erlaubt mittels Whitelist.
+ACCOUNTS_PWDLESS_FOUND:Konto ohne Passwort gefunden: $1
+ACCOUNTS_NO_SHADOW_FILE:Keine shadow/passwd-Datei gefunden.
+
+PASSWD_CHANGES:Checking for passwd file changes
+PASSWD_CHANGES_NO_TMP:Überprüfung auf Unterschiede in der passwd-Datei nicht möglich: es existiert keine Kopie der Datei.
+PASSWD_CHANGES_ADDED:Konten wurden der passwd-Datei hinzugefügt:
+PASSWD_CHANGES_REMOVED:Konten wurden aus der passwd-Datei entfernt:
+
+GROUP_CHANGES:Überprüfung auf Änderungen der Gruppen-Datei
+GROUP_CHANGES_NO_FILE:Gruppen-Datei $1 existiert nicht.
+GROUP_CHANGES_NO_TMP:Überprüfung auf Unterschiede in der group-Datei nicht möglich: es existiert keine Kopie der Datei.
+GROUP_CHANGES_ADDED:Gruppen wurden der group-Datei hinzugefügt:
+GROUP_CHANGES_REMOVED:Gruppen wurden aus der group-Datei entfernt:
+
+HISTORY_CHECK:Überprüfung der Historie der Shell des Root-Kontos
+HISTORY_CHECK_FOUND:Historie der Shell des Root-Kontos $1 ist ein symbolischer Link: $2
+
+SYSTEM_CONFIGS_START:Führe Überprüfung der System-Konfigurations-Dateien aus
+SYSTEM_CONFIGS_FILE:Überprüfung auf Konfigurations-Datei von $1 
+SYSTEM_CONFIGS_FILE_FOUND:$1 Konfigurations-Datei gefunden: $2
+SYSTEM_CONFIGS_SSH_ROOT:Überprüfung ob Zugang des Root-Kontos mittels SSH erlaubt ist
+SYSTEM_CONFIGS_SSH_ROOT_FOUND:Die SSH- und rkhunter-Konfigurationvariablen sollten übereinstimmen:
+SYSTEM_CONFIGS_SSH_ROOT_FOUND1:SSH-Konfigurationvariable 'PermitRootLogin': $1
+SYSTEM_CONFIGS_SSH_ROOT_FOUND2:Rkhunter-Konfigurationvariable 'ALLOW_SSH_ROOT_USER': $1
+SYSTEM_CONFIGS_SSH_ROOT_NOTFOUND:Die SSH-Konfigurationsvariable 'PermitRootLogin' has not been set.
+SYSTEM_CONFIGS_SSH_ROOT_NOTFOUND:Der Standard-Wert kann 'yes' enthalten, um Root-Zugang zu erlauben.
+SYSTEM_CONFIGS_SSH_PROTO:Überprüfung, ob das SSH-Protokoll Version 1 erlaubt ist
+SYSTEM_CONFIGS_SSH_PROTO_FOUND:SSH-Protokoll Version 1 ist aktiviert in der SSH-Konfiguration ($1).
+SYSTEM_CONFIGS_SSH_PROTO_NOTFOUND:Die SSH-Konfigurationsvariable 'Protocol' wurde nicht gesetzt.
+SYSTEM_CONFIGS_SSH_PROTO_NOTFOUND:Der Standard-Wert kann '2,1' enthalten, um die Benutzung des Protokolls in Version 1 zu nutzen.
+SYSTEM_CONFIGS_SYSLOG:Überprüfung, ob der syslog-Daemon asugeführt wird
+SYSTEM_CONFIGS_SYSLOG_NOT_RUNNING:Der syslog-Daemon wird nicht ausgeführt nicht.
+SYSTEM_CONFIGS_SYSLOG_METALOG_RUNNING:Der syslog-Daemon wird nicht ausgeführt, aber ein Metalog-Daemon wurde gefunden.
+SYSTEM_CONFIGS_SYSLOG_SOCKLOG_RUNNING:Der syslog-Daemon wird nicht ausgeführt, aer ein socklog-Daemon wurde gefunden.
+SYSTEM_CONFIGS_SYSLOG_NO_FILE:Der syslog-Daemon wird ausgeführt, aber es kann keine Konfigurations-Datei gefunden werden.
+SYSTEM_CONFIGS_SYSLOG_REMOTE:Überprüfung, ob entferntes Logging via syslog erlaubt ist
+SYSTEM_CONFIGS_SYSLOG_REMOTE_FOUND:Syslog-Konfiguration erlaubt entferntes Logging: $1
+SYSTEM_CONFIGS_SYSLOG_REMOTE_ALLOWED:Rkhunter-Konfigurationsvariable 'ALLOW_SYSLOG_REMOTE_LOGGING' ist aktiviert.
+
+FILESYSTEM_START:Führe Dateisystem-Tests aus
+FILESYSTEM_DEV_CHECK:Überprüfe /dev auf verdächtige Dateien
+FILESYSTEM_DEV_CHECK_NO_DEV:/dev existiert nicht.
+FILESYSTEM_DEV_FILE_WL:Datei '$1' gefunden: erlaubt mittels Whitelist.
+FILESYSTEM_DEV_FILE_FOUND:Verdächtige Dateitypen in ${1} gefunden:
+FILESYSTEM_HIDDEN_DIR_WL:Verstecktes Verzeichnis '$1' gefunden: erlaubt mittels Whitelist.
+FILESYSTEM_HIDDEN_FILE_WL:Versteckte Datei '$1' gefunden: erlaubt mittels Whitelist.
+FILESYSTEM_HIDDEN_CHECK:Überprüfe auf versteckte Dateien und Verzeichnisse
+FILESYSTEM_HIDDEN_DIR_FOUND:Verstecktes Verzeichnis gefunden: $1
+FILESYSTEM_HIDDEN_FILE_FOUND:Versteckte Datei gefunden: $1
+
+CHECK_APPS:Überprüfe Versionsnummern der Anwendungen...
+APPS_NONE_FOUND:Keine bekannten Anwendungen gefunden - alle Tests übersprungen.
+APPS_DAT_MISSING:Alle Anwendungs-Tests übersprungen.
+APPS_DAT_MISSING:Die Datei mit der Liste der unsicheren Anwendungsversionen (programs_bad.dat) fehlt oder ist leer.
+APPS_DAT_MISSING:Wenn diese Datei gelöscht wurde müssen Sie 'rkhunter --update' ausführen.
+APPS_NOT_FOUND:Anwendung '$1' nicht gefunden.
+APPS_CHECK:Überprüfe Version von $1
+APPS_CHECK_WL:Anwendung '$1' gefunden: erlaubt mittels Whitelist.
+APPS_CHECK_VERSION_UNKNOWN:Versionsnummer kann nicht ausgelesen werden für '$1'.
+APPS_CHECK_VERSION_FOUND:Anwendung '$1' in Version '$2' gefunden.
+APPS_CHECK_VERSION_WL:Anwendung '$1' in Version '$2' gefunden: diese Version ist erlaubt mittels Whitelist.
+APPS_CHECK_WHOLE_VERSION_USED:Versionsnummer kann nicht ausgelesen werden für '$1': Versions-Option gibt folgendes zurück: $2
+APPS_CHECK_FOUND:Anwendung '$1', Version '$2', ist veraltet und ein mögliches Sicherheitsrisiko.
+APPS_TOTAL_COUNT:Anwendungen überprüft: $1 von $2
+
+CHECK_NETWORK:Überprüfe das Netzwerk...
+NETWORK_PORTS_START:Führe Überprüfungen auf Backdoor-Ports aus
+NETWORK_PORTS_FILE_MISSING:Alle Backdoor-Port-Test übersprungen.
+NETWORK_PORTS_FILE_MISSING:Die Datei mit den bekannten Backdoor-Ports (backdoorports.dat) fehlt oder ist leer.
+NETWORK_PORTS_FILE_MISSING:Wenn diese Datei gelöscht wurde müssen Sie 'rkhunter --update' ausführen.
+NETWORK_PORTS_UNKNOWN_NETSTAT:Alle Überprüfungen auf Backdoor-Ports übersprungen.
+NETWORK_PORTS_UNKNOWN_NETSTAT:Unbekannte netstat-Kommando Formatierung in diesem Betriebssystem.
+NETWORK_PORTS_DISABLE_PATHS:Deaktiviere Pfadnamen und '*' in Port-Whitelist-Einstellungen: kein 'lsof'-Kommando verfügbar
+NETWORK_PORTS_ENABLE_TRUSTED:Vertrauenswürdige Pfadnamen sind aktiviert für Port-Whitelisting.
+NETWORK_PORTS:Überprüfe auf $1 Port $2
+NETWORK_PORTS_PATH_WHITELIST:Netzwerk $1 Port $2 wird verwendet von $3: der Pfadname ist erlaubt mittels Whitelist.
+NETWORK_PORTS_TRUSTED_WHITELIST:Netzwerk $1 Port $2 wird verwendet von $3: der Pfadname ist vertrauenswürdig.
+NETWORK_PORTS_PORT_WHITELIST:Netzwerk $1 Port $2 wird verwendet: der Port ist erlaubt mittels Whitelist.
+NETWORK_PORTS_FOUND:Netzwerk $1 Port $2 wird verwendet ${3}. Mögliches Rootkit: $4
+NETWORK_PORTS_FOUND:Verwenden Sie das 'lsof -i' oder 'netstat -an'-Kommando um dies zu überprüfen.
+NETWORK_INTERFACE_START:Führe Überprüfungen der Netzwerk-Schnittstellen durch
+NETWORK_PROMISC_CHECK:Überprüfe auf Netzwerk-Schnittstellen im promiscuous-Modus
+NETWORK_PROMISC_NO_IFCONFIG:Überprüfung auf Netzwerk-Schnittstellen im promiscuous-Modus übersprungen - 'ifconfig'-Kommando wurde nicht gefunden.
+NETWORK_PROMISC_NO_IP:Überprüfung der Netzwerk-Schnittstelle im promiscuous-Modus mit dem 'ip'-Kommando übersprungen - 'ip'-Kommando wurde nicht gefunden.
+NETWORK_PROMISC_IF:Mögliche Netzwerk-Schnittstellen im promiscuous-Modus:
+NETWORK_PROMISC_IF_1:'ifconfig'-Kommando Ausgabe: $1
+NETWORK_PROMISC_IF_2:'ip'-Kommando Ausgabe: $1
+NETWORK_PACKET_CAP_CHECK:Überprüfe auf Anwendungen, die Pakete abfangen
+NETWORK_PACKET_CAP_CHECK_NO_FILE:Überprüfung auf Anwendungen, die Pakete abfangen, übersprungen - die Datei '$1' fehlt.
+NETWORK_PACKET_CAP_FOUND:Prozess '$1' (PID $2) ist in offen in das Netzwerk.
+NETWORK_PACKET_CAP_WL:Prozess '$1' gefunden: erlaubt mittels Whitelist.
+
+SHARED_LIBS_START:Führe 'shared libraries' Überprüfung aus
+SHARED_LIBS_PRELOAD_VAR:Überprüfe auf 'preloading' Variablen
+SHARED_LIBS_PRELOAD_VAR_FOUND:Bibliothek gefunden die Variablen vorlädt: $1
+SHARED_LIBS_PRELOAD_FILE:Überprüfe Dateien, die vorgeladen werden
+SHARED_LIBS_PRELOAD_FILE_FOUND:Bibliothek gefunden die Datei(en) vorlädt: $1
+SHARED_LIBS_PATH:Überprüfe LD_LIBRARY_PATH Variable
+SHARED_LIBS_PATH_BAD:Die LD_LIBRARY_PATH Umgebungs-Variable ist gesetzt und beinflusst ausführbare Dateien: gesetzt auf: $1
+
+SUSPSCAN_CHECK:Überprüfe auf Dateien mit verdächtigem Inhalt
+SUSPSCAN_DIR_NOT_EXIST:Das Verzeichnis '$1' existiert nicht.
+SUSPSCAN_INSPECT:Datei '$1' (Wertung: $2) enthält einigen verdächtigen Inhalt und sollte überprüft werden.
+SUSPSCAN_START:Führe Überprüfung auf Dateien mit verdächtigem Inhalt aus
+SUSPSCAN_DIRS:Zu überprüfende Verzeichnisse: $1
+SUSPSCAN_NO_DIRS:Keine Verzeichnisse angegeben: verwende Standard-Einstellungen ($1)
+SUSPSCAN_TEMP:Verwende temporäres Verzeichnis: $1
+SUSPSCAN_NO_TEMP:Kein temporäres Verzeichnis angegeben: verwende Standard-Einstellungen ($1)
+SUSPSCAN_TEMP_NOT_EXIST:Das zu nutzende temporäre Verzeichnis existiert nicht: $1
+SUSPSCAN_TEMP_NO_WRITE:In das zu nutzende temporäre Verzeichnis kann nicht geschrieben werden: $1
+SUSPSCAN_SIZE:Maximale Größe für Dateien, die zu überprüfen sind (in Bytes): '$1'
+SUSPSCAN_NO_SIZE:Keine maximale Größe für zu untersuchende Dateien angegeben: verwende Standard-Einstellungen ($1)
+SUSPSCAN_SIZE_INVALID:Die konfigurierte maximale Größe für Dateien ist fehlerhaft: $1
+SUSPSCAN_THRESH:Grenzwert für Bewertung ist gesetzt auf: $1
+SUSPSCAN_NO_THRESH:Kein Grenzwert für Bewertungen konfiguriert: verwende Standard-Einstellungen ($1)
+SUSPSCAN_THRESH_INVALID:Der konfigurierte Grenzwert für Bewertungen ist fehlerhaft: $1
+SUSPSCAN_DIR_CHECK:Überprüfe Verzeichnis: '$1'
+SUSPSCAN_DIR_CHECK_NO_FILES:Keine passenden Dateien für die Überprüfung gefunden.
+SUSPSCAN_FILE_CHECK:Datei überprüft: Name: '$1' Bewertung: $2
+SUSPSCAN_FILE_CHECK_DEBUG:Datei überprüft: Name: '$1' Bewertung: $2 Treffersumme: $3 Treffer: ($4)
+SUSPSCAN_FILE_SKIPPED_EMPTY:Datei ignoriert: leer: '$1'
+SUSPSCAN_FILE_SKIPPED_LINK:Datei ignoriert: symbolischer Link: '$1'
+SUSPSCAN_FILE_SKIPPED_TYPE:Datei ignoriert: falscher Typ: '$1': '$2'
+SUSPSCAN_FILE_SKIPPED_SIZE:Datei ignoriert: zu groß: '$1'
+SUSPSCAN_FILE_LINK_CHANGE:Symbolischer Link wurde nicht gefunden: '$1' -> '$2'
+
+LIST_TESTS:Verfügbare Überprüfungen lauten:
+LIST_GROUPED_TESTS:Gruppierte Überprüfungen lauten:
+LIST_LANGS:Verfügbare Sprachen:
+LIST_RTKTS:Rootkits überprüft für:
+
+APPS_DAT_NOTAFILE:Die Datei der unsicheren Anwendungsversionen ist keine Datei: $1
+CONFIG_LOCALCONFIGFILE:Verwende lokale Konfigurationsdatei '$1'
+FILE_PROP_BROKEN_LINK_WL_TGT:Gebrochene Verknüpfung gefunden, aber die Existenz des Ziels ist mittels Whitelist freigegeben: '$1'
+FILE_PROP_DAT_MISSING_INFO:Die Dateieigenschaften-Prüfung wird ausgeführt da Prüfungen auch ohne die rkhunter.dat Datei ausgeführt werden können.
+FILE_PROP_EPOCH_DATE_CMD:Benutze '$1' um Epochen-Zeitstempel umzurechnen.
+FILE_PROP_IGNORE_PRELINK_DEP_ERR:Ignoriere Prelink-Abhängigkeit für Datei '$1'
+FILE_PROP_IMMUT_NOT_SET:Datei '$1' hat das immutable-bit nicht gesetzt.
+FILE_PROP_IMMUT_SET:Die immutable-bit Prüfung wird invertiert.
+FILE_PROP_NO_OS_WARNING:Warnungen über Betriebssystem-Änderungen wurden deaktiviert nach Anwenderwunsch.
+FILE_PROP_NO_SYSHASH_BL:Die Datei ist eine gebrochene Verknüpfung: $1
+FILE_PROP_SKIP_FILE_CMD:Keine Ausgabe vom 'file' Kommando - alle Skript-Ersetzungs-Überprüfungen werden übersprungen.
+FILE_PROP_SKIP_IMMUT_CMD:Keine Ausgabe vom '$1' Kommando - alle immutable-bit Überprüfungen werden übersprungen.
+FILE_PROP_SYSHASH_UNAVAIL_BL:derzeitiger Hash-Wert: nicht verfügbar (mögliche gebrochene Verknüpfung)
+FILE_PROP_WL_STR:Datei '$1' und Zeichenkette '$2' gefunden: sie sind mittels Whitelist freigegeben für '$3' Überprüfung.
+GROUP_CHANGES_FOUND:Änderungen gefunden in ger group-Datei für Gruppe '$1':
+GROUP_CHANGES_GID:Die Gruppen-Nummer wurde geändert von '$1' nach '$2'
+GROUP_CHANGES_GRPADD:Benutzer '$1' wurde der Gruppe hinzugefügt
+GROUP_CHANGES_GRPREM:Benutzer '$1' wurde aus der Gruppe entfernt
+GROUP_CHANGES_IDADD:Gruppe '$1' wurde der group-Datei hinzugefügt.
+GROUP_CHANGES_IDREM:Gruppe '$1' wurde aus der group-Datei entfernt.
+GROUP_CHANGES_PWD:Der Gruppen-Name wurde geändert von '$1' nach '$2'
+HASH_FUNC_PERL_SHA:Benutze das perl-Modul $1 (mit $2) für die Datei-Hash Prüfungen
+HASH_PKGMGR_SUM:Benutze die gespeicherten 16-bit Prüfsummen für die Paketverifikation
+KSYMS_UNAVAIL:Alle ksyms und kallsyms Prüfungen werden übersprüngen - die Datei ist nicht lesbar.
+LIST_PERL:Perl Modul Installations Status:
+LOCK_FAIL:Unfähig die Sperrdatei zu sperren: rkhunter ist nicht gelaufen!
+LOCK_UNUSED:Sperrungen werden nicht verwendet
+LOCK_USED:Sperren wird verwendet: timeout beträgt $1 Sekunden
+LOCK_WAIT:Warte auf Sperrdatei
+MSG_RESULT_WHITELISTED:durch Whitelisting erlaubt
+NETWORK_HIDDEN_PORTS_CHK_NAME:Tor Nummer: $1:$2 wird benutzt von $3
+NETWORK_HIDDEN_PORTS_CHK:Tor Nummer: $1:$2
+NETWORK_HIDDEN_PORTS_FOUND:Versteckte Tore gefunden:
+NETWORK_HIDDEN_PORTS_PATH_WHITELIST:Verstecktes $1 port $2 wird benutzt von $3: der Pfadname ist mittels Whitelist erlaubt.
+NETWORK_HIDDEN_PORTS_PORT_WHITELIST:Verstecktes $1 port $2 gefunden: das Tor ist mittels Whitelist erlaubt.
+NETWORK_HIDDEN_PORTS:Prüfe auf versteckte ports
+NETWORK_HIDDEN_PORTS_TRUSTED_WHITELIST:Verstecktes $1 Tor $2 wird benutzt von $3: der Pfadname ist vertrauenswürdig.
+NETWORK_PORTS_BACKDOOR_CHK:Prüfe auf $1 Tor $2
+NETWORK_PORTS_BACKDOOR_LOG:Führe Prüfung auf Hintertüren-ports aus
+NETWORK_PORTS_BACKDOOR:Prüfe auf Hintertüren-ports
+NETWORK_PORTS_BKDOOR_FOUND:Netzwerk $1 Tor $2 wird benutzt${3}. Mögliches Rootkit: $4
+NETWORK_PORTS_BKDOOR_FOUND:Nutzen Sie das 'lsof -i' oder 'netstat -an' Kommando um dies zu prüfen.
+NETWORK_PORTS_FILE_NOTAFILE:Die Datei der bekannten Hintertüren-ports ist keine Datei: $1
+NETWORK_PROMISC_WLIST:Netzwerk-Schnittstellen, die im promiscuous-Modus betrieben werden dürfen: $1
+OSINFO_DO_UPDT:Die Dateieigenschaften-Datei wird automatisch auf den neuesten Stand gebracht.
+PWD_CHANGES_COMM:Der Konto-Kommentar wurde von '$1' nach '$2' geändert.
+PWD_CHANGES_FOUND:Änderungen gefunden in der passwd Datei für Benutzer '$1':
+PWD_CHANGES_GID:Die GID wurde geändert von '$1' nach '$2'
+PWD_CHANGES_HOME:Das Heimatverzeichnis wurde geändert von '$1' nach '$2'
+PWD_CHANGES_IDADD:Benutzer '$1' wurde der passwd-Datei hinzugefügt.
+PWD_CHANGES_IDREM:Benutzer '$1' wurde aus der passwd-Datei entfernt.
+PWD_CHANGES_PWD:Das Passwort wurde geändert von '$1' nach '$2'
+PWD_CHANGES_SHL:Die login shell wurde geändert von '$1' nach '$2'
+PWD_CHANGES_UID:Die UID wurde geändert von '$1' nach '$2'
+PWDGRP_CHANGES_UNK:Unbekanntes Feld gefunden in der $1 Datei: altes Feld: '$2', neues Feld: '$3'
+RKHDAT_ADD_NEW_ENTRY:Füge neuen Dateieintrag zur 'rkhunter.dat' Datei hinzu: $1
+RKHDAT_DEL_OLD_ENTRY:Lösche nicht existierenden Dateieintrag aus der 'rkhunter.dat' Datei: $1
+ROOTKIT_MALWARE_HIDDEN_PROCS_NOUNHIDE:Die Nutzung von '$1' wurde unterdrückt auf Benutzerwunsch.
+ROOTKIT_MALWARE_HIDDEN_PROCS_RUBY_ERR:Das 'unhide.rb' Kommand ergab einen Fehler:
+ROOTKIT_MALWARE_HIDDEN_PROCS_UNH_ERR:'unhide' nicht ausgeführt: ungültiger konfigurierter Testname: $1
+ROOTKIT_MALWARE_HIDDEN_PROCS_UNHIDE_CMD:Benutze Kommando '$1'
+ROOTKIT_MALWARE_HIDDEN_PROCS_UNHIDE_VERS:Gefundene 'unhide' Kommando-Version: $1
+ROOTKIT_MALWARE_SUSP_FILES_FOUND_CMD:Kommando: $1
+ROOTKIT_MALWARE_SUSP_FILES_FOUND_PATH:Pfadname: $1
+ROOTKIT_MALWARE_SUSP_FILES_FOUND_RTKT:Mögliches Rootkit: $1
+ROOTKIT_MALWARE_SUSP_FILES_FOUND_UID:UID: $1    PID: $2
+ROOTKIT_OS_DFLY_PKGDB_NOTOK:Die Paketdatenbank scheint inkonsistent zu sein.
+ROOTKIT_OS_DFLY_PKGDB_NOTOK:Dies mag kein Sicherheitsproblem sein, aber 'pkg_admin check' auszuführen könnte helfen, das Problem zu diagnostizieren.
+ROOTKIT_PHALANX2_PROC_FOUND:Laufenden Prozess 'ata/0' gefunden
+ROOTKIT_PHALANX2_PROC_PPID:Erwarte 'kthread' Eltern-PID '$1', fand Eltern-PID '$2'
+ROOTKIT_PHALANX2_PROC:Prüfe Prozessliste auf Prozess 'ata/0'
+ROOTKIT_PHALANX2_PROC_PS_ERR:Ausführung von 'ps' ergab unerwartete Ergebnisse: möglicherweise nicht unterstützte Kommandozeilen-Argumente.
+SET_FILE_PROP_FILE_COUNT_BL:Datei $1: suchte nach $2 Dateien, fand $3, gebrochene Verknüpfungen $4
+SET_FILE_PROP_FILE_COUNT_NOHASH_BL:Datei $1: suchte nach $2 Dateien, fand $3, fehlende Hashwerte $4, gebrochene Verknüpfungen $5
+SET_FILE_PROP_FILE_COUNT_NOHASH_PROPOPT_BL:Datei $1: suchte nach $2 Dateien, fand $3 von $4, fehlende Hashwerte $5, gebrochene Verknüpfungen $6
+SET_FILE_PROP_FILE_COUNT_PROPOPT_BL:Datei $1: suchte nach $2 Dateien, fand $3 von $4, gebrochene Verknüpfungen $5
+SHARED_LIBS_PRELOAD_LIB_FOUND:Fand vorabgeladene geteilte Bibliothek: $1
+SHARED_LIBS_PRELOAD_LIB_WLIST:Fand vorabgeladene geteilte Bibliothek '$1': sie ist mittels Whitelist erlaubt.
+SUMMARY_LOGFILE_COPIED:Logdatei kopiert nach $1
+SUSPSCAN_DAT_MISSING:Die Datendatei der verdächtigen Inhalte fehlt oder ist leer: $1
+SUSPSCAN_DAT_MISSING:Führen Sie 'rkhunter --update' aus, um die Vorgabe-Datei wieder herzustellen.
+SUSPSCAN_DAT_NOTAFILE:Die Datendatei der verdächtigen Inhalte ist keine Datei: $1
+SYSTEM_CONFIGS_SSH_PROTO_DIFF1:SSH Konfigurations-Option 'Protocol': $1
+SYSTEM_CONFIGS_SSH_PROTO_DIFF2:Rkhunter Konfigurations-Option 'ALLOW_SSH_PROT_V1': $1
+SYSTEM_CONFIGS_SYSLOG_REMOTE_LOG:Konfigurationsdatei erlaubt Logging über das Netzwerk: $1
+UPDATE_SKIPPED:Sprachdateien-Update übersprungen auf Benutzerwunsch.
+USER_CMD_LIST:Schliesse Benutzer-Kommandos für Dateieigenschaften-Prüfung ein:
+USER_DIR_LIST:Schliesse Benutzer-Verzeichnisse für Dateieigenschaften-Prüfung ein:
+USER_EXCLUDE_PROP:Schliesse von Dateieigenschaften-Prüfung aus:
+USER_FILE_LIST:Schliesse Benutzer-Dateien für Dateieigenschaften-Prüfung ein:
+

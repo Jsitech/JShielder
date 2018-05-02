@@ -1,0 +1,639 @@
+Version:2017080401
+#
+# We start with the definitions of the message types and results. There
+# are very few of these, so including these and all the parts of each
+# message in one file makes sense and for easier translation.
+#
+# The message type MSG_TYPE_PLAIN is used for ordinary messages. It has
+# no specific value, and is intercepted in the display function. It is
+# included here for completeness. The index names of MSG_TYPE_ and
+# MSG_RESULT_ are reserved - no messages can use this as part of its index.
+#
+MSG_TYPE_PLAIN:
+MSG_TYPE_INFO:Bilgilendirme
+MSG_TYPE_WARNING:Uyarý
+
+
+#
+# This is the list of message results.
+#
+MSG_RESULT_OK:Tamam
+MSG_RESULT_SKIPPED:Atlandý
+MSG_RESULT_WARNING:Uyarý
+MSG_RESULT_FOUND:Bulundu
+MSG_RESULT_NOT_FOUND:Bulunamadý
+MSG_RESULT_NONE_FOUND:Bulunamadý
+MSG_RESULT_ALLOWED:Ýzin verildi
+MSG_RESULT_NOT_ALLOWED:Ýzin verilmedi
+MSG_RESULT_UNSET:Ayarlanmadý
+MSG_RESULT_WHITELISTED:Beyaz listeye alýndý
+MSG_RESULT_NONE_MISSING:Eksik yok
+
+MSG_RESULT_UPD:Güncellendi
+MSG_RESULT_NO_UPD:Güncelleme yok
+MSG_RESULT_UPD_FAILED:Güncelleme hatasý
+MSG_RESULT_VCHK_FAILED:Sürüm kontrol hatasý
+
+
+#
+# The messages.
+#
+VERSIONLINE:[ $1 sürüm $2 ]
+VERSIONLINE2:$3 üzerinde $1 $2 sürümü çalýþýyor
+VERSIONLINE3:$1 $2 sürümü çalýþýyor
+
+RKH_STARTDATE:Baþlama tarihi $1
+RKH_ENDDATE:Bitiþ tarihi $1
+
+OPSYS:Tespit edilen iþletim sistemi: '$1'
+UNAME:Uname çýktýsý: '$1'
+
+CONFIG_CHECK_START:Yapýlandýrma dosyasý ve komut-satýrý seçenekleri kontrol ediliyor...
+CONFIG_CMDLINE:Komut satýrý: $1
+CONFIG_DEBUGFILE:Hata ayýklama dosyasý: $1
+CONFIG_ENVSHELL:Çevre deðiþkeni kabuðu $1; rkhunter, $2 kullanýyor
+CONFIG_CONFIGFILE:'$1' yapýlandýrma dosyasý kullanýlýyor
+CONFIG_LOCALCONFIGFILE:'$1' yerel yapýlandýrma dosyasý kullanýlýyor
+CONFIG_LOCALCONFIGDIR:'$1' yerel yapýlandýrma dizini kullanýlýyor: $2 dosya bulundu
+CONFIG_INSTALLDIR:Kurulum dizini '$1'
+CONFIG_LANGUAGE:'$1' Dili kullanýlýyor
+CONFIG_DBDIR:Veritabaný dizini olarak '$1' kullanýlýyor
+CONFIG_SCRIPTDIR:Destek eklentileri dizini olarak '$1' kullanýlýyor
+CONFIG_BINDIR:Komut dizinleri olarak '$1' kullanýlýyor
+CONFIG_TMPDIR:Geçici dizin olarak '$1' kullanýlýyor
+CONFIG_NO_MAIL_ON_WARN:Uyarýlarda postalama adresi yapýlandýrýlmadý
+CONFIG_MOW_DISABLED:Uyarýlarda postalama, kullanýcý isteði üzerine devre dýþý býrakýlýyor
+CONFIG_MAIL_ON_WARN:Uyarýlar, '$2' komutuyla, '$1' adresine postalanýyor
+CONFIG_SSH_ROOT:Rkhunter yapýlandýrmasýndaki ALLOW_SSH_ROOT_USER seçeneðini '$1' olarak ayarlayýn.
+CONFIG_SSH_PROTV1:Rkhunter yapýlandýrmasýndaki ALLOW_SSH_PROT_V1 seçeneðini '$1' olarak ayarlayýn.
+CONFIG_X_AUTO:X otomatik olarak algýlanacaktýr
+CONFIG_CLRSET2:Ýkinci renk ayarý kullanýlýyor
+CONFIG_NO_SHOW_SUMMARY:Sistem kontrol özeti, kullanýcý isteði üzerine devre dýþý býrakýlýyor
+CONFIG_SCAN_MODE_DEV:SCAN_MODE_DEV özelliðini '$1' olarak ayarlayýn
+CONFIG_LOG_FILE:$1 günlük/kayýt dosyasýna kayýtlanýyor
+CONFIG_NO_VL:Ayrýntýlý günlük, kullanýcý isteði üzerine devre dýþý býrakýlýyor
+CONFIG_APPEND_LOG:Geçerli günlük, günlük/kayýt dosyasýna eklenecek
+CONFIG_COPY_LOG:Herhangi bir hata varsa günlük dosyasý kopyalanacak
+CONFIG_XINETD_PATH:$1 yapýlandýrma dosyasý olarak '$2' kullanýlýyor
+CONFIG_SOL10_INETD:Solaris 10 veya üstü bir inetd mekanizmasý kullanýlýyor
+CONFIG_STARTUP_PATHS:Sistem baþlangýç yolu olarak þunlar kullanýlýyor: $1
+CONFIG_ROTATE_MIRRORS:Yansý dosyasý döndürülecek
+CONFIG_NO_ROTATE_MIRRORS:Yansý dosyasý döndürülmeyecek
+CONFIG_UPDATE_MIRRORS:Yansý dosyasý güncellenecek
+CONFIG_NO_UPDATE_MIRRORS:Yansý dosyasý güncellenmeyecek
+CONFIG_MIRRORS_MODE0:Yerel ve uzak yansýlarýn her ikiside kullanýlacak
+CONFIG_MIRRORS_MODE1:Yalnýzca yerel yansýlar kullanýlacak
+CONFIG_MIRRORS_MODE2:Yalnýzca uzak yansýlar kullanýlacak
+
+FOUND_CMD:'$1' komutu bulundu: $2
+NOT_FOUND_CMD:'$1' komutu bulunamýyor
+CMD_ERROR:'$1' komutu '$2' hata kodunu verdi.
+
+SYS_PRELINK:Sistem prelinking (önbaðlantý) kullanýyor
+SYS_NO_PRELINK:Sistem prelinking (önbaðlantý) kullanmýyor
+SYS_SELINUX:SELinux etkin
+SYS_NO_SELINUX:SELinux devredýþý
+
+HASH_FUNC_PRELINK:Dosya saðlama kontrolü için prelinking komutu ($1 ile) kullanýlýyor
+HASH_FUNC_PERL:Dosya saðlama kontrolü için perl $1 modülü kullanýlýyor
+HASH_FUNC_PERL_SHA:Dosya saðlama kontrolü için perl $1 modülü ($1 ile) kullanýlýyor
+HASH_FUNC:Dosya saðlama kontrolü için '$1' komutu kullanýlýyor
+HASH_FUNC_NONE:Dosya saðlama kontrolü devredýþý: NONE belirtilmiþ
+HASH_FUNC_NONE_PKGMGR:Dosya saðlama kontrolü NONE belirtilmiþ: yalnýzca paket yöneticisi kullanýlacak
+HASH_FUNC_DISABLED:Saðlama fonksiyonu 'NONE' olarak ayarlandý: dosya saðlama kontrolü otomatikman devredýþý
+HASH_FUNC_OLD:Depolanan saðlama verileri, '$1' saðlama fonksiyonunu kullandý
+HASH_FUNC_OLD_DISABLED:Önceki saðlama fonksiyonu devredýþý býrakýlmýþ: depolanan saðlama verisi yok
+HASH_PKGMGR_OLD:Depolan doðrulama verileri, '$1' paket yöneticisini kullandý
+HASH_PKGMGR_OLD_UNSET:Depolan doðrulama verileri, bir paket yöneticisi kullanmadý
+
+HASH_PKGMGR:Dosya özellikleri kontrolü için '$1' paket yöneticisi kullanýlýyor
+HASH_PKGMGR_MD5:Paket yöneticisi doðrulamasýna yardýmcý olmasý için MD5 saðlama fonksiyonu komutu '$1' kullanýlýyor
+HASH_PKGMGR_SHA:Paket yöneticisi doðrulamasýna yardýmcý olmasý için SHA saðlama fonksiyonu komutu '$1' kullanýlýyor
+HASH_PKGMGR_SUM:Paket doðrulamasý için depolanan 16-bit saðlama kullanýlýyor
+HASH_PKGMGR_NOT_SPEC:Paket yöneticisi belirtilmedi: '$1' saðlama fonksiyonu kullanýlýyor
+HASH_PKGMGR_NOT_SPEC_PRELINKED:Paket yöneticisi belirtilmedi: '$1' ile prelink komutu kullanýlýyor
+
+HASH_FIELD_INDEX:Saðlama fonksiyonu kýsým içeriði, $1 olarak ayarlandý
+
+HASHUPD_DISABLED:Saðlama kontrolü devredýþý: geçerli dosya saðlama verileri depolanmayacak
+HASHUPD_PKGMGR:Dosya saðlama deðerlerini güncellemek için, '$1' paket yöneticisi kullanýlýyor
+HASHUPD_PKGMGR_NOT_SPEC:Dosya saðlama deðerlerini güncellemek için paket yöneticisi belirtilmemiþ: saðlama fonksiyonu olarak '$1' kullanýlýyor
+HASHUPD_PKGMGR_NOT_SPEC_PRELINKED:Dosya saðlama deðerlerini güncellemek için paket yöneticisi belirtilmemiþ: '$1' ile prelink komutu kullanýlýyor
+
+ATTRUPD_DISABLED:Dosya özniteliklerinin kontrolü devredýþý: geçerli dosya öznitelikleri depolanmayacak
+ATTRUPD_NOSTATCMD:Dosya özniteliklerinin kontrolü devredýþý: 'stat' komutu bulunamýyor: geçerli dosya öznitelikleri depolanmayacak
+ATTRUPD_OK:Geçerli dosya öznitelikleri depolanacak
+ATTRUPD_OLD_DISABLED:Önceki dosya öznitelikleri devredýþý: depolanmýþ dosya özniteliði yok
+ATTRUPD_OLD_NOSTATCMD:Önceki dosya öznitelikleri devredýþý: 'stat' komutu bulunamýyor: depolanmýþ dosya özniteliði yok
+ATTRUPD_OLD_OK:Önceki dosya öznitelikleri depolandý
+
+RKHDAT_ADD_NEW_ENTRY:'rkhunter.dat' dosyasýna, $1 dosya girdisi eklendi
+RKHDAT_DEL_OLD_ENTRY:'rkhunter.dat' dosyasýndan, $1 varolmayan dosya girdisi silindi
+
+SYSLOG_ENABLED:Muhtelif günlük/kayýtlarý için 'syslog' kullanýlýyor - imkan/öncelik seviyesi '$1'.
+SYSLOG_DISABLED:Kullanýcýlarýn isteðiyle syslog devredýþý býrakýlýyor.
+SYSLOG_NO_LOGGER:syslog devredýþý býrakýlýyor - 'logger' komutu bulunamýyor.
+
+NAME:$1
+PRESSENTER:[Devam etmek için <ENTER>a basýn]
+TEST_SKIPPED_OS:'$1' testi Ýþletim Sistemi: $2 nedeniyle atlandý
+
+SUMMARY_TITLE1:Sistem kontrol özeti
+SUMMARY_TITLE2:=====================
+SUMMARY_PROP_SCAN:Dosya özellik kontrolü...
+SUMMARY_PROP_REQCMDS:Gerekli komut kontrolü baþarýsýz
+SUMMARY_PROP_COUNT:Dosyalar kontrol edildi: $1
+SUMMARY_PROP_FAILED:Þüpheli dosyalar: $1
+SUMMARY_CHKS_SKIPPED:Tüm kontroller atlandý
+SUMMARY_RKT_SCAN:Rootkit kontrolü...
+SUMMARY_RKT_COUNT:Rootkitler kontrol edildi : $1
+SUMMARY_RKT_FAILED:Olasý rootkitler: $1
+SUMMARY_RKT_NAMES:Rootkit isimleri    : $1
+SUMMARY_APPS_SCAN:Uygulama kontrolü...
+SUMMARY_APPS_COUNT:Kontrol edilen uygulamalar: $1
+SUMMARY_APPS_FAILED:Þüpheli uygulamalar: $1
+SUMMARY_SCAN_TIME:Sistem kontrolleri alýndý: $1
+SUMMARY_NO_SCAN_TIME:Sistem kontrolü alýndý: Saat zamaný belirlenemiyor
+SUMMARY_LOGFILE:Tüm sonuçlar günlük/kayýt dosyasýna yazýlmýþtýr: $1
+SUMMARY_NO_LOGFILE:Oluþturulmuþ kayýt dosyasý yok.
+SUMMARY_LOGFILE_COPIED:Günlük/kayýt dosyasý $1 þeklinde kopyalandý
+
+CREATED_TEMP_FILE:Geçici dosya oluþturuldu '$1'
+
+MIRRORS_NO_FILE:Hedef dosya mevcut deðil: $1
+MIRRORS_NO_MIRRORS:Yansý dosyasý için gerekli yansý içermiyor: $1
+MIRRORS_NO_VERSION:Yansý dosyasý sürüm numarasý içermiyor - sýfýra resetleniyor: $1
+MIRRORS_ROTATED:Yansý dosyasý döndürülmüþtür: $1
+MIRRORS_SF_DEFAULT:SourceForge yansýsý kullanýlýyor: $1
+
+DOWNLOAD_CMD:Ýndirme komutu iþletiliyor '$1'
+DOWNLOAD_FAIL:Ýndirme baþarýsýz - $1 mirror(s) left.
+
+VERSIONCHECK_START:Rkhunter sürümü kontrol ediliyor...
+VERSIONCHECK_FAIL_ALL:Ýndirme baþarýsýz: Programýn son sürüm numarasý belirlenemiyor.
+VERSIONCHECK_CURRENT:Bu sürüm  : $1
+VERSIONCHECK_LATEST:Son sürüm: $1
+VERSIONCHECK_LATEST_FAIL:Son sürüm: Ýndirme baþarýsýz
+VERSIONCHECK_UPDT_AVAIL:Güncelleme mevcut
+VERSIONCHECK_CONV_FAIL:Sürüm numaralarý karþýlaþtýrýlamýyor: Program: '$1'    Son: '$2'
+
+UPDATE_START:rkhunter veri dosyalarý kontrol ediliyor...
+UPDATE_CHECKING_FILE:Dosya kontrol ediliyor: $1
+UPDATE_FILE_NO_VERS:'$1' dosyasýnýn geçerli sürüm numarasý yok. Yeni bir kopyasý indiriliyor.
+UPDATE_FILE_MISSING:'$1' dosyasý yok yada boþ. Yeni bir kopyasý indiriliyor.
+UPDATE_DOWNLOAD_FAIL:'$1' dosyasýnýn indirilmesi baþarýsýz: Son sürüm numarasý belirlenemiyor.
+UPDATE_I18N_NO_VERS:i18n dil dosyasý sürüm numaralarý bulunamadý.
+UPDATE_SKIPPED:Kullanýcýlarýn isteði üzerine dil dosyasý güncelleme iþlemi atlandý.
+
+OSINFO_START:Ýþletim Sisteminin en son ne zaman deðiþtiði kontrol ediliyor...
+OSINFO_END:Deðiþen birþey yok gibi görünüyor.
+OSINFO_HOST_CHANGE1:Son çalýþtýrmadan bu yana hostname deðiþmiþ gibi görünüyor:
+OSINFO_HOST_CHANGE2:Eski host deðeri: $1    Yeni host deðeri: $2
+OSINFO_OSVER_CHANGE1:Son çalýþtýrmadan bu yana Ýþletim Sistemi adý veya sürümü deðiþmiþ gibi görünüyor:
+OSINFO_OSVER_CHANGE2:Eski Ý/S deðeri: $1    Yeni Ý/S deðeri: $2
+OSINFO_PRELINK_CHANGE:Son çalýþtýrmadan bu yana prelinking olarak ${1} þeklinde deðiþtirilmiþ gibi görünüyor.
+OSINFO_ARCH_CHANGE1:Sistemin CPU türü deðiþmiþ gibi görünüyor:
+OSINFO_ARCH_CHANGE2:Eski CPU deðeri: $1    Yeni deðer: $2
+OSINFO_MSG1:Çünkü dosya özelliði deðiþikliklerinin kontrolü bazý yanlýþ-olumlu sonuçlar verebilir.
+OSINFO_MSG2:'--propupd' seçeneði ile rkhunterý tekrar çalýþtýrmanýz gerekebilir.
+OSINFO_DO_UPDT:Dosya özellikleri dosyasý otomatik olarak güncellenecek.
+
+SET_FILE_PROP_START:Dosya özelliklerini alýnýyor...
+SET_FILE_PROP_DIR_FILE_COUNT:$2 dizininde $1 dosya bulundu
+SET_FILE_PROP_FILE_COUNT:Dosya $1: aranan $2 dosya, $3 tane bulundu
+SET_FILE_PROP_FILE_COUNT_BL:Dosya $1: aranan $2 dosya, $3 tane bulundu, kýrýk link: $4
+SET_FILE_PROP_FILE_COUNT_PROPOPT:Dosya $1: aranan $2 dosya, $4 taneden $3 tanesi bulundu
+SET_FILE_PROP_FILE_COUNT_PROPOPT_BL:Dosya $1: aranan $2 dosya, $4 taneden $3 tanesi bulundu, kýrýk link: $5
+SET_FILE_PROP_FILE_COUNT_NOHASH:Dosya $1: aranan $2 dosya, $3 tane bulundu, kayýp saðlama: $4
+SET_FILE_PROP_FILE_COUNT_NOHASH_BL:Dosya $1: aranan $2 dosya, $3 tane bulundu, kayýp saðlama: $4, kýrýk link: $5
+SET_FILE_PROP_FILE_COUNT_NOHASH_PROPOPT:Dosya $1: aranan $2 dosya, $4 taneden $3 tanesi bulundu, kayýp saðlama $5
+SET_FILE_PROP_FILE_COUNT_NOHASH_PROPOPT_BL:Dosya $1: aranan $2 dosya, $4 taneden $3 tanesi bulundu, kayýp saðlama: $5, kýrýk link: $6
+
+PROPUPD_START:Dosya özellikleri veri güncellemesi baþlatýlýyor...
+PROPUPD_OSINFO_START:Ýþletim Sistemi bilgisi toplanýyor...
+PROPUPD_ARCH_FOUND:Sistem mimarisi bulundu: $1
+PROPUPD_REL_FILE:Sürüm dosyasý bulundu: $1
+PROPUPD_NO_REL_FILE_NO_OUTPUT:Bir Ý/S sürüm dosyasý bulunamadý.
+PROPUPD_NO_REL_FILE:Bir Ý/S sürüm dosyasý bulunamadý: LS çýktýsý:
+PROPUPD_OSNAME_FOUND:Bulunan Ýþletim Sistemi: $1
+PROPUPD_ERROR:Yeni rkhunter.dat dosyasý kurulurken hata. Kod $1
+PROPUPD_NEW_DAT_FILE:Yeni rkhunter.dat dosyasý '$1' dizininde kuruldu
+PROPUPD_WARN:UYARI! Sistemlerindeki dosyalarýn doðru olup olmadýðýndan ve güvenilir bir kaynaktan yüklenip
+PROPUPD_WARN:yüklenmediðinden emin olmak için '--propupd' seçeneðini kullanmalarý, kullanýcýlarýn
+PROPUPD_WARN:sorumluluðundadýr. rkhunter geçerli dosya özelliklerini daha önceden depolanmýþ deðerlerle
+PROPUPD_WARN:karþýlaþtýrýr ve herhangi bir deðer farklýlýðýný rapor eder. Bununla birlikte rkhunter,
+PROPUPD_WARN:deðiþikliklere neyin sebep olduðunu belirleyemez, bunu sebepleri kullanýcý kendisi bulmalýdýr.
+
+ENABLED_TESTS:Etkin testler: $1
+DISABLED_TESTS:Devredýþý testler: $1
+
+USER_FILE_LIST:Dosya özellikleri kontrolüne kullanýcý dosyalarý dahil ediliyor:
+USER_CMD_LIST:Dosya özellikleri kontrolüne kullanýcý komutlarý dahil ediliyor:
+USER_DIR_LIST:Dosya özellikleri kontrolüne kullanýcý dizinleri dahil ediliyor:
+USER_EXCLUDE_PROP:Dosya özellikleri kontrolünden hariç tutulanlar:
+
+KSYMS_FOUND:'$1' kysm dosyasý bulundu
+KSYMS_UNAVAIL:Tüm ksym ve kallsym kontrolleri atlanacak - dosya okunabilir deðil.
+KSYMS_MISSING:Tüm ksym ve kallsym kontrolleri atlanacak - hiçbir dosya sistemde mevcut deðil.
+
+STARTING_TEST:'$1' testi baþlatýlýyor
+USER_DISABLED_TEST:Kullanýcý isteðiyle '$1' testi devredýþý býrakýldý.
+
+CHECK_START:Sistem kontrolleri baþlatýlýyor...
+CHECK_WARNINGS_NOT_FOUND:Sistem kontrol edilirken herhangi bir uyarý bulunamadý.
+CHECK_WARNINGS_NOT_FOUND0:Sistem kontrol edilirken 0 uyarý bulundu.
+CHECK_WARNINGS_FOUND:Sistem kontrol edilirken bir veya daha fazla uyarý bulundu.
+CHECK_WARNINGS_FOUND_NUMBER:Sistem kontrol edilirken $1 uyarý bulundu.
+CHECK_WARNINGS_FOUND_NUMBER1:Sistem kontrol edilirken 1 uyarý bulundu.
+CHECK_WARNINGS_FOUND_RERUN:Bir günlük/kayýt dosyasý oluþturmak için lütfen rkhunterý tekrar çalýþtýrýn.
+CHECK_WARNINGS_FOUND_CHK_LOG:Lütfen günlük/kayýt dosyasýný ($1) kontrol edin
+
+CHECK_SYS_COMMANDS:Sistem komutlarý kontrol ediliyor...
+STRINGS_CHECK_START:'strings' komut kontrolü iþletiliyor
+STRINGS_SCANNING_OK:Ýfade (OK) taranýyor: $1
+STRINGS_SCANNING_BAD:Ýfade (BAD) taranýyor: $1
+STRINGS_SCANNING_BAD:'strings' komut kontrolünde (BAD) ifade bulunamadý
+STRINGS_CHECK:'strings' komutu kontrol ediliyor
+STRINGS_CHECK:Kontrol atlandý - 'strings' komutu bulunamýyor.
+
+FILE_PROP_START:Dosya özelliklerinin kontrolleri gerçekleþtiriliyor
+FILE_PROP_CMDS:Ön koþullar kontrol ediliyor
+FILE_PROP_IMMUT_OS:Tüm immutable-bit kontrolleri atlanýyor.Bu kontrol sadece Linux sistemleri için kullanýlabilir.
+FILE_PROP_IMMUT_SET:Immutable-bit kontrolü tersine dönecek.
+FILE_PROP_SKIP_ATTR:'stat' komutu bulunamýyor - tüm dosya nitelik kontrolleri atlanacak.
+FILE_PROP_SKIP_HASH:Tüm dosya saðlama kontrolleri atlanacak, çünkü:
+FILE_PROP_SKIP_HASH_FUNC:Geçerli saðlama fonksiyonu ($1) ya da ($2) paket yöneticisi saðlama fonksiyonu, deðerleri saklamak için kullanýlan ($3) saðlama fonksiyonu veya ($4) paket yöneticisi ile uyumsuz.
+FILE_PROP_SKIP_HASH_PRELINK:'prelink' komutu bulunamýyor.
+FILE_PROP_SKIP_HASH_SHA1:Bu sistem prelinking kullanýyor, fakat saðlama fonksiyonu komutu SHA1 yada MD5 gibi görünmüyor.
+FILE_PROP_SKIP_HASH_LIBSAFE:Libsafe bulundu, bu durum hatalara neden olabilir. Mümkünse, libsafe'i devre dýþý býrakýn ve sonra prelink komutunu çalýþtýrýn. Son olarak, 'rkhunter --propupd' komutunu kullanarak saðlama deðerlerini tekrar oluþturun.
+FILE_PROP_SKIP_IMMUT:'lsattr' komutu bulunamýyor - tüm dosya immutable-bit kontrolleri atlanacak.
+FILE_PROP_SKIP_IMMUT_CMD:'$1' komutu sonrasý bir çýktý yok - tüm dosya immutable-bit kontrolleri atlanacak.
+FILE_PROP_SKIP_SCRIPT:'file' komutu bulunamýyor - Tüm komut dosyasý yedek kontrolleri atlanacak.
+FILE_PROP_SKIP_FILE_CMD:'file' komutu sonrasý bir çýktý yok - tüm script deðiþtirme kontrolleri atlanacak.
+FILE_PROP_NO_OS_WARNING:Ýþletim Sistemi deðiþiklik uyarýlarý kullanýcý isteði üzerine devredýþý býrakýlmýþ.
+FILE_PROP_OS_CHANGED:Yerel host yapýlandýrmasý yada iþletim sistemi deðiþmiþ.
+FILE_PROP_DAT_MISSING:Depolanan dosya özellikleri dosyasý (rkhunter.dat) mevcut deðil ve oluþturulmasý gerekiyor. Bunun için 'rkhunter --propupd' komutunu çalýþtýrýn.
+FILE_PROP_DAT_EMPTY:Depolanan dosya özellikleri dosyasý (rkhunter.dat) boþ ve oluþturulmasý gerekiyor. Bunun için 'rkhunter --propupd' komutunu çalýþtýrýn.
+FILE_PROP_SKIP_ALL:Tüm dosya özellikleri kontrolleri atlanýyor.
+FILE_PROP_DAT_MISSING_INFO:Dosya özellik kontrolleri, rkhunter.dat dosyasý olmadan da yapýlabilen kontrolleri yerine getirmek üzere yine de çalýþacaktýr.
+
+FILE_PROP_FILE_NOT_EXIST:'$1' dosyasý sistem üzerinde bulunamadý, ancak 'rkhunter.dat' dosyasýnda mevcut.
+FILE_PROP_WL:'$1' dosyasý bulundu: Bu dosya '$2' kontrolü için beyaz listede.
+FILE_PROP_WL_STR:'$1' dosyasý ve '$2' dizisi bulundu: Bunlar '$3' kontrolü için beyaz listedeler.
+FILE_PROP_WL_DIR:'$1' dizini bulundu: Bu dizin '$2' kontrolü için beyaz listede.
+FILE_PROP_NO_RKH_REC:'$1' dosyasý sistemde mevcut, fakat 'rkhunter.dat' dosyasýnda mevcut deðil.
+FILE_PROP_CHANGED:Dosya özellikleri deðiþti:
+FILE_PROP_CHANGED2:Dosya: $1
+FILE_PROP_NO_PKGMGR_FILE:'$1' dosyasý saðlama deðeri atlandý: dosya bir pakete ait deðil
+FILE_PROP_NO_SYSHASH:'$1' dosyasý için saðlama deðeri yok
+FILE_PROP_NO_SYSHASH_BL:$1 dosyasý bir kýrýk link.
+FILE_PROP_BROKEN_LINK_WL_TGT:Kýrýk link bulundu, fakat sözkonusu hedeflerin varlýðý beyaz listede: '$1'
+FILE_PROP_NO_SYSHASH_CMD:Saðlama komutu çýktýsý: $1
+FILE_PROP_NO_SYSHASH_DEPENDENCY:Baðýmlýlýk hatalarýný gidermek için 'prelink $1' komutunu deneyin.
+FILE_PROP_IGNORE_PRELINK_DEP_ERR:'$1' dosyasý için prelink baðýmlýlýk hatasý görmezden geliniyor
+FILE_PROP_SYSHASH_UNAVAIL:Geçerli saðlama: Mevcut deðil
+FILE_PROP_SYSHASH_UNAVAIL_BL:Geçerli saðlama: Mevcut deðil (muhtemelen kýrýk link)
+FILE_PROP_SYSHASH:Geçerli saðlama: $1
+FILE_PROP_RKHHASH:Depolanan saðlama: $1
+FILE_PROP_NO_RKHHASH:'rkhunter.dat' dosyasýnda '$1' dosyasý için saðlama deðeri yok.
+FILE_PROP_NO_RKHPERM:'rkhunter.dat' dosyasýnda '$1' dosyasý için dosya izni deðeri yok.
+FILE_PROP_PERM_UNAVAIL:Geçerli dosya izni: Mevcut deðil    Depolanan dosya izni: $1
+FILE_PROP_PERM:Geçerli dosya izni: $1    Depolanan dosya izni: $2
+FILE_PROP_UID_UNAVAIL:Geçerli UID: Mevcut deðil    Depolanan UID: $1
+FILE_PROP_UID:Geçerli UID: $1    Depolanan UID: $2
+FILE_PROP_NO_RKHUID:'rkhunter.dat' dosyasýnda '$1' dosyasý için UID deðeri yok.
+FILE_PROP_GID_UNAVAIL:Geçerli GID: Mevcut deðil    Depolanan GID: $1
+FILE_PROP_GID:Geçerli GID: $1    Depolanan UID: $2
+FILE_PROP_NO_RKHGID:'rkhunter.dat' dosyasýnda '$1' dosyasý için GID deðeri yok.
+FILE_PROP_INODE_UNAVAIL:Geçerli inode: Mevcut deðil    Depolanan inode: $1
+FILE_PROP_INODE:Geçerli inode: $1    Depolanan inode: $2
+FILE_PROP_NO_RKHINODE:'rkhunter.dat' dosyasýnda '$1' dosyasý için inode deðeri yok.
+FILE_PROP_SIZE_UNAVAIL:Geçerli boyut: Mevcut deðil    Depolanan boyut: $1
+FILE_PROP_SIZE:Geçerli boyut: $1    Depolanan boyut: $2
+FILE_PROP_NO_RKHSIZE:'rkhunter.dat' dosyasýnda '$1' dosyasý için boyut deðeri yok.
+FILE_PROP_SYSDTM_UNAVAIL:Geçerli dosya deðiþiklik zamaný: Mevcut deðil
+FILE_PROP_SYSDTM:Geçerli dosya deðiþiklik zamaný: $1
+FILE_PROP_RKHDTM:Depolanan dosya deðiþiklik zamaný: $1
+FILE_PROP_NO_RKHDTM:'rkhunter.dat' dosyasýnda '$1' dosyasý için dosya deðiþiklik zamaný deðeri yok.
+FILE_PROP_SYSLNK:Geçerli sembolik link hedefi: '$1' -> '$2'
+FILE_PROP_RKHLNK:Depolanan sembolik link hedefi : '$1' -> '$2'
+FILE_PROP_NO_RKHLNK:'$1' dosyasý için 'rkhunter.dat' dosyasýnda sembolik link hedefi bulunamadý.
+FILE_PROP_LINK_WL:Sembolik link hedefi deðiþmiþ, fakat beyaz listede: '$1' -> '$2'
+FILE_PROP_NO_SYSATTR:'$1' dosyasýnýn geçerli dosya özellikleri elde edilemiyor
+FILE_PROP_WRITE:'$1' dosyasýnýn yazma izni tüm kullanýcýlar için ayarlandý.
+FILE_PROP_SYSPERM_UNAVAIL:'$1' dosyasýnýn geçerli yazma izni elde edilemiyor
+FILE_PROP_IMMUT:'$1' dosyasý immutable-bit ayarýna sahip.
+FILE_PROP_IMMUT_NOT_SET:'$1' dosyasý immutable-bit ayarýna sahip deðil.
+FILE_PROP_SCRIPT:'$1' komutu, '$2' scripti ile deðiþtirilmiþtir.
+FILE_PROP_SCRIPT_RKH:'$1' komutu, '$2' ile deðiþtirilmiþ olup bir script deðildir.
+
+FILE_PROP_VRFY:Paket yöneticisi doðrulamasý baþarýsýz oldu:
+FILE_PROP_VRFY_HASH:Dosya hash deðeri deðiþmiþ
+FILE_PROP_VRFY_PERM:Dosya izinleri deðiþmiþ
+FILE_PROP_VRFY_UID:Dosya sahibi deðiþmiþ
+FILE_PROP_VRFY_GID:Dosya grubu deðiþmiþ
+FILE_PROP_VRFY_DTM:Dosya deðiþiklik zamaný deðiþmiþ
+FILE_PROP_VRFY_LNK:Sembolik link hedefi deðiþmiþ
+FILE_PROP_VRFY_SIZE:Dosya boyutu deðiþmiþ
+
+FILE_PROP_EPOCH_DATE_CMD:Ýkinci tur iþlemi için '$1' kullanýlýyor.
+
+CHECK_ROOTKITS:Rootkitler kontrol ediliyor...
+ROOTKIT_FILES_DIRS_START:Bilinen rootkit dosyalarý ve dizinlerinin kontrolü çalýþtýrýlýyor
+ROOTKIT_FILES_DIRS_NAME_LOG:${1} için kontrol ediliyor...
+ROOTKIT_FILES_DIRS_FILE:Dosya kontrol ediliyor '$1'
+ROOTKIT_FILES_DIRS_DIR:Dizin kontrol ediliyor '$1'
+ROOTKIT_FILES_DIRS_KSYM:Kernel sembolü '$1' için kontrol ediliyor
+ROOTKIT_FILES_DIRS_FILE_FOUND:'$1' dosyasý bulundu
+ROOTKIT_FILES_DIRS_DIR_FOUND:'$1' dizini bulundu
+ROOTKIT_FILES_DIRS_KSYM_FOUND:Kernel sembolü '$1' bulundu
+ROOTKIT_FILES_DIRS_STR:'$1' dizisi için kontrol ediliyor
+ROOTKIT_FILES_DIRS_STR_FOUND:'$2' dosyasýnda '$1' dizisi bulundu
+ROOTKIT_FILES_DIRS_NOFILE:'$1' dosyasý mevcut deðil!
+ROOTKIT_FILES_DIRS_SINAR_DIR:'$1' dizininde kontrol ediliyor
+ROOTKIT_FILES_DIRS_SINAR:'$1' dizininde SInAR bulundu
+
+ROOTKIT_LINK_COUNT:'$1' dizininde hard link sayýsý kontrol ediliyor
+ROOTKIT_LINK_COUNT_FAIL:'$1' komutundan hard link sayýsý: $2
+ROOTKIT_LINK_COUNT_CMDERR:'$2' kontrol edildiðinde '$2' komutundan hata döndürüldü
+
+ROOTKIT_PHALANX2_LINK_COUNT_FAIL:'$1' üzerinde hard link kontrolü baþarýsýz oldu
+ROOTKIT_PHALANX2_PROC:'ata/0' iþlemi için iþlem listesi kontrol ediliyor
+ROOTKIT_PHALANX2_PROC_FOUND:Çalýþan 'ata/0' iþlemi bulundu
+ROOTKIT_PHALANX2_PROC_PPID:Beklenen 'kthread' parent PID'si '$1', bulunan parent PID'si '$2'
+ROOTKIT_PHALANX2_PROC_PS_ERR:'ps' çalýþtýrýlýrken beklenmeyen sonuçlar döndürüldü: muhtemelen desteklenmeyen komut satýrý argümanlarý.
+
+ROOTKIT_ADD_START:Ek rootkit kontrolleri çalýþtýrýlýyor
+ROOTKIT_ADD_SUCKIT:Suckit Rookit ek kontrolleri
+ROOTKIT_ADD_SUCKIT_LOG:Suckit Rookit ek kontrolleri çalýþtýrýlýyor
+ROOTKIT_ADD_SUCKIT_LINK_NOCMD:'/sbin/init' link sayýsý kontrol ediliyor: 'stat' komutu bulunamadý
+ROOTKIT_ADD_SUCKIT_LINK_FOUND:'/sbin/init' link sayýsý kontrol ediliyor: sayý $1, 1 olmalýdýr
+ROOTKIT_ADD_SUCKIT_EXT:Gizli dosya uzantýlarý kontrol ediliyor
+ROOTKIT_ADD_SUCKIT_EXT_FOUND:Gizli dosya uzantýlarý kontrol ediliyor: $1 tane bulundu
+ROOTKIT_ADD_SUCKIT_SKDET:'skdet' komutu çalýþtýrýlýyor
+ROOTKIT_ADD_SUCKIT_SKDET_FOUND:'skdet' komutu çalýþtýrýlýyor: $1 tane bulundu
+ROOTKIT_ADD_SUCKIT_SKDET_VER:'skdet' komutu çalýþtýrýlýyor: bilinmeyen sürüm: $1
+
+ROOTKIT_POSS_FILES_DIRS:Olasý rootkit dosya ve klasörleri kontrol ediliyor
+ROOTKIT_POSS_FILES_DIRS_LOG:Olasý rootkit dosya ve klasörlerinin kontrolü çalýþtýrýlýyor
+ROOTKIT_POSS_FILES_FILE_FOUND:'$1' dosyasý bulundu. Olasý rootkit: $2
+ROOTKIT_POSS_FILES_DIR_FOUND:'$1' klasörü bulundu. Olasý rootkit: $2
+
+ROOTKIT_POSS_STRINGS:Olasý rootkit dizileri kontrol ediliyor
+ROOTKIT_POSS_STRINGS_LOG:Olasý rootkit dizilerinin kontrolü çalýþtýrýlýyor
+ROOTKIT_POSS_STRINGS_FOUND:'$2' dosyasýnda '$1' dizisi bulundu. Olasý rootkit: $3
+
+ROOTKIT_MALWARE_START:Zararlý yazýlým kontrolü çalýþtýrýlýyor
+ROOTKIT_MALWARE_SUSP_FILES:Þüpheli dosyalar için çalýþan iþlemler kontrol ediliyor
+ROOTKIT_MALWARE_SUSP_FILES_FOUND:Aþaðýdaki iþlemler þüpheli dosya(lar) kullanýyor:
+ROOTKIT_MALWARE_SUSP_FILES_FOUND_UID:UID: $1    PID: $2
+ROOTKIT_MALWARE_SUSP_FILES_FOUND_CMD:Komut: $1
+ROOTKIT_MALWARE_SUSP_FILES_FOUND_PATH:Yol ismi: $1
+ROOTKIT_MALWARE_SUSP_FILES_FOUND_RTKT:Olasý Rootkit: $1
+ROOTKIT_MALWARE_HIDDEN_PROCS:Gizli iþlemler kontrol ediliyor
+ROOTKIT_MALWARE_HIDDEN_PROCS_UNHIDE_VERS:'unhide' komut sürümü bulundu: $1
+ROOTKIT_MALWARE_HIDDEN_PROCS_UNHIDE_CMD:'$1' komutu kullanýlýyor
+ROOTKIT_MALWARE_HIDDEN_PROCS_UNH_ERR:'unhide' çalýþtýrýlabilir deðil: geçersiz yapýlandýrýlmýþ testler: $1
+ROOTKIT_MALWARE_HIDDEN_PROCS_FOUND:Gizli iþlemler bulundu:
+ROOTKIT_MALWARE_DELETED_FILES:Silinen dosyalar için çalýþan iþlemler kontrol ediliyor
+ROOTKIT_MALWARE_DELETED_FILES_FOUND:Aþaðýdaki iþlemler silinen dosya(lar) kullanýyor:
+ROOTKIT_MALWARE_DELETED_FILES_FOUND_DATA:Ýþlem: $1    PID: $2    Dosya: $3
+ROOTKIT_MALWARE_DELETED_FILES_WL:Beyaz listedeki '$1' dosyasýný kullanan '$1' iþlemi bulundu.
+ROOTKIT_MALWARE_LOGIN_BDOOR:Arkakapý giriþleri kontrol ediliyor
+ROOTKIT_MALWARE_LOGIN_BDOOR_CHK:'$1' kontrol ediliyor
+ROOTKIT_MALWARE_LOGIN_BDOOR_FOUND:Arkakapý giriþ dosyasý bulundu: $1
+ROOTKIT_MALWARE_SUSP_DIR:Þüpheli klasörler kontrol ediliyor
+ROOTKIT_MALWARE_SUSP_DIR_FOUND:Þüpheli klasör bulundu: $1
+ROOTKIT_MALWARE_SFW_INTRUSION:Yazýlým ihlalleri kontrol ediliyor
+ROOTKIT_MALWARE_SFW_INTRUSION_FOUND:'$1' dosyasý '$2' dizisini içeriyor. Olasý rootkit: SHV5
+ROOTKIT_MALWARE_SFW_INTRUSION_SKIP:Kontrol atlandý - tripwire yüklü deðil
+ROOTKIT_MALWARE_SNIFFER:Algýlayýcý günlük/kayýt dosyalarý kontrol ediliyor
+ROOTKIT_MALWARE_SNIFFER_FOUND:Algýlayýcý günlük/kayýt dosyasý bulundu: $1
+ROOTKIT_MALWARE_IPCS:Þüpheli Paylaþýlan Bellek segmentleri
+ROOTKIT_MALWARE_IPCS_FOUND:Þu þüpheli paylaþým belleði segmentleri bulundu:
+ROOTKIT_MALWARE_IPCS_DETAILS:Ýþlem: $1    PID: $2    Sahibi: $3
+ROOTKIT_MALWARE_IPCS_WL:Ýþlem yolu adý '$1': beyaz listeye alýndý.
+
+ROOTKIT_TROJAN_START:Spesifik trojan kontrolleri çalýþtýrýlýyor
+ROOTKIT_TROJAN_INETD:Etkin inetd servisleri kontrol ediliyor
+ROOTKIT_TROJAN_INETD_SKIP:Kontrol atlandý - '$1' dosyasý mevcut deðil.
+ROOTKIT_TROJAN_INETD_FOUND:Etkin inetd servisi bulundu: $1
+ROOTKIT_TROJAN_XINETD:Etkin xinetd servisleri kontrol ediliyor
+ROOTKIT_TROJAN_XINETD_ENABLED:Etkin servisler için, '$1' çalýþtýrýlýyor
+ROOTKIT_TROJAN_XINETD_INCLUDE:'include $1' direktifi bulundu
+ROOTKIT_TROJAN_XINETD_INCLUDEDIR:'includedir $1' direktifi bulundu
+ROOTKIT_TROJAN_XINETD_ENABLED_FOUND:Etkin xinetd servisi bulundu: $1
+ROOTKIT_TROJAN_XINETD_WHITELIST:'$1' servisi bulundu: $2 beyaz listesinde.
+ROOTKIT_TROJAN_APACHE:Apache arkakapýsý kontrol ediliyor
+ROOTKIT_TROJAN_APACHE_SKIPPED:Apache arkakapýsý kontrolü atlandý: Apache modül ve yapýlandýrma klasörleri bulunamadý.
+ROOTKIT_TROJAN_APACHE_FOUND:Apache arkakapý modülü 'mod_rootme' bulundu: $1
+
+ROOTKIT_OS_START:Spesifik $1 kontrolleri çalýþtýrýlýyor
+ROOTKIT_OS_SKIPPED:Spesifik test yok
+ROOTKIT_OS_BSD_SOCKNET:'sockstat' ve 'netstat' komutlarý kontrol ediliyor
+ROOTKIT_OS_BSD_SOCKNET_FOUND:'sockstat' ve 'netstat' komutlarý arasýnda bulunan farklýlýklarýn çýktýsý:
+ROOTKIT_OS_BSD_SOCKNET_OUTPUT:$1 çýktýsý (port kullanýmda): $2
+ROOTKIT_OS_FREEBSD_KLD:KLD arkakapýlarý kontrol ediliyor
+ROOTKIT_OS_FREEBSD_KLD_FOUND:Olasý FreeBSD KLD arkakapýsý bulundu. 'kldstat -v' komutu '$1' dizisini gösteriyor
+ROOTKIT_OS_FREEBSD_PKGDB:Paket veritabaný kontrol ediliyor
+ROOTKIT_OS_FREEBSD_PKGDB_NOTOK:Paket veritabanýnýn tutarsýzlýklarý var gibi görünüyor.
+ROOTKIT_OS_FREEBSD_PKGDB_NOTOK:Bu bir güvenlik sorunu olmayabilir, ama 'pkgdb -F' komutunu çalýþtýrmak sorunu teþhis etmeye yardýmcý olabilir.
+ROOTKIT_OS_DFLY_PKGDB_NOTOK:Paket veritabanýnýn tutarsýzlýklarý var gibi görünüyor.
+ROOTKIT_OS_DFLY_PKGDB_NOTOK:Bu bir güvenlik sorunu olmayabilir, ama 'pkg_admin check' komutunu çalýþtýrmak sorunu teþhis etmeye yardýmcý olabilir.
+ROOTKIT_OS_LINUX_LKM:Yüklü kernel modülleri kontrol ediliyor
+ROOTKIT_OS_LINUX_LKM_FOUND:'lsmod' komutu ve '/proc/modules' dosyasý arasýnda farklýlýklar bulundu:
+ROOTKIT_OS_LINUX_LKM_OUTPUT:$1 çýktýsý: $2
+ROOTKIT_OS_LINUX_LKM_EMPTY:'lsmod' komutu ya da /proc/modules dosyasýndan bir çýktý bulunamadý:
+ROOTKIT_OS_LINUX_LKM_MOD_MISSING:'$1' modül dosyasý kayýp.
+ROOTKIT_OS_LINUX_LKMNAMES:Kernek çekirdek modülleri kontrol ediliyor
+ROOTKIT_OS_LINUX_LKMNAMES_PATH:Modüllerin yolu olarak '$1' kullanýlýyor
+ROOTKIT_OS_LINUX_LKMNAMES_FOUND:'$1' konumunda bilinen kötü kernel modülü bulundu: $2
+ROOTKIT_OS_LINUX_LKMNAMES_PATH_MISSING:Kernel modül dizini '$1' kayýp yada boþ.
+
+CHECK_LOCALHOST:Yerel host kontrol ediliyor...
+STARTUP_FILES_START:Sistem boot kontrolleri çalýþtýrýlýyor
+STARTUP_HOSTNAME:Yerel host adý kontrol ediliyor
+STARTUP_NO_HOSTNAME:Host adý bulunamadý.
+STARTUP_CHECK_FILES_EXIST:Sistem baþlangýç dosyalarý kontrol ediliyor
+STARTUP_NONE_GIVEN:Baþlangýç dosya yollarý için kullanýcý tercihi 'NONE'
+STARTUP_CHECK_FILES_MALWARE:Sistem baþlangýç dosyalarý zararlý yazýlým için kontrol ediliyor
+STARTUP_CHECK_NO_RC_FILES:Sistem baþlangýç dosyalarý bulunamadý.
+
+ACCOUNTS_START:Grup ve hesap kontrolleri çalýþtýrýlýyor
+ACCOUNTS_PWD_FILE_CHECK:Þifre dosyasý kontrol ediliyor
+ACCOUNTS_FOUND_PWD_FILE:Þifre dosyasý bulundu: $1
+ACCOUNTS_NO_PWD_FILE:Þifre dosyasý '$1' mevcut deðil.
+ACCOUNTS_UID0:Rootla (UID 0) eþdeðer hesaplar kontrol ediliyor
+ACCOUNTS_UID0_WL:Rootla (UID 0) eþdeðer hesap '$1' bulundu: Beyaz listede.
+ACCOUNTS_UID0_FOUND:'$1' hesabý rootla eþdeðer (UID = 0)
+ACCOUNTS_SHADOW_FILE:Gölge dosyasý bulundu: $1
+ACCOUNTS_SHADOW_TCB:TCB gölge dosyasý dizini bulundu: $1
+ACCOUNTS_PWDLESS:Þifresiz hesaplar kontrol ediliyor
+ACCOUNTS_PWDLESS_WL:Þifresiz hesap bulundu: '$1': Beyaz listede.
+ACCOUNTS_PWDLESS_FOUND:'$1' dosyasýnda þifresiz hesap bulundu: $2
+ACCOUNTS_NO_SHADOW_FILE:Gölge/þifre dosyasý bulunamadý.
+
+PASSWD_CHANGES:Þifre dosyasý deðiþiklikleri kontrol ediliyor
+PASSWD_CHANGES_NO_TMP:Þifre dosyasý farklýlýklarý için kontrol yapýlamýyor: Varolan þifre dosyasýnýn kopyasý yok.
+
+PWD_CHANGES_IDADD:'$1' kullanýcýsý þifre dosyasýna eklenmiþtir.
+PWD_CHANGES_IDREM:'$1' kullanýcýsý þifre dosyasýndan kaldýrýlmýþtýr.
+PWD_CHANGES_FOUND:Þifre dosyasýnda '$1' kullanýcýsýna ait deðiþiklikler bulundu:
+PWDGRP_CHANGES_UNK:$1 dosyasýnda bilinmeyen alan bulundu: Eski alan: '$2' Yeni alan: '$3'
+PWD_CHANGES_PWD:Þifre '$1' iken, '$2' þeklinde deðiþtirildi
+PWD_CHANGES_UID:UID '$1' iken, '$2' þeklinde deðiþtirildi
+PWD_CHANGES_GID:GID '$1' iken, '$2' þeklinde deðiþtirildi
+PWD_CHANGES_COMM:Hesap açýklamasý '$1' iken, '$2' þeklinde deðiþtirildi
+PWD_CHANGES_HOME:Hesap kök dizini '$1' iken, '$2' þeklinde deðiþtirildi
+PWD_CHANGES_SHL:Varsayýlan kabuk '$1' iken, '$2' þeklinde deðiþtirildi
+
+GROUP_CHANGES:Grup dosyasý deðiþiklikleri kontrol ediliyor
+GROUP_CHANGES_NO_FILE:Grup dosyasý '$1' mevcut deðil.
+GROUP_CHANGES_NO_TMP:Grup dosyasý farklýlýklarý için kontrol yapýlamýyor: Varolan grup dosyasýnýn kopyasý yok.
+GROUP_CHANGES_FOUND:'$1' grubu için grup dosyasýnda deðiþiklikler bulundu:
+GROUP_CHANGES_IDADD:'$1' grubu, grup dosyasýna eklenmiþtir.
+GROUP_CHANGES_IDREM:'$1' grubu, grup dosyasýndan kaldýrýlmýþtýr.
+GROUP_CHANGES_PWD:Grup þifresi '$1' iken, '$2' þeklinde deðiþtirilmiþtir
+GROUP_CHANGES_GID:Grup numarasý '$1' iken, '$2' þeklinde deðiþtirilmiþtir
+GROUP_CHANGES_GRPREM:'$1' kullanýcýsý, grup dosyasýndan kaldýrýlmýþtýr
+GROUP_CHANGES_GRPADD:'$1' kullanýcýsý, grup dosyasýna eklenmiþtir
+
+HISTORY_CHECK:Root hesabý komut geçmiþi dosyalarý kontrol ediliyor
+HISTORY_CHECK_FOUND:Root hesabý komut geçmiþi dosyasý '$1', '$2' konumuna sembolik bir baðlantý
+
+SYSTEM_CONFIGS_START:Sistem yapýlandýrma dosyalarýnýn kontrolü çalýþtýrýlýyor
+SYSTEM_CONFIGS_FILE:$1 yapýlandýrma dosyasý kontrol ediliyor
+SYSTEM_CONFIGS_FILE_SSH:Bir SSH yapýlandýrma dosyasý kontrol ediliyor
+SYSTEM_CONFIGS_FILE_FOUND:$1 '$2' yapýlandýrma dosyasý bulundu: $3
+SYSTEM_CONFIGS_SSH_ROOT:SSH root eriþim durumu kontrol ediliyor
+SYSTEM_CONFIGS_SSH_ROOT_FOUND:SSH ve rkhunter yapýlandýrma aþaðýdaki gibi olmalýdýr:
+SYSTEM_CONFIGS_SSH_ROOT_FOUND1:SSH yapýlandýrma seçeneði 'PermitRootLogin': $1
+SYSTEM_CONFIGS_SSH_ROOT_FOUND2:Rkhunter yapýlandýrma seçeneði 'ALLOW_SSH_ROOT_USER': $1
+SYSTEM_CONFIGS_SSH_ROOT_NOTFOUND:SSH yapýlandýrma seçeneði 'PermitRootLogin' ayarlanmamýþ.
+SYSTEM_CONFIGS_SSH_ROOT_NOTFOUND:Varsayýlan deðer root eriþimine izin vermek için, 'yes' olabilir.
+SYSTEM_CONFIGS_SSH_PROTO:SSH protokolü v1 durumu kontrol ediliyor
+SYSTEM_CONFIGS_SSH_PROTO_DIFF1:SSH yapýlandýrma seçeneði 'Protocol': $1
+SYSTEM_CONFIGS_SSH_PROTO_DIFF2:Rkhunter yapýlandýrma seçeneði 'ALLOW_SSH_PROT_V1': $1
+SYSTEM_CONFIGS_SSH_PROTO_NOTFOUND:SSH yapýlandýrma seçeneði 'Protocol' henüz ayarlanmamýþ.
+SYSTEM_CONFIGS_SSH_PROTO_NOTFOUND:Protokol sürüm 1'e izin vermek için, varsayýlan deðer '2,1' olabilir.
+SYSTEM_CONFIGS_SYSLOG:Çalýþan bir sistem kayýtlama süreci kontrol ediliyor
+SYSTEM_CONFIGS_SYSLOG_NOT_RUNNING:Çalýþan bir sistem kayýtlama süreci bulunamadý.
+SYSTEM_CONFIGS_SYSLOG_DAEMON:Çalýþan bir '$1' süreci bulundu.
+SYSTEM_CONFIGS_SYSLOG_NO_FILE:Syslog süreci çalýþýyor, fakat hiçbir yapýlandýrma dosyasý bulunamadý.
+SYSTEM_CONFIGS_SYSLOG_REMOTE:Syslog uzak günlük/kayýtlama durumu kontrol ediliyor
+SYSTEM_CONFIGS_SYSLOG_REMOTE_LOG:Yapýlandýrma dosyasý uzak günlük/kayýtlamaya  izin veriyor: $1
+SYSTEM_CONFIGS_SYSLOG_REMOTE_ALLOWED:Rkhunter yapýlandýrma seçeneði 'ALLOW_SYSLOG_REMOTE_LOGGING' etkinleþtirilmiþ.
+
+FILESYSTEM_START:Dosya sistemi kontrolü çalýþtýrýlýyor
+FILESYSTEM_DEV_CHECK:Þüpheli dosya tipleri için '/dev' kontrol ediliyor
+FILESYSTEM_DEV_CHECK_NO_DEV:'/dev' mevcut deðil.
+FILESYSTEM_DEV_FILE_WL:'$1' dosyasý bulundu: Beyaz listede.
+FILESYSTEM_DEV_FILE_FOUND:${1} dizininde þüpheli dosya türleri bulundu:
+FILESYSTEM_HIDDEN_DIR_WL:Gizli klasör bulundu: '$1': Beyaz listede.
+FILESYSTEM_HIDDEN_FILE_WL:Gizli dosya bulundu: '$1': Beyaz listede.
+FILESYSTEM_HIDDEN_CHECK:Gizli dosya ve klasörler kontrol ediliyor
+FILESYSTEM_HIDDEN_DIR_FOUND:Gizli klasör bulundu: '$1'
+FILESYSTEM_HIDDEN_FILE_FOUND:Gizli dosya bulundu: '$1'
+FILESYSTEM_LOGFILE_MISSING:Kayýp kayýt dosyalarý kontrol ediliyor
+FILESYSTEM_LOGFILE_MISSING_FOUND:'$1' kayýt dosyasý eksik.
+FILESYSTEM_LOGFILE_EMPTY:Boþ kayýt dosyalarý kontrol ediliyor
+FILESYSTEM_LOGFILE_EMPTY_FOUND:'$1' kayýt dosyasý boþ.
+
+CHECK_APPS:Uygulama sürümleri kontrol ediliyor...
+APPS_NONE_FOUND:Bilinen uygulamalar bulunamadý - tüm sürüm kontrolleri atlandý.
+APPS_DAT_MISSING:Güvensiz uygulama sürümleri dosyasý kayýp yada boþ: $1
+APPS_DAT_MISSING:Varsayýlan dosyayý sýfýrlamak için 'rkhunter --update' komutunu çalýþtýrýn.
+APPS_DAT_NOTAFILE:Güvensiz uygulama sürümleri dosyasý bir dosya deðil: $1
+APPS_NOT_FOUND:'$1' uygulamasý bulunamadý.
+APPS_CHECK:$1 sürümü kontrol ediliyor
+APPS_CHECK_WL:'$1' uygulamasý bulundu: Beyaz listede.
+APPS_CHECK_VERSION_UNKNOWN:'$1' sürüm numarasý alýnamadý.
+APPS_CHECK_VERSION_FOUND:'$1' uygulamasý (sürüm: '$2') bulundu.
+APPS_CHECK_VERSION_WL:'$1' uygulamasý (sürüm: '$2') bulundu: Bu sürüm beyaz listede.
+APPS_CHECK_WHOLE_VERSION_USED:'$1' sürüm numarasý alýnamadý: Sürüm seçeneði '$2' veriyor
+APPS_CHECK_FOUND:'$1' uygulamasý (sürüm: '$2'), güncel deðil ve bu muhtemel bir güvenlik riski.
+APPS_TOTAL_COUNT:Uygulamalar kontrol edildi: $1, $2 dýþýnda
+
+CHECK_NETWORK:Að kontrol ediliyor...
+NETWORK_PORTS_START:Aðýn portlarýnýn kontrolü çalýþtýrýlýyor
+NETWORK_PORTS_BACKDOOR:Arkakapý portlarý kontrol ediliyor
+NETWORK_PORTS_BACKDOOR_LOG:Arkakapý portlarýnýn kontrolü çalýþtýrýlýyor
+NETWORK_PORTS_FILE_MISSING:Arkakapý portlarý dosyasý kayýp yada boþ: $1
+NETWORK_PORTS_FILE_MISSING:Varsayýlan dosyayý sýfýrlamak için 'rkhunter --update' komutunu çalýþtýrýn.
+NETWORK_PORTS_FILE_NOTAFILE:Bilinen arkakapý portlarý dosyasý bir dosya deðil: $1
+NETWORK_PORTS_UNKNOWN_NETSTAT:Tüm arkakapý port kontrolleri atlandý.
+NETWORK_PORTS_UNKNOWN_NETSTAT:'netstat' komut biçimi bu Ý/S ile bilinmiyor.
+NETWORK_PORTS_ENABLE_TRUSTED:Port beyaz listesi için güvenilir yollar etkinleþtiriliyor.
+NETWORK_PORTS_BACKDOOR_CHK:$2 nolu $1 portu kontrol ediliyor
+NETWORK_PORTS_PATH_WHITELIST:Aðýn $2 nolu $1 portu '$3' tarafýndan kullanýlýyor: yol beyaz listede.
+NETWORK_PORTS_TRUSTED_WHITELIST:Aðýn $2 nolu $1 portu '$3' tarafýndan kullanýlýyor: yol güvenilir.
+NETWORK_PORTS_PORT_WHITELIST:Aðýn $2 nolu $1 portu bulundu: port beyaz listede.
+NETWORK_PORTS_BKDOOR_FOUND:Aðýn $2 nolu $1 portu, [$3] tarafýndan kullanýlýyor. Olasý rootkit: $4
+NETWORK_PORTS_BKDOOR_FOUND:Kontrol etmek için 'lsof -i' ya da 'netstat -an' komutunu uygulayýn.
+NETWORK_HIDDEN_PORTS:Gizli portlar kontrol ediliyor
+NETWORK_HIDDEN_PORTS_FOUND:Gizli portlar bulundu:
+NETWORK_HIDDEN_PORTS_CHK:$2 nolu $1 portu
+NETWORK_HIDDEN_PORTS_CHK_NAME:$2 nolu $1 portu $3 tarafýndan kullanýlýyor
+NETWORK_HIDDEN_PORTS_PATH_WHITELIST:Gizli $2 nolu $1 portu $3 tarafýndan kullanýlýyor: yol beyaz listede.
+NETWORK_HIDDEN_PORTS_TRUSTED_WHITELIST:Gizli $2 nolu $1 portu '$3' tarafýndan kullanýlýyor: yol güvenilir.
+NETWORK_HIDDEN_PORTS_PORT_WHITELIST:Gizli $2 nolu $1 portu bulundu: port beyaz listede.
+NETWORK_INTERFACE_START:Að arayüzlerinin kontrolleri çalýþtýrýlýyor
+NETWORK_PROMISC_WLIST:Að arayüzleri karþýk modda kullanýma izinli: $1
+NETWORK_PROMISC_CHECK:Karýþýk arayüzler kontrol ediliyor
+NETWORK_PROMISC_NO_IFCONF_IP:Karýþýk að arayüzü kontrolü atlandý - 'ifconfig' yada 'ip' komutu bulunamýyor.
+NETWORK_PROMISC_NO_CMD:'$1' komutu kullanýlarak yapýlan karýþýk að arayüzü kontrolü atlandý - '$1' komutu bulunamadý. '$2' komutu kullanýlýyor.
+NETWORK_PROMISC_IF:Olasý karýþýk arayüzler:
+NETWORK_PROMISC_IF_1:'ifconfig' komutu çýktýsý:
+NETWORK_PROMISC_IF_2:'ip' komutu çýktýsý:
+NETWORK_PACKET_CAP_CHECK:Paket yakalama uygulamalarý kontrol ediliyor
+NETWORK_PACKET_CAP_CHECK_NO_FILE:Paket yakalama uygulama kontrolü atlandý - '$1' dosyasý kayýp.
+NETWORK_PACKET_CAP_FOUND:'$1' iþlemi (PID $2) aðý dinliyor.
+NETWORK_PACKET_CAP_WL:'$1' iþlemi bulundu: Beyaz listede.
+
+SHARED_LIBS_START:'paylaþýlan kütüphaneler' kontrolü çalýþtýrýlýyor
+SHARED_LIBS_PRELOAD_VAR:Önceden yüklenmiþ deðiþkenler kontrol ediliyor
+SHARED_LIBS_PRELOAD_VAR_FOUND:Önceden yüklenmiþ deðiþken(ler) bulundu: $1
+SHARED_LIBS_PRELOAD_FILE:Önceden yüklenmiþ kütüphaneler kontrol ediliyor
+SHARED_LIBS_PRELOAD_LIB_FOUND:Önceden yüklenmiþ paylaþýlan kütüphane bulundu: $1
+SHARED_LIBS_PRELOAD_FILE_FOUND:Önceden yüklenmiþ dosya kütüphanesi bulundu: $1
+SHARED_LIBS_PRELOAD_LIB_WLIST:FÖnceden yüklenmiþ paylaþýlan kütüphane bulundu '$1': Beyaz listede.
+SHARED_LIBS_PATH:LD_LIBRARY_PATH deðiþkeni kontrol ediliyor
+SHARED_LIBS_PATH_BAD:LD_LIBRARY_PATH çevre deðiþkeni ayarlandý ve bu durum ikili dosyalarý etkileyebilir: $1 þeklinde ayarlandý
+
+SUSPSCAN_CHECK:Þüpheli içerikli dosyalar kontrol ediliyor
+SUSPSCAN_DIR_NOT_EXIST:'$1' dizini mevcut deðil.
+SUSPSCAN_INSPECT:'$1' dosyasý (skor: $2) biraz þüheli içerik içeriyor ve kontrol edilmeli.
+SUSPSCAN_START:Þüpheli içerikli dosyalarýn kontrolü çalýþtýrýlýyor
+SUSPSCAN_DIRS:Kontrol dizinleri: $1
+SUSPSCAN_NO_DIRS:Belirlenen dizin yok: varsayýlanlar kullanýlýyor ($1)
+SUSPSCAN_TEMP:Kullanýlan geçici dizin: $1
+SUSPSCAN_NO_TEMP:Belirlenen geçici dizin yok: varsayýlan kullanýlýyor ($1)
+SUSPSCAN_SIZE:Kontrol için maksimum dosya boyutu (byte olarak): $1
+SUSPSCAN_NO_SIZE:Maksimum dosya boyutu belirlenmedi: varsayýlan kullanýlýyor ($1)
+SUSPSCAN_THRESH:Skor eþiði $1 þeklinde ayarlandý
+SUSPSCAN_NO_THRESH:Skor eþiði belirlenmedi: varsayýlan kullanýlýyor ($1)
+SUSPSCAN_DIR_CHECK:Dizin kontrol ediliyor: '$1'
+SUSPSCAN_FILE_CHECK:Dosya kontrol edildi: Adý: '$1' Skor: $2
+SUSPSCAN_FILE_CHECK_DEBUG:Dosya kontrol edildi: Adý: '$1' Skor: $2 Liste baþý: $3 Hit: ($4)
+SUSPSCAN_FILE_SKIPPED_EMPTY:Dosya yok sayýldý: boþ: '$1'
+SUSPSCAN_FILE_SKIPPED_LINK:Dosya yok sayýldý: sembolik baðlantý: '$1'
+SUSPSCAN_FILE_SKIPPED_TYPE:Dosya yok sayýldý: yanlýþ tip: '$1': '$2'
+SUSPSCAN_FILE_SKIPPED_SIZE:Dosya yok sayýldý: çok büyük: '$1'
+SUSPSCAN_FILE_LINK_CHANGE:Sembolik baðlantý bulundu: '$1' -> '$2'
+SUSPSCAN_DAT_MISSING:Þüpheli içeriðinin veri dosyasý eksik veya boþ: $1
+SUSPSCAN_DAT_MISSING:Varsayýlan dosyayý onarmak için 'rkhunter --update' komutunu çalýþtýrýn.
+SUSPSCAN_DAT_NOTAFILE:Þüpheli içeriðinin veri dosyasý bir dosya deðil: $1
+
+LIST_TESTS:Test isimleri:
+LIST_GROUPED_TESTS:Testlerin gruplanmýþ hali:
+LIST_LANGS:Geçerli diller:
+LIST_PERL:Perl modülü kurulum durumu:
+LIST_RTKTS:Kontrol edilen rootkitler:
+
+LOCK_USED:Kilitleme kullanýmda: zaman aþýmý $1 saniye
+LOCK_DIR:Kilitleme dizini olarak '$1' kullanýlýyor
+LOCK_UNUSED:Kilitleme kullanýmda deðil
+LOCK_WAIT:Kilit dosyasý bekleniyor
+LOCK_FAIL:Kilit dosyasý alýnamadý: rkhunter çalýþmadý!
+
+LINUX_ONLY:Kontrol atlandý - bu kontrol sadece Linux sistemler içindir.

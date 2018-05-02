@@ -1,0 +1,33 @@
+================================================================================
+    JShielder v 2.2 (CIS Hardening)
+    Linux Server Hardening and LAMP Deployment script
+
+    Developed by Jason Soto <www.jasonsoto.com>
+    http://www.jsitech-sec.com
+
+    License: GNU GPL version 3  <http://gnu.org/licenses/gpl.html>.
+    This is free software: you are free to change and redistribute it.
+    There is NO WARRANTY, to the extent permitted by law.
+
+
+ Following Items Must be configured During initial System Install
+
+1.1.2 Ensure separate partition exists for /tmp (Scored)
+1.1.3 Ensure nodev option set on /tmp partition (Scored)
+1.1.4 Ensure nosuid option set on /tmp partition (Scored)
+1.1.5 Ensure separate partition exists for /var (Scored)
+1.1.6 Ensure separate partition exists for /var/tmp (Scored)
+1.1.7 Ensure nodev option set on /var/tmp partition (Scored)
+1.1.8 Ensure nosuid option set on /var/tmp partition (Scored)
+1.1.9 Ensure noexec option set on /var/tmp partition (Scored)
+1.1.10 Ensure separate partition exists for /var/log (Scored)
+1.1.11 Ensure separate partition exists for /var/log/audit (Scored)
+1.1.12 Ensure separate partition exists for /home (Scored)
+1.1.13 Ensure nodev option set on /home partition (Scored)
+1.1.14 Ensure nodev option set on /dev/shm partition (Scored)
+1.1.15 Ensure nosuid option set on /dev/shm partition (Scored)
+1.1.16 Ensure noexec option set on /dev/shm partition (Scored)
+
+If you did not configure this on initial system install, we recommend you perform
+a reinstall and perform the above as Best Security Practice.
+================================================================================

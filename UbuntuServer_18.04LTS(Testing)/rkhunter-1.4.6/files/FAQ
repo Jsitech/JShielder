@@ -1,0 +1,636 @@
+
+ROOTKIT HUNTER FREQUENTLY ASKED QUESTIONS (FAQ)
+===============================================
+
+The latest version of this FAQ can be found on the RKH web site.
+(https://sourceforge.net/p/rkhunter/rkh_code/ci/develop/tree/files/FAQ)
+
+
+===========================================================
+
+ 1. GENERAL QUESTIONS
+
+   1.1) What is Rootkit Hunter?
+   1.2) What are rootkits?
+   1.3) Can I help with the development of this project?
+   1.4) I like your software! How can I thank you?
+
+
+ 2. INSTALLATION QUESTIONS
+
+   2.1) How do I install Rootkit Hunter?
+   2.2) How do I create a Rootkit Hunter RPM file?
+
+
+ 3. USAGE QUESTIONS
+
+   3.1) Rootkit Hunter tells me there is something wrong with
+        my system. What do I do?
+   3.2) Rootkit Hunter tells me that I have vulnerable applications
+        installed. But I have fully patched my server! How is this
+        possible?
+   3.3) How can I automatically run Rootkit Hunter every day?
+   3.4) What is the meaning of the test names?
+   3.5) Can rkhunter handle filenames with spaces in them?
+   3.6) What does the following warning mean:
+          Determining OS... Warning: this operating system is not
+          fully supported!
+   3.7) I have just installed Rootkit Hunter, and I am already
+        getting warning messages. Why is that?
+   3.8) When I used the '--propupd' option, Rootkit Hunter told me
+        I had some missing hashes. What does this mean?
+   3.9) I run rkhunter in cron and in the emailed output I get some
+        strange characters. Why is this?
+   3.10) When I used the '--propupd' option, Rootkit Hunter told me
+         that it had found more files than it was searching for. How
+         is this possible?
+
+
+ 4. ERROR AND WARNING MESSAGES
+
+   4.1) What does the following warning mean:
+          The file of stored file properties (rkhunter.dat) is empty,
+          and should be created. To do this type in
+          'rkhunter --propupd'.
+   4.2) Rootkit Hunter skips some checks, and the logfile indicates
+        that certain commands are missing. What can I do?
+   4.3) I get warnings from PHP like:
+          PHP Warning: Function registration failed - duplicate name
+          - pg_update in Unknown on line 0. What does this mean?
+   4.4) After performing some updates, all, or some, binaries in the
+        file properties checks are marked with a 'Warning'.
+        What can I do?
+
+
+ 5. UPDATING QUESTIONS
+
+   5.1) Rootkit Hunter tells me that I have multiple versions
+        installed. How it this possible?
+   5.2) Can I be notified when a new release will be available?
+
+
+ 6. WHITELISTING EXAMPLES
+
+   6.1) Common whitelisting examples
+
+===========================================================
+
+1. GENERAL QUESTIONS
+====================
+
+1.1) What is Rootkit Hunter?
+
+A.   Rootkit Hunter (RKH) is an easy-to-use tool which checks
+     computers running UNIX (clones) for the presence of rootkits
+     and other unwanted tools.
+
+
+1.2) What are rootkits?
+
+A.   Most times they are self-hiding toolkits used by blackhats,
+     crackers and scriptkiddies, to avoid the eye of the sysadmin.
+
+
+1.3) Can I help with the development of this project?
+
+A.   Yes, everyone can help in some way. For example:
+
+     Help your fellow Rootkit Hunter users on the rkhunter-users
+     mailing list;
+
+     Send a copy of an undetected rootkit to us so that it can
+     be added and help others;
+
+     Translate RKH messages to your native language. Details of
+     how to do this are in the README file. For the template
+     see the standard language file i18n/en.
+
+     Are you a package maintainer? If so, then please submit
+     your changes to us so that everyone can benefit from them;
+
+     Are you an end-user? FOSS, and hence RKH, ultimately depends
+     upon you. Contributing is your responsibility, not someone
+     elses. Whatever you contribute is very much welcomed. For
+     example, contribute or discuss enhancing Rootkit Hunter with
+     us; submit a patch or discuss enhancements; file a bug
+     report; or test the application by using it on your servers.
+
+
+1.4) I like your software! How can I thank you?
+
+A.   Simple - by contributing. See question 1.3 above.
+
+
+===========================================================
+
+2. INSTALLATION QUESTIONS
+=========================
+
+2.1) How do I install Rootkit Hunter?
+
+A.   Instructions on installing RKH can be found in the README file.
+
+
+2.2) How do I create a Rootkit Hunter RPM file?
+
+A.   The RKH source contains an rkhunter.spec file which will
+     allow an RPM to be built. To build the RPM run the following
+     command:
+
+            rpmbuild -ta rkhunter-<version>.tar.gz
+
+     The last part of the displayed build process should indicate
+     where the RPM file has been written. However, it will usually
+     be found in '/usr/src/redhat/RPMS/noarch'.
+
+     NOTE: The RKH development team do not support any third-party
+     RPM files. However, the rkhunter.spec file will be maintained. 
+
+
+===========================================================
+
+3. USAGE QUESTIONS
+==================
+
+3.1) Rootkit Hunter tells me there is something wrong with my
+     system. What do I do?
+
+A.   Prior to any incident it is recommended that you have read
+     "Intruder Detection Checklist". This is available from
+     http://web.archive.org/web/20080109214340/http://www.cert.org/tech_tips/intruder_detection_checklist.html
+     This document will tell you what to check, and makes it easier
+     for you to find out and answer any questions.
+
+     If you are unsure as to whether your system is compromised,
+     you can get a second opinion from sources such as the
+     rkhunter-users mailing list, the Linux-oriented forum
+     LinuxQuestions.org, or even IRC. Please note you need to 
+     subscribe before posting to the rkhunter-users mailing list.
+
+     If a file property check fails, then it is possible you have
+     what is called a 'false positive'. Sometimes this will happen
+     due to package updates, customised configurations or changed
+     binaries. If so, then please check further:
+
+       1. If you run a file integrity checker, for example Aide,
+          Samhain, or Tripwire, consult the results from running those
+          tools. Note they must be installed directly after the O/S
+          installation in order to be useful, and you must keep a copy
+          of the binary, configuration files and databases off-site.
+          Also note that running those tools, and Rootkit Hunter, is no
+          substitute for updating software when updates are released,
+          and proper host and network hardening.
+
+       2. If you don't run a file integrity checker you can possibly
+          use your distributions package management system if it is
+          configured to deal with verification.
+
+       3. Run 'strings <file>' and check the results for untrusted file
+          paths (for example, /dev/.hiddendir).
+
+       4. Check recently updated binaries and their original source.
+
+       5. Run 'file <file>' and compare the results with other files,
+          especially trusted binaries. If some binaries are statically
+          linked and others are all dynamic, then they could have been
+          trojaned.
+
+     If you have a warning from another part of the checks, then
+     please subscribe first and then email the rkhunter-users mailing list
+     and tell us about your system configuration:
+        The purpose of the server
+           (for example: web server, intranet fileserver, shell server);
+        The (approximate) date of the incident and when you found out;
+        The running distribution name, release and kernel version;
+        Whether any passwd or shadow file data has changed;
+        Any anomalies you find from reading the system, daemon, IDS
+           and firewall logs;
+        If all the installed software was recently updated;
+        What services are or were running at the time;
+        If you found setuid root files in directories for temporary
+           files;
+        Any anomalies you find from reading user shell histories.
+
+     If your system is infected with a rootkit, cleaning it up is
+     not an option. Restoring is also not an option unless you are
+     skilled, and have autonomous and an independent means of
+     verifying that the backup is clean, and does not contain
+     misconfigured or stale software. Never trust a compromised
+     machine. Period.
+
+     Read "Steps for Recovering from a UNIX or NT System Compromise".
+     This is available from
+     http://www.cert.org/tech_tips/win-UNIX-system_compromise.html
+
+     A clean install of the system is recommended after backing up
+     the full system. To do this follow these steps:
+
+       1. Stay calm. Be methodical.
+
+       2. From another machine inform users, and the network,
+          facility or host owner, that the machine is compromised.
+
+       3. Get the host offline or make sure the firewall is raised
+          to only allow network traffic to and from your management
+          IP address or range.
+
+       4. Backup your data. If you do not intend to investigate the
+          problem, then do not backup any binaries or binary data
+          which you cannot verify.
+
+       5. Verify the integrity of your backup by visual inspection
+          (authentication data, configurations, log files), or by
+          using a file integrity checker or your distributions
+          package management tools.
+
+       6. Install your host with a fresh install. Whilst you are
+          updating and configuring the software and services,
+          restrict network access to the system using authentication
+          features like accounts, PAM, firewall, TCP wrappers, and
+          daemon configurations. Make sure you properly harden the
+          machine.
+
+       7. Investigate the old log files, and the tools used if
+          possible. Also investigate the services which were
+          vulnerable at the time of attack.
+
+
+3.2) Rootkit Hunter tells me that I have an out-of-date or unsecure
+     application installed. But I have fully patched my server!
+     How is this possible?
+
+A.   Some distributions, for example Red Hat and OpenBSD, do patch
+     old versions of software. However, Rootkit Hunter thinks it is
+     an old version, and so sees it as being unsecure.
+
+     It is possible to whitelist specific applications, or specific
+     versions of an application. The configuration file contains more
+     details about this.
+
+     If you wish you can skip the application version check completely
+     by adding the 'apps' test name to the DISABLE_TESTS option in your
+     rkhunter configuration file.
+
+
+3.3) How can I automatically run Rootkit Hunter every day?
+
+A.   There are several ways that rkhunter can be run via cron. However,
+     it must be remembered that cron will automatically email any output
+     produced by the program to the root user. Secondly, when the rkhunter
+     '--cronjob' option is used, the program will generally not produce
+     any output. It is, therefore, necessary to tell rkhunter what output
+     should be shown. Typically this will just be any warning messages,
+     and this can be achieved by using the '--rwo' (report warnings only)
+     option.
+
+     For the first example, the rkhunter command could be added directly
+     to the root crontab:
+
+          30 5 * * * /usr/local/bin/rkhunter --cronjob --update --rwo
+
+     This would run rkhunter at 5:30 (AM) every day. If no output is
+     produced by rkhunter, then nothing is emailed to root. Any output
+     this is produced, which would only be warning messages, is
+     automatically emailed to root by the cron process.
+
+     Note that the '--update' option has been included. Rkhunter will
+     first perform any updates required to its data files, and then
+     perform the system checks. This option can be omitted, but it is
+     suggested that the option is used regularly to ensure that the
+     rkhunter data files are kept up todate.
+
+     If it is wished that all the normal output of rkhunter, as seen when
+     running rkhunter from the command-line, is emailed to root, then this
+     is possible. The '--rwo' option should be removed, and the '--cronjob'
+     option replaced by '--sk --nocolors --check'.
+
+     The next example is of a cronjob script. For Linux systems this
+     script could be put in to the /etc/cron.daily directory, so that
+     it will be automatically run every day.
+
+     The script might look like this:
+
+          #!/bin/sh
+
+          ( /usr/local/bin/rkhunter --cronjob --update --rwo && echo "" ) \
+            | /bin/mail -s "Rkhunter daily run on `uname -n`" root
+
+          exit 0
+
+     Because we are piping any output through to the mail command, it is
+     required to use 'echo ""' when there are no warnings. Without this,
+     the mail command would issue its own warning about there being no
+     message body.
+
+     If it is wished to include the date in the output, then something
+     like this could be used instead:
+
+          #!/bin/sh
+
+          ( date; /usr/local/bin/rkhunter --cronjob --update --rwo ) \
+            | /bin/mail -s "Rkhunter daily run on `uname -n`" root
+
+          exit 0
+
+     Finally, it is possible to run rkhunter in quiet-mode, whereby no
+     output will be produced at all. However, if the return code indicates
+     that warnings were found, then we get cron to mail the root user.
+     For example:
+
+          30 5 * * * /usr/local/bin/rkhunter --cronjob --update --quiet \
+                     || echo "Rkhunter daily run on `uname -n` has produced warning messages"
+
+     An alternative to the above example would be to use:
+
+          30 5 * * * /usr/local/bin/rkhunter --cronjob --update --quiet
+
+     and then simply set the MAIL-ON-WARNING option in the configuration
+     file with the root email address. This way, rkhunter produces no
+     output, and so nothing is emailed to root by cron. However, if any
+     warnings are found during the system check, then a notice message is
+     emailed to root by rkhunter itself.
+
+     Note: The '--quiet' option in the above two examples is not actually
+     necessary, but was included for clarity. The '--cronjob' option assumes
+     the '--quiet' option, and so, as mentioned above, when rkhunter is run
+     with the '--cronjob' option no output is generally produced.
+
+
+3.4) What is the meaning of the test names?
+
+A.   See the README file for information about the test names.
+
+
+3.5) Can rkhunter handle filenames with spaces in them?
+
+A.   Generally yes for the tests themselves, but not for configuration options.
+     Additionally, Some tests may not like filenames with the colon (:) character
+     in them.
+
+
+3.6) What does the following warning mean:
+
+       Determining OS... Warning: this operating system is not
+       fully supported!
+
+A.   This is a message from older versions of rkhunter. Upgrade to
+     a newer version.
+
+
+3.7) I have just installed Rootkit Hunter, and I am already
+     getting warning messages. Why is that?
+
+A.   The first run of rkhunter after an installation will usually give
+     some warning messages. One of the checks is whether the file of
+     file properties (called 'rkhunter.dat') exists. This file won't
+     exist until rkhunter is run with the '--propupd' option. There is
+     also a check to see if any commands have been replaced by a script.
+     To avoid these warning messages you can whitelist the commands in
+     your configuration file. Similarly if there are warnings about
+     hidden files or directories, then these can be whitelisted. Look in
+     the configuration file and you will find examples of these.
+
+     Once these changes have been made, then re-run rkhunter and no
+     warnings should appear. Obviously warning messages from other
+     checks indicate that something else is wrong, and so should be
+     investigated.
+
+     NOTE: When using the '--propupd' option it is the users
+           responsibility to ensure that the files on their system are
+           genuine. Rootkit Hunter can only inform the user of a change
+           to the files, not whether they are the original files or not.
+           Although Rootkit Hunter can use a package manager for some
+           systems, it must be remembered that the package manager itself
+           uses files stored on the system. Those files may have been
+           tampered with.
+
+     The logfile will contain further information about each warning
+     message. Once the reason for the warning has been found, and you
+     believe that rkhunter has given a false-positive result, then
+     looking in the configuration file may show you that the relevant
+     item can be whitelisted. Also see WHITELISTING EXAMPLES below.
+
+
+3.8) When I used the '--propupd' option, Rootkit Hunter told me
+     I had some missing hashes. What does this mean?
+
+A.   Your system probably uses prelinking (the log file will say if
+     it does or not). Sometimes a file may be updated but not be
+     prelinked. When this happens RKH cannot determine the files hash
+     value. If you run the command 'prelink --verify --sha <file>'
+     on the file, it will probably give an error about the files
+     dependencies having changed. This is what RKH sees, and flags
+     it as a missing hash. If you are sure that the file is genuine,
+     then you can try using 'prelink <file>' to correct it. The
+     'prelink' command above should then work. Re-run RKH with the
+     '--propupd' option to ensure that all the hash values are recorded.
+
+
+3.9) I run rkhunter in cron and in the emailed output I get some strange
+     characters. Why is this?
+
+A.   The problem only occurs when the '--update' or '--versioncheck'
+     options are used, and does not occur when rkhunter is run from
+     the command-line. It also does not occur if the '--cronjob' or
+     '--quiet' options are used in cron.
+
+     The emailed output probably looks something like this:
+
+           [1;33mChecking rkhunter data files...[0;39m
+           Checking file mirrors.dat[34C[ [1;32mNo update[0;39m ]
+
+     The 'strange' characters are ANSI color codes and escape sequences,
+     and this is why the problem does not occur if rkhunter is run from
+     the command-line. The terminal correctly interprets the codes, but
+     cron cannot do this.
+
+     The solution is to use the '--nocolors' option in your cron job.
+     The '--cronjob' option assumes '--nocolors', which is why the
+     problem does not occur when '--cronjob' is used.
+
+
+3.10) When I used the '--propupd' option, Rootkit Hunter told me
+      that it had found more files than it was searching for. How
+      is this possible?
+
+A.    The output from rkhunter probably shows something like this:
+
+           File updated: searched for 149 files, found 171
+
+      When rkhunter collects file property information about files
+      (commands), it uses generic file names - for example, 'awk'
+      and 'sed'. As such, if these files exist in more than one
+      directory that is being searched, then it will have found two
+      files but only have been looking for one. Secondly, some files
+      are symbolic (soft) links to another file. In this instance
+      rkhunter will record both the link itself, and the file that
+      it points to. So, again, two files have been found. It is,
+      therefore, quite possible on some systems for rkhunter to find
+      more files than it says it is looking for. It simply indicates
+      that rkhunter has found some files more than once.
+
+
+===========================================================
+
+4. ERROR AND WARNING MESSAGES
+=============================
+
+4.1) What does the following warning mean:
+
+       The file of stored file properties (rkhunter.dat) is empty,
+       and should be created. To do this type in
+       'rkhunter --propupd'.
+
+A.   For rkhunter to perform file property checks, it must first
+     have a database file ('rkhunter.dat') containing the property
+     values for each file. It can then compare each files current
+     values against those stored in the database. Any difference
+     indicates that the file has changed. To create and/or update
+     the database file use the '--propupd' option.
+
+     NOTE: An additional warning will be displayed stating that it
+           is the users responsibility to ensure that the files are
+           valid before using the '--propupd' option. That is, the
+           user must be sure that the files have not been compromised.
+
+
+4.2) Rootkit Hunter skips some checks, and the logfile indicates
+     that certain commands are missing. What can I do?
+
+A.   You have a choice:
+
+       1) Install the relevant command. You may be able to do this
+          simply by running a package updater for your system (for
+          example, 'yum' or 'apt-get').
+
+       2) You may be able to disable the check by adding its test
+          name to your configuration file. (See the README file
+          for more information about the test names.)
+
+       3) If you are sure that the relevant command is present on
+          your system, then rkhunter is having a problem locating
+          it. Check the logfile for the 'command directories' it
+          is using. If the directory containing the command isn't
+          listed, then you can set the command directories to use
+          by using the '--bindir' command-line option, or the BINDIR
+          option in the configuration file.
+
+
+4.3) I get warnings from PHP like:
+
+        PHP Warning: Function registration failed - duplicate name
+        - pg_update in Unknown on line 0. What does this mean?
+
+A.   This may occur during the 'apps' test. It is usually because
+     you have updated the Apache version of PHP, but forgot to
+     update or recompile the CLI (console version) of PHP. So
+     update or recompile it, and then try again.
+
+
+4.4) After performing some updates, all, or some, binaries in the
+     file properties checks are marked with a 'Warning'.
+     What can I do?
+
+A.   The first thing would be to verify that the update is the cause
+     of the warnings. Checking the system log files should indicate
+     what has been updated.
+
+     It is most likely that the stored rkhunter file property values
+     need to be recalculated. To do this use the RKH '--propupd'
+     option. However, the output of the RKH file properties check
+     should only be seen as an indication that the file has changed.
+     Updating the stored property values should be done only after
+     proper verification of the files using a file integrity checker
+     or your distributions package management tools.
+
+     Alternatively, you can use the '--pkgmgr' command-line option, or
+     the PKGMGR option in the configuration file, to tell RKH to obtain
+     its file properties information from the package manager database.
+     See the README file for more information about the package manager
+     options.
+
+     NOTES
+     =====
+     1) If the logfile indicates that a files' hash value has changed
+        from some value to 'No hash value found', and your system
+        uses prelinking, then the file probably needs to be
+        specifically prelinked. This can usually be done by running
+        the 'prelink' command on the relevant file. Running RKH with
+        the '--propupd' option afterwards will indicate if there
+        are still any hash values missing. Check the logfile and
+        repeat the above process of prelinking the files.
+
+        RKH will try and determine if your system is using prelinking
+        or not. The logfile will contain the result of the check.
+
+     2) If your system uses Libsafe and prelinking, then errors can
+        occur. Disable preloading Libsafe in /etc/ld.so.preload.
+        Prelink again, and then run 'rkhunter --propupd'.
+
+
+===========================================================
+
+5. UPDATING QUESTIONS
+=====================
+
+5.1) Rootkit Hunter tells me that I have multiple versions
+     installed. How it this possible?
+
+A.   Usually you install a tool and upgrade it later. Sometimes
+     if you use a 'non-official' updater or package manager
+     (for example, from an external party, or build from source
+     using an installer like RPM/DEB/TGZ/TXZ), the binaries may be
+     installed into a different location from the original. So there
+     are then two binaries with the same name, but in different
+     locations. You will have to check which are the old binaries,
+     and remove them.
+
+
+5.2) Can I be notified when a new release will be available?
+
+A.   Yes, you can join the rkhunter-announce mailing list. This is
+     a low volume list. Details can be found on the RKH web site.
+
+     Additionally, the '--versioncheck' option of rkhunter itself
+     will indicate if a new version is available.
+
+
+===========================================================
+
+6. WHITELISTING EXAMPLES
+========================
+
+6.1) After Rootkit Hunter has run you may encounter items in the log
+     file you would like to whitelist. First verify that the entries
+     are safe to add. The results of running these commands can be
+     added to your 'rkhunter.conf.local' configuration file. Please
+     adjust the commands, and the location of your 'rkhunter.log' log
+     file, and verify the results before adding them. Do not automate
+     adding whitelist entries to your configuration file.
+
+     Allow script replacements ("properties" test):
+     awk -F"'" '/replaced by a script/ {print "SCRIPTWHITELIST="$2}' rkhunter.log
+
+     Allow processes using deleted files ("deleted_files" test):
+     awk '/Process: / {print "ALLOWPROCDELFILE="$3}' rkhunter.log | sort -u
+
+     Allow Xinetd services:
+     awk '/Found enabled xinetd service/ {print $NF}' rkhunter.log |\
+      xargs -iX grep -e "server[[:blank:]]" 'X' | awk '{print "XINETD_ALLOWED_SVC="$NF}'
+
+     Allow packet capturing applications ("packet_cap_apps" test):
+     awk -F"'" '/is listening on the network/ {print "ALLOWPROCLISTEN="$2}' rkhunter.log
+
+     Allow "suspicious" files ("filesystem" test):
+     grep '^\[..:..:..\][[:blank:]]\{6\}.*/dev/shm/.*:' rkhunter.log |\
+      awk '{print "ALLOWDEVFILE="$2}' | sed -e "s|:$||g"
+
+     Allow hidden directories ("filesystem" test):
+     awk '/Warning: Hidden directory/ {print "ALLOWHIDDENDIR="$6}' rkhunter.log
+
+     Allow hidden files ("filesystem" test):
+     awk '/Warning: Hidden file/ {print "ALLOWHIDDENFILE="$6}' rkhunter.log |\
+      sed -e "s|:$||g"
+
+
+===========================================================
