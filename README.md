@@ -82,6 +82,7 @@ Having Problems, please open a New Issue for JShielder on Github.
 
 * Ubuntu Server 14.04LTS
 * Ubuntu Server 16.04LTS
+* Ubuntu Server 18.04LTS
 
 # Notes
 

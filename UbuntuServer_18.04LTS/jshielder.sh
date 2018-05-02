@@ -1024,15 +1024,15 @@ install_auditd(){
   echo "Configuring Auditd Rules"
   spinner
 
-  cp templates/audit-CIS.rules /etc/audit/audit.rules
+  cp templates/audit-CIS.rules /etc/audit/rules.d/audit.rules
 
   find / -xdev \( -perm -4000 -o -perm -2000 \) -type f | awk '{print \
   "-a always,exit -F path=" $1 " -F perm=x -F auid>=1000 -F auid!=4294967295 \
-  -k privileged" } ' >> /etc/audit/audit.rules
+  -k privileged" } ' >> /etc/audit/rules.d/audit.rules
 
-  echo " " >> /etc/audit/audit.rules
-  echo "#End of Audit Rules" >> /etc/audit/audit.rules
-  echo "-e 2" >>/etc/audit/audit.rules
+  echo " " >> /etc/audit/rules.d/audit.rules
+  echo "#End of Audit Rules" >> /etc/audit/rules.d/audit.rules
+  echo "-e 2" >>/etc/audit/rules.d/audit.rules
 
   systemctl enable auditd.service
   service auditd restart
@@ -1075,7 +1075,7 @@ install_arpwatch(){
      echo "Installing ArpWatch"
      spinner
      apt install -y arpwatch
-     sysv-rc-conf arpwatch on
+     systemctl enable arpwatch.service
      service arpwatch start
      echo "OK"
      say_done
