@@ -36,7 +36,7 @@ function say_continue() {
 
 # Obtain Server IP
 function __get_ip() {
-    serverip=$(ip route get 1 | awk '{print $NF;exit}')
+    serverip=$(ip route get 1 | awk '{print $3;exit}')
     echo $serverip
 }
 
