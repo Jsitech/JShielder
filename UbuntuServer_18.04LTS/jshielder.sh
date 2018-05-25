@@ -789,7 +789,7 @@ install_artillery (){
     echo "Setting Iptable rules for artillery"
     spinner
     for port in 22 1433 8080 21 5900 53 110 1723 1337 10000 5800 44443 16993; do
-      echo "IPTABLES -A INPUT -p tcp -m tcp --dport $port -j ACCEPT" >> /etc/init.d/iptables.sh
+      echo "iptables -A INPUT -p tcp -m tcp --dport $port -j ACCEPT" >> /etc/init.d/iptables.sh
     done
     echo ""
     echo "Artillery configuration file is /var/artillery/config"
