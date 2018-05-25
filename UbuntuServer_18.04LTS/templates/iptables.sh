@@ -130,42 +130,7 @@ iptables -A INPUT -p tcp -m tcp --dport 372 -j ACCEPT
 iptables -A INPUT -p icmp --icmp-type 0 -j ACCEPT
 
 
-# OUTPUT
-
-iptables -A OUTPUT -o lo -j ACCEPT
-
-iptables -A OUTPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
-
-
-
-# Outbound Rules
-
-# smtp
-
-iptables -A OUTPUT -p tcp -m tcp --dport 25 -j ACCEPT
-
-# http
-
-iptables -A OUTPUT -p tcp -m tcp --dport 80 -j ACCEPT
-
-# https
-
-iptables -A OUTPUT -p tcp -m tcp --dport 443 -j ACCEPT
-
-# ssh & sftp
-
-iptables -A OUTPUT -p tcp -m tcp --dport 372 -j ACCEPT
-
 # Limit SSH connection from a single IP
 
 iptables -A INPUT -p tcp --syn --dport 372 -m connlimit --connlimit-above 2 -j REJECT
 
-
-
-# Allow Pings
-
-iptables -A OUTPUT -p icmp --icmp-type 0 -j ACCEPT
-
-# Reject Forwarding
-
-iptables -A FORWARD -j REJECT

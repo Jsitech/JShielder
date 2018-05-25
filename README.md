@@ -1,10 +1,8 @@
 # JShielder
 
+**JShielder Automated Hardening Script for Linux Servers**
 
-
-###JShielder Automated Hardening Script for Linux Servers
-
-JSHielder is an Open Source tool developed to help SysAdmin and developers secure there Linux Servers in which they will be deploying any web application or services. This tool automates the process of installing all the necessary packages to host a web application and Hardening a Linux server with little interaction from the user. Newly added script follows CIS Benchmark Guidance to establish a Secure configuration posture for Linux systems.
+JSHielder is an Open Source Bash Script developed to help SysAdmin and developers secure there Linux Servers in which they will be deploying any web application or services. This tool automates the process of installing all the necessary packages to host a web application and Hardening a Linux server with little interaction from the user. Newly added script follows CIS Benchmark Guidance to establish a Secure configuration posture for Linux systems.
 
 This tool is a Bash Script that hardens the Linux Server security automatically and the steps followed are:
 
@@ -13,10 +11,11 @@ This tool is a Bash Script that hardens the Linux Server security automatically 
 * Updates the entire System
 * Creates a New Admin user so you can manage your server safely without the need of doing remote connections with root.
 * Helps user Generate Secure RSA Keys, so that remote access to your server is done exclusive from your local pc and no Conventional password
-* Configures, Optimize and secures the SSH Server (Some Settings Following CIS Benchmark Ubuntu 16.04)
+* Configures, Optimize and secures the SSH Server (Some Settings Following CIS Benchmark)
 * Configures IPTABLES Rules to protect the server from common attacks
+* Disables unused FileSystems and Network protocols
 * Protects the server against Brute Force attacks by installing a configuring fail2ban
-* Stop Portscans by blocking intrusive IP via IPTABLES using portsentry
+* Installs and Configure Artillery as a Honeypot, Monitoring, Blocking and Alerting tool
 * Install, configure, and optimize MySQL
 * Install the Apache Web Server
 * Install, configure and secure PHP
@@ -26,34 +25,23 @@ This tool is a Bash Script that hardens the Linux Server security automatically 
 * Installs Unhide to help Detect Malicious Hidden Processes
 * Installs Tiger, A Security Auditing and Intrusion Prevention system
 * Restrict Access to Apache Config Files
-* Disable Compilers
+* Disables Compilers
 * Creates Daily Cron job for System Updates
 * Kernel Hardening via sysctl configuration File (Tweaked)
-
-# Other Hardening Steps
-
-
-* Added PHP Suhosin Installation to protect PHP Code and Core for Known and Unknown flaws (Removed on Ubuntu 16.04)
-* Use of Function for code execution customization
-* Distro Selection Menu
-* Function Selection Menu
-* Deployment Selection Menu (LAMP, LEMP, Reverse Proxy)
-* Added LEMP Deployment with ModSecurity
-* Added /tmp folder Hardening
-* Added PSAD IDS installation
-* Added Process Accounting
-* Added Unattended Upgrades
-* Added MOTD and Banners for Unauthorized access
-* Disable USB Support for Improved Security (Optional)
-* Restrictive Default UMASK
-* Added Additional Hardening Steps
-* Auditd install 
+* LEMP Deployment with ModSecurity (Needs Updating and Testing)
+* /tmp Directory Hardening
+* PSAD IDS installation
+* Enables Process Accounting
+* Enables Unattended Upgrades
+* MOTD and Banners for Unauthorized access
+* Disables USB Support for Improved Security (Optional)
+* Configures a Restrictive Default UMASK
+* Configures and enables Auditd
+* Configures Auditd rules following CIS Benchmark 
 * Sysstat install 
 * ArpWatch install
-* Hardening steps following CIS Benchmark
+* Additional Hardening steps following CIS Benchmark
 * Secures Cron
-* Disables Unused Filesystems and Uncommon Network protocols
-* Configure Auditd rules following CIS benchmark (Ubuntu 16.04)
 * Automates the process of setting a GRUB Bootloader Password
 * Secures Boot Settings
 * Sets Secure File Permissions for Critical System Files
@@ -62,7 +50,7 @@ This tool is a Bash Script that hardens the Linux Server security automatically 
 # NEWLY ADDED FUNCTION
 
 * Separate Hardening Script Following CIS Benchmark Guidance
-  https://www.cisecurity.org/benchmark/ubuntu_linux/ (Ubuntu 16.04)
+  https://www.cisecurity.org/benchmark/ubuntu_linux/
 
 
 # To Run the tool

@@ -771,6 +771,32 @@ install_portsentry(){
 
 ##############################################################################################################
 
+# Install and Configure Artillery
+install_artillery (){
+    clear
+    f_banner
+    echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+    echo -e "\e[93m[+]\e[00m Cloning Repo and Installing Artillery"
+    echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+    echo ""
+    git clone https://github.com/BinaryDefense/artillery
+    cd artillery/
+    python setup.py
+    cd ..
+    cp templates/artillery_config /var/artillery/config
+    systemctl enable artillery
+    echo ""
+    echo "Setting Iptable rules for artillery"
+    spinner
+    for port in 22 1433 8080 21 5900 53 110 1723 1337 10000 5800 44443 16993; do
+      echo "IPTABLES -A INPUT -p tcp -m tcp --dport $port -j ACCEPT" >> /etc/init.d/iptables.sh
+    done
+    echo ""
+    echo "Artillery configuration file is /var/artillery/config"
+    say_done  
+}
+##############################################################################################################
+
 # Additional Hardening Steps
 additional_hardening(){
     clear
@@ -1244,7 +1270,7 @@ tune_secure_kernel
 install_rootkit_hunter
 tune_nano_vim_bashrc
 daily_update_cronjob
-install_portsentry
+install_artillery
 additional_hardening
 install_unhide
 install_tiger
@@ -1288,7 +1314,7 @@ tune_secure_kernel
 install_rootkit_hunter
 tune_nano_vim_bashrc
 daily_update_cronjob
-install_portsentry
+install_artillery
 additional_hardening
 install_unhide
 install_tiger
@@ -1331,7 +1357,7 @@ tune_secure_kernel
 install_rootkit_hunter
 tune_nano_vim_bashrc
 daily_update_cronjob
-install_portsentry
+install_artillery
 additional_hardening
 install_unhide
 install_tiger
@@ -1371,7 +1397,7 @@ tune_secure_kernel
 install_rootkit_hunter
 tune_nano_vim_bashrc
 daily_update_cronjob
-install_portsentry
+install_artillery
 additional_hardening
 install_unhide
 install_tiger
@@ -1416,7 +1442,7 @@ tune_secure_kernel
 install_rootkit_hunter
 tune_nano_vim_bashrc
 daily_update_cronjob
-install_portsentry
+install_artillery
 additional_hardening
 install_unhide
 install_tiger
