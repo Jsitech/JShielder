@@ -87,7 +87,7 @@ chmod +x jshielder.sh
 ./jshielder.sh
 ;;
 
-2)
+3)
 cd UbuntuServer_18.04LTS/
 chmod +x jshielder.sh
 ./jshielder.sh
