@@ -80,3 +80,12 @@ ErrorDocument 500 "Tareas de mantenimiento en curso. Disculpe las molestias"
 FileETag None
 Header unset ETag
 TraceEnable off
+
+# Security Headers
+
+Header set X-XSS-Protection "1; mode=block"
+Header set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+Header always append X-Frame-Options DENY
+Header set X-Content-Type-Options nosniff
+Header edit Set-Cookie ^(.*)$ $1;HttpOnly;Secure
+Header set Referrer-Policy "no-referrer-when-downgrade"
