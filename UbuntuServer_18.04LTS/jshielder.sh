@@ -210,7 +210,7 @@ rsa_keygen(){
     echo " "
     echo "    RUN THE FOLLOWING COMMANDS"
     echo -n "     a) ssh-keygen -t rsa -b 4096 "; read foo1
-    echo -n "     b) cat /home/$username/.ssh/id_rsa.pub >> /home/$username/.ssh/authorized_keys: "; read foo2
+    echo -n "     b) cat /home/$username/.ssh/id_rsa.pub >> /home/$username/.ssh/authorized_keys "; read foo2
     say_done
 }
 ##############################################################################################################
