@@ -1210,7 +1210,8 @@ reboot_server(){
     echo -e "\e[93m[+]\e[00m Final Step"
     echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
     echo ""
-    replace USERNAME $username SERVERIP $serverip < templates/texts/bye
+    sed -i s/USERNAME/$username/g templates/texts/bye
+    sed -i s/SERVERIP/$serverip/g templates/texts/bye
     echo -n " ¿Were you able to connect via SSH to the Server using $username? (y/n): "; read answer
     if [ "$answer" == "y" ]; then
         reboot
