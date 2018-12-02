@@ -60,6 +60,21 @@ fi
 
 ##############################################################################################################
 
+# Installing Dependencies
+# Needed Prerequesites will be set up here
+install_dep(){
+   clear
+   f_banner
+   echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+   echo -e "\e[93m[+]\e[00m Setting some Prerequisites"
+   echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+   echo ""
+   spinner
+   add-apt-repository universe
+   say_done
+}
+
+##############################################################################################################
 
 # Configure Hostname
 config_host() {
@@ -1245,6 +1260,7 @@ case $choice in
 
 1)
 check_root
+install_dep
 config_host
 config_timezone
 update_system
@@ -1291,6 +1307,7 @@ reboot_server
 
 2)
 check_root
+install_dep
 config_host
 config_timezone
 update_system
@@ -1335,6 +1352,7 @@ reboot_server
 
 3)
 check_root
+install_dep
 config_host
 config_timezone
 update_system
@@ -1377,6 +1395,7 @@ reboot_server
 
 4)
 check_root
+install_dep
 config_host
 config_timezone
 update_system
@@ -1417,6 +1436,7 @@ reboot_server
 
 5)
 check_root
+install_dep
 config_host
 config_timezone
 update_system
