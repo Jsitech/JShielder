@@ -193,7 +193,11 @@ session.auto_start = 0
 session.cookie_lifetime = 3600
 session.cookie_path = /
 session.cookie_domain =
-session.cookie_httponly =
+session.cookie_httponly = 1
+session.use_strict_mode   = 1
+session.cookie_lifetime   = 864000  # 4 hours
+session.cookie_secure     = 1
+session.cookie_samesite   = Strict
 session.serialize_handler = php
 session.gc_probability = 0
 session.gc_divisor = 1000
@@ -203,11 +207,13 @@ session.bug_compat_warn = Off
 session.referer_check =
 session.entropy_length = 0
 session.cache_limiter = nocache
-session.cache_expire = 180
+session.cache_expire = 90
 session.use_trans_sid = 0
-session.hash_function = 0
-session.hash_bits_per_character = 5
+session.sid_length = 128
+session.sid_bits_per_character = 6
 url_rewriter.tags = "a=href,area=href,frame=src,input=src,form=fakeentry"
+
+
 
 [MSSQL]
 
