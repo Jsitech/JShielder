@@ -260,8 +260,6 @@ secure_tmp(){
       rm -rf /tmpbackup
       echo "/usr/tmpDISK  /tmp    tmpfs   loop,nosuid,nodev,noexec,rw  0 0" >> /etc/fstab
       sudo mount -o remount /tmp
-      rm -rf /var/tmp
-      ln -s /tmp /var/tmp
       say_done
   else
       echo "Nice Going, Remember to set proper permissions in /etc/fstab"
