@@ -246,8 +246,6 @@ secure_tmp(){
       rm -rf /tmpbackup
       echo "/usr/tmpDISK  /tmp    tmpfs   loop,nosuid,nodev,noexec,rw  0 0" >> /etc/fstab
       sudo mount -o remount /tmp
-      rm -rf /var/tmp
-      ln -s /tmp /var/tmp
       say_done
   else
       echo "Nice Going, Remember to set proper permissions in /etc/fstab"
@@ -1189,6 +1187,7 @@ reboot_server(){
     echo ""
     sed -i s/USERNAME/$username/g templates/texts/bye
     sed -i s/SERVERIP/$serverip/g templates/texts/bye
+    cat templates/texts/bye
     echo -n " ¿Were you able to connect via SSH to the Server using $username? (y/n): "; read answer
     if [ "$answer" == "y" ]; then
         reboot

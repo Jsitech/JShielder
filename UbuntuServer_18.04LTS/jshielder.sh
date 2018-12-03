@@ -796,8 +796,6 @@ install_artillery (){
     cd artillery/
     python setup.py
     cd ..
-    cp templates/artillery_config /var/artillery/config
-    systemctl enable artillery
     echo ""
     echo "Setting Iptable rules for artillery"
     spinner
@@ -1225,6 +1223,7 @@ reboot_server(){
     echo ""
     sed -i s/USERNAME/$username/g templates/texts/bye
     sed -i s/SERVERIP/$serverip/g templates/texts/bye
+    cat templates/texts/bye
     echo -n " ¿Were you able to connect via SSH to the Server using $username? (y/n): "; read answer
     if [ "$answer" == "y" ]; then
         reboot
