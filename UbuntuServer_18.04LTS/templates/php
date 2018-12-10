@@ -3,19 +3,11 @@ engine = On
 short_open_tag = Off
 asp_tags = Off
 precision = 14
-y2k_compliance = On
 output_buffering = 4096
 zlib.output_compression = Off
 implicit_flush = Off
 unserialize_callback_func =
 serialize_precision = 17
-allow_call_time_pass_reference = Off
-safe_mode = Off
-safe_mode_gid = Off
-safe_mode_include_dir =
-safe_mode_exec_dir =
-safe_mode_allowed_env_vars = PHP_
-safe_mode_protected_env_vars = LD_LIBRARY_PATH
 open_basedir = "/var/www/html:/tmp"
 disable_functions = proc_open, popen, disk_free_space, diskfreespace, set_time_limit, leak, tmpfile, exec, system, shell_exec, passthru, show_source, system, phpinfo, pcntl_alarm, pcntl_fork, pcntl_waitpid, pcntl_wait, pcntl_wifexited, pcntl_wifstopped, pcntl_wifsignaled, pcntl_wexitstatus, pcntl_wtermsig, pcntl_wstopsig, pcntl_signal, pcntl_signal_dispatch, pcntl_get_last_error, pcntl_strerror, pcntl_sigprocmask, pcntl_sigwaitinfo, pcntl_sigtimedwait, pcntl_exec, pcntl_getpriority, pcntl_setpriority 
 disable_classes =
@@ -37,14 +29,9 @@ track_errors = Off
 html_errors = Off
 variables_order = "GPCS"
 request_order = "GP"
-register_globals = Off
-register_long_arrays = Off
 register_argc_argv = Off
 auto_globals_jit = On
 post_max_size = 8M
-magic_quotes_gpc = Off
-magic_quotes_runtime = Off
-magic_quotes_sybase = Off
 auto_prepend_file =
 auto_append_file =
 default_mimetype = "text/html"
@@ -93,8 +80,6 @@ pdo_mysql.default_socket=
 
 
 [Syslog]
-
-define_syslog_variables  = Off
 
 [mail function]
 
@@ -202,8 +187,6 @@ session.serialize_handler = php
 session.gc_probability = 0
 session.gc_divisor = 1000
 session.gc_maxlifetime = 1440
-session.bug_compat_42 = Off
-session.bug_compat_warn = Off
 session.referer_check =
 session.entropy_length = 0
 session.cache_limiter = nocache
