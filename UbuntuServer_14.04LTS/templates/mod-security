@@ -1,5 +1,0 @@
-<IfModule security2_module>
-	SecDataDir /var/cache/modsecurity
-	Include "/etc/modsecurity/*.conf"
-	Include "/etc/modsecurity/activated_rules/*.conf"
-</IfModule>

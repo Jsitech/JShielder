@@ -1,5 +1,0 @@
-<IfModule mod_spamhaus.c>
-  MS_METHODS POST,PUT,OPTIONS,CONNECT 
-  MS_WhiteList /etc/spamhaus.wl 
-  MS_CacheSize 256 
-</IfModule>

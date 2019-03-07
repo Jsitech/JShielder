@@ -3,9 +3,11 @@ Protocol 2
 HostKey /etc/ssh/ssh_host_rsa_key
 HostKey /etc/ssh/ssh_host_dsa_key
 HostKey /etc/ssh/ssh_host_ecdsa_key
+Ciphers aes128-ctr,aes192-ctr,aes256-ctr,aes128-gcm@openssh.com,aes256-gcm@openssh.com
+macs umac-128-etm@openssh.com,hmac-sha2-256-etm@openssh.com,hmac-sha2-512-etm@openssh.com,umac-128@openssh.com,hmac-sha2-256,hmac-sha2-512
+KexAlgorithms curve25519-sha256@libssh.org,ecdh-sha2-nistp256,ecdh-sha2-nistp384,ecdh-sha2-nistp521,diffie-hellman-group-exchange-sha256
 SyslogFacility AUTH
-ClientAliveInterval 300
-ClientAliveCountMax 0
+ClientAliveCountMax 2
 Compression no
 LogLevel VERBOSE
 MaxAuthTries 2
@@ -18,10 +20,9 @@ IgnoreRhosts yes
 HostbasedAuthentication no
 PermitEmptyPasswords no
 ChallengeResponseAuthentication no
-PasswordAuthentication no
+PasswordAuthentication yes
 X11Forwarding no
 AllowTcpForwarding no
-AllowAgentForwarding no
 PermitUserEnvironment no
 X11DisplayOffset 10
 PrintMotd no
@@ -32,7 +33,5 @@ Subsystem sftp /usr/lib/openssh/sftp-server
 UsePAM yes
 UseDNS no
 MaxStartups 2
-MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha2-256,umac-128@openssh.com
 Banner /etc/motd
 AllowUsers USERNAME
-
