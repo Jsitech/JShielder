@@ -23,6 +23,7 @@ ChallengeResponseAuthentication no
 PasswordAuthentication yes
 X11Forwarding no
 AllowTcpForwarding no
+AllowAgentForwarding no
 PermitUserEnvironment no
 X11DisplayOffset 10
 PrintMotd no
