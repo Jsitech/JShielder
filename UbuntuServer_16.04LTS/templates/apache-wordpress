@@ -82,9 +82,8 @@ IncludeOptional sites-enabled/*.conf
 ServerSignature Off
 ServerTokens Prod
 
-ErrorDocument 404 "Archivo no encontrado"
-ErrorDocument 500 "Tareas de mantenimiento en curso. Disculpe las molestias"
-
+ErrorDocument 404 "File not Found"
+ErrorDocument 500 "Maintenance tasks in progress. sorry for the inconvenience"
 
 FileETag None
 Header unset ETag
