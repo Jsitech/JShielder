@@ -16,6 +16,7 @@ This tool is a Bash Script that hardens the Linux Server security automatically 
 * Disables unused FileSystems and Network protocols
 * Protects the server against Brute Force attacks by installing a configuring fail2ban
 * Installs and Configure Artillery as a Honeypot, Monitoring, Blocking and Alerting tool
+* Installs PortSentry
 * Install, configure, and optimize MySQL
 * Install the Apache Web Server
 * Install, configure and secure PHP
@@ -28,7 +29,6 @@ This tool is a Bash Script that hardens the Linux Server security automatically 
 * Disables Compilers
 * Creates Daily Cron job for System Updates
 * Kernel Hardening via sysctl configuration File (Tweaked)
-* LEMP Deployment with ModSecurity (Needs Updating and Testing)
 * /tmp Directory Hardening
 * PSAD IDS installation
 * Enables Process Accounting
@@ -47,7 +47,7 @@ This tool is a Bash Script that hardens the Linux Server security automatically 
 * Sets Secure File Permissions for Critical System Files
 
 
-# NEWLY ADDED FUNCTION
+# CIS Benchmark JShielder Script Added
 
 * Separate Hardening Script Following CIS Benchmark Guidance
   https://www.cisecurity.org/benchmark/ubuntu_linux/
