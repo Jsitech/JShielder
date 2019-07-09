@@ -473,6 +473,25 @@ install_secure_php(){
 
 ##############################################################################################################
 
+# Install, Configure and Optimize PHP for Nginx
+install_secure_php_nginx(){
+    clear
+    f_banner
+    echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+    echo -e "\e[93m[+]\e[00m Installing, Configuring and Optimizing PHP for NginX"
+    echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+    echo ""
+    apt install -y php-fpm php-mysql
+    echo ""
+    echo -n " Removing insecure configuration on php.ini..."
+    spinner
+    sed -i 's/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/g' /etc/php/7.2/fpm/php.ini; echo " OK"
+    service php7.2-fpm restart
+    say_done
+}
+
+##############################################################################################################
+
 # Install ModSecurity
 install_modsecurity(){
     clear
@@ -1262,7 +1281,7 @@ install_fail2ban
 install_secure_mysql
 install_nginx
 compile_modsec_nginx
-install_secure_php
+install_secure_php_nginx
 config_fail2ban
 additional_packages
 tune_secure_kernel
