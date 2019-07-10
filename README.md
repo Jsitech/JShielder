@@ -46,6 +46,10 @@ This tool is a Bash Script that hardens the Linux Server security automatically 
 * Secures Boot Settings
 * Sets Secure File Permissions for Critical System Files
 
+#NEW!!
+
+* LEMP Deployment with ModSecurity
+
 
 # CIS Benchmark JShielder Script Added
 
@@ -72,6 +76,8 @@ Having Problems, please open a New Issue for JShielder on Github.
 * Ubuntu Server 18.04LTS
 
 # ChangeLog
+
+v2.4 Added LEMP Deployment with ModSecurity
 
 v2.3 More Hardening steps Following some CIS Benchmark items for LAMP Deployer
 
