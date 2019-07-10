@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# JShielder v2.3
+# JShielder v2.4
 # Deployer for Ubuntu Server 16.04 LTS
 #
 # Jason Soto
@@ -15,6 +15,7 @@
 # www.cisofy.com/lynis
 # Credits to Michael Boelen @mboelen
 
+#Credits to Center for Internet Security CIS
 
 source helpers.sh
 

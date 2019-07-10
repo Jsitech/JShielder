@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# JShielder v2.2
+# JShielder v2.4
 # CIS Hardening Script for Ubuntu Server 16.04 LTS
 #
 # Jason Soto

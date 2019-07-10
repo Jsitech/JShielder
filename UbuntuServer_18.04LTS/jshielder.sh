@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# JShielder v2.3
+# JShielder v2.4
 # Deployer for Ubuntu Server 18.04 LTS
 #
 # Jason Soto
@@ -14,6 +14,8 @@
 # A lot of Suggestion Taken from The Lynis Project
 # www.cisofy.com/lynis
 # Credits to Michael Boelen @mboelen
+
+#Credits to Center for Internet Security CIS
 
 
 source helpers.sh
