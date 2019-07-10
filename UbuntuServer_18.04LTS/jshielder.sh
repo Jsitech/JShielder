@@ -446,6 +446,7 @@ cd $jshielder_home
   spinner
   cp templates/nginx /etc/nginx/nginx.conf
   cp templates/nginx_default /etc/nginx/conf.d/default.conf
+  service nginx restart
   say_done
 
 }
@@ -1203,7 +1204,7 @@ echo -e "\e[93m[+]\e[00m SELECT THE DESIRED OPTION"
 echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
 echo ""
 echo "1. LAMP Deployment"
-echo "2. LEMP Deployment (Testing)"
+echo "2. LEMP Deployment"
 echo "3. Reverse Proxy Deployment With Apache"
 echo "4. Running With SecureWPDeployer or JSDeployer Script"
 echo "5. Customized Run (Only run desired Options)"
@@ -1295,7 +1296,6 @@ install_tiger
 install_psad
 disable_compilers
 secure_tmp
-apache_conf_restrictions
 unattended_upgrades
 enable_proc_acct
 install_auditd
