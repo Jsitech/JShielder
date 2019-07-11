@@ -21,6 +21,7 @@ This tool is a Bash Script that hardens the Linux Server security automatically 
 * Install the Apache Web Server
 * Install, configure and secure PHP
 * Secure Apache via configuration file and with installation of the Modules ModSecurity, ModEvasive, Qos and SpamHaus
+* Secures NginX with the Installation of ModSecurity NginX module
 * Installs RootKit Hunter
 * Secures Root Home and Grub Configuration Files
 * Installs Unhide to help Detect Malicious Hidden Processes
