@@ -20,8 +20,8 @@ This tool is a Bash Script that hardens the Linux Server security automatically 
 * Install, configure, and optimize MySQL
 * Install the Apache Web Server
 * Install, configure and secure PHP
-* Secure Apache via configuration file and with installation of the Modules ModSecurity, ModEvasive, Qos and SpamHaus
-* Secures NginX with the Installation of ModSecurity NginX module
+* Secure Apache via configuration file and with installation of the Modules ModSecurity with the OWASP ModSecurity Core Rule Set (CRS3), ModEvasive, Qos and SpamHaus
+* Secures NginX with the Installation of ModSecurity NginX module and the OWASP ModSecurity Core Rule Set (CRS3)
 * Installs RootKit Hunter
 * Secures Root Home and Grub Configuration Files
 * Installs Unhide to help Detect Malicious Hidden Processes
@@ -49,7 +49,7 @@ This tool is a Bash Script that hardens the Linux Server security automatically 
 
 #NEW!!
 
-* LEMP Deployment with ModSecurity
+* LEMP Deployment with ModSecurity and the OWASP ModSecurity Core Rule Set (CRS3)
 
 
 # CIS Benchmark JShielder Script Added
@@ -78,7 +78,7 @@ Having Problems, please open a New Issue for JShielder on Github.
 
 # ChangeLog
 
-v2.4 Added LEMP Deployment with ModSecurity
+v2.4 Added LEMP Deployment with ModSecurity and the OWASP ModSecurity Core Rule Set (CRS3)
 
 v2.3 More Hardening steps Following some CIS Benchmark items for LAMP Deployer
 
