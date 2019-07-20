@@ -512,12 +512,12 @@ install_modsecurity(){
 
 ##############################################################################################################
 
-# Configure OWASP for ModSecurity
+# Configure OWASP ModSecurity Core Rule Set (CRS3)
 set_owasp_rules(){
     clear
     f_banner
     echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
-    echo -e "\e[93m[+]\e[00m Setting UP OWASP Rules for ModSecurity"
+    echo -e "\e[93m[+]\e[00m Setting UP OWASP ModSecurity Core Rule Set (CRS3)"
     echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
     echo ""
 
