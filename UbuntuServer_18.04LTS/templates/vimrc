@@ -15,13 +15,13 @@ endif
 
 set showmatch		" Show matching brackets.
 set ignorecase		" Do case insensitive matching
-set hlsearch        " Resaltar la búsqueda
-set incsearch		" Incremental search
-set mouse=a		    " Enable mouse usage (all modes)
-set number          " Mostrar los números de línea
-set textwidth=80    " Fijar ancho de línea en 80 caracteres
-set softtabstop=4
-set shiftwidth=4
+set hlsearch        " Hilight search
+set incsearch		    " Incremental search
+set mouse=a		      " Enable mouse usage (all modes)
+set number          " Show line numbers
+set textwidth=80    " Set line width to 80 characters
+set softtabstop=4   "Set soft tabstop to the size 4
+set shiftwidth=4    
 set tabstop=4
 set expandtab
 
