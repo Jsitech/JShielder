@@ -1,7 +1,7 @@
-set autoindent          " identación automática
-unset backup            " no crear backups file~
-set const               " muestra la posición del cursor en la barra de estado
-set morespace           " usa la primera línea debajo del título para codear
-set nowrap              " no wrapear el texto
-set tabsize 4           " Identación de 4 espacios en blanco
-set tabstospaces        " Convierte los tabulados a espacios
+set autoindent          " Auto Ident
+unset backup            " Do not create auto backups file~
+set const               " Show the cursor position in status bar
+set morespace           " use the first line under the title to code
+set nowrap              " Don't wrap text
+set tabsize 4           " Four character ident space
+set tabstospaces        " Convert tab to spaces
