@@ -1208,10 +1208,11 @@ echo ""
 echo "1. LAMP Deployment"
 echo "2. LEMP Deployment"
 echo "3. Reverse Proxy Deployment With Apache"
-echo "4. Running With SecureWPDeployer or JSDeployer Script"
-echo "5. Customized Run (Only run desired Options)"
-echo "6. CIS Benchmark Hardening"
-echo "7. Exit"
+echo "4. General Purpose (without WebServer or DBServer)"
+echo "5. Running With SecureWPDeployer or JSDeployer Script"
+echo "6. Customized Run (Only run desired Options)"
+echo "7. CIS Benchmark Hardening"
+echo "8. Exit"
 echo
 
 read choice
@@ -1353,8 +1354,44 @@ file_permissions
 reboot_server
 ;;
 
-
 4)
+check_root
+install_dep
+config_host
+config_timezone
+update_system
+restrictive_umask
+unused_filesystems
+uncommon_netprotocols
+admin_user
+rsa_keygen
+rsa_keycopy
+secure_ssh
+set_iptables
+install_fail2ban
+config_fail2ban
+additional_packages
+tune_secure_kernel
+install_rootkit_hunter
+tune_nano_vim_bashrc
+daily_update_cronjob
+install_artillery
+additional_hardening
+install_unhide
+install_tiger
+install_psad
+disable_compilers
+secure_tmp
+unattended_upgrades
+enable_proc_acct
+install_auditd
+install_arpwatch
+set_grubpassword
+file_permissions
+;;
+
+
+5)
 check_root
 install_dep
 config_host
@@ -1400,7 +1437,7 @@ set_grubpassword
 file_permissions
 ;;
 
-5)
+6)
 
 menu=""
 until [ "$menu" = "34" ]; do
@@ -1603,14 +1640,16 @@ esac
 done
 ;;
 
-6)
+7)
 chmod +x jshielder-CIS.sh
 ./jshielder-CIS.sh
 ;;
 
-7)
+
+8)
 exit 0
 ;;
 
 esac
 ##############################################################################################################
+
