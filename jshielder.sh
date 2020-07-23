@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 
 # JShielder v2.4
@@ -22,8 +22,9 @@
 ##############################################################################################################
 
 f_banner(){
-echo
-echo "
+	clear 
+	echo "
+
 
      ██╗███████╗██╗  ██╗██╗███████╗██╗     ██████╗ ███████╗██████╗
      ██║██╔════╝██║  ██║██║██╔════╝██║     ██╔══██╗██╔════╝██╔══██╗
@@ -33,66 +34,80 @@ echo "
 ╚════╝ ╚══════╝╚═╝  ╚═╝╚═╝╚══════╝╚══════╝╚═════╝ ╚══════╝╚═╝  ╚═╝
                                                               
 Automated Hardening Script for Linux Servers
-Developed By Jason Soto @JsiTech "
-echo
-echo
+Developed By Jason Soto @JsiTech
+
+"
 
 }
 
 ##############################################################################################################
 
-#Check if Running with root user
+# Create distro variable
+DISTRO=""
+CUID=$(id -u)
+MYNAME="$(basename "${0}")"
 
-if [ "$USER" != "root" ]; then
-      echo "Permission Denied"
-      echo "Can only be run by root"
-      exit
-else
-      clear
-      f_banner
-fi
+# Allow more generalized selection of distro scripts
+run_script() {
+	if [ -n "${1}" ]
+	then
+		if [ -d "${1}" ]
+		then
+			# Leverage the fact that the child script has the same name
+			cd "${1}" 2<&- && chmod +x ./"${MYNAME}" && ./"${MYNAME}"
+		else
+			perr "${1} is not currently supported!"
+		fi
+	else
+		printf "[%s]: Unknown input provided\n" "${MYNAME%.sh}"
+	fi
+}
+
+# Print formatted message to stdout and stderr
+perr() {
+	printf "[%s]: %s\n" "${MYNAME%.sh}" "${@}" >&2
+}
+
+main() {
+	# Check if Running with root user
+	if [ "${CUID}" -ne 0 ]; then
+		perr "You must be root to run this script!"
+		exit 1
+	else
+		f_banner
+	fi
 
 
-menu=""
-until [ "$menu" = "10" ]; do
+	menu=""
+	until [ "$menu" = "10" ]; do
 
-clear
-f_banner
+	f_banner
 
-echo
-echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
-echo -e "\e[93m[+]\e[00m SELECT YOUR LINUX DISTRIBUTION"
-echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
-echo ""
-echo "1. Ubuntu Server 16.04 LTS"
-echo "2. Ubuntu Server 18.04 LTS"
-echo "3. Linux CentOS 7 (Coming Soon)"
-echo "4. Debian GNU/Linux 8 (Coming Soon)"
-echo "5. Debian GNU/Linux 9 (Coming Soon)"
-echo "6. Red Hat Linux 7 (Coming Soon)"
-echo "7. Exit"
-echo
+	echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+	echo -e "\e[93m[+]\e[00m SELECT YOUR LINUX DISTRIBUTION"
+	echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+	printf "\t%d. %s\n"\
+		"1" "Ubuntu Server 16.04 LTS"\
+		"2" "Ubuntu Server 18.04 LTS"\
+		"3" "Linux CentOS 7 (Coming Soon)"\
+		"4" "Debian GNU/Linux 8 (Coming Soon)"\
+		"5" "Debian GNU/Linux 9 (Coming Soon)"\
+		"6" "Red Hat Linux 7 (Coming Soon)"\
+		"7" "Exit"
 
-read menu
-case $menu in
+	read -r menu
+	case $menu in
 
-1)
-cd UbuntuServer_16.04LTS/
-chmod +x jshielder.sh
-./jshielder.sh
-;;
+		# Simply retain this pattern to make additions easier
+		1) DISTRO="UbuntuServer_16.04LTS" ;;
+		2) DISTRO="UbuntuServer_18.04LTS" ;;
+		7) return 0 ;; # Exit, as stated by the menu
+		8) break ;;
+		*) return 1 ;; # Invalid selection
 
-2)
-cd UbuntuServer_18.04LTS/
-chmod +x jshielder.sh
-./jshielder.sh
-;;
+		esac
+	done
+	run_script "${DISTRO}"
+}
 
-8)
-break
-;;
-
-*) ;;
-
-esac
-done
+main

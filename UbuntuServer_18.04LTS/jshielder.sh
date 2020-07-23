@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # JShielder v2.4
 # Deployer for Ubuntu Server 18.04 LTS
@@ -23,8 +23,9 @@ source helpers.sh
 ##############################################################################################################
 
 f_banner(){
-echo
-echo "
+	clear
+	echo "
+
 
      ██╗███████╗██╗  ██╗██╗███████╗██╗     ██████╗ ███████╗██████╗
      ██║██╔════╝██║  ██║██║██╔════╝██║     ██╔══██╗██╔════╝██╔══██╗
@@ -34,9 +35,9 @@ echo "
 ╚════╝ ╚══════╝╚═╝  ╚═╝╚═╝╚══════╝╚══════╝╚═════╝ ╚══════╝╚═╝  ╚═╝
 
 For Ubuntu Server 18.04 LTS
-Developed By Jason Soto @Jsitech"
-echo
-echo
+Developed By Jason Soto @Jsitech
+
+"
 
 }
 
@@ -44,20 +45,13 @@ echo
 
 # Check if running with root User
 
-clear
-f_banner
-
-
 check_root() {
-if [ "$USER" != "root" ]; then
-      echo "Permission Denied"
-      echo "Can only be run by root"
-      exit
+if [ "${CUID}" -ne 0 ]; then
+	perr "You must be root to run this script!"
+	exit 1
 else
-      clear
-      f_banner
-      jshielder_home=$(pwd)
-      cat templates/texts/welcome
+	jshielder_home=$(pwd)
+	cat templates/texts/welcome
 fi
 }
 
@@ -66,8 +60,6 @@ fi
 # Installing Dependencies
 # Needed Prerequesites will be set up here
 install_dep(){
-   clear
-   f_banner
    echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
    echo -e "\e[93m[+]\e[00m Setting some Prerequisites"
    echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
