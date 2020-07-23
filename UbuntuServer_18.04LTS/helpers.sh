@@ -1,10 +1,13 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-spinner ()
-{
+# Current user ID
+CUID="$(id -u)"
+
+spinner () {
     bar=" ++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
     barlength=${#bar}
     i=0
+		echo ""
     while ((i < 100)); do
         n=$((i*barlength / 100))
         printf "\e[00;34m\r[%-${barlength}s]\e[00m" "${bar:0:n}"
@@ -14,38 +17,39 @@ spinner ()
 }
 
 
+# Print formatted message to stdout and stderr
+perr() {
+	printf "[%s]: %s\n" "${MYNAME}" "${@}" >&2
+}
 
 # Show "Done."
-function say_done() {
-    echo " "
-    echo -e "Done."
+say_done() {
+    printf "%s\n" "Done."
     say_continue
 }
 
 
 # Ask to Continue
-function say_continue() {
-    echo -n " To EXIT Press x Key, Press ENTER to Continue"
-    read acc
+say_continue() {
+    printf "%s" "To EXIT Press x Key, Press ENTER to Continue: "
+    read -r acc
     if [ "$acc" == "x" ]; then
-        exit
+        exit 0
     fi
-    echo " "
 }
 
 
-# Obtain Server IP
-function __get_ip() {
+# Obtain Server IP, store for later use
+__get_ip() {
+		# This will be accessible to the script after sourcing,
+		# so the variable can be re-used instead of this function
     serverip=$(ip route get 1 | awk '{print $7;exit}')
-    echo $serverip
 }
 
 
 # Copy Local Config Files
-function tunning() {
-    whoapp=$1
-    cp templates/$whoapp /root/.$whoapp
-    cp templates/$whoapp /home/$username/.$whoapp
-    chown $username:$username /home/$username/.$whoapp
+tuning() {
+    cp templates/"${1}" /root/."${1}"
+    cp templates/"${1}" /home/"${username}"/."${1}"
+    chown "${username}":"${username}" /home/"${username}"/."${1}"
 }
-

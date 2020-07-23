@@ -76,7 +76,18 @@ if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
 
-function md5 {
-    php -r "echo . md5('$1') . chr(10);"
+## XXX: Enable selecting digest, falling back on a sensible default like SHA2-256 or BLAKE2b512
+md5() {
+		while [ $# -gt 0 ]
+		do
+			printf "MD5 Digest of '%s':\n" "${1}"
+			if [ ! -f "${1}" ]
+			then
+				printf "%s" | openssl dgst -r -md5 - | cut -d' ' -f1
+			else
+				openssl dgst -r -md5 "${1}" | cut -d' ' -f1
+			fi
+			shift
+		done
 }
 
