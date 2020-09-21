@@ -11,8 +11,8 @@ This tool is a Bash Script that hardens the Linux Server security automatically 
 * Updates the entire System
 * Creates a New Admin user so you can manage your server safely without the need of doing remote connections with root.
 * Helps user Generate Secure RSA Keys, so that remote access to your server is done exclusive from your local pc and no Conventional password
-* Configures, Optimize and secures the SSH Server (Some Settings Following CIS Benchmark)
-* Configures IPTABLES Rules to protect the server from common attacks
+* Configures, optimizes and secures the SSH Server (Some Settings Following CIS Benchmark)
+* Configures IPTABLES rules to protect the server from common attacks
 * Disables unused FileSystems and Network protocols
 * Protects the server against Brute Force attacks by installing a configuring fail2ban
 * Installs and Configure Artillery as a Honeypot, Monitoring, Blocking and Alerting tool
