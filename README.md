@@ -6,44 +6,44 @@ JSHielder is an Open Source Bash Script developed to help SysAdmin and developer
 
 This tool is a Bash Script that hardens the Linux Server security automatically and the steps followed are:
 
-* Configures a Hostname
-* Reconfigures the Timezone
+* Configures a hostname
+* Reconfigures the timezone
 * Updates the entire System
-* Creates a New Admin user so you can manage your server safely without the need of doing remote connections with root.
-* Helps user Generate Secure RSA Keys, so that remote access to your server is done exclusive from your local pc and no Conventional password
-* Configures, Optimize and secures the SSH Server (Some Settings Following CIS Benchmark)
-* Configures IPTABLES Rules to protect the server from common attacks
-* Disables unused FileSystems and Network protocols
-* Protects the server against Brute Force attacks by installing a configuring fail2ban
-* Installs and Configure Artillery as a Honeypot, Monitoring, Blocking and Alerting tool
+* Creates a new admin user so you can manage your server safely without the need of doing remote connections with root.
+* Helps the user generate Secure RSA Keys, so that remote access to your server is done exclusive from your local pc and no conventional password
+* Configures, optimizes and secures the SSH Server (Some Settings Following CIS Benchmark)
+* Configures IPTABLES rules to protect the server from common attacks
+* Disables unused fileSystems and network protocols
+* Protects the server against Brute Force attacks by installing and configuring fail2ban
+* Installs and configures Artillery as a Honeypot, Monitoring, Blocking and Alerting tool
 * Installs PortSentry
-* Install, configure, and optimize MySQL
-* Install the Apache Web Server
-* Install, configure and secure PHP
-* Secure Apache via configuration file and with installation of the Modules ModSecurity with the OWASP ModSecurity Core Rule Set (CRS3), ModEvasive, Qos and SpamHaus
+* Installs, configures, and optimizes MySQL
+* Installs the Apache Web Server
+* Installs, configures and secures PHP
+* Secures Apache via configuration file and with installation of the Modules ModSecurity with the OWASP ModSecurity Core Rule Set (CRS3), ModEvasive, Qos and SpamHaus
 * Secures NginX with the Installation of ModSecurity NginX module and the OWASP ModSecurity Core Rule Set (CRS3)
 * Installs RootKit Hunter
-* Secures Root Home and Grub Configuration Files
-* Installs Unhide to help Detect Malicious Hidden Processes
-* Installs Tiger, A Security Auditing and Intrusion Prevention system
-* Restrict Access to Apache Config Files
-* Disables Compilers
-* Creates Daily Cron job for System Updates
-* Kernel Hardening via sysctl configuration File (Tweaked)
-* /tmp Directory Hardening
+* Secures root home and grub configuration files
+* Installs Unhide to help detect malicious hidden processes
+* Installs Tiger, A security auditing and Intrusion Prevention System
+* Restricts access to Apache config files
+* Disables compilers
+* Creates Daily cronjob for system updates
+* Hardens the kernel via sysctl configuration file (Tweaked)
+* /tmp directory hardening
 * PSAD IDS installation
 * Enables Process Accounting
 * Enables Unattended Upgrades
 * MOTD and Banners for Unauthorized access
 * Disables USB Support for Improved Security (Optional)
-* Configures a Restrictive Default UMASK
+* Configures a restrictive default UMASK
 * Configures and enables Auditd
-* Configures Auditd rules following CIS Benchmark 
-* Sysstat install 
-* ArpWatch install
+* Configures Auditd rules following CIS benchmark 
+* Installs Sysstat
+* Installs ArpWatch
 * Additional Hardening steps following CIS Benchmark
-* Secures Cron
-* Automates the process of setting a GRUB Bootloader Password
+* Secures cron
+* Automates the process of setting a GRUB bootloader password
 * Secures Boot Settings
 * Sets Secure File Permissions for Critical System Files
 
