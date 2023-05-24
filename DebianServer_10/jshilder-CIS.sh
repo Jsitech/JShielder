@@ -443,6 +443,7 @@ find / -xdev \( -perm -4000 -o -perm -2000 \) -type f | awk '{print \
 echo " " >> /etc/audit/audit.rules
 echo "#End of Audit Rules" >> /etc/audit/audit.rules
 echo "-e 2" >>/etc/audit/audit.rules
+echo "-e 2" >>/etc/audit/audit.d/99-finalize.rules
 
 cp /etc/audit/audit.rules /etc/audit/rules.d/audit.rules
 
@@ -540,6 +541,7 @@ sleep 2
 cp templates/common-passwd-CIS /etc/pam.d/common-passwd
 cp templates/pwquality-CIS.conf /etc/security/pwquality.conf
 cp templates/common-auth-CIS /etc/pam.d/common-auth
+cat templates/common-account >> /etc/pam.d/common-account
 
 #5.4 User Accounts and Environment
 #5.4.1.1 Ensure password expiration is 90 days or less (Scored)
@@ -676,3 +678,28 @@ fi
 rm /etc/sudoers.d/*cloud-init*
 # Add sudo log file path to /etc/sudoers.d/logging
 echo -e "Defaults logfile=/var/log/sudo.log" > /etc/sudoers.d/logging
+# Add sudo use_pty to /etc/sudoers.d/use_pty
+echo -e "Defaults use_pty" > /etc/sudoers.d/use_pty
+
+
+# Create an empty group that will be specified for use of the su command. 
+# The group should be named according to site policy. 
+# Example # groupadd sugroup Add the following line to the /etc/pam.d/su file, 
+# specifying the empty group: auth required pam_wheel.so use_uid group=sugroup
+groupadd sugroup
+echo -e "auth required pam_wheel.so use_uid group=sugroup" >> /etc/pam.d/su
+# Do you want to add the $username to the sugroup? (y/n)
+read -p "Do you want to add the $username to the sugroup? (y/n) " -n 1 -r
+echo -e ""
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
+  usermod -a -G sugroup $username
+fi
+
+# Journalctl configuration
+# In /etc/systemd/journald.conf, Remove the # from the following lines:
+# Storage=persistent
+# Compress=yes
+
+sed -i 's/#Storage=auto/Storage=persistent/g' /etc/systemd/journald.conf
+sed -i 's/#Compress=yes/Compress=yes/g' /etc/systemd/journald.con
