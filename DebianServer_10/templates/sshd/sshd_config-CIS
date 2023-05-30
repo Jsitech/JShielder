@@ -1,4 +1,4 @@
-Port 10022
+Port PORT
 Protocol 2
 HostKey /etc/ssh/ssh_host_rsa_key
 HostKey /etc/ssh/ssh_host_dsa_key

@@ -48,7 +48,7 @@ if [ $EUID -ne 0 ]; then
 else
       clear
       f_banner
-      cat templates/welcome-CIS
+      cat templates/texts/welcome-CIS
 fi
 }
 
@@ -187,7 +187,7 @@ chmod og-rwx /boot/grub/grub.cfg
 #1.5.1 Ensure core dumps are restricted (Scored)
 
 echo "* hard core 0" >> /etc/security/limits.conf
-cp templates/sysctl-CIS.conf /etc/sysctl.conf
+cp templates/sysctl/sysctl-CIS.conf /etc/sysctl.conf
 sysctl -e -p
 
 #1.5.2 Ensure XD/NX support is enabled (Not Scored)
@@ -211,9 +211,9 @@ sysctl -e -p
 #1.7.1.1 Ensure message of the day is configured properly (Scored)
 #1.7.1.2 Ensure local login warning banner is configured properly (Not Scored)
 #1.7.1.3 Ensure remote login warning banner is configured properly (Not Scored)
-cat templates/motd-CIS > /etc/motd
-cat templates/motd-CIS > /etc/issue
-cat templates/motd-CIS > /etc/issue.net
+cat templates/texts/motd-CIS > /etc/motd
+cat templates/texts/motd-CIS > /etc/issue
+cat templates/texts/motd-CIS > /etc/issue.net
 
 #1.7.1.4 Ensure permissions on /etc/motd are configured (Not Scored)
 #1.7.1.5 Ensure permissions on /etc/issue are configured (Scored)
@@ -383,10 +383,16 @@ sleep 1
 
 apt install -y iptables-persistent
 
-sh templates/iptables-CIS.sh
-cp templates/iptables-CIS.sh /etc/init.d/
+sh templates/iptables/iptables-CIS.sh
+cp templates/iptables/iptables-CIS.sh /etc/init.d/
 
 netfilter-persistent save
+
+# Replace the default rules file with the CIS rules file
+# Replace 62716 with the port the user entered for ssh
+sed -i 's/62716/$sshport/g' /etc/iptables/rules.v4
+
+netfilter-persistent reload
 
 #3.6.5 Ensure firewall rules exist for all open ports (Scored)
 #3.7 Ensure wireless interfaces are disabled (Not Scored)
@@ -408,7 +414,7 @@ apt-get install -y auditd audispd-plugins
 #.1.1.2 Ensure system is disabled when audit logs are full (Scored)
 #4.1.1.3 Ensure audit logs are not automatically deleted (Scored)
 
-cp templates/auditd-CIS.conf /etc/audit/auditd.conf
+cp templates/audit/auditd-CIS.conf /etc/audit/auditd.conf
 
 #4.1.2 Ensure auditd service is enabled (Scored)
 
@@ -434,7 +440,7 @@ sed -i 's/GRUB_CMDLINE_LINUX="ipv6.disable=1"/GRUB_CMDLINE_LINUX="ipv6.disable=1
 #4.1.18 Ensure the audit configuration is immutable (Scored)
 
 
-cp templates/audit-CIS.rules /etc/audit/audit.rules
+cp templates/audit/audit-CIS.rules /etc/audit/audit.rules
 
 find / -xdev \( -perm -4000 -o -perm -2000 \) -type f | awk '{print \
 "-a always,exit -F path=" $1 " -F perm=x -F auid>=1000 -F auid!=4294967295 \
@@ -518,7 +524,10 @@ echo -n " Type the new username: "; read username
 adduser $username
 
 echo -n " Securing SSH..."
-sed s/USERNAME/$username/g templates/sshd_config-CIS > /etc/ssh/sshd_config; echo "OK"
+sed s/USERNAME/$username/g templates/sshd/sshd_config-CIS > /etc/ssh/sshd_config; echo "OK"
+# get ssh port from user
+echo -n " Type the SSH Port: "; read sshport
+sed -i s/PORT/$sshport/g /etc/ssh/sshd_config; echo "OK"
 service ssh restart
 
 chown root:root /etc/ssh/sshd_config
@@ -538,10 +547,10 @@ echo -e "Configuring PAM"
 spinner
 sleep 2
 
-cp templates/common-passwd-CIS /etc/pam.d/common-passwd
-cp templates/pwquality-CIS.conf /etc/security/pwquality.conf
-cp templates/common-auth-CIS /etc/pam.d/common-auth
-cat templates/common-account >> /etc/pam.d/common-account
+cp templates/pam/common-passwd-CIS /etc/pam.d/common-passwd
+cp templates/pam/pwquality-CIS.conf /etc/security/pwquality.conf
+cp templates/pam/common-auth-CIS /etc/pam.d/common-auth
+cat templates/pam/common-account >> /etc/pam.d/common-account
 
 #5.4 User Accounts and Environment
 #5.4.1.1 Ensure password expiration is 90 days or less (Scored)
@@ -610,6 +619,7 @@ chmod o-rwx,g-rw /etc/gshadow
 
 chown root:root /etc/passwd-
 chmod 600 /etc/passwd-
+chmod u-x,go-rwx /etc/passwd-
 
 #6.1.7 Ensure permissions on /etc/shadow - are configured (Scored)
 
@@ -619,7 +629,7 @@ chmod 600 /etc/shadow-
 #6.1.8 Ensure permissions on /etc/group - are configured (Scored)
 
 chown root:root /etc/group-
-chmod 600 /etc/group-
+chmod u-x,go-rwx /etc/group-
 
 #6.1.9 Ensure permissions on /etc/gshadow - are configured (Scored)
 
@@ -656,7 +666,7 @@ chmod 600 /etc/gshadow-
 clear
 f_banner
 
-cat templates/bye-CIS
+cat templates/texts/bye-CIS
 say_continue
 
 
@@ -702,4 +712,24 @@ fi
 # Compress=yes
 
 sed -i 's/#Storage=auto/Storage=persistent/g' /etc/systemd/journald.conf
-sed -i 's/#Compress=yes/Compress=yes/g' /etc/systemd/journald.con
+sed -i 's/#Compress=yes/Compress=yes/g' /etc/systemd/journald.conf
+
+# Echo Essential informations for the user to be able to connect back to the server.
+echo -e "Please note the following information to be able to connect back to the server:"
+echo -e "IP Address: $(hostname -I)"
+echo -e "Username: $username"
+echo -e "Password: THE PASSWORD YOU CHOSE"
+echo -e "Port: $port"
+echo -e "Please note that the root user is disabled by default."
+echo -e "Please note that the $username user is allowed to switch to root using the su command."
+echo -e "Please note that SUDO has not been configured yet."
+
+# Reboot to apply changes, ask the user if he wants to reboot now.
+read -p "Do you want to reboot now? (y/n) " -n 1 -r
+echo -e ""
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
+  reboot
+fi
+
+# End of script
