@@ -32,7 +32,7 @@
  iptables -A INPUT -p icmp -m state --state ESTABLISHED -j ACCEPT
 
 # Open inbound ssh(22) connections
- iptables -A INPUT -p tcp --dport 62716 -m state --state NEW -j ACCEPT
+ iptables -A INPUT -p tcp --dport PORT -m state --state NEW -j ACCEPT
 
 # Disable IPV6
  ip6tables -P INPUT DROP

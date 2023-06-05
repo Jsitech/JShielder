@@ -381,17 +381,11 @@ echo -e "Setting up Iptables Rules"
 spinner
 sleep 1
 
-apt install -y iptables-persistent
-
 sh templates/iptables/iptables-CIS.sh
-cp templates/iptables/iptables-CIS.sh /etc/init.d/
-
-netfilter-persistent save
 
 # Replace the default rules file with the CIS rules file
-# Replace 62716 with the port the user entered for ssh
-sed -i 's/62716/$sshport/g' /etc/iptables/rules.v4
-
+apt install -y iptables-persistent
+netfilter-persistent save
 netfilter-persistent reload
 
 #3.6.5 Ensure firewall rules exist for all open ports (Scored)
@@ -527,7 +521,9 @@ echo -n " Securing SSH..."
 sed s/USERNAME/$username/g templates/sshd/sshd_config-CIS > /etc/ssh/sshd_config; echo "OK"
 # get ssh port from user
 echo -n " Type the SSH Port: "; read sshport
-sed -i s/PORT/$sshport/g /etc/ssh/sshd_config; echo "OK"
+sed -i s/PORT/$sshport/g /etc/ssh/sshd_config; 
+sed -i s/PORT/$sshport/g templates/iptables/iptables-CIS.sh;
+echo "OK"
 service ssh restart
 
 chown root:root /etc/ssh/sshd_config
@@ -550,7 +546,7 @@ sleep 2
 cp templates/pam/common-passwd-CIS /etc/pam.d/common-passwd
 cp templates/pam/pwquality-CIS.conf /etc/security/pwquality.conf
 cp templates/pam/common-auth-CIS /etc/pam.d/common-auth
-cat templates/pam/common-account >> /etc/pam.d/common-account
+cat templates/pam/common-account-CIS >> /etc/pam.d/common-account
 
 #5.4 User Accounts and Environment
 #5.4.1.1 Ensure password expiration is 90 days or less (Scored)
@@ -719,10 +715,10 @@ echo -e "Please note the following information to be able to connect back to the
 echo -e "IP Address: $(hostname -I)"
 echo -e "Username: $username"
 echo -e "Password: THE PASSWORD YOU CHOSE"
-echo -e "Port: $port"
+echo -e "Port: $sshport"
 echo -e "Please note that the root user is disabled by default."
 echo -e "Please note that the $username user is allowed to switch to root using the su command."
-echo -e "Please note that SUDO has not been configured yet."
+echo -e "Please note that SUDO has not been configured yet.";
 
 # Reboot to apply changes, ask the user if he wants to reboot now.
 read -p "Do you want to reboot now? (y/n) " -n 1 -r
