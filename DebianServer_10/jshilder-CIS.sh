@@ -521,9 +521,7 @@ echo -n " Securing SSH..."
 sed s/USERNAME/$username/g templates/sshd/sshd_config-CIS > /etc/ssh/sshd_config; echo "OK"
 # get ssh port from user
 echo -n " Type the SSH Port: "; read sshport
-sed -i s/PORT/$sshport/g /etc/ssh/sshd_config; 
-sed -i s/PORT/$sshport/g templates/iptables/iptables-CIS.sh;
-echo "OK"
+sed -i s/PORT/$sshport/g /etc/ssh/sshd_config templates/iptables/iptables-CIS.sh; echo "OK"
 service ssh restart
 
 chown root:root /etc/ssh/sshd_config
