@@ -380,6 +380,7 @@ echo -e ""
 echo -e "Setting up Iptables Rules"
 spinner
 sleep 1
+echo -e ""
 # Get SSH Port.
 echo -n " Type the SSH Port: "; read sshport
 sed -i s/PORT/$sshport/g templates/iptables/iptables-CIS.sh; echo "OK"
@@ -663,7 +664,6 @@ f_banner
 cat templates/texts/bye-CIS
 say_continue
 
-
 # Ensure public key is in $username/.ssh/authorized_keys
 if [ -f /home/$username/.ssh/authorized_keys ]; then
   echo -e "Authorized Key file already exists for $username"
@@ -685,20 +685,13 @@ echo -e "Defaults logfile=/var/log/sudo.log" > /etc/sudoers.d/logging
 # Add sudo use_pty to /etc/sudoers.d/use_pty
 echo -e "Defaults use_pty" > /etc/sudoers.d/use_pty
 
-
 # Create an empty group that will be specified for use of the su command. 
 # The group should be named according to site policy. 
 # Example # groupadd sugroup Add the following line to the /etc/pam.d/su file, 
 # specifying the empty group: auth required pam_wheel.so use_uid group=sugroup
 groupadd sugroup
 echo -e "auth required pam_wheel.so use_uid group=sugroup" >> /etc/pam.d/su
-# Do you want to add the $username to the sugroup? (y/n)
-read -p "Do you want to add the $username to the sugroup? (y/n) " -n 1 -r
-echo -e ""
-if [[ $REPLY =~ ^[Yy]$ ]]
-then
-  usermod -a -G sugroup $username
-fi
+usermod -a -G sugroup $username
 
 # Journalctl configuration
 # In /etc/systemd/journald.conf, Remove the # from the following lines:
