@@ -5,7 +5,7 @@
 #
 # Girish Mahabir
 # Twitter = @girishmahabir
-#Credits to Center for Internet Security CIS and Jason Soto for the base work.
+# Credits to Center for Internet Security CIS and Jason Soto for the base work.
 
 source helpers.sh
 
@@ -106,6 +106,9 @@ echo "install udf /bin/true" >> /etc/modprobe.d/CIS.conf
 
 echo "install vfat /bin/true" >> /etc/modprobe.d/CIS.conf
 
+#1.1.23 Ensure mounting USB devices is disabled (Scored)
+echo "install usb-storage /bin/true" >> /etc/modprobe.d/CIS.conf
+rmmod usb-storage
 
 
 #1.1.17 Ensure nodev option set on removable media partitions (Not Scored)
@@ -148,6 +151,7 @@ aideinit
 
 # Configure cron job for AIDE
 echo "0 5 * * * /usr/bin/aide.wrapper --config /etc/aide/aide.conf --check" >> /etc/cron.d/aide
+service cron restart
 
 #1.3.2 Ensure filesystem integrity is regularly checked (Scored)
 
@@ -310,9 +314,7 @@ sed -i 's/GRUB_CMDLINE_LINUX=""/GRUB_CMDLINE_LINUX="ipv6.disable=1"/g' /etc/defa
 update-grub
 
 #3.4 TCP Wrappers
-#.4.1 Ensure TCP Wrappers is installed (Scored)
-   # Installed by default
-
+#.4.1 Ensure TCP Wrappers is installed (Scored) Installed by default
 
 #.4.2 Ensure /etc/hosts.allow is configured (Scored)
 
@@ -464,7 +466,7 @@ cp /etc/audit/audit.rules /etc/audit/rules.d/audit.rules
 #4.2.3 Ensure rsyslog or syslog-ng is installed (Scored)
 
 #4.2.4 Ensure permissions on all logfiles are configured (Scored)
-
+echo "create 0640 root utmp" >> /etc/logrotate.conf
 chmod -R g-wx,o-rwx /var/log/*
 
 #4.3 Ensure logrotate is configured (Not Scored)
@@ -530,6 +532,8 @@ chmod og-rwx /etc/ssh/sshd_config
 
 #5.3 Configure PAM
 #5.3.1 Ensure password creation requirements are configured (Scored)
+apt install libpam-pwquality -y
+
 #5.3.2 Ensure lockout for failed password attempts is configured (Not Scored)
 #5.3.3 Ensure password reuse is limited (Scored)
 #5.3.4 Ensure password hashing algorithm is SHA-512 (Scored)
@@ -577,6 +581,11 @@ usermod -g 0 root
 
 sed -i s/umask\ 022/umask\ 027/g /etc/init.d/rc
 
+# 5.4.5 Ensure default user shell timeout is 900 seconds or less
+echo "readonly TMOUT=900 ; export TMOUT" >> /etc/bash.bashrc
+echo "readonly TMOUT=900 ; export TMOUT" >> /etc/profile 
+echo "readonly TMOUT=900 ; export TMOUT" >> /etc/profile.d/*.sh
+
 #5.5 Ensure root login is restricted to system console (Not Scored)
 #5.6 Ensure access to the su command is restricted (Scored)
 
@@ -622,7 +631,6 @@ chown root:root /etc/shadow-
 chmod 600 /etc/shadow-
 
 #6.1.8 Ensure permissions on /etc/group - are configured (Scored)
-
 chown root:root /etc/group-
 chmod u-x,go-rwx /etc/group-
 
