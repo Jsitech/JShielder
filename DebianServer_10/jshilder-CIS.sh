@@ -718,14 +718,6 @@ echo -e "Password: THE PASSWORD YOU CHOSE"
 echo -e "Port: $sshport"
 echo -e "Please note that the root user is disabled by default."
 echo -e "Please note that the $username user is allowed to switch to root using the su command."
-echo -e "Please note that SUDO has not been configured yet.";
-
-# Reboot to apply changes, ask the user if he wants to reboot now.
-read -p "Do you want to reboot now? (y/n) " -n 1 -r
-echo -e ""
-if [[ $REPLY =~ ^[Yy]$ ]]
-then
-  reboot
-fi
-
+echo -e "Please note that SUDO has not been configured yet."
+echo -e "Please reboot the server to apply all the changes.";
 # End of script
