@@ -100,7 +100,7 @@ HUSHLOGIN_FILE	.hushlogin
 #
 # (they are minimal, add the rest in the shell startup files)
 ENV_SUPATH	PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-ENV_PATH	PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games
+ENV_PATH	PATH=/usr/local/bin:/usr/bin:/bin
 
 #
 # Terminal permissions
@@ -240,7 +240,7 @@ USERGROUPS_ENAB yes
 # This variable is used by login and su.
 #
 #CONSOLE	/etc/consoles
-#CONSOLE	console:tty01:tty02:tty03:tty04
+CONSOLE	console:tty0:tty1:tty01
 
 #
 # List of groups to add to the user's supplementary group set
@@ -291,8 +291,8 @@ ENCRYPT_METHOD SHA512
 # If only one of the MIN or MAX values is set, then this value will be used.
 # If MIN > MAX, the highest value will be used.
 #
-# SHA_CRYPT_MIN_ROUNDS 5000
-# SHA_CRYPT_MAX_ROUNDS 5000
+SHA_CRYPT_MIN_ROUNDS 5000
+SHA_CRYPT_MAX_ROUNDS 100000
 
 ################# OBSOLETED BY PAM ##############
 #						#
