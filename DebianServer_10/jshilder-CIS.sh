@@ -388,6 +388,11 @@ echo -n " Type the SSH Port: "; read sshport
 sed -i s/PORT/$sshport/g templates/iptables/iptables-CIS.sh; echo "OK"
 sh templates/iptables/iptables-CIS.sh
 
+cp templates/iptables/iptables-CIS.sh /etc/init.d/
+chmod +x /etc/init.d/iptables-CIS.sh
+ln -s /etc/init.d/iptables-CIS.sh /etc/rc2.d/S99iptables-CIS.sh
+
+
 # Replace the default rules file with the CIS rules file
 apt install -y iptables-persistent
 netfilter-persistent save
@@ -447,8 +452,10 @@ find / -xdev \( -perm -4000 -o -perm -2000 \) -type f | awk '{print \
 
 echo " " >> /etc/audit/audit.rules
 echo "#End of Audit Rules" >> /etc/audit/audit.rules
-echo "-e 2" >>/etc/audit/audit.rules
-echo "-e 2" >>/etc/audit/audit.d/99-finalize.rules
+echo "-e 2" >> /etc/audit/audit.rules
+echo "-e 2" >> /etc/audit/audit.rules.prev
+echo "-e 2" >> /etc/audit/audit-stop.rules
+echo "-e 2" >> /etc/audit/rules.d/99-finalize.rules 
 
 cp /etc/audit/audit.rules /etc/audit/rules.d/audit.rules
 
@@ -464,6 +471,9 @@ cp /etc/audit/audit.rules /etc/audit/rules.d/audit.rules
 #4.2.2.4 Ensure syslog-ng is configured to send logs to a remote log host (Scored)
 #4.2.2.5 Ensure remote syslog-ng messages are only accepted on designated log hosts (Not Scored)
 #4.2.3 Ensure rsyslog or syslog-ng is installed (Scored)
+# find /var/log -type f -exec chmod g-wx,o-rwx "{}" + -o -type d -exec chmod g-w,o-rwx "{}" +
+# Add the above line to /etc/cron.d/CIS to be executed every 30 minutes
+echo "*/30 * * * * root find /var/log -type f -exec chmod g-wx,o-rwx "{}" + -o -type d -exec chmod g-w,o-rwx "{}" +" >> /etc/cron.d/CIS
 
 #4.2.4 Ensure permissions on all logfiles are configured (Scored)
 echo "create 0640 root utmp" >> /etc/logrotate.conf
@@ -549,7 +559,7 @@ sleep 2
 cp templates/pam/common-passwd-CIS /etc/pam.d/common-passwd
 cp templates/pam/pwquality-CIS.conf /etc/security/pwquality.conf
 cp templates/pam/common-auth-CIS /etc/pam.d/common-auth
-cat templates/pam/common-account-CIS >> /etc/pam.d/common-account
+# cat templates/pam/common-account-CIS >> /etc/pam.d/common-account
 
 #5.4 User Accounts and Environment
 #5.4.1.1 Ensure password expiration is 90 days or less (Scored)
@@ -582,9 +592,17 @@ usermod -g 0 root
 sed -i s/umask\ 022/umask\ 027/g /etc/init.d/rc
 
 # 5.4.5 Ensure default user shell timeout is 900 seconds or less
-echo "readonly TMOUT=900 ; export TMOUT" >> /etc/bash.bashrc
-echo "readonly TMOUT=900 ; export TMOUT" >> /etc/profile 
-echo "readonly TMOUT=900 ; export TMOUT" >> /etc/profile.d/*.sh
+cat templates/shell/shell-tmout-CIS >> /etc/bash.bashrc
+cat templates/shell/shell-tmout-CIS >> /etc/profile 
+
+for file in /etc/profile.d/*.sh; do
+    if grep -q 'TMOUT' "$file"; then
+        echo "TMOUT is configured in $file"
+    else
+        echo "\n" >> "$file"
+        cat templates/shell/shell-tmout-CIS >> "$file"
+    fi
+done
 
 #5.5 Ensure root login is restricted to system console (Not Scored)
 #5.6 Ensure access to the su command is restricted (Scored)
@@ -630,7 +648,8 @@ chmod u-x,go-rwx /etc/passwd-
 chown root:root /etc/shadow-
 chmod 600 /etc/shadow-
 
-#6.1.8 Ensure permissions on /etc/group - are configured (Scored)
+#6.1.8 Ensure permissions on /etc/group- are configured (Scored)
+
 chown root:root /etc/group-
 chmod u-x,go-rwx /etc/group-
 
@@ -719,4 +738,15 @@ echo -e "Please note that the root user is disabled by default."
 echo -e "Please note that the $username user is allowed to switch to root using the su command."
 echo -e "Please note that SUDO has not been configured yet."
 echo -e "Please reboot the server to apply all the changes.";
+
+# Echo some blank lines
+echo -e "\n\n";
+# Some manual work is required to complete the setup.
+echo -e "Please note that the following manual work is required to complete the setup:\n"
+echo -e "Add '0 5 * * * /usr/bin/aide.wrapper --config /etc/aide/aide.conf --check' to the crontab of the root user."
+echo -e "Copy the required ssh keys to the /home/$username/.ssh/authorized_keys file."
+echo -e "RUN: chown root:root /etc/group- && chmod u-x,go-rwx /etc/group-"
+
+
+
 # End of script
