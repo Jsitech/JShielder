@@ -1,0 +1,3 @@
+if [ "$TMOUT" != 900 ]; then
+    readonly TMOUT=900 ; export TMOUT
+fi
