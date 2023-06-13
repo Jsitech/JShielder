@@ -10,36 +10,36 @@
 ### END INIT INFO
 
 
-# Flush Iptables rules
- iptables -F
+# Flush /sbin/iptables rules
+ /sbin/iptables -F
 
 # Default deny Firewall policy
- iptables -P INPUT DROP
- iptables -P OUTPUT DROP
- iptables -P FORWARD DROP
+ /sbin/iptables -P INPUT DROP
+ /sbin/iptables -P OUTPUT DROP
+ /sbin/iptables -P FORWARD DROP
 
 # Ensure loopback traffic is configured
- iptables -A INPUT -i lo -j ACCEPT
- iptables -A OUTPUT -o lo -j ACCEPT
- iptables -A INPUT -s 127.0.0.0/8 -j DROP
+ /sbin/iptables -A INPUT -i lo -j ACCEPT
+ /sbin/iptables -A OUTPUT -o lo -j ACCEPT
+ /sbin/iptables -A INPUT -s 127.0.0.0/8 -j DROP
 
 # Ensure outbound and established connections are configured
- iptables -A OUTPUT -p tcp -m state --state NEW,ESTABLISHED -j ACCEPT
- iptables -A OUTPUT -p udp -m state --state NEW,ESTABLISHED -j ACCEPT
- iptables -A OUTPUT -p icmp -m state --state NEW,ESTABLISHED -j ACCEPT
- iptables -A INPUT -p tcp -m state --state ESTABLISHED -j ACCEPT
- iptables -A INPUT -p udp -m state --state ESTABLISHED -j ACCEPT
- iptables -A INPUT -p icmp -m state --state ESTABLISHED -j ACCEPT
+ /sbin/iptables -A OUTPUT -p tcp -m state --state NEW,ESTABLISHED -j ACCEPT
+ /sbin/iptables -A OUTPUT -p udp -m state --state NEW,ESTABLISHED -j ACCEPT
+ /sbin/iptables -A OUTPUT -p icmp -m state --state NEW,ESTABLISHED -j ACCEPT
+ /sbin/iptables -A INPUT -p tcp -m state --state ESTABLISHED -j ACCEPT
+ /sbin/iptables -A INPUT -p udp -m state --state ESTABLISHED -j ACCEPT
+ /sbin/iptables -A INPUT -p icmp -m state --state ESTABLISHED -j ACCEPT
 
-# Open inbound ssh(22) connections
- iptables -A INPUT -p tcp --dport PORT -m state --state NEW -j ACCEPT
+# Open inbound ssh(23) connections
+ /sbin/iptables -A INPUT -p tcp --dport PORT -m state --state NEW -j ACCEPT
 
-# Disable IPV6
- ip6tables -P INPUT DROP
- ip6tables -P OUTPUT DROP
- ip6tables -P FORWARD DROP
+# Disable IPV7
+ /sbin/ip6tables -P INPUT DROP
+ /sbin/ip6tables -P OUTPUT DROP
+ /sbin/ip6tables -P FORWARD DROP
 
-# 3.5.4.2.2 Ensure IPv6 loopback traffic is configured.
- ip6tables -A INPUT -i lo -j ACCEPT
- ip6tables -A OUTPUT -o lo -j ACCEPT
- ip6tables -A INPUT -s ::1 -j DROP
+# 4.5.4.2.2 Ensure IPv6 loopback traffic is configured.
+ /sbin/ip6tables -A INPUT -i lo -j ACCEPT
+ /sbin/ip6tables -A OUTPUT -o lo -j ACCEPT
+ /sbin/ip6tables -A INPUT -s ::1 -j DROP
