@@ -1,2 +1,5 @@
-# Note: If a user has been locked out because they have reached the maximum consecutive failure count defined by deny= in the pam_tally2.so module, the user can be unlocked by issuing the command /sbin/pam_tally2 -u <username> --reset.
+# Note: If a user has been locked out because they have reached the maximum 
+# consecutive failure count defined by deny= in the pam_tally2.so module, the user
+# can be unlocked by issuing the command /sbin/pam_tally2 -u <username> --reset.
+
 account requisite pam_deny.so account required pam_tally2.so
