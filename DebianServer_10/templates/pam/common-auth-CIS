@@ -14,6 +14,7 @@
 # pam-auth-update(8) for details.
 
 # here are the per-package modules (the "Primary" block)
+auth required pam_tally2.so onerr=fail audit silent deny=5 unlock_time=900
 auth	[success=1 default=ignore]	pam_unix.so nullok_secure
 # here's the fallback if no module succeeds
 auth	requisite			pam_deny.so
@@ -21,7 +22,6 @@ auth	requisite			pam_deny.so
 # this avoids us returning an error just because nothing sets a success code
 # since the modules above will each just jump around
 auth	required			pam_permit.so
-auth required pam_tally2.so onerr=fail audit silent deny=5 unlock_time=900
 
 # and here are more per-package modules (the "Additional" block)
 # end of pam-auth-update config
