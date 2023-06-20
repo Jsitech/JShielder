@@ -69,8 +69,9 @@ echo "2. Ubuntu Server 18.04 LTS"
 echo "3. Linux CentOS 7 (Coming Soon)"
 echo "4. Debian GNU/Linux 8 (Coming Soon)"
 echo "5. Debian GNU/Linux 9 (Coming Soon)"
-echo "6. Red Hat Linux 7 (Coming Soon)"
-echo "7. Exit"
+echo "6. Debian GNU/Linux 10 CIS ONLY"
+echo "7. Red Hat Linux 7 (Coming Soon)"
+echo "8. Exit"
 echo
 
 read menu
@@ -88,7 +89,13 @@ chmod +x jshielder.sh
 ./jshielder.sh
 ;;
 
-8)
+6)
+cd DebianServer_10/
+chmod +x jshielder-CIS.sh
+./jshielder-CIS.sh
+;;
+
+9)
 break
 ;;
 
