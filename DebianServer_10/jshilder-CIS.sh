@@ -741,7 +741,7 @@ echo -e "Please reboot the server to apply all the changes.";
 echo -e "\n\n";
 # Some manual work is required to complete the setup.
 echo -e "Please note that the following manual work is required to complete the setup:\n"
-echo -e "Add '0 5 * * * /usr/bin/aide.wrapper --config /etc/aide/aide.conf --check' to the crontab of the root user `crontab -uroot -e`"
+echo -e "Add '0 5 * * * /usr/bin/aide.wrapper --config /etc/aide/aide.conf --check' to the crontab of the root user crontab -uroot -e"
 echo -e "Copy the required ssh keys to the /home/$username/.ssh/authorized_keys file."
 echo -e "RUN: chown root:root /etc/group- && chmod u-x,go-rwx /etc/group-"
 # End of script
