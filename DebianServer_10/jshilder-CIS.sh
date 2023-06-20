@@ -559,7 +559,7 @@ sleep 2
 cp templates/pam/common-passwd-CIS /etc/pam.d/common-passwd
 cp templates/pam/pwquality-CIS.conf /etc/security/pwquality.conf
 cp templates/pam/common-auth-CIS /etc/pam.d/common-auth
-# cat templates/pam/common-account-CIS >> /etc/pam.d/common-account
+cp templates/pam/common-account-CIS /etc/pam.d/common-account
 
 #5.4 User Accounts and Environment
 #5.4.1.1 Ensure password expiration is 90 days or less (Scored)
@@ -599,7 +599,6 @@ for file in /etc/profile.d/*.sh; do
     if grep -q 'TMOUT' "$file"; then
         echo "TMOUT is configured in $file"
     else
-        echo "\n" >> "$file"
         cat templates/shell/shell-tmout-CIS >> "$file"
     fi
 done
@@ -724,7 +723,6 @@ usermod -a -G sugroup $username
 # In /etc/systemd/journald.conf, Remove the # from the following lines:
 # Storage=persistent
 # Compress=yes
-
 sed -i 's/#Storage=auto/Storage=persistent/g' /etc/systemd/journald.conf
 sed -i 's/#Compress=yes/Compress=yes/g' /etc/systemd/journald.conf
 
@@ -743,10 +741,7 @@ echo -e "Please reboot the server to apply all the changes.";
 echo -e "\n\n";
 # Some manual work is required to complete the setup.
 echo -e "Please note that the following manual work is required to complete the setup:\n"
-echo -e "Add '0 5 * * * /usr/bin/aide.wrapper --config /etc/aide/aide.conf --check' to the crontab of the root user."
+echo -e "Add '0 5 * * * /usr/bin/aide.wrapper --config /etc/aide/aide.conf --check' to the crontab of the root user `crontab -uroot -e`"
 echo -e "Copy the required ssh keys to the /home/$username/.ssh/authorized_keys file."
 echo -e "RUN: chown root:root /etc/group- && chmod u-x,go-rwx /etc/group-"
-
-
-
 # End of script
