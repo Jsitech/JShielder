@@ -1,0 +1,8 @@
+[Unit] 
+Description=Aide Check
+
+[Service] 
+Type=simple ExecStart=/usr/bin/aide.wrapper --config /etc/aide/aide.conf --check
+
+[Install]
+WantedBy=multi-user.target
