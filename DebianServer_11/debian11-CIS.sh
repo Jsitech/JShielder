@@ -1,3 +1,8 @@
+#!/bin/bash
+
+# GLOBAL VARS
+GRUB_CMDLINE_LINUX_OPTIONS="apparmor=1 security=apparmor audit=1 audit_backlog_limit=8192"
+
 # 1.1.2.1: Ensure /tmp is a separate partition. (On Installation)
 # 1.1.2.2: Ensure nodev option set on /tmp partition. (Requires separate partition)
 # 1.1.2.3: Ensure noexec option set on /tmp partition. (Requires separate partition)
@@ -88,8 +93,7 @@ fi
 apt install apparmor apparmor-utils -y
 
 # 1.6.1.2: Ensure AppArmor is enabled in the bootloader configuration.
-# Edit /etc/default/grub
-sed -i 's/GRUB_CMDLINE_LINUX=""/GRUB_CMDLINE_LINUX="apparmor=1 security=apparmor"/g' /etc/default/grub
+sed -i "/^GRUB_CMDLINE_LINUX=/ s/\"\$/ $GRUB_CMDLINE_LINUX_OPTIONS\"/" "/etc/default/grub"
 update-grub
 
 # 1.6.1.3: Ensure all AppArmor Profiles are in enforce or complain mode.
@@ -172,68 +176,49 @@ apt purge xserver-xorg* -y
 # 2.3.5: Ensure LDAP client is not installed. (Scored)
 # 2.3.6: Ensure RPC is not installed. (Scored)
 
+# USING IPTABLES!
 # 3.5.1.1: Ensure ufw is installed. (Not Applicable)
 # 3.5.1.2: Ensure iptables-persistent is not installed with ufw.
+apt install iptables-persistent -y
 
 # 3.5.1.3: Ensure ufw service is enabled. (Not Applicable)
 # 3.5.1.4: Ensure ufw loopback traffic is configured. (Not Applicable)
 # 3.5.1.7: Ensure ufw default deny firewall policy. (Not Applicable)
 # 3.5.2.1: Ensure nftables is installed.
-
+apt remove -y nftables
 
 # 3.5.2.2: Ensure ufw is uninstalled or disabled with nftables.
-
-
 # 3.5.2.3: Ensure iptables are flushed with nftables.
-
-
 # 3.5.2.4: Ensure a nftables table exists.
-
-
 # 3.5.2.5: Ensure nftables base chains exist.
-
-
 # 3.5.2.6: Ensure nftables loopback traffic is configured.
-
-
 # 3.5.2.8: Ensure nftables default deny firewall policy.
-
-
 # 3.5.2.9: Ensure nftables service is enabled.
-
-
 # 3.5.3.1.1: Ensure iptables packages are installed.
+apt install -y iptables
 
-
-# 3.5.3.1.2: Ensure nftables is not installed with iptables.
-
-
+# 3.5.3.1.2: Ensure nftables is not installed with iptables. (Scored)
 # 3.5.3.1.3: Ensure ufw is uninstalled or disabled with iptables.
-
+apt remove -y ufw
 
 # 3.5.3.2.1: Ensure iptables default deny firewall policy.
-
-
 # 3.5.3.2.2: Ensure iptables loopback traffic is configured.
-
-
 # 3.5.3.3.1: Ensure ip6tables default deny firewall policy.
-
-
 # 3.5.3.3.2: Ensure ip6tables loopback traffic is configured.
+## Take user input for the ssh port
+read -p "Enter the SSH port: " ssh_port
+sed -i "s/PORT/$ssh_port/g" templates/iptables/iptables.sh
+bash templates/iptables/iptables.sh
 
+netfilter-persistent save
 
 # 4.1.1.1: Ensure auditd is installed.
 
-
 # 4.1.1.2: Ensure auditd service is enabled and active.
-
 
 # 4.1.1.3: Ensure auditing for processes that start prior to auditd is enabled.
 
-
 # 4.1.1.4: Ensure audit_backlog_limit is sufficient.
-
 
 # 4.1.2.1: Ensure audit log storage size is configured.
 
