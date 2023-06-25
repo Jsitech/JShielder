@@ -116,110 +116,68 @@ chmod u-x,go-wx /etc/motd /etc/issue /etc/issue.net
 apt update -y && apt upgrade -y && apt dist-upgrade -y
 
 # 2.1.2.2: Ensure chrony is running as user _chrony.
-
+echo "user _chrony" >> /etc/chrony/conf.d/chrony_user.conf
 
 # 2.1.2.3: Ensure chrony is enabled and running.
+systemctl unmask chrony.service
+systemctl enable --now chrony.service
 
+
+# IF CHRONY IS NOT USED, USE NTP
+# apt remove --purge chrony -y
 
 # 2.1.3.1: Ensure systemd-timesyncd configured with authorized timeserver.
-
+apt install systemd-timesyncd -y
+mkdir /etc/systemd/timesyncd.conf.d
+cp templates/timesyncd/timesyncd.conf /etc/systemd/timesyncd.conf.d/50-timesyncd.conf
 
 # 2.1.3.2: Ensure systemd-timesyncd is enabled and running.
+systemctl mask --now systemd-timesyncd.service
 
+## if chrony is used, disable systemd-timesyncd
+# systemctl disable --now systemd-timesyncd.service
+# systemctl mask systemd-timesyncd.service
 
-# 2.1.4.1: Ensure ntp access control is configured.
-
-
+# 2.1.4.1: Ensure ntp access control is configured. (scored)
 # 2.1.4.2: Ensure ntp is configured with authorized timeserver.
+cp templates/ntp/ntp.conf /etc/ntp.conf
+system restart ntp
 
-
-# 2.1.4.3: Ensure ntp is running as user ntp.
-
-
+# 2.1.4.3: Ensure ntp is running as user ntp (Scored)
 # 2.1.4.4: Ensure ntp is enabled and running.
-
+systemctl enable --now ntp.service
 
 # 2.2.1: Ensure X Window System is not installed.
+apt purge xserver-xorg* -y
 
+# 2.2.2: Ensure Avahi Server is not installed. (Scored)
+# 2.2.3: Ensure CUPS is not installed. (Scored)
+# 2.2.4: Ensure DHCP Server is not installed. (Scored)
+# 2.2.5: Ensure LDAP server is not installed. (Scored)
+# 2.2.6: Ensure NFS is not installed. (Scored)
+# 2.2.7: Ensure DNS Server is not installed. (Scored)
+# 2.2.8: Ensure FTP Server is not installed. (Scored)
+# 2.2.9: Ensure HTTP server is not installed. (Scored)
+# 2.2.10: Ensure IMAP and POP3 server are not installed. (Scored)
+# 2.2.11: Ensure Samba is not installed. (Scored)
+# 2.2.12: Ensure HTTP Proxy Server is not installed. (Scored)
+# 2.2.13: Ensure SNMP Server is not installed. (Scored)
+# 2.2.14: Ensure NIS Server is not installed. (Scored)
+# 2.2.15: Ensure mail transfer agent is configured for local-only mode. (Scored)
+# 2.2.16: Ensure rsync service is either not installed or masked. (Scored)
+# 2.3.1: Ensure NIS Client is not installed. (Scored)
+# 2.3.2: Ensure rsh client is not installed. (Scored)
+# 2.3.3: Ensure talk client is not installed. (Scored)
+# 2.3.4: Ensure telnet client is not installed. (Scored)
+# 2.3.5: Ensure LDAP client is not installed. (Scored)
+# 2.3.6: Ensure RPC is not installed. (Scored)
 
-# 2.2.2: Ensure Avahi Server is not installed.
-
-
-# 2.2.3: Ensure CUPS is not installed.
-
-
-# 2.2.4: Ensure DHCP Server is not installed.
-
-
-# 2.2.5: Ensure LDAP server is not installed.
-
-
-# 2.2.6: Ensure NFS is not installed.
-
-
-# 2.2.7: Ensure DNS Server is not installed.
-
-
-# 2.2.8: Ensure FTP Server is not installed.
-
-
-# 2.2.9: Ensure HTTP server is not installed.
-
-
-# 2.2.10: Ensure IMAP and POP3 server are not installed.
-
-
-# 2.2.11: Ensure Samba is not installed.
-
-
-# 2.2.12: Ensure HTTP Proxy Server is not installed.
-
-
-# 2.2.13: Ensure SNMP Server is not installed.
-
-
-# 2.2.14: Ensure NIS Server is not installed.
-
-
-# 2.2.15: Ensure mail transfer agent is configured for local-only mode.
-
-
-# 2.2.16: Ensure rsync service is either not installed or masked.
-
-
-# 2.3.1: Ensure NIS Client is not installed.
-
-
-# 2.3.2: Ensure rsh client is not installed.
-
-
-# 2.3.3: Ensure talk client is not installed.
-
-
-# 2.3.4: Ensure telnet client is not installed.
-
-
-# 2.3.5: Ensure LDAP client is not installed.
-
-
-# 2.3.6: Ensure RPC is not installed.
-
-
-# 3.5.1.1: Ensure ufw is installed.
-
-
+# 3.5.1.1: Ensure ufw is installed. (Not Applicable)
 # 3.5.1.2: Ensure iptables-persistent is not installed with ufw.
 
-
-# 3.5.1.3: Ensure ufw service is enabled.
-
-
-# 3.5.1.4: Ensure ufw loopback traffic is configured.
-
-
-# 3.5.1.7: Ensure ufw default deny firewall policy.
-
-
+# 3.5.1.3: Ensure ufw service is enabled. (Not Applicable)
+# 3.5.1.4: Ensure ufw loopback traffic is configured. (Not Applicable)
+# 3.5.1.7: Ensure ufw default deny firewall policy. (Not Applicable)
 # 3.5.2.1: Ensure nftables is installed.
 
 
