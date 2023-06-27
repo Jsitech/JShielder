@@ -206,250 +206,215 @@ apt remove -y ufw
 # 3.5.3.3.1: Ensure ip6tables default deny firewall policy.
 # 3.5.3.3.2: Ensure ip6tables loopback traffic is configured.
 ## Take user input for the ssh port
-read -p "Enter the SSH port: " ssh_port
-sed -i "s/PORT/$ssh_port/g" templates/iptables/iptables.sh
+read -p "Enter the SSH port: " sshport
+sed -i "s/PORT/$sshport/g" templates/iptables/iptables.sh
 bash templates/iptables/iptables.sh
 
 netfilter-persistent save
 
 # 4.1.1.1: Ensure auditd is installed.
+apt-get install -y auditd audispd-plugins
 
 # 4.1.1.2: Ensure auditd service is enabled and active.
+systemctl --now enable auditd
 
 # 4.1.1.3: Ensure auditing for processes that start prior to auditd is enabled.
+sed -i "/^GRUB_CMDLINE_LINUX=/ s/\"\$/ $GRUB_CMDLINE_LINUX_OPTIONS\"/" "/etc/default/grub"
 
 # 4.1.1.4: Ensure audit_backlog_limit is sufficient.
+sed -i "/^GRUB_CMDLINE_LINUX=/ s/\"\$/ $GRUB_CMDLINE_LINUX_OPTIONS\"/" "/etc/default/grub"
+update-grub
 
 # 4.1.2.1: Ensure audit log storage size is configured.
-
-
 # 4.1.2.2: Ensure audit logs are not automatically deleted.
-
-
 # 4.1.2.3: Ensure system is disabled when audit logs are full.
-
+cp templates/auditd/auditd.conf /etc/audit/auditd.conf
 
 # 4.1.3.1: Ensure changes to system administration scope (sudoers) is collected.
-
-
 # 4.1.3.2: Ensure actions as another user are always logged.
-
-
 # 4.1.3.4: Ensure events that modify date and time information are collected.
-
-
 # 4.1.3.5: Ensure events that modify the system's network environment are collected.
-
-
 # 4.1.3.7: Ensure unsuccessful file access attempts are collected.
-
-
 # 4.1.3.8: Ensure events that modify user/group information are collected.
-
-
 # 4.1.3.9: Ensure discretionary access control permission modification events are collected.
-
-
 # 4.1.3.10: Ensure successful file system mounts are collected.
-
-
 # 4.1.3.11: Ensure session initiation information is collected.
-
-
 # 4.1.3.12: Ensure login and logout events are collected.
-
-
 # 4.1.3.13: Ensure file deletion events by users are collected.
-
-
 # 4.1.3.14: Ensure events that modify the system's Mandatory Access Controls are collected.
-
-
 # 4.1.3.15: Ensure successful and unsuccessful attempts to use the chcon command are recorded.
-
-
 # 4.1.3.16: Ensure successful and unsuccessful attempts to use the setfacl command are recorded.
-
-
 # 4.1.3.17: Ensure successful and unsuccessful attempts to use the chacl command are recorded.
-
-
 # 4.1.3.18: Ensure successful and unsuccessful attempts to use the usermod command are recorded.
-
-
 # 4.1.3.19: Ensure kernel module loading unloading and modification is collected.
-
+cp templates/auditd/audit.rules /etc/audit/rules.d/50-scope.rules
 
 # 4.1.3.20: Ensure the audit configuration is immutable.
-
+echo "#End of Audit Rules" >> /etc/audit/audit.rules
+echo "-e 2" >> /etc/audit/audit.rules
+echo "-e 2" >> /etc/audit/audit.rules.prev
+echo "-e 2" >> /etc/audit/audit-stop.rules
+echo "-e 2" >> /etc/audit/rules.d/99-finalize.rules 
 
 # 4.1.3.21: Ensure the running and on disk configuration is the same.
-
+if [[ $(auditctl -s | grep "enabled") =~ "2" ]]; then 
+  echo "Reboot required to load rules"; 
+  augenrules --load;
+fi
 
 # 4.1.4.3: Ensure only authorized groups are assigned ownership of audit log files.
+find $(dirname $(awk -F"=" '/^\s*log_file/ {print $2}' /etc/audit/auditd.conf | xargs)) -type f \( ! -group adm -a ! -group root \) -exec chgrp adm {} +
+chgrp adm /var/log/audit/
 
+systemctl restart auditd
 
 # 4.1.4.5: Ensure audit configuration files are 640 or more restrictive.
-
+ind /etc/audit/ -type f \( -name '*.conf' -o -name '*.rules' \) -exec chmod u-x,g-wx,o-rwx {} +
 
 # 4.1.4.6: Ensure audit configuration files are owned by root.
-
+find /etc/audit/ -type f \( -name '*.conf' -o -name '*.rules' \) ! -user root -exec chown root {} +
 
 # 4.1.4.7: Ensure audit configuration files belong to group root.
-
+find /etc/audit/ -type f \( -name '*.conf' -o -name '*.rules' \) ! -group root -exec chgrp root {} +
 
 # 4.1.4.8: Ensure audit tools are 755 or more restrictive.
-
+chmod go-w /sbin/auditctl /sbin/aureport /sbin/ausearch /sbin/autrace /sbin/auditd /sbin/augenrules
 
 # 4.1.4.9: Ensure audit tools are owned by root.
-
+chown root /sbin/auditctl /sbin/aureport /sbin/ausearch /sbin/autrace /sbin/auditd /sbin/augenrules
 
 # 4.1.4.10: Ensure audit tools belong to group root.
-
+chmod go-w /sbin/auditctl /sbin/aureport /sbin/ausearch /sbin/autrace /sbin/auditd /sbin/augenrules
+chown root:root /sbin/auditctl /sbin/aureport /sbin/ausearch /sbin/autrace /sbin/auditd /sbin/augenrules
 
 # 4.2.1.1.1: Ensure systemd-journal-remote is installed.
-
+apt install systemd-journal-remote -y
 
 # 4.2.1.1.3: Ensure systemd-journal-remote is enabled.
-
+#systemctl --now enable systemd-journal-upload.service
 
 # 4.2.1.1.4: Ensure journald is not configured to recieve logs from a remote client.
-
+systemctl --now disable systemd-journal-remote.socket
 
 # 4.2.1.2: Ensure journald service is enabled.
 
+# By default the systemd-journald service does not
+# have an [Install] section and thus cannot be enabled / disabled. 
+# It is meant to be referenced as Requires or Wants by other unit files. 
+# As such, if the status of systemd-journald is not static, investigate why.
+
 
 # 4.2.1.3: Ensure journald is configured to compress large log files.
-
+sed -i 's/#Compress=yes/Compress=yes/g' /etc/systemd/journald.conf
 
 # 4.2.1.4: Ensure journald is configured to write logfiles to persistent disk.
-
+sed -i 's/#Storage=auto/Storage=persistent/g' /etc/systemd/journald.conf
 
 # 4.2.1.5: Ensure journald is not configured to send logs to rsyslog.
-
+sed -i 's/#ForwardToSyslog=no/ForwardToSyslog=yes/g' /etc/systemd/journald.conf
+systemctl restart systemd-journald
 
 # 4.2.2.1: Ensure rsyslog is installed.
-
+apt install rsyslog -y
 
 # 4.2.2.2: Ensure rsyslog service is enabled.
-
-
 # 4.2.2.3: Ensure journald is configured to send logs to rsyslog.
-
-
-# 4.2.2.4: Ensure rsyslog default file permissions are configured.
-
-
-# 4.2.2.7: Ensure rsyslog is not configured to receive logs from a remote client.
-
+# 4.2.2.4: Ensure rsyslog default file permissions are configured. (Scored by default)
+# 4.2.2.7: Ensure rsyslog is not configured to receive logs from a remote client. (Scored by default)
 
 # 5.1.1: Ensure cron daemon is enabled and running.
-
+systemctl --now enable cron
 
 # 5.1.2: Ensure permissions on /etc/crontab are configured.
-
+chown root:root /etc/crontab
+chmod og-rwx /etc/crontab
 
 # 5.1.3: Ensure permissions on /etc/cron.hourly are configured.
-
+chown root:root /etc/cron.hourly/
+chmod og-rwx /etc/cron.hourly/
 
 # 5.1.4: Ensure permissions on /etc/cron.daily are configured.
-
+chown root:root /etc/cron.daily/
+chmod og-rwx /etc/cron.daily/
 
 # 5.1.5: Ensure permissions on /etc/cron.weekly are configured.
-
+chown root:root /etc/cron.weekly/
+chmod og-rwx /etc/cron.weekly/
 
 # 5.1.6: Ensure permissions on /etc/cron.monthly are configured.
-
+chown root:root /etc/cron.monthly/
+chmod og-rwx /etc/cron.monthly/
 
 # 5.1.7: Ensure permissions on /etc/cron.d are configured.
-
+chown root:root /etc/cron.d/
+chmod og-rwx /etc/cron.d/
 
 # 5.1.8: Ensure cron is restricted to authorized users.
-
+touch /etc/cron.allow
+chmod g-wx,o-rwx /etc/cron.allow
+chown root:root /etc/cron.allow
 
 # 5.1.9: Ensure at is restricted to authorized users.
-
+rm /etc/at.deny
+touch /etc/at.allow
+chmod g-wx,o-rwx /etc/at.allow
+chown root:root /etc/at.allow
 
 # 5.2.1: Ensure permissions on /etc/ssh/sshd_config are configured.
-
+chown root:root /etc/ssh/sshd_config
+chmod og-rwx /etc/ssh/sshd_config
 
 # 5.2.4: Ensure SSH access is limited.
-
-
 # 5.2.5: Ensure SSH LogLevel is appropriate.
-
-
 # 5.2.6: Ensure SSH PAM is enabled.
-
-
 # 5.2.7: Ensure SSH root login is disabled.
-
-
 # 5.2.8: Ensure SSH HostbasedAuthentication is disabled.
-
-
 # 5.2.9: Ensure SSH PermitEmptyPasswords is disabled.
-
-
 # 5.2.10: Ensure SSH PermitUserEnvironment is disabled.
-
-
 # 5.2.11: Ensure SSH IgnoreRhosts is enabled.
-
-
 # 5.2.12: Ensure SSH X11 forwarding is disabled.
-
-
 # 5.2.13: Ensure only strong Ciphers are used.
-
-
 # 5.2.14: Ensure only strong MAC algorithms are used.
-
-
 # 5.2.15: Ensure only strong Key Exchange algorithms are used.
-
-
 # 5.2.16: Ensure SSH AllowTcpForwarding is disabled.
-
-
 # 5.2.17: Ensure SSH warning banner is configured.
-
-
 # 5.2.18: Ensure SSH MaxAuthTries is set to 4 or less.
-
-
 # 5.2.19: Ensure SSH MaxStartups is configured.
-
-
 # 5.2.20: Ensure SSH MaxSessions is set to 10 or less.
-
-
 # 5.2.21: Ensure SSH LoginGraceTime is set to one minute or less.
-
-
 # 5.2.22: Ensure SSH Idle Timeout Interval is configured.
-
+echo "Creating SSH user..."
+adduser $username
+cp templates/sshd/sshd_config-CIS /etc/ssh/sshd_config
+sed s/USERNAME/$username/g templates/sshd/sshd_config-CIS > /etc/ssh/sshd_config;
+sed -i s/PORT/$sshport/g /etc/ssh/sshd_config;
+service ssh restart
 
 # 5.3.1: Ensure sudo is installed.
-
+apt install sudo -y
 
 # 5.3.2: Ensure sudo commands use pty.
-
+echo -e "Defaults use_pty" > /etc/sudoers.d/use_pty
 
 # 5.3.3: Ensure sudo log file exists.
-
+echo -e "Defaults logfile=/var/log/sudo.log" > /etc/sudoers.d/logging
 
 # 5.3.4: Ensure users must provide password for privilege escalation.
-
+sed -i '/NOPASSWD/d' /etc/sudoers
+sed -i '/NOPASSWD/d' /etc/sudoers.d/*
 
 # 5.3.5: Ensure re-authentication for privilege escalation is not disabled globally.
-
+sed -i '/!authenticate/d' /etc/sudoers
+sed -i '/!authenticate/d' /etc/sudoers.d/*
 
 # 5.3.6: Ensure sudo authentication timeout is configured correctly.
-
+sed -i 's/env_reset/env_reset,timestamp_timeout=60/g' /etc/sudoers
+sed -i 's/env_reset/env_reset,timestamp_timeout=60/g' /etc/sudoers.d/*
 
 # 5.3.7: Ensure access to the su command is restricted.
-
+groupadd sugroup
+echo -e "auth required pam_wheel.so use_uid group=sugroup" >> /etc/pam.d/su
+usermod -a -G sugroup $username
 
 # 5.4.1: Ensure password creation requirements are configured.
 
