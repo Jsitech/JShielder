@@ -417,62 +417,79 @@ echo -e "auth required pam_wheel.so use_uid group=sugroup" >> /etc/pam.d/su
 usermod -a -G sugroup $username
 
 # 5.4.1: Ensure password creation requirements are configured.
+apt install libpam-pwquality -y
+cat templates/pam/pwquality-CIS.conf >> /etc/security/pwquality.conf
 
-
-# 5.4.2: Ensure lockout for failed password attempts is configured.
-
-
-# 5.4.3: Ensure password reuse is limited.
-
-
-# 5.4.4: Ensure password hashing algorithm is up to date with the latest standards.
-
+# 5.4.2: Ensure lockout for failed password attempts is configured. [[[ WORK ON THIS! ]]]
+# 5.4.3: Ensure password reuse is limited. [[[ WORK ON THIS! ]]]
+# 5.4.4: Ensure password hashing algorithm is up to date with the latest standards. [[[ WORK ON THIS! ]]]
 
 # 5.5.1.1: Ensure minimum days between password changes is configured.
-
+sed -i 's/PASS_MIN_DAYS\t0/PASS_MIN_DAYS\t1/g' /etc/login.defs
 
 # 5.5.1.2: Ensure password expiration is 365 days or less.
-
+sed -i 's/PASS_MAX_DAYS\t99999/PASS_MAX_DAYS\t90/g' /etc/login.defs
 
 # 5.5.1.3: Ensure password expiration warning days is 7 or more.
-
+sed -i 's/PASS_WARN_AGE\t7/PASS_WARN_AGE\t7/g' /etc/login.defs
 
 # 5.5.1.4: Ensure inactive password lock is 30 days or less.
-
+chage --inactive 30
 
 # 5.5.3: Ensure default group for the root account is GID 0.
-
+if [ $(grep "^root:" /etc/passwd | cut -f4 -d:) -eq 0 ]; then
+  echo "Default group for root is GID 0"
+else
+  usermod -g 0 root
+fi
 
 # 6.1.1: Ensure permissions on /etc/passwd are configured.
-
+chmod u-x,go-wx /etc/passwd
+chown root:root /etc/passwd
 
 # 6.1.2: Ensure permissions on /etc/passwd- are configured.
-
+chmod u-x,go-wx /etc/passwd-
+chown root:root /etc/passwd-
 
 # 6.1.3: Ensure permissions on /etc/group are configured.
-
+chmod u-x,go-wx /etc/group
+chown root:root /etc/group
 
 # 6.1.4: Ensure permissions on /etc/group- are configured.
-
+chmod u-x,go-wx /etc/group-
+chown root:root /etc/group-
 
 # 6.1.5: Ensure permissions on /etc/shadow are configured.
-
+chown root:shadow /etc/shadow
+chmod u-x,g-wx,o-rwx /etc/shadow
 
 # 6.1.6: Ensure permissions on /etc/shadow- are configured.
-
+chown root:shadow /etc/shadow-
+chmod u-x,g-wx,o-rwx /etc/shadow-
 
 # 6.1.7: Ensure permissions on /etc/gshadow are configured.
-
+chown root:shadow /etc/gshadow
+chmod u-x,g-rw,o-rwx /etc/gshadow
 
 # 6.1.8: Ensure permissions on /etc/gshadow- are configured.
-
+chown root:shadow /etc/gshadow-
+chmod u-x,g-rw,o-rwx /etc/gshadow-
 
 # 6.2.1: Ensure accounts in /etc/passwd use shadowed passwords.
-
+sed -e 's/^\([a-zA-Z0-9_]*\):[^:]*:/\1:x:/' -i /etc/passwd
 
 # 6.2.2: Ensure /etc/shadow password fields are not empty.
-
+if [ $(awk -F: '($2 == "" ) { print $1 " does not have a password "}' /etc/shadow) ]; then
+  echo "All users have a password"
+else
+  # Lock all users with a password
+  awk -F: '($2 == "" ) { print $1 " does not have a password "}' /etc/shadow | while read -r user; do passwd -l $user; done
+fi
 
 # 6.2.10: Ensure root is the only UID 0 account.
-
-
+# Remove any users other than root with UID 0 or assign them a new UID if appropriate.
+awk -F: '($3 == 0) { print $1 }' /etc/passwd | while read -r user; do
+  if [ $user != "root" ]; then
+    echo "User $user is UID 0, please assign a new UID or remove the user."
+  fi
+done
