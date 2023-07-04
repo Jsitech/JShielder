@@ -36,7 +36,6 @@ else
   echo "autofs is installed"
   apt remove --purge autofs -y
 fi
-if
 
 # 1.3.1: Ensure AIDE is installed.
 apt-get install -y aide
@@ -68,6 +67,7 @@ chown root:root /boot/grub/grub.cfg
 chmod u-wx,go-rwx /boot/grub/grub.cfg.
 
 # 1.4.3: Ensure authentication required for single user mode. (Scored)
+echo "Changing Root Password for Single User Mode: "
 passwd root
 
 # 1.5.2: Ensure prelink is not installed.
@@ -149,6 +149,7 @@ system restart ntp
 
 # 2.1.4.3: Ensure ntp is running as user ntp (Scored)
 # 2.1.4.4: Ensure ntp is enabled and running.
+systemctl unmask ntp.service
 systemctl enable --now ntp.service
 
 # 2.2.1: Ensure X Window System is not installed.
@@ -206,7 +207,7 @@ apt remove -y ufw
 # 3.5.3.3.1: Ensure ip6tables default deny firewall policy.
 # 3.5.3.3.2: Ensure ip6tables loopback traffic is configured.
 ## Take user input for the ssh port
-read -p "Enter the SSH port: " sshport
+read -rp "Enter the SSH port: " sshport
 sed -i "s/PORT/$sshport/g" templates/iptables/iptables.sh
 bash templates/iptables/iptables.sh
 
@@ -264,12 +265,15 @@ fi
 
 # 4.1.4.3: Ensure only authorized groups are assigned ownership of audit log files.
 find $(dirname $(awk -F"=" '/^\s*log_file/ {print $2}' /etc/audit/auditd.conf | xargs)) -type f \( ! -group adm -a ! -group root \) -exec chgrp adm {} +
+
+sed -ri 's/^\s*#?\s*log_group\s*=\s*\S+(\s*#.*)?.*$/log_group = adm\1/' /etc/audit/auditd.conf
+
 chgrp adm /var/log/audit/
 
-systemctl restart auditd
+systemctl enable --now auditd
 
 # 4.1.4.5: Ensure audit configuration files are 640 or more restrictive.
-ind /etc/audit/ -type f \( -name '*.conf' -o -name '*.rules' \) -exec chmod u-x,g-wx,o-rwx {} +
+find /etc/audit/ -type f \( -name '*.conf' -o -name '*.rules' \) -exec chmod u-x,g-wx,o-rwx {} +
 
 # 4.1.4.6: Ensure audit configuration files are owned by root.
 find /etc/audit/ -type f \( -name '*.conf' -o -name '*.rules' \) ! -user root -exec chown root {} +
@@ -355,7 +359,10 @@ chmod g-wx,o-rwx /etc/cron.allow
 chown root:root /etc/cron.allow
 
 # 5.1.9: Ensure at is restricted to authorized users.
-rm /etc/at.deny
+if [ ! -f /etc/at.deny ]; then
+    rm /etc/at.deny
+fi
+
 touch /etc/at.allow
 chmod g-wx,o-rwx /etc/at.allow
 chown root:root /etc/at.allow
@@ -384,10 +391,16 @@ chmod og-rwx /etc/ssh/sshd_config
 # 5.2.21: Ensure SSH LoginGraceTime is set to one minute or less.
 # 5.2.22: Ensure SSH Idle Timeout Interval is configured.
 echo "Creating SSH user..."
-adduser $username
+read -r -p "Enter username: " username
+adduser "$username"
 cp templates/sshd/sshd_config-CIS /etc/ssh/sshd_config
-sed s/USERNAME/$username/g templates/sshd/sshd_config-CIS > /etc/ssh/sshd_config;
-sed -i s/PORT/$sshport/g /etc/ssh/sshd_config;
+sed "s/USERNAME/$username/g" templates/sshd/sshd_config-CIS > /etc/ssh/sshd_config;
+sed -i "s/PORT/$sshport/g" /etc/ssh/sshd_config;
+
+mkdir -p /home/"$username"/.ssh
+cp ~/.ssh/authorized_keys /home/"$username"/.ssh/authorized_keys
+chown -R "$username":"$username" /home/"$username"/.ssh
+
 service ssh restart
 
 # 5.3.1: Ensure sudo is installed.
@@ -408,13 +421,13 @@ sed -i '/!authenticate/d' /etc/sudoers
 sed -i '/!authenticate/d' /etc/sudoers.d/*
 
 # 5.3.6: Ensure sudo authentication timeout is configured correctly.
-sed -i 's/env_reset/env_reset,timestamp_timeout=60/g' /etc/sudoers
-sed -i 's/env_reset/env_reset,timestamp_timeout=60/g' /etc/sudoers.d/*
+sed -i 's/env_reset/env_reset,timestamp_timeout=10/g' /etc/sudoers
+sed -i 's/env_reset/env_reset,timestamp_timeout=10/g' /etc/sudoers.d/*
 
 # 5.3.7: Ensure access to the su command is restricted.
 groupadd sugroup
 echo -e "auth required pam_wheel.so use_uid group=sugroup" >> /etc/pam.d/su
-usermod -a -G sugroup $username
+usermod -a -G sugroup "$username"
 
 # 5.4.1: Ensure password creation requirements are configured.
 apt install libpam-pwquality -y
@@ -426,18 +439,32 @@ cat templates/pam/pwquality-CIS.conf >> /etc/security/pwquality.conf
 
 # 5.5.1.1: Ensure minimum days between password changes is configured.
 sed -i 's/PASS_MIN_DAYS\t0/PASS_MIN_DAYS\t1/g' /etc/login.defs
+for user in $(awk -F: '($2 != "x") {print $1 }' /etc/shadow); do
+  chage --mindays 1 "$user"
+done
 
 # 5.5.1.2: Ensure password expiration is 365 days or less.
 sed -i 's/PASS_MAX_DAYS\t99999/PASS_MAX_DAYS\t90/g' /etc/login.defs
+for user in $(awk -F: '($2 != "x") {print $1 }' /etc/shadow); do
+  chage --maxdays 90 "$user"
+done
 
 # 5.5.1.3: Ensure password expiration warning days is 7 or more.
 sed -i 's/PASS_WARN_AGE\t7/PASS_WARN_AGE\t7/g' /etc/login.defs
 
+for user in $(awk -F: '($2 != "x") {print $1 }' /etc/shadow); do
+  chage --warndays 7 "$user"
+done
+
 # 5.5.1.4: Ensure inactive password lock is 30 days or less.
-chage --inactive 30
+useradd -D -f 30
+
+for user in $(awk -F: '($2 != "x") {print $1 }' /etc/shadow); do
+  chage --inactive 30 "$user"
+done
 
 # 5.5.3: Ensure default group for the root account is GID 0.
-if [ $(grep "^root:" /etc/passwd | cut -f4 -d:) -eq 0 ]; then
+if [ "$(grep '^root:' /etc/passwd | cut -f4 -d:)" -eq 0 ]; then
   echo "Default group for root is GID 0"
 else
   usermod -g 0 root
@@ -460,36 +487,38 @@ chmod u-x,go-wx /etc/group-
 chown root:root /etc/group-
 
 # 6.1.5: Ensure permissions on /etc/shadow are configured.
-chown root:shadow /etc/shadow
+chown root:root /etc/shadow
 chmod u-x,g-wx,o-rwx /etc/shadow
 
 # 6.1.6: Ensure permissions on /etc/shadow- are configured.
-chown root:shadow /etc/shadow-
+chown root:root /etc/shadow-
 chmod u-x,g-wx,o-rwx /etc/shadow-
 
 # 6.1.7: Ensure permissions on /etc/gshadow are configured.
-chown root:shadow /etc/gshadow
+chown root:root /etc/gshadow
 chmod u-x,g-rw,o-rwx /etc/gshadow
 
 # 6.1.8: Ensure permissions on /etc/gshadow- are configured.
-chown root:shadow /etc/gshadow-
+chown root:root /etc/gshadow-
 chmod u-x,g-rw,o-rwx /etc/gshadow-
 
 # 6.2.1: Ensure accounts in /etc/passwd use shadowed passwords.
 sed -e 's/^\([a-zA-Z0-9_]*\):[^:]*:/\1:x:/' -i /etc/passwd
 
 # 6.2.2: Ensure /etc/shadow password fields are not empty.
-if [ $(awk -F: '($2 == "" ) { print $1 " does not have a password "}' /etc/shadow) ]; then
+if [ $(awk -F: '($2 == "" ) { print $1 " does not have a password "}' /etc/shadow) ]; 
+then
   echo "All users have a password"
 else
   # Lock all users with a password
-  awk -F: '($2 == "" ) { print $1 " does not have a password "}' /etc/shadow | while read -r user; do passwd -l $user; done
+  awk -F: '($2 == "" ) { print $1 " does not have a password "}' /etc/shadow | while read -r user; do passwd -l "$user"; done
 fi
 
 # 6.2.10: Ensure root is the only UID 0 account.
 # Remove any users other than root with UID 0 or assign them a new UID if appropriate.
 awk -F: '($3 == 0) { print $1 }' /etc/passwd | while read -r user; do
-  if [ $user != "root" ]; then
+  if [ "$user" != "root" ]; then
     echo "User $user is UID 0, please assign a new UID or remove the user."
   fi
 done
+
