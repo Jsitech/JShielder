@@ -49,6 +49,7 @@ service cron restart
 cp templates/aide/aidecheck.service /etc/systemd/system/aidecheck.service
 cp templates/aide/aidecheck.timer /etc/systemd/system/aidecheck.timer
 
+
 chmod 644 /etc/systemd/system/aidecheck.*
 systemctl daemon-reload
 systemctl enable --now aidecheck.service aidecheck.timer
@@ -64,7 +65,7 @@ systemctl enable --now aidecheck.service aidecheck.timer
 
 # 1.4.2: Ensure permissions on bootloader config are configured.
 chown root:root /boot/grub/grub.cfg
-chmod u-wx,go-rwx /boot/grub/grub.cfg.
+chmod u-wx,go-rwx /boot/grub/grub.cfg
 
 # 1.4.3: Ensure authentication required for single user mode. (Scored)
 echo "Changing Root Password for Single User Mode: "
@@ -264,11 +265,11 @@ if [[ $(auditctl -s | grep "enabled") =~ "2" ]]; then
 fi
 
 # 4.1.4.3: Ensure only authorized groups are assigned ownership of audit log files.
-find $(dirname $(awk -F"=" '/^\s*log_file/ {print $2}' /etc/audit/auditd.conf | xargs)) -type f \( ! -group adm -a ! -group root \) -exec chgrp adm {} +
+chown root:root auditd.conf
 
-sed -ri 's/^\s*#?\s*log_group\s*=\s*\S+(\s*#.*)?.*$/log_group = adm\1/' /etc/audit/auditd.conf
+sed -ri 's/^\s*#?\s*log_group\s*=\s*\S+(\s*#.*)?.*$/log_group = root\1/' /etc/audit/auditd.conf
 
-chgrp adm /var/log/audit/
+chgrp root /var/log/audit/
 
 systemctl enable --now auditd
 
@@ -433,9 +434,15 @@ usermod -a -G sugroup "$username"
 apt install libpam-pwquality -y
 cat templates/pam/pwquality-CIS.conf >> /etc/security/pwquality.conf
 
-# 5.4.2: Ensure lockout for failed password attempts is configured. [[[ WORK ON THIS! ]]]
-# 5.4.3: Ensure password reuse is limited. [[[ WORK ON THIS! ]]]
-# 5.4.4: Ensure password hashing algorithm is up to date with the latest standards. [[[ WORK ON THIS! ]]]
+# 5.4.2: Ensure lockout for failed password attempts is configured.
+cp templates/pam/common-account /etc/pam.d/common-account
+cp templates/pam/common-auth /etc/pam.d/common-auth
+cp templates/pam/faillock.conf /etc/security/faillock.conf
+
+# 5.4.3: Ensure password reuse is limited.
+# 5.4.4: Ensure password hashing algorithm is up to date with the latest standards.
+cp templates/login.defs /etc/login.defs
+cp templates/pam/common-password /etc/pam.d/common-password
 
 # 5.5.1.1: Ensure minimum days between password changes is configured.
 sed -i 's/PASS_MIN_DAYS\t0/PASS_MIN_DAYS\t1/g' /etc/login.defs
