@@ -145,6 +145,7 @@ systemctl mask --now systemd-timesyncd.service
 
 # 2.1.4.1: Ensure ntp access control is configured. (scored)
 # 2.1.4.2: Ensure ntp is configured with authorized timeserver.
+apt install -y ntp
 cp templates/ntp/ntp.conf /etc/ntp.conf
 system restart ntp
 
@@ -459,8 +460,8 @@ done
 # 5.5.1.3: Ensure password expiration warning days is 7 or more.
 sed -i 's/PASS_WARN_AGE\t7/PASS_WARN_AGE\t7/g' /etc/login.defs
 
-for user in $(awk -F: '($2 != "x") {print $1 }' /etc/shadow); do
-  chage --warndays 7 "$user"
+for i in $(awk -F: '{ print $1}' /etc/passwd); do
+  chage --warndays 7 $i;
 done
 
 # 5.5.1.4: Ensure inactive password lock is 30 days or less.
