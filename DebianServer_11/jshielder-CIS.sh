@@ -530,3 +530,44 @@ awk -F: '($3 == 0) { print $1 }' /etc/passwd | while read -r user; do
   fi
 done
 
+# Disable disable_freevxfs
+echo "install freevxfs /bin/true" > /etc/modprobe.d/freevxfs.conf
+rmmod freevxfs
+
+# Disable disable_jffs2 
+echo "install jffs2 /bin/true" > /etc/modprobe.d/jffs2.conf
+rmmod jffs2
+
+# Disable disable_hfs, disable_hfsplus, disable_udf
+echo "install hfs /bin/true" >> /etc/modprobe.d/CIS.conf 
+echo "install hfsplus /bin/true" >> /etc/modprobe.d/CIS.conf
+echo "install udf /bin/true" >> /etc/modprobe.d/CIS.conf
+
+rmmod hfs hfsplus udf
+
+# Disable squashfs (will impact snaps) # Skipping for now.
+# FAT is used by vfat, which is used by the EFI system partition # Skipping for now.
+
+
+# Fix Logrotate Create Permissions
+grep -rlE -w "create" /etc/logrotate.d/ | xargs sed -i 's/create[[:space:]]*[0-7]\{4\}/create 640/'
+find /var/log -type f -exec chmod 640 {} \;
+
+
+# Fix home directory permissions being too open.
+chmod -R 0740 /home/*
+sed -i 's/^DIR_MODE=.*/DIR_MODE=740/' /etc/adduser.conf
+
+# Remove some packages
+apt remove --purge tcpdump -y
+
+# Search & Remove TMOUT from /etc/bash.bashrc, /etc/profile, and all files ending in *.sh in the /etc/profile.d/ directory 
+sed -i '/TMOUT/d' /etc/bash.bashrc /etc/profile /etc/profile.d/*.sh
+
+# Configure TMOUT
+echo "readonly TMOUT=900 ; export TMOUT" >> /etc/profile.d/tmout.sh 
+
+# Disable USB Storage
+echo 'ACTION=="add", SUBSYSTEMS=="usb", TEST=="authorized_default", ATTR{authorized_default}="0"' > /etc/udev/rules.d/01-usblockdown.rules
+
+

@@ -23,6 +23,16 @@ HostbasedAuthentication no
 PermitEmptyPasswords no
 ChallengeResponseAuthentication no
 PasswordAuthentication no
+KbdInteractiveAuthentication no
+KerberosAuthentication no
+GSSAPIAuthentication no
+GSSAPIKeyExchange no
+UsePrivilegeSeparation sandbox
+RekeyLimit 512M 6h
+AllowStreamLocalForwarding no
+PermitTunnel no
+PermitUserRC no
+GatewayPorts no
 X11Forwarding no
 AllowTcpForwarding no
 AllowAgentForwarding no
@@ -38,3 +48,5 @@ UseDNS no
 maxstartups 10:30:60
 Banner /etc/issue.net
 AllowUsers USERNAME
+DenyUsers *nobody
+DenyGroups *nobody
